@@ -6,9 +6,13 @@ const Empresa = sequelize.define('empresa', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.BIGINT,
-        primaryKey: true    
+        primaryKey: true 
+
     },
-    razonsocial:Sequelize.STRING,
+    razonsocial:{
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     descripcion:Sequelize.STRING,
     telefono:Sequelize.STRING,
     nit:Sequelize.STRING,
