@@ -18,7 +18,7 @@ const Project = sequelize.define('projects', {
         type: Sequelize.TEXT
     },
     deliverydate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE(6)
     },
 }, {
     timestamps: false

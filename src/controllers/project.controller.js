@@ -1,5 +1,5 @@
 //import { Sequelize } from "sequelize/types";
-import { sequelize } from "../database/database";
+//import { sequelize } from "../database/database";
 import Project from "../models/Project";
 
 export async function getProjects(req, res) {
