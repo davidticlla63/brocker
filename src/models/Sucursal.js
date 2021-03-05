@@ -14,7 +14,7 @@ const Sucursal = sequelize.define('sucursal', {
     fecharegistro:Sequelize.DATE(6),
     fechamodificacion:Sequelize.DATE(6),
     estado:Sequelize.STRING,
-    empresaid:Sequelize.BIGINT
+    empresaid:Sequelize.BIGINT,
     
 }, {
     timestamps: false

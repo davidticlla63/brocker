@@ -23,6 +23,6 @@ const Empresa = sequelize.define('empresa', {
 });
 
 
-Project.hasMany(Sucursal, { foreignKey: 'empresaid', sourceKey: 'id' });
-Task.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+Empresa.hasMany(Sucursal, { foreignKey: 'empresaid', sourceKey: 'id' });
+Sucursal.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
 export default Empresa;
