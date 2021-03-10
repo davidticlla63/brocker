@@ -106,7 +106,7 @@ export async function getTasksByProject(req, res) {
         const tasks = await Task.findAll({
             attributes: [ 'id', 'projectid', 'name', 'done',],
             where: {
-                projectid
+                projectid,estado:'ACT'
             }
         }); 
         res.json({ tasks });
