@@ -1,11 +1,12 @@
 //import { Sequelize } from "sequelize/types";
 //import { sequelize } from "../database/database";
 import Project from "../models/Project";
+import Task from "../models/Task";
 
 export async function getProjects(req, res) {
     try {
         
-        const projects = await Project.findAll();
+        const projects = await Project.findAll({include:Task});
         res.json({
             data: projects
         });

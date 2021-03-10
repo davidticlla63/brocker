@@ -2,28 +2,35 @@ import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 import Sucursal from "./Sucursal";
 
-const Empresa = sequelize.define('empresa', {
+const Empresa = sequelize.define('Empresa', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.BIGINT,
-        primaryKey: true 
+        primaryKey: true
 
     },
-    razonsocial:{
+    razonsocial: {
         type: Sequelize.STRING,
         allowNull: false,
+        length: 3000
     },
-    descripcion:Sequelize.STRING,
-    telefono:Sequelize.STRING,
-    nit:Sequelize.STRING,
-    representante:Sequelize.STRING,
-    logo:Sequelize.BLOB,
-    fecharegistro:Sequelize.DATE(6),
-    fechamodificacion:Sequelize.DATE(6),
-    estado:Sequelize.STRING,
-    
+    descripcion: {
+        type: Sequelize.STRING,
+        length: 3000
+    },
+    telefono: Sequelize.STRING,
+    nit: Sequelize.STRING,
+    representante: Sequelize.STRING,
+    logo: Sequelize.BLOB,
+    usuarioregistro: Sequelize.STRING,
+    usuariomodificacion: Sequelize.STRING,
+    fecharegistro: Sequelize.DATE(6),
+    fechamodificacion: Sequelize.DATE(6),
+    estado: Sequelize.STRING,
+
 }, {
-    timestamps: false
+    timestamps: false,
+    tableName: 'empresa'
 });
 
 

@@ -5,9 +5,9 @@ import Sucursal from "../models/Sucursal";
 export async function getSucursals(req, res) {
     try {
         
-        const Sucursals = await Sucursal.findAll();
+        const sucursals = await Sucursal.findAll();
         res.json({
-            data: Sucursals
+            data: sucursals
         });
     } catch (e) {
         console.log(e);
@@ -15,7 +15,14 @@ export async function getSucursals(req, res) {
 }
 
 export async function createSucursal(req, res) {
-    const { name, priority, description, deliverydate } = req.body;
+    const {  nombre,
+        descripcion,
+        telefono,
+        actividad,
+        fecharegistro,
+        fechamodificacion,
+        estado,
+        empresaid} = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newSucursal = await Sucursal.create({

@@ -1,11 +1,12 @@
 //import { Sequelize } from "sequelize/types";
 //import { sequelize } from "../database/database";
 import Empresa from "../models/Empresa";
+import Sucursal from "../models/Sucursal";
 
 export async function getEmpresas(req, res) {
     try {
         
-        const empresas = await Empresa.findAll();
+        const empresas = await Empresa.findAll({include:Sucursal});
         res.json({
             data: empresas
         });
@@ -15,7 +16,12 @@ export async function getEmpresas(req, res) {
 }
 
 export async function createEmpresa(req, res) {
-    const { name, priority, description, deliverydate } = req.body;
+    const { razonsocial,
+        descripcion,
+        telefono,
+        logo,
+        fecharegistro,
+        fechamodificacion,estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newEmpresa = await Empresa.create({
@@ -24,15 +30,16 @@ export async function createEmpresa(req, res) {
             telefono,
             logo,
             fecharegistro,
-            fechamodificacion
+            fechamodificacion,
+            estado
         }, {
             fields: ['razonsocial',
             'descripcion',
             'telefono',
             'logo',
             'fecharegistro',
-            'fechamodificacion']
-        });
+            'fechamodificacion','estado']
+        },{include:Sucursal});
         if (newEmpresa) {
             return res.json({
                 message: 'Empresa created successfully',
@@ -51,7 +58,7 @@ export async function createEmpresa(req, res) {
 export async function getOneEmpresa(req, res) {
     try {
         const { id } = req.params;
-        const empresa = await Empresa.findOne({
+        const empresa = await Empresa.findOne({include:Sucursal},{
             where: {
                 id
             }
