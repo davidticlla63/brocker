@@ -5,8 +5,8 @@ import Sucursal from "../models/Sucursal";
 
 export async function getEmpresas(req, res) {
     try {
-        
-        const empresas = await Empresa.findAll({include:Sucursal});
+       // const empresas = await Empresa.findAll({estado:'ACT', include:Sucursal});
+        const empresas = await Empresa.findAll({where :{estado:'ACT'},include:Sucursal});
         res.json({
             data: empresas
         });
