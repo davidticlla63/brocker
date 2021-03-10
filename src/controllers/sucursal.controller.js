@@ -5,7 +5,7 @@ import Sucursal from "../models/Sucursal";
 export async function getSucursals(req, res) {
     try {
         
-        const sucursals = await Sucursal.findAll();
+        const sucursals = await Sucursal.findAll({where:{estado:'ACT'}});
         res.json({
             data: sucursals
         });
@@ -132,5 +132,23 @@ export async function updateSucursal(req, res) {
             message: 'Something goes wrong',
             data: {}
         });
+    }
+
+   
+}
+
+export async function getSucursalByEmpresa(req, res) {
+    try {
+        const { empresaid } = req.params;
+        const sucursal = await Sucursal.findAll({
+            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
+            'fechamodificacion','estado','empresaid'],
+            where: {
+                empresaid//,estado:'ACT'
+            }
+        }); 
+        res.json({ sucursal });
+    } catch (e) {
+        console.log(e);
     }
 }
