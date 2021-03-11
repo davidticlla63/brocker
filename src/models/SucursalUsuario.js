@@ -7,7 +7,7 @@ const SucursalUsuario = sequelize.define('SucursalUsuario', {
         type: Sequelize.BIGINT,
         primaryKey: true
     },
-    usarioid: {
+    usuarioid: {
         type: Sequelize.BIGINT,
         allowNull: false
     },

@@ -7,6 +7,9 @@ import taskRoutes from "./routes/tasks";
 import empresaRoutes from "./routes/empresas";
 import sucursalRoutes from "./routes/sucursals";
 import usuarioRoutes from "./routes/usuarios";
+import sucursalUsuarioRoutes from "./routes/sucursalUsuarios";
+import perfilRoutes from "./routes/perfil";
+
 
 // initialization
 const app = express();
@@ -21,5 +24,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/empresas', empresaRoutes);
 app.use('/api/sucursals', sucursalRoutes);
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/sucursalUsuarios', sucursalUsuarioRoutes);
+app.use('/api/perfils', perfilRoutes);
 
 export default app;

@@ -1,11 +1,11 @@
 
-import Usuario from "../models/Usuario";
+import Perfil from "../models/Perfil";
 import UsuarioPerfil from "../models/UsuarioPerfil";
 
-export async function getUsuarios(req, res) {
+export async function getPerfils(req, res) {
     try {
-        
-        const usuarios = await Usuario.findAll({where:{estado:'ACT'},include:UsuarioPerfil});
+
+        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil });
         res.json({
             data: usuarios
         });
@@ -14,35 +14,35 @@ export async function getUsuarios(req, res) {
     }
 }
 
-export async function createUsuario(req, res) {
-    const { 
-        nombrecompleto,
-        nick,
-        password,
+export async function createPerfil(req, res) {
+    const {
+        nombre,
+        descripcion,
+        sucursalid,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
         fechamodificacion,
-        estado} = req.body;
+        estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
-        let newUsuario = await Usuario.create({
-            nombrecompleto,
-            nick,
-        password,
-        usuarioregistro,
-        usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
-        estado
+        let newPerfil = await Perfil.create({
+            nombre,
+            descripcion,
+            sucursalid,
+            usuarioregistro,
+            usuariomodificacion,
+            fecharegistro,
+            fechamodificacion,
+            estado
         }, {
-            fields: ['nombrecompleto', 'nick', 'password', 'usuarioregistro','usuariomodificacion','fecharegistro',
-            'fechamodificacion','estado']
+            fields: ['nombre', 'descripcion', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado']
         });
-        if (newUsuario) {
+        if (newPerfil) {
             return res.json({
-                message: 'Usuario created successfully',
-                data: newUsuario
+                message: 'Perfil created successfully',
+                data: newPerfil
             });
         }
     } catch (e) {
@@ -54,10 +54,10 @@ export async function createUsuario(req, res) {
     }
 }
 
-export async function getOneUsuario(req, res) {
+export async function getOnePerfil(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await Usuario.findOne({
+        const usuario = await Perfil.findOne({
             where: {
                 id
             }
@@ -70,16 +70,16 @@ export async function getOneUsuario(req, res) {
     }
 }
 
-export async function deleteUsuario(req, res) {
+export async function deletePerfil(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Usuario.destroy({
+        const deleteRowCount = await Perfil.destroy({
             where: {
                 id
             }
         });
         res.json({
-            message: 'Usuario deleted successfully',
+            message: 'Perfil deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -87,11 +87,11 @@ export async function deleteUsuario(req, res) {
     }
 }
 
-export async function updateUsuario(req, res) {
+export async function updatePerfil(req, res) {
     const { id } = req.params;
-    const { nombrecompleto,
-        nick,
-        password,
+    const { nombre,
+        descripcion,
+        sucursalid,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
@@ -99,9 +99,9 @@ export async function updateUsuario(req, res) {
         estado } = req.body;
     try {
 
-        const usuarios = await Usuario.findAll({
-            attributes: ['nombrecompleto', 'nick', 'password', 'usuarioregistro','usuariomodificacion','fecharegistro',
-            'fechamodificacion','estado'],
+        const usuarios = await Perfil.findAll({
+            attributes: ['nombre', 'descripcion', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado'],
             where: {
                 id
             }
@@ -110,9 +110,9 @@ export async function updateUsuario(req, res) {
         if (usuarios.length > 0) {
             usuarios.forEach(async usuario => {
                 await usuario.update({
-                    nombrecompleto,
-                    nick,
-                    password,
+                    nombre,
+                    descripcion,
+                    sucursalid,
                     usuarioregistro,
                     usuariomodificacion,
                     fecharegistro,
@@ -123,7 +123,7 @@ export async function updateUsuario(req, res) {
         }
 
         return res.json({
-            message: 'Usuario updated successfully',
+            message: 'Perfil updated successfully',
             data: usuarios
         });
 

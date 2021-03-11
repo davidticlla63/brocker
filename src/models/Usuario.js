@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 import SucursalUsuario from "./SucursalUsuario";
+import UsuarioPerfil from "./UsuarioPerfil";
 
 const Usuario = sequelize.define('Usuario', {
     id: {
@@ -23,4 +24,7 @@ const Usuario = sequelize.define('Usuario', {
 });
 Usuario.hasMany(SucursalUsuario, { foreignKey: 'usuarioid', sourceKey: 'id' });
 SucursalUsuario.belongsTo(Usuario, { foreignKey: 'usuarioid', sourceKey: 'id' });
+
+Usuario.hasMany(UsuarioPerfil, { foreignKey: 'usuarioid', sourceKey: 'id' });
+UsuarioPerfil.belongsTo(Usuario, { foreignKey: 'usuarioid', sourceKey: 'id' });
 export default Usuario;
