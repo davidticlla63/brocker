@@ -9,6 +9,7 @@ import sucursalRoutes from "./routes/sucursals";
 import usuarioRoutes from "./routes/usuarios";
 import sucursalUsuarioRoutes from "./routes/sucursalUsuarios";
 import perfilRoutes from "./routes/perfil";
+import paginaRoutes from "./routes/pagina";
 
 
 // initialization
@@ -26,5 +27,6 @@ app.use('/api/sucursals', sucursalRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/sucursalUsuarios', sucursalUsuarioRoutes);
 app.use('/api/perfils', perfilRoutes);
+app.use('/api/paginas', paginaRoutes);
 
 export default app;

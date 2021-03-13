@@ -2,10 +2,11 @@ import Sequelize from 'sequelize';
 
 export const sequelize = new Sequelize(
     'broker_db',
-    'postgres',
+    'admin',
     'admin',
     {
         host: 'localhost',
+        port:'5433',
         dialect: 'postgres', 
         pool: {
             max: 5, 
