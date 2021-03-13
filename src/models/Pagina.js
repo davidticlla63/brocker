@@ -13,11 +13,11 @@ const Pagina = sequelize.define('Pagina', {
     url: Sequelize.STRING,
     tipo: Sequelize.STRING,
     paginaid: Sequelize.BIGINT,
-    usuarioregistro:Sequelize.STRING,
-    usuariomodificacion:Sequelize.STRING,
+    usuarioregistro: Sequelize.STRING,
+    usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
-     estado: {
+    estado: {
         type: Sequelize.STRING,
         allowNull: false,
     }
