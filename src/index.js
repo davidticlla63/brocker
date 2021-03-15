@@ -1,7 +1,7 @@
 import app from "./app";
 import "@babel/polyfill";
 
-/* 
+
 const Sequelize = require('sequelize');
 const db = new Sequelize('broker_db', 'postgres', 'admin', {
     host: 'localhost',
@@ -33,7 +33,7 @@ async function conectar() {
         console.error('error:', error);
     }
 }
- */
+
 async function main() {
     //conectar();
     await app.listen(5000);

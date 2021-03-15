@@ -1,11 +1,12 @@
 
 import Perfil from "../models/Perfil";
+import Sucursal from "../models/Sucursal";
 import UsuarioPerfil from "../models/UsuarioPerfil";
 
 export async function getPerfils(req, res) {
     try {
 
-        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil });
+        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil,include: Sucursal });
         res.json({
             data: usuarios
         });
