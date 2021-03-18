@@ -7,6 +7,10 @@ export const sequelize = new Sequelize(
     {
         host: 'localhost',
         dialect: 'postgres', 
+      dialectOptions: {
+            useUTC: true, // -->Add this line. for reading from database
+        },
+        timezone: '-04:00',  /// -->Add this line. for writing to database 
         pool: {
             max: 5, 
             min: 0,

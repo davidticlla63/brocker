@@ -1,18 +1,19 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
+import Permiso from "./permiso";
 
-const UsuarioPerfil = sequelize.define('UsuarioPerfil', {
+const PaginaAccion = sequelize.define('PaginaAccion', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         primaryKey: true
     },
-    usuarioid: {
-        type: Sequelize.STRING,
+    paginaid: {
+        type: Sequelize.BIGINT,
         allowNull: false
     },
-    perfilid: {
-        type: Sequelize.STRING,
+    accionid: {
+        type: Sequelize.BIGINT,
         allowNull: false
     },
     usuarioregistro: Sequelize.STRING,
@@ -27,7 +28,10 @@ const UsuarioPerfil = sequelize.define('UsuarioPerfil', {
 
 }, {
     timestamps: false,
-    tableName: 'usuario_perfil'
+    tableName: 'pagina_accion'
 });
 
-export default UsuarioPerfil;
+
+/* PaginaAccion.hasMany(Permiso, { foreignKey: 'paginaAccionId', sourceKey: 'id' });
+Permiso.belongsTo(PaginaAccion, { foreignKey: 'paginaAccionId', sourceKey: 'id' }); */
+export default PaginaAccion;

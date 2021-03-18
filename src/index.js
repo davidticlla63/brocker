@@ -2,7 +2,7 @@ import app from "./app";
 import "@babel/polyfill";
 
 
-const Sequelize = require('sequelize');
+/* const Sequelize = require('sequelize');
 const db = new Sequelize('broker_db', 'postgres', 'admin', {
     host: 'localhost',
     dialect: 'postgres',
@@ -32,12 +32,12 @@ async function conectar() {
     } catch (error) {
         console.error('error:', error);
     }
-}
+} */
 
 async function main() {
     //conectar();
-    await app.listen(5000);
-    console.log('Server on port 5000');
+    await app.listen(3000);
+    console.log('Server on port 3000');
 }
 
 

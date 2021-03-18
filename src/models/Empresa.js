@@ -1,12 +1,16 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Sucursal from "./Sucursal";
+import Sucursal from "./Sucursal"; 
+
+import Perfil from "./Perfil";
+import AreaTrabajo from "./AreaTrabajo";
 
 const Empresa = sequelize.define('Empresa', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true
+        
 
     },
     razonsocial: {
@@ -21,7 +25,18 @@ const Empresa = sequelize.define('Empresa', {
     telefono: Sequelize.STRING,
     nit: Sequelize.STRING,
     representante: Sequelize.STRING,
-    logo: Sequelize.BLOB,
+    //logo:Sequelize.STRING,
+     logo:{
+        type: Sequelize.BLOB,
+       /*   get() {
+            if  (this.getDataValue('logo'))
+
+          
+            return this.getDataValue('logo').toString('utf8'); // or whatever encoding is right
+            else
+            return null;
+          },  */
+    }, 
     usuarioregistro: Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
@@ -36,4 +51,10 @@ const Empresa = sequelize.define('Empresa', {
 
 Empresa.hasMany(Sucursal, { foreignKey: 'empresaid', sourceKey: 'id' });
 Sucursal.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(Perfil, { foreignKey: 'empresaid', sourceKey: 'id' });
+Perfil.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(AreaTrabajo, { foreignKey: 'empresaid', sourceKey: 'id' });
+AreaTrabajo.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
 export default Empresa;

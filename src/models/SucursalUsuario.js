@@ -4,15 +4,15 @@ import { sequelize } from "../database/database";
 const SucursalUsuario = sequelize.define('SucursalUsuario', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true
     },
     usuarioid: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         allowNull: false
     },
     sucursalid: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         allowNull: false
     },
     usuarioregistro: Sequelize.STRING,

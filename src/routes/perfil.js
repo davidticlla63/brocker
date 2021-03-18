@@ -4,7 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createPerfil, getPerfils, getOnePerfil, deletePerfil, updatePerfil } from "../controllers/perfil.controller";
+import { createPerfil, getPerfils, getOnePerfil, deletePerfil, updatePerfil ,getPerfilByEmpresa} from "../controllers/perfil.controller";
 router
     .use(cors())
     .use(bodyParser.json())
@@ -17,5 +17,6 @@ router.get('/', getPerfils);
 router.get('/:id', getOnePerfil);
 router.delete('/:id', deletePerfil);
 router.put('/:id', updatePerfil);
+router.get('/perfilPorEmpresa/:empresaid', getPerfilByEmpresa);
 
 export default router;

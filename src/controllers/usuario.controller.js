@@ -16,6 +16,7 @@ export async function getUsuarios(req, res) {
 
 export async function createUsuario(req, res) {
     const { 
+       // id=
         nombrecompleto,
         nick,
         password,

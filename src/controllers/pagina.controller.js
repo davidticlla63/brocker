@@ -1,10 +1,16 @@
 
+import Accion from "../models/Accion";
 import Pagina from "../models/Pagina";
+import PaginaAccion from "../models/PaginaAccion";
 
 export async function getPaginas(req, res) {
     try {
 
-        const paginas = await Pagina.findAll({ where: { estado: 'ACT' } });
+        const paginas = await Pagina.findAll({
+            where: { estado: 'ACT', paginaid: null }
+            , include: { model: Pagina, require: true, estado: 'ACT', 
+            include: { model: Accion, estado: 'ACT', require: true } }
+        });
         res.json({
             data: paginas
         });
@@ -37,7 +43,7 @@ export async function createPagina(req, res) {
             fechamodificacion,
             estado
         }, {
-            fields: ['nombre', 'descripcion', 'url','paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['nombre', 'descripcion', 'url', 'paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
         if (newPagina) {
@@ -101,9 +107,29 @@ export async function updatePagina(req, res) {
         estado } = req.body;
     try {
 
-        const usuarios = await Pagina.findAll({
-            attributes: ['nombre', 'descripcion', 'url','paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-            'fechamodificacion', 'estado'],
+        const cant= await Pagina.update({
+            nombre,
+            descripcion,
+            url,
+            paginaid,
+            usuarioregistro,
+            usuariomodificacion,
+            fecharegistro,
+            fechamodificacion,
+            estado
+        },{where:{id}});
+
+
+            const usuarios = await Pagina.findOne({
+                where: {
+                    id
+                }
+            } );
+        
+
+     /*    const usuarios = await Pagina.findAll({
+            attributes: ['nombre', 'descripcion', 'url', 'paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado'],
             where: {
                 id
             }
@@ -124,7 +150,7 @@ export async function updatePagina(req, res) {
                 });
             });
         }
-
+ */
         return res.json({
             message: 'Pagina updated successfully',
             data: usuarios

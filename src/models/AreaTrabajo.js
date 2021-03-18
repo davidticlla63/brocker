@@ -1,9 +1,8 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Permiso from "./permiso";
-import UsuarioPerfil from "./UsuarioPerfil";
+import Personal from "./Personal";
 
-const Pefil = sequelize.define('Perfil', {
+const AreaTrabajo = sequelize.define('AreaTrabajo', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
@@ -11,10 +10,10 @@ const Pefil = sequelize.define('Perfil', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    /* sucursalid:Sequelize.BIGINT, */
     empresaid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
+
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
      estado: {
@@ -25,13 +24,13 @@ const Pefil = sequelize.define('Perfil', {
 
 }, {
     timestamps: false,
-    tableName: 'perfil'
+    tableName: 'area_trabajo'
 });
 
-Pefil.hasMany(Permiso, { foreignKey: 'perfilid', sourceKey: 'id' });
-Permiso.belongsTo(Pefil, { foreignKey: 'perfilid', sourceKey: 'id' });
+AreaTrabajo.hasMany(Personal, { foreignKey: 'areatrabajoid', sourceKey: 'id' });
+Personal.belongsTo(AreaTrabajo, { foreignKey: 'areatrabajoid', sourceKey: 'id' });
+/* 
+Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
+PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
 
-
-Pefil.hasMany(UsuarioPerfil, { foreignKey: 'perfilid', sourceKey: 'id' });
-UsuarioPerfil.belongsTo(Pefil, { foreignKey: 'perfilid', sourceKey: 'id' });
-export default Pefil;
+export default AreaTrabajo;

@@ -1,16 +1,22 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Permiso from "./Permiso";
 
-const Accion = sequelize.define('Accion', {
+const Personal = sequelize.define('Personal', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
         primaryKey: true
     },
-    nombre: Sequelize.STRING,
-    descripcion: Sequelize.STRING,
-    paginaid:Sequelize.STRING,
+    nombrecompleto: Sequelize.STRING,
+    sexo: Sequelize.STRING,
+    fechanacimiento: Sequelize.DATE,
+    ci: Sequelize.STRING,
+    telefono1: Sequelize.STRING,
+    telefono2: Sequelize.STRING,
+    correo1: Sequelize.STRING,
+    correo2: Sequelize.STRING,
+    sucursalid:Sequelize.STRING,
+    areatrabajoid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
 
@@ -24,13 +30,13 @@ const Accion = sequelize.define('Accion', {
 
 }, {
     timestamps: false,
-    tableName: 'accion'
+    tableName: 'personal'
 });
-
-Accion.hasMany(Permiso, { foreignKey: 'accionId', sourceKey: 'id' });
-Permiso.belongsTo(Accion, { foreignKey: 'accionId', sourceKey: 'id' });
+/* 
+Personal.hasMany(Permiso, { foreignKey: 'accionId', sourceKey: 'id' });
+Permiso.belongsTo(AreaTrabajo, { foreignKey: 'accionId', sourceKey: 'id' }); */
 /* 
 Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
 PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
 
-export default Accion;
+export default Personal;

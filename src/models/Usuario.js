@@ -6,7 +6,7 @@ import UsuarioPerfil from "./UsuarioPerfil";
 const Usuario = sequelize.define('Usuario', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true
     },
     nombrecompleto: Sequelize.STRING,

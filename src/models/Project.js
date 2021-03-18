@@ -5,8 +5,10 @@ import Task from "./Task";
 
 const Project = sequelize.define('projects', {
     id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true
+        //type: Sequelize.INTEGER,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV1
     },
     name: {
         type: Sequelize.TEXT

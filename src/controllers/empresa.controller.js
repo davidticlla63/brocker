@@ -5,8 +5,9 @@ import Sucursal from "../models/Sucursal";
 
 export async function getEmpresas(req, res) {
     try {
-       // const empresas = await Empresa.findAll({estado:'ACT', include:Sucursal});
-        const empresas = await Empresa.findAll({where :{estado:'ACT'},include:Sucursal });
+        // const empresas = await Empresa.findAll({estado:'ACT', include:Sucursal});
+        //const empresas = await Empresa.findAll({ where: { estado: 'ACT' }, include: Sucursal, as: 'sucursals' });
+        const empresas = await Empresa.findAll({ where: { estado: 'ACT' } });
         res.json({
             data: empresas
         });
@@ -20,8 +21,8 @@ export async function createEmpresa(req, res) {
         descripcion,
         telefono,
         logo,
-        fecharegistro,
-        fechamodificacion,estado } = req.body;
+        fecharegistro = new Date(),
+        fechamodificacion, estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newEmpresa = await Empresa.create({
@@ -34,12 +35,12 @@ export async function createEmpresa(req, res) {
             estado
         }, {
             fields: ['razonsocial',
-            'descripcion',
-            'telefono',
-            'logo',
-            'fecharegistro',
-            'fechamodificacion','estado']
-        },{include:Sucursal});
+                'descripcion',
+                'telefono',
+                'logo',
+                'fecharegistro',
+                'fechamodificacion', 'estado']
+        }, { include: Sucursal });
         if (newEmpresa) {
             return res.json({
                 message: 'Empresa created successfully',
@@ -58,7 +59,7 @@ export async function createEmpresa(req, res) {
 export async function getOneEmpresa(req, res) {
     try {
         const { id } = req.params;
-        const empresa = await Empresa.findOne({include:Sucursal},{
+        const empresa = await Empresa.findOne({ include: Sucursal }, {
             where: {
                 id
             }
@@ -93,19 +94,51 @@ export async function updateEmpresa(req, res) {
     const { razonsocial,
         descripcion,
         telefono,
+        nit,
+        representante,
         logo,
+        usuarioregistro,
+        usuariomodificacion,
         fecharegistro,
         fechamodificacion } = req.body;
     try {
 
-        const empresas = await Empresa.findAll({
+
+       const cant= await Empresa.update({
+            razonsocial,
+            descripcion,
+            telefono,
+            nit,
+            representante,
+            logo,
+            usuarioregistro,
+            usuariomodificacion,
+            fecharegistro,
+            fechamodificacion
+        },{where:{id}});
+
+
+            const empresas = await Empresa.findOne({
+                where: {
+                    id
+                }
+            }//,{ include: Sucursal } 
+            );
+
+      
+
+        /* const empresas = await Empresa.findAll({
             attributes: ['id',
                 'razonsocial',
-            'descripcion',
-            'telefono',
-            'logo',
-            'fecharegistro',
-            'fechamodificacion'
+                'descripcion',
+                'telefono',
+                'nit',
+                'representante',
+                'logo',
+                'usuarioregistro',
+                'usuariomodificacion',
+                'fecharegistro',
+                'fechamodificacion'
             ],
             where: {
                 id
@@ -118,12 +151,16 @@ export async function updateEmpresa(req, res) {
                     razonsocial,
                     descripcion,
                     telefono,
+                    nit,
+                    representante,
                     logo,
+                    usuarioregistro,
+                    usuariomodificacion,
                     fecharegistro,
                     fechamodificacion
                 });
             });
-        }
+        } */
 
         return res.json({
             message: 'Empresa updated successfully',
@@ -138,3 +175,44 @@ export async function updateEmpresa(req, res) {
         });
     }
 }
+
+export async function bajaEmpresa(req, res) {
+     const { id } = req.params;
+     const { 
+         //id,
+         usuariomodificacion,
+         fechamodificacion=new Date()
+          } = req.body;
+     try {
+         const updateRowCount = await Empresa.update({   
+             usuariomodificacion,
+             fechamodificacion,
+             estado:"BAJ"
+         },{
+             where: {
+                 id
+             }
+         });
+
+         const empresas = await Empresa.findOne({
+            where: {
+                id
+            }
+        }//,{ include: Sucursal } 
+        );
+         res.json({
+             message: 'Empresa baja successfully',
+             count: empresas
+         });
+        
+ 
+ 
+ 
+     } catch (e) {
+         console.log(e);
+         res.status(500).json({
+             message: 'Something goes wrong',
+             data: {}
+         });
+     }
+ }

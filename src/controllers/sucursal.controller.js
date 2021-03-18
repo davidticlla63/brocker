@@ -1,5 +1,6 @@
 //import { Sequelize } from "sequelize/types";
 //import { sequelize } from "../database/database";
+import Empresa from "../models/Empresa";
 import Sucursal from "../models/Sucursal";
 
 export async function getSucursals(req, res) {
@@ -19,7 +20,8 @@ export async function createSucursal(req, res) {
         descripcion,
         telefono,
         actividad,
-        fecharegistro,
+        usuarioregistro,
+        fecharegistro=new Date(),
         fechamodificacion,
         estado,
         empresaid} = req.body;
@@ -30,12 +32,13 @@ export async function createSucursal(req, res) {
             descripcion,
             telefono,
             actividad,
+            usuarioregistro,
             fecharegistro,
             fechamodificacion,
             estado,
             empresaid
         }, {
-            fields: ['nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
+            fields: ['nombre', 'descripcion', 'telefono', 'actividad','usuarioregistro','fecharegistro',
             'fechamodificacion','estado','empresaid']
         });
         if (newSucursal) {
@@ -98,7 +101,27 @@ export async function updateSucursal(req, res) {
         empresaid } = req.body;
     try {
 
-        const sucursals = await Sucursal.findAll({
+
+        const cant= await Sucursal.update({
+            nombre,
+            descripcion,
+            telefono,
+            actividad,
+            fecharegistro,
+            fechamodificacion,
+            estado,
+            empresaid 
+        },{where:{id}});
+
+
+            const sucursals = await Sucursal.findOne({
+                where: {
+                    id
+                }
+            },{ include: Empresa } );
+
+
+        /* const sucursals = await Sucursal.findAll({
             attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
             'fechamodificacion','estado','empresaid'],
             where: {
@@ -119,7 +142,7 @@ export async function updateSucursal(req, res) {
                     empresaid
                 });
             });
-        }
+        } */
 
         return res.json({
             message: 'Sucursal updated successfully',
@@ -141,14 +164,55 @@ export async function getSucursalByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const sucursal = await Sucursal.findAll({
-            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
+            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','usuarioregistro','fecharegistro',
             'fechamodificacion','estado','empresaid'],
             where: {
-                empresaid//,estado:'ACT'
+                empresaid ,estado:'ACT'
             }
         }); 
         res.json({ sucursal });
     } catch (e) {
         console.log(e);
+    }
+}
+
+
+export async function bajaSucursal(req, res) {
+    const { id } = req.params;
+    const { 
+        //id,
+        usuariomodificacion
+         } = req.body;
+    try {
+        const updateRowCount = await Sucursal.update({   
+            usuariomodificacion,            
+        fechamodificacion:new Date(),
+            estado:"BAJ"
+        },{
+            where: {
+                id
+            }
+        });
+
+        const sucursals = await Sucursal.findOne({
+           where: {
+               id
+           }
+       }//,{ include: Sucursal } 
+       );
+        res.json({
+            message: 'Sucursal baja successfully',
+            count: sucursals
+        });
+       
+
+
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            message: 'Something goes wrong',
+            data: {}
+        });
     }
 }

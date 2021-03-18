@@ -4,7 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createEmpresa, getEmpresas, getOneEmpresa, deleteEmpresa, updateEmpresa,bajaEmpresa } from "../controllers/empresa.controller";
+import { createPersonal, getPersonals, getOnePersonal, deletePersonal, updatePersonal,bajaPersonal } from "../controllers/personal.controller";
 
 router
     .use(cors())
@@ -20,12 +20,13 @@ router
     //.use(limit(100000000))
     .use(compression());
 // /api/empresas/
-router.post('/', createEmpresa);
-router.get('/', getEmpresas);
+router.post('/', createPersonal);
+router.get('/', getPersonals);
 
 // /api/empresas/:empresaID
-router.get('/:id', getOneEmpresa);
-router.delete('/:id', deleteEmpresa);
-router.put('/:id', updateEmpresa);
-router.put('/baja/:id', bajaEmpresa);
+router.get('/:id', getOnePersonal);
+router.delete('/:id', deletePersonal);
+router.put('/:id', updatePersonal);
+router.put('/baja/:id', bajaPersonal);
+
 export default router;

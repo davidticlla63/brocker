@@ -1,12 +1,13 @@
 
 import Empresa from "../models/Empresa";
-import Perfil from "../models/Perfil";
-import UsuarioPerfil from "../models/UsuarioPerfil";
+import AreaTrabajo from "../models/AreaTrabajo";
+import Personal from "../models/Personal";
 
-export async function getPerfils(req, res) {
+export async function getAreaTrabajos(req, res) {
     try {
 
-        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil,include: Empresa });
+        /* const usuarios = await AreaTrabajo.findAll({ where: { estado: 'ACT' }, include: Personal,include: Empresa }); */
+        const usuarios = await AreaTrabajo.findAll({ where: { estado: 'ACT' }, include: Personal});
         res.json({
             data: usuarios
         });
@@ -15,7 +16,7 @@ export async function getPerfils(req, res) {
     }
 }
 
-export async function createPerfil(req, res) {
+export async function createAreaTrabajo(req, res) {
     const {
         nombre,
         descripcion,
@@ -27,7 +28,7 @@ export async function createPerfil(req, res) {
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
-        let newPerfil = await Perfil.create({
+        let newAreaTrabajo = await AreaTrabajo.create({
             nombre,
             descripcion,
             empresaid,
@@ -40,10 +41,10 @@ export async function createPerfil(req, res) {
             fields: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
-        if (newPerfil) {
+        if (newAreaTrabajo) {
             return res.json({
-                message: 'Perfil created successfully',
-                data: newPerfil
+                message: 'AreaTrabajo created successfully',
+                data: newAreaTrabajo
             });
         }
     } catch (e) {
@@ -55,10 +56,10 @@ export async function createPerfil(req, res) {
     }
 }
 
-export async function getOnePerfil(req, res) {
+export async function getOneAreaTrabajo(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await Perfil.findOne({
+        const usuario = await AreaTrabajo.findOne({
             where: {
                 id
             }
@@ -71,16 +72,16 @@ export async function getOnePerfil(req, res) {
     }
 }
 
-export async function deletePerfil(req, res) {
+export async function deleteAreaTrabajo(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Perfil.destroy({
+        const deleteRowCount = await AreaTrabajo.destroy({
             where: {
                 id
             }
         });
         res.json({
-            message: 'Perfil deleted successfully',
+            message: 'AreaTrabajo deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -88,7 +89,7 @@ export async function deletePerfil(req, res) {
     }
 }
 
-export async function updatePerfil(req, res) {
+export async function updateAreaTrabajo(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
@@ -99,7 +100,7 @@ export async function updatePerfil(req, res) {
         fechamodificacion,
         estado } = req.body;
     try {
-        const updateRowCount = await Perfil.update({
+        const updateRowCount = await AreaTrabajo.update({
             nombre,
             descripcion,
             empresaid,
@@ -113,40 +114,20 @@ export async function updatePerfil(req, res) {
                 id
             }
         });
+
+        const areaTrabajos = await AreaTrabajo.findOne({
+            where: {
+                id
+            }
+        }
+        );
         res.json({
-            message: 'Perfil update successfully',
-            count: updateRowCount
+            message: 'AreaTrabajo update successfully',
+            count: areaTrabajos
         });
        
 
 
-        /* const perfils = await Perfil.findAll({
-            attributes: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                'fechamodificacion', 'estado'],
-            where: {
-                id
-            }
-        });
-
-        if (perfils.length > 0) {
-            perfils.forEach(async perfil => {
-                await perfil.update({
-                    nombre,
-                    descripcion,
-                    empresaid,
-                    usuarioregistro,
-                    usuariomodificacion,
-                    fecharegistro,
-                    fechamodificacion,
-                    estado
-                });
-            });
-        }
-
-        return res.json({
-            message: 'Perfil updated successfully',
-            data: perfils
-        }); */
 
     } catch (e) {
         console.log(e);
@@ -158,17 +139,62 @@ export async function updatePerfil(req, res) {
 }
 
 
-export async function getPerfilByEmpresa(req, res) {
+export async function bajaAreaTrabajo(req, res) {
+    const { id } = req.params;
+
+   console.log("bajaAreaTrabajo");
+    const { 
+   //    id,
+        usuariomodificacion
+         } = req.body;
+    try {
+       // var moment = require('moment');
+        const updateRowCount = await AreaTrabajo.update({   
+            usuariomodificacion,
+           /*  fechamodificacion:moment().format(), */
+           fechamodificacion:new Date(),
+            estado:'BAJ'
+        },{
+            where: {
+                id
+            }
+        });
+
+        const areaTrabajos = await AreaTrabajo.findOne({
+            where: {
+                id
+            }
+        } 
+        );
+        
+        res.json({
+            message: 'AreaTrabajo baja successfully',
+            count: areaTrabajos
+        });
+       
+
+
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            message: 'Something goes wrong',
+            data: {}
+        });
+    }
+}
+
+export async function areaTrabajoByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
-        const perfils = await Perfil.findAll({
-            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
-            'fechamodificacion','estado','empresaid'],
+        const areaTrabajos = await AreaTrabajo.findAll({
+            attributes: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            'fechamodificacion', 'estado'],
             where: {
                 empresaid ,estado:'ACT'
             }
         }); 
-        res.json({ perfils });
+        res.json({ areaTrabajos });
     } catch (e) {
         console.log(e);
     }
