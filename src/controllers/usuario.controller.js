@@ -1,11 +1,13 @@
 
+import Empresa from "../models/Empresa";
+import Personal from "../models/Personal";
 import Usuario from "../models/Usuario";
 import UsuarioPerfil from "../models/UsuarioPerfil";
 
 export async function getUsuarios(req, res) {
     try {
-        
-        const usuarios = await Usuario.findAll({where:{estado:'ACT'},include:UsuarioPerfil});
+
+        const usuarios = await Usuario.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil });
         res.json({
             data: usuarios
         });
@@ -15,30 +17,33 @@ export async function getUsuarios(req, res) {
 }
 
 export async function createUsuario(req, res) {
-    const { 
-       // id=
+    const {
+        // id=
         nombrecompleto,
         nick,
         password,
         usuarioregistro,
-        usuariomodificacion,
-        fecharegistro,
+        empresaid,
+        personalid,
         fechamodificacion,
-        estado} = req.body;
+        estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newUsuario = await Usuario.create({
             nombrecompleto,
             nick,
-        password,
-        usuarioregistro,
-        usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
-        estado
+            password,
+            usuarioregistro,
+            empresaid,
+            personalid,
+            usuariomodificacion: new Date(),
+            fecharegistro: new Date(),
+            fechamodificacion,
+            estado
         }, {
-            fields: ['nombrecompleto', 'nick', 'password', 'usuarioregistro','usuariomodificacion','fecharegistro',
-            'fechamodificacion','estado']
+            fields: ['nombrecompleto', 'nick', 'empresaid',
+                'personalid', 'password', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado']
         });
         if (newUsuario) {
             return res.json({
@@ -101,8 +106,8 @@ export async function updateUsuario(req, res) {
     try {
 
         const usuarios = await Usuario.findAll({
-            attributes: ['nombrecompleto', 'nick', 'password', 'usuarioregistro','usuariomodificacion','fecharegistro',
-            'fechamodificacion','estado'],
+            attributes: ['nombrecompleto', 'nick', 'password', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado'],
             where: {
                 id
             }
@@ -140,16 +145,17 @@ export async function updateUsuario(req, res) {
 export async function usuarioBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
-        const personals = await Usuario.findAll( {where:{estado:'ACT'}, 
-        include:[//{model:AreaTrabajo, attributes: ['nombre'],require:true },
-            {
-              model: SucursalUsuario,attributes: ['nombre'],require:true,
-              where: {
-                sucursalid,estado:'ACT'
-              }
-            }]
-          });
-        res.json({ personals });
+        const usuarios = await Usuario.findAll({
+            where: { estado: 'ACT' },
+            include: [//{model:AreaTrabajo, attributes: ['nombre'],require:true },
+                {
+                    model: SucursalUsuario, attributes: ['nombre'], require: true,
+                    where: {
+                        sucursalid, estado: 'ACT'
+                    }
+                }]
+        });
+        res.json({ usuarios });
     } catch (e) {
         console.log(e);
     }
@@ -158,10 +164,14 @@ export async function usuarioBySucursal(req, res) {
 
 export async function usuarioByEmpresa(req, res) {
     try {
-        const { emrpesaid } = req.params;
+        const { empresaid } = req.params;
 
-        const personals = await Usuario.findAll( {where:{estado:'ACT',emrpesaid}  });
-        res.json({ personals });
+        const usuarios = await Usuario.findAll({
+            where: { estado: 'ACT', empresaid },
+            include: [{ models: Empresa, require: true },
+            { models: Personal, require: true }]
+        });
+        res.json({ usuarios });
     } catch (e) {
         console.log(e);
     }

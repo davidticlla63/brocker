@@ -1,9 +1,9 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Permiso from "./permiso";
+import Permiso from "./Permiso";
 import UsuarioPerfil from "./UsuarioPerfil";
 
-const Pefil = sequelize.define('Perfil', {
+const Perfil = sequelize.define('Perfil', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
@@ -28,10 +28,11 @@ const Pefil = sequelize.define('Perfil', {
     tableName: 'perfil'
 });
 
-Pefil.hasMany(Permiso, { foreignKey: 'perfilid', sourceKey: 'id' });
-Permiso.belongsTo(Pefil, { foreignKey: 'perfilid', sourceKey: 'id' });
+Perfil.hasMany(Permiso, { foreignKey: 'perfilid', sourceKey: 'id' });
+Permiso.belongsTo(Perfil, { foreignKey: 'perfilid', sourceKey: 'id' });
 
 
-Pefil.hasMany(UsuarioPerfil, { foreignKey: 'perfilid', sourceKey: 'id' });
-UsuarioPerfil.belongsTo(Pefil, { foreignKey: 'perfilid', sourceKey: 'id' });
-export default Pefil;
+Perfil.hasMany(UsuarioPerfil, { foreignKey: 'perfilid', sourceKey: 'id' });
+UsuarioPerfil.belongsTo(Perfil, { foreignKey: 'perfilid', sourceKey: 'id' });
+
+export default Perfil;

@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 import Accion from "./Accion";
-import Permiso from "./permiso";
+import Permiso from "./Permiso";
 //  import PaginaAccion from "./PaginaAccion";
 
 const Pagina = sequelize.define('Pagina', {

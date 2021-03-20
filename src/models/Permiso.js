@@ -3,26 +3,14 @@ import { sequelize } from "../database/database";
 
 const Permiso = sequelize.define('Permiso', {
     id: {
-        //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
         primaryKey: true
     },
-    nombre: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        length: 3000
-    },
-    descripcion: {
-        type: Sequelize.STRING,
-        length: 3000
-    },
-
-    perfilId: Sequelize.STRING,
-    paginaId: Sequelize.STRING,
-    /*     paginaAccionId: Sequelize.INTEGER, */
-    accionId: Sequelize.STRING,
-    accionRegistro: Sequelize.STRING,
-    usuarioModificacion: Sequelize.STRING,
+    accionid: Sequelize.STRING,
+    paginaid: Sequelize.STRING,
+    perfilid: Sequelize.STRING,
+    usuarioregistro:Sequelize.STRING,
+    usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
     estado: {

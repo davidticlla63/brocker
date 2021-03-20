@@ -18,7 +18,7 @@ router.get('/', getUsuarios);
 router.get('/:id', getOneUsuario);
 router.delete('/:id', deleteUsuario);
 router.put('/:id', updateUsuario);
-router.get('/usuarioByEmpresa/:id', usuarioByEmpresa);
-router.get('/usuarioBySucursal/:id', usuarioBySucursal);
+router.get('/usuarioByEmpresa/:empresaid', usuarioByEmpresa);
+router.get('/usuarioBySucursal/:sucursalid', usuarioBySucursal);
 
 export default router;

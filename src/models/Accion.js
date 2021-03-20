@@ -27,8 +27,8 @@ const Accion = sequelize.define('Accion', {
     tableName: 'accion'
 });
 
-Accion.hasMany(Permiso, { foreignKey: 'accionId', sourceKey: 'id' });
-Permiso.belongsTo(Accion, { foreignKey: 'accionId', sourceKey: 'id' });
+Accion.hasMany(Permiso, { foreignKey: 'accionid', sourceKey: 'id' });
+Permiso.belongsTo(Accion, { foreignKey: 'accionid', sourceKey: 'id' });
 /* 
 Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
 PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
