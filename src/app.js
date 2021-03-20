@@ -17,11 +17,11 @@ const bodyParser = require("body-parser");
 var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
   var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoded' })
 
-  var moment = require('moment'); // require
-moment().format(); 
+/*   var moment = require('moment'); // require
+moment().format();  */
 
 /* console.log(moment().format('YYYY-MM-DD h:mm:ss a')); */
-console.log(moment().format());
+//console.log(moment().format());
 // initialization
 const app = express();
 

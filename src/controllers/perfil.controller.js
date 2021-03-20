@@ -113,41 +113,20 @@ export async function updatePerfil(req, res) {
                 id
             }
         });
-        res.json({
-            message: 'Perfil update successfully',
-            count: updateRowCount
-        });
-       
 
-
-        /* const perfils = await Perfil.findAll({
-            attributes: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                'fechamodificacion', 'estado'],
+        const perfils = await Perfil.findOne({
             where: {
                 id
             }
         });
+        res.json({
+            message: 'Perfil update successfully',
+            perfil: perfils
+        });
+       
 
-        if (perfils.length > 0) {
-            perfils.forEach(async perfil => {
-                await perfil.update({
-                    nombre,
-                    descripcion,
-                    empresaid,
-                    usuarioregistro,
-                    usuariomodificacion,
-                    fecharegistro,
-                    fechamodificacion,
-                    estado
-                });
-            });
-        }
 
-        return res.json({
-            message: 'Perfil updated successfully',
-            data: perfils
-        }); */
-
+       
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -162,8 +141,8 @@ export async function getPerfilByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const perfils = await Perfil.findAll({
-            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
-            'fechamodificacion','estado','empresaid'],
+            /* attributes: ['id', 'nombre', 'descripcion','fecharegistro',
+            'fechamodificacion','estado','empresaid'], */
             where: {
                 empresaid ,estado:'ACT'
             }

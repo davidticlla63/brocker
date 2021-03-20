@@ -2,6 +2,8 @@
 //import { sequelize } from "../database/database";
 import Empresa from "../models/Empresa";
 import Sucursal from "../models/Sucursal";
+import SucursalUsuario from "../models/SucursalUsuario";
+import Usuario from "../models/Usuario";
 
 export async function getSucursals(req, res) {
     try {
@@ -216,3 +218,4 @@ export async function bajaSucursal(req, res) {
         });
     }
 }
+

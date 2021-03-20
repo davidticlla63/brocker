@@ -9,7 +9,7 @@ const Usuario = sequelize.define('Usuario', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    nombrecompleto: Sequelize.STRING,
+    //nombrecompleto: Sequelize.STRING,
     nick: Sequelize.STRING,
     password: Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
@@ -17,6 +17,8 @@ const Usuario = sequelize.define('Usuario', {
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
     estado: Sequelize.STRING,
+    empresaid :Sequelize.STRING,
+    personalid :Sequelize.STRING
 
 }, {
     timestamps: false,

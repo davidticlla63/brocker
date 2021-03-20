@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS usuario(
     usuariomodificacion character varying,
     fecharegistro timestamp  not null,
     fechamodificacion timestamp,
+    empresaid character varying REFERENCES empresa(id),
     estado character varying  not null
 );
 

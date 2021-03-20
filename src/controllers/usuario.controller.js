@@ -136,3 +136,33 @@ export async function updateUsuario(req, res) {
         });
     }
 }
+
+export async function usuarioBySucursal(req, res) {
+    try {
+        const { sucursalid } = req.params;
+        const personals = await Usuario.findAll( {where:{estado:'ACT'}, 
+        include:[//{model:AreaTrabajo, attributes: ['nombre'],require:true },
+            {
+              model: SucursalUsuario,attributes: ['nombre'],require:true,
+              where: {
+                sucursalid,estado:'ACT'
+              }
+            }]
+          });
+        res.json({ personals });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+export async function usuarioByEmpresa(req, res) {
+    try {
+        const { emrpesaid } = req.params;
+
+        const personals = await Usuario.findAll( {where:{estado:'ACT',emrpesaid}  });
+        res.json({ personals });
+    } catch (e) {
+        console.log(e);
+    }
+}

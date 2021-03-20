@@ -2,6 +2,9 @@ import app from "./app";
 import "@babel/polyfill";
 
 
+//const db=require("./models")
+
+
 /* const Sequelize = require('sequelize');
 const db = new Sequelize('broker_db', 'postgres', 'admin', {
     host: 'localhost',

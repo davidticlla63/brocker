@@ -188,8 +188,8 @@ export async function areaTrabajoByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const areaTrabajos = await AreaTrabajo.findAll({
-            attributes: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-            'fechamodificacion', 'estado'],
+         /*    attributes: ['','nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            'fechamodificacion', 'estado'], */
             where: {
                 empresaid ,estado:'ACT'
             }

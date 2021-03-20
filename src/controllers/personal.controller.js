@@ -1,4 +1,5 @@
 
+
 import AreaTrabajo from "../models/AreaTrabajo";
 import Personal from "../models/Personal";
 import Sucursal from "../models/Sucursal";
@@ -213,14 +214,48 @@ export async function bajaPersonal(req, res) {
     }
 }
 
-export async function getPersonalByEmpresa(req, res) {
+export async function personalBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
         const perfils = await Personal.findAll({
-            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
-            'fechamodificacion','estado','sucursalid'],
+         /*    attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
+            'fechamodificacion','estado','sucursalid'], */
             where: {
                 sucursalid ,estado:'ACT'
+            }
+        }); 
+        res.json({ perfils });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function personalByEmpresa(req, res) {
+    try {
+        const { empresaid } = req.params;
+        const personals = await Personal.findAll( {where:{estado:'ACT'}, 
+        include:[{model:AreaTrabajo, attributes: ['nombre'],require:true },
+            {
+              model: Sucursal,attributes: ['nombre'],require:true,
+              where: {
+                empresaid
+              }
+            }]
+          });
+        res.json({ personals });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function personalByAreaTrabajo(req, res) {
+    try {
+        const { areaTrabajoid } = req.params;
+        const perfils = await Personal.findAll({
+           /*  attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
+            'fechamodificacion','estado','sucursalid'], */
+            where: {
+                areaTrabajoid ,estado:'ACT'
             }
         }); 
         res.json({ perfils });
