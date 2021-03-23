@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
+import Usuario from "./Usuario";
 
 const Personal = sequelize.define('Personal', {
     id: {
@@ -38,5 +39,9 @@ Permiso.belongsTo(AreaTrabajo, { foreignKey: 'accionId', sourceKey: 'id' }); */
 /* 
 Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
 PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
+
+
+Personal.hasMany(Usuario, { foreignKey: 'personalid', sourceKey: 'id' });
+Usuario.belongsTo(Personal, { foreignKey: 'personalid', sourceKey: 'id' });
 
 export default Personal;

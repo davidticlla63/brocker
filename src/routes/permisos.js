@@ -17,5 +17,6 @@ router.get('/', getPermisos);
 router.get('/:id', getOnePermiso);
 router.delete('/:id', deletePermiso);
 router.put('/:id', updatePermiso);
+//router.post('/createPermiso/:perfilid', createPermiso);
 
 export default router;

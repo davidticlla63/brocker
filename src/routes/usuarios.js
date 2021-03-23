@@ -4,7 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createUsuario, getUsuarios, getOneUsuario, deleteUsuario, updateUsuario,usuarioByEmpresa,usuarioBySucursal } from "../controllers/usuario.controller";
+import { createUsuario, getUsuarios, getOneUsuario, deleteUsuario, updateUsuario,usuarioByEmpresa,usuarioBySucursal,bajaUsuario } from "../controllers/usuario.controller";
 
 router
     .use(cors())
@@ -20,5 +20,6 @@ router.delete('/:id', deleteUsuario);
 router.put('/:id', updateUsuario);
 router.get('/usuarioByEmpresa/:empresaid', usuarioByEmpresa);
 router.get('/usuarioBySucursal/:sucursalid', usuarioBySucursal);
+router.get('/baja/:id', bajaUsuario);
 
 export default router;

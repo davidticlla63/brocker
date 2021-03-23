@@ -70,7 +70,7 @@ export async function getOnePagina(req, res) {
             }
         });
         res.json({
-            data: usuario
+            data: pagina
         });
     } catch (e) {
         console.log(e);
@@ -80,7 +80,7 @@ export async function getOnePagina(req, res) {
 export async function deletePagina(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Pagina.destroy({
+        const deleteRowCount = await Pagina.update({
             where: {
                 id
             }

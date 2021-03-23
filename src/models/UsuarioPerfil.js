@@ -1,10 +1,10 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-
+const uuid = require('uuid/v4');
 const UsuarioPerfil = sequelize.define('UsuarioPerfil', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         primaryKey: true
     },
     usuarioid: {
@@ -29,5 +29,7 @@ const UsuarioPerfil = sequelize.define('UsuarioPerfil', {
     timestamps: false,
     tableName: 'usuario_perfil'
 });
+
+UsuarioPerfil.beforeCreate(usuarioPerfil => usuarioPerfil.id = uuid());
 
 export default UsuarioPerfil;

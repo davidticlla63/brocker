@@ -6,6 +6,7 @@ const Permiso = sequelize.define('Permiso', {
         type: Sequelize.STRING,
         primaryKey: true
     },
+   
     accionid: Sequelize.STRING,
     paginaid: Sequelize.STRING,
     perfilid: Sequelize.STRING,

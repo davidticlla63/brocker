@@ -1,11 +1,12 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
+const uuid = require('uuid/v4');
 
 const SucursalUsuario = sequelize.define('SucursalUsuario', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.STRING,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.UUID
     },
     usuarioid: {
         type: Sequelize.STRING,
@@ -30,6 +31,6 @@ const SucursalUsuario = sequelize.define('SucursalUsuario', {
     tableName: 'sucursal_usuario'
 });
 
-
+SucursalUsuario.beforeCreate(sucursalUsuario => sucursalUsuario.id = uuid());
 
 export default SucursalUsuario;
