@@ -4,6 +4,37 @@ import UsuarioPerfil from "../models/UsuarioPerfil";
 import SucursalUsuario from "../models/SucursalUsuario";
 import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
+import bcrypt from 'bcryptjs'
+
+
+
+export async function login(req, res) {
+    try {
+        console.log(req.params);
+        const { nick,password } = req.params;
+        const usuario = await Usuario.findOne({
+            where: {
+                nick
+            }
+        });
+         
+    // check account found and verify password
+    if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
+        // authentication failed
+        res.json({
+            data: {"estado":false,"messaje":"contraseña no valida!!","usuario":{}}
+        });
+    } else {
+        // authentication successful
+        res.json({
+            data: {"estado":true,"messaje":"Ingreso exitoso!!",usuario}
+        });
+    }
+        
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export async function getUsuarios(req, res) {
     try {
@@ -31,7 +62,7 @@ export async function createUsuario(req, res) {
         usuariomodificacion,
         estado } = req.body;
 
-    const t = await sequelize.transaction();
+    let t = await sequelize.transaction();
     let newUsuario;
     try {
         // get transaction
@@ -40,7 +71,7 @@ export async function createUsuario(req, res) {
         newUsuario = await Usuario.create({
             //nombrecompleto,
             nick,
-            password,
+            password: bcrypt.hashSync(password, 10),
             empresaid,
             personalid,
             usuarioregistro,
@@ -226,134 +257,144 @@ export async function updateUsuario(req, res) {
         personalid,
         usuarioregistro,
         usuariomodificacion,
-        estado} = req.body;
+        estado } = req.body;
 
-        const t = await sequelize.transaction();
-       // let newUsuario;
-        try {
-            // get transaction
-    
-            // step 1
+    const t = await sequelize.transaction();
+    // let newUsuario;
+    try {
+        // get transaction
 
-            const count = await Usuario.update({
-                nick,
-                    password,
-                    empresaid,
-                    personalid,
-                    usuarioregistro,
-                    usuariomodificacion,
-                    fechamodificacion:new Date(),
-                    estado},
-                {where: {
-                    id
-                }}
-                , { transaction: t });
-    
-            const usuarios = await Usuario.findOne({
+        // step 1
+
+        const count = await Usuario.update({
+            nick,
+            password: bcrypt.hashSync(password, 10),
+            empresaid,
+            personalid,
+            usuarioregistro,
+            usuariomodificacion,
+            fechamodificacion: new Date(),
+            estado
+        },
+            {
                 where: {
                     id
                 }
-            }, { transaction: t });
-          
-//registramos los sucursales asignadas
-            await SucursalUsuario.update({
-                    fechamodificacion:new Date(),
-                    estado:'BAJ'},
-                {where: {usuarioid:id
-                }}
-                , { transaction: t });
-    
-            // step 2
-            //registramos los sucursales asignadas
-            await SucursalUsuario.create({
-                sucursalid: sucursal.sucursalid,
+            }
+            , { transaction: t });
+
+        const usuarios = await Usuario.findOne({
+            where: {
+                id
+            }
+        }, { transaction: t });
+
+        //registramos los sucursales asignadas
+        await SucursalUsuario.update({
+            fechamodificacion: new Date(),
+            estado: 'BAJ'
+        },
+            {
+                where: {
+                    usuarioid: id
+                }
+            }
+            , { transaction: t });
+
+        // step 2
+        //registramos los sucursales asignadas
+        await SucursalUsuario.create({
+            sucursalid: sucursal.sucursalid,
+            usuarioid: id,
+            usuarioregistro: usuarioregistro,
+            fechamodificacion: new Date(),
+            fecharegistro: new Date(),
+            estado: 'ACT'
+        }, { transaction: t });
+
+
+        await UsuarioPerfil.update({
+            fechamodificacion: new Date(),
+            estado: 'BAJ'
+        },
+            {
+                where: {
+                    usuarioid: id
+                }
+            }
+            , { transaction: t });
+        // step 3
+        for (let i = 0; i < perfiles.length; i++) {
+            //baja los perfiles asignadas
+
+            //registramos los perfiles asignadas
+            await UsuarioPerfil.create({
+                perfilid: perfiles[i].id,
                 usuarioid: id,
                 usuarioregistro: usuarioregistro,
                 fechamodificacion: new Date(),
                 fecharegistro: new Date(),
                 estado: 'ACT'
             }, { transaction: t });
-    
-
-            await UsuarioPerfil.update({
-                fechamodificacion:new Date(),
-                estado:'BAJ'},
-            {where: {
-                usuarioid:id
-            }}
-            , { transaction: t });
-            // step 3
-            for (let i = 0; i < perfiles.length; i++) {
-//baja los perfiles asignadas
-               
-//registramos los perfiles asignadas
-                await UsuarioPerfil.create({
-                    perfilid: perfiles[i].id,
-                    usuarioid: id,
-                    usuarioregistro: usuarioregistro,
-                    fechamodificacion: new Date(),
-                    fecharegistro: new Date(),
-                    estado: 'ACT'
-                }, { transaction: t });
-            }
-            // commit
-            await t.commit();
-    
-            if (usuarios) {
-                return res.json({
-                    message: 'Usuario created successfully',
-                    data: usuarios
-                });
-            }
-        } catch (err) {
-            // Rollback transaction only if the transaction object is defined
-            if (t) {
-                await t.rollback();
-            }
-            console.log(err);
-            res.status(500).json({
-                message: 'Something goes wrong',
-                data: {}
-            });
-            // throw new Error(err);
         }
+        // commit
+        await t.commit();
 
-   /*  try {
-
-        const usuarios = await Usuario.update({
-            nick,
-                password,
-                empresaid,
-                personalid,
-                usuarioregistro,
-                usuariomodificacion,
-                fechamodificacion:new Date(),
-                estado},
-            {where: {
-                id
-            }}
-        );
-
-        const usuarios = await Usuario.findOne({
-            where: {
-                id
-            }
-        });
-
-      
-
-        return res.json({
-            message: 'Usuario updated successfully',
-            data: usuarios
-        });
-
-    } catch (e) {
-        console.log(e);
+        if (usuarios) {
+            return res.json({
+                message: 'Usuario created successfully',
+                data: usuarios
+            });
+        }
+    } catch (err) {
+        // Rollback transaction only if the transaction object is defined
+        if (t) {
+            await t.rollback();
+        }
+        console.log(err);
         res.status(500).json({
             message: 'Something goes wrong',
             data: {}
         });
-    } */
+        // throw new Error(err);
+    }
+
+    /*  try {
+ 
+         const usuarios = await Usuario.update({
+             nick,
+                 password,
+                 empresaid,
+                 personalid,
+                 usuarioregistro,
+                 usuariomodificacion,
+                 fechamodificacion:new Date(),
+                 estado},
+             {where: {
+                 id
+             }}
+         );
+ 
+         const usuarios = await Usuario.findOne({
+             where: {
+                 id
+             }
+         });
+ 
+       
+ 
+         return res.json({
+             message: 'Usuario updated successfully',
+             data: usuarios
+         });
+ 
+     } catch (e) {
+         console.log(e);
+         res.status(500).json({
+             message: 'Something goes wrong',
+             data: {}
+         });
+     } */
 }
 
 export async function usuarioBySucursal(req, res) {
@@ -402,32 +443,32 @@ export async function usuarioByEmpresa(req, res) {
 
 export async function bajaUsuario(req, res) {
     const { id } = req.params;
-    const { 
+    const {
         //id,
         usuariomodificacion
-         } = req.body;
+    } = req.body;
     try {
-        const updateRowCount = await Usuario.update({   
-            usuariomodificacion,            
-        fechamodificacion:new Date(),
-            estado:"BAJ"
-        },{
+        const updateRowCount = await Usuario.update({
+            usuariomodificacion,
+            fechamodificacion: new Date(),
+            estado: "BAJ"
+        }, {
             where: {
                 id
             }
         });
 
         const usuarios = await Usuario.findOne({
-           where: {
-               id
-           }
-       }//,{ include: Sucursal } 
-       );
+            where: {
+                id
+            }
+        }//,{ include: Sucursal } 
+        );
         res.json({
             message: 'Sucursal baja successfully',
             count: usuarios
         });
-       
+
 
 
 

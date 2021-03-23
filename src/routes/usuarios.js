@@ -3,23 +3,25 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const compression = require("compression");
 const router = Router();
-
-import { createUsuario, getUsuarios, getOneUsuario, deleteUsuario, updateUsuario,usuarioByEmpresa,usuarioBySucursal,bajaUsuario } from "../controllers/usuario.controller";
+//{ createUsuario, getUsuarios, getOneUsuario, deleteUsuario, updateUsuario,usuarioByEmpresa,usuarioBySucursal,bajaUsuario,login } 
+import * as user from "../controllers/usuario.controller";
 
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/usuarios/
-router.post('/', createUsuario);
-router.get('/', getUsuarios);
+router.post('/', user.createUsuario);
+router.get('/', user.getUsuarios);
 
 // /api/usuarios/:usuarioID
-router.get('/:id', getOneUsuario);
-router.delete('/:id', deleteUsuario);
-router.put('/:id', updateUsuario);
-router.get('/usuarioByEmpresa/:empresaid', usuarioByEmpresa);
-router.get('/usuarioBySucursal/:sucursalid', usuarioBySucursal);
-router.get('/baja/:id', bajaUsuario);
+router.get('/:id', user.getOneUsuario);
+router.delete('/:id',user. deleteUsuario);
+router.put('/:id', user.updateUsuario);
+router.post('/login/:nick/:password', user.login);
+//router.put('/login', login);
+router.get('/usuarioByEmpresa/:empresaid', user.usuarioByEmpresa);
+router.get('/usuarioBySucursal/:sucursalid', user.usuarioBySucursal);
+router.get('/baja/:id', user.bajaUsuario);
 
 export default router;

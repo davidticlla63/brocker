@@ -4,8 +4,9 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createPersonal, getPersonals, getOnePersonal, deletePersonal, updatePersonal,bajaPersonal,personalByAreaTrabajo ,personalBySucursal,
-personalByEmpresa} from "../controllers/personal.controller";
+/* import { createPersonal, getPersonals, getOnePersonal, deletePersonal, updatePersonal,bajaPersonal,personalByAreaTrabajo ,personalBySucursal,
+personalByEmpresa} from "../controllers/personal.controller"; */
+import * as personal from "../controllers/personal.controller";
 
 router
     .use(cors())
@@ -21,16 +22,16 @@ router
     //.use(limit(100000000))
     .use(compression());
 // /api/empresas/
-router.post('/', createPersonal);
-router.get('/', getPersonals);
+router.post('/', personal.createPersonal);
+router.get('/',personal. getPersonals);
 
 // /api/empresas/:empresaID
-router.get('/:id', getOnePersonal);
-router.delete('/:id', deletePersonal);
-router.put('/:id', updatePersonal);
-router.put('/baja/:id', bajaPersonal);
-router.get('/personalBySucursal/:sucursalid', personalBySucursal);
-router.get('/personalByAreaTrabajo/:areaTrabajoid', personalByAreaTrabajo);
-router.get('/personalByEmpresa/:empresaid', personalByEmpresa);
+router.get('/:id', personal.getOnePersonal);
+router.delete('/:id', personal.deletePersonal);
+router.put('/:id', personal.updatePersonal);
+router.put('/baja/:id', personal.bajaPersonal);
+router.get('/personalBySucursal/:sucursalid', personal.personalBySucursal);
+router.get('/personalByAreaTrabajo/:areaTrabajoid', personal.personalByAreaTrabajo);
+router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
 
 export default router;

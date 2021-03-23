@@ -163,7 +163,7 @@ export async function createPerfilPermisos(req, res) {
         usuarioregistro
     } = req.body;
 
-    const t = await sequelize.transaction();
+    let t = await sequelize.transaction();
     try {
         await Permiso.update({
             fechamodificacion: new Date(),
@@ -206,16 +206,16 @@ export async function createPerfilPermisos(req, res) {
         await t.commit();
         return res.json({
             message: 'Permisos created successfully',
-            data: listaPermisos
+            data: permisos
         });
 
     } catch (err) {
         // Rollback transaction only if the transaction object is defined
-        if (t) {
+       // if (t) {
             await t.rollback();
             //await newUsuario.destroy();
 
-        }
+        //}
         console.log(err);
         res.status(500).json({
             message: 'Something goes wrong',
