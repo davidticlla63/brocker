@@ -13,7 +13,7 @@ const Asegurado = sequelize.define('Asegurado', {
         type:Sequelize.STRING,
         allowNull: false
     },
-    apellidoparterno: Sequelize.STRING,
+    apellidopaterno: Sequelize.STRING,
     apellidomaterno: Sequelize.STRING,
     nombres: Sequelize.STRING,
     nombrecompleto: Sequelize.STRING,
@@ -27,7 +27,7 @@ const Asegurado = sequelize.define('Asegurado', {
     direccionasegurado:Sequelize.STRING,
 
     //personalcobranza:Sequelize.STRING,
-    apellidoparternocobranza: Sequelize.STRING,
+    apellidopaternocobranza: Sequelize.STRING,
     apellidomaternocobranza: Sequelize.STRING,
     nombrescobranza: Sequelize.STRING,
     nombrecompletocobranza: Sequelize.STRING,
@@ -35,7 +35,7 @@ const Asegurado = sequelize.define('Asegurado', {
     direccioncobranza:Sequelize.STRING,
 
     //nombrerepresentante:Sequelize.STRING,
-    apellidoparternorepresentante: Sequelize.STRING,
+    apellidopaternorepresentante: Sequelize.STRING,
     apellidomaternorepresentante: Sequelize.STRING,
     nombresrepresentante: Sequelize.STRING,
     nombrecompletorepresentante: Sequelize.STRING,

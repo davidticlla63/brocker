@@ -306,7 +306,7 @@ select 'DTICLLA',now(),now(),'ACT','5adfc0c3-5f38-4119-a667-d2dca57cfdb3',id fro
 CREATE TABLE IF NOT EXISTS asegurado(
     id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
     tipoasegurado character varying not null,
-    apellidoparterno character varying,
+    apellidopaterno character varying,
     apellidomaterno character varying,
     nombres character varying not null,
     nombrecompleto character varying not null,

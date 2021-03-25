@@ -15,6 +15,8 @@ import personalRoutes from "./routes/personal";
 import permisoRoutes from "./routes/permisos";
 import departamentoRoutes from "./routes/departamento";
 import accionRoutes  from "./routes/accion"
+import asegusadoRoutes from './routes/asegurado'
+
 
 const bodyParser = require("body-parser");
 var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
@@ -58,4 +60,5 @@ app.use('/api/areaTrabajos', areaTrabajoRoutes);
 app.use('/api/personals', personalRoutes);
 app.use('/api/departamentos', departamentoRoutes);
 app.use('/api/accions', accionRoutes);
+app.use('/api/asegurados', asegusadoRoutes);
 export default app;
