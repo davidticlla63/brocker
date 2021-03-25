@@ -222,14 +222,18 @@ export async function bajaPersonal(req, res) {
 export async function personalBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
-        const perfils = await Personal.findAll({
+        const personals = await Personal.findAll({
          /*    attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
             'fechamodificacion','estado','sucursalid'], */
             where: {
                 sucursalid ,estado:'ACT'
-            }
+            }, 
+            include:[{model:AreaTrabajo, attributes: ['nombre'],require:true},
+                {
+                  model: Sucursal,attributes: ['nombre'],require:true
+                }]
         }); 
-        res.json({ perfils });
+        res.json({ personals });
     } catch (e) {
         console.log(e);
     }

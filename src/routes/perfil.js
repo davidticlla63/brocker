@@ -19,6 +19,7 @@ router.get('/:id', perfil.getOnePerfil);
 router.delete('/:id', perfil.deletePerfil);
 router.put('/:id', perfil.updatePerfil);
 router.get('/perfilPorEmpresa/:empresaid', perfil.getPerfilByEmpresa);
+router.get('/perfilPorSucursal/:sucursalid', perfil.getPerfilBySucursal);
 router.post('/createPermisos/:perfilid', perfil.createPerfilPermisos);
 router.get('/obtenerPermisosXPerfil/:perfilid', perfil.getPermisosPorPerfil);
 

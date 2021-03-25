@@ -11,7 +11,7 @@ const Perfil = sequelize.define('Perfil', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    /* sucursalid:Sequelize.BIGINT, */
+    sucursalid:Sequelize.STRING,
     empresaid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,

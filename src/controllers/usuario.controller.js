@@ -11,65 +11,65 @@ import config from '../config'
 
 export async function login(req, res) {
     try {
-       // console.log(req.params);
-        const { nick,password } = req.body;
-            /*   if(nick ==null || password ==null){
-                    throw new error("usuario y contraseña no pueden estar en blanco");
-                } */
+        // console.log(req.params);
+        const { nick, password } = req.body;
+        /*   if(nick ==null || password ==null){
+                throw new error("usuario y contraseña no pueden estar en blanco");
+            } */
 
-                if (typeof nick === "undefined") {
-                    throw new Error("ingrese el usuario!!!");
-                }
-                if (typeof password === "undefined") {
-                    throw new Error("ingrese el contraseña!!!");
-                }
+        if (typeof nick === "undefined") {
+            throw new Error("ingrese el usuario!!!");
+        }
+        if (typeof password === "undefined") {
+            throw new Error("ingrese el contraseña!!!");
+        }
         const usuario = await Usuario.findOne({
             where: {
                 nick
             }
         });
-         
-        if  (!usuario){
+
+        if (!usuario) {
             throw new Error("no se encontró el usuario");
         }
-    // check account found and verify password
-    if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
-        // authentication failed
-        throw new Error("contraseña no valida!!");
-    } else {
+        // check account found and verify password
+        if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
+            // authentication failed
+            throw new Error("contraseña no valida!!");
+        } else {
 
-        const token = jwt.sign({id:usuario.id},config.SECRET,{
-            expiresIn:86400//24 horas
-        });
-        // authentication successful
+            const token = jwt.sign({ id: usuario.id }, config.SECRET, {
+                expiresIn: 86400//24 horas
+            });
+            // authentication successful
 
 
-        const usuarios = await sequelize.query("select u.id, u.nick,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u "+
-        "inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' "+
-        "INNER JOIN sucursal s on s.id=su.sucursalid "+
-        "inner join personal p on p.id=u.personalid "+
-        "inner join empresa e on e.id=s.empresaid "+
-        "where u.id= '" + usuario.id + "' order by u.nick "
-        , {
-            type: QueryTypes.SELECT
-        });
+            const usuarios = await sequelize.query("select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u " +
+                "inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' " +
+                "left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' " +
+                "left join personal p on p.id=u.personalid  and p.estado='ACT' " +
+                "LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' " +
+                "where u.id= '" + usuario.id + "' and u.estado in ('ACT','SU','ADM') order by u.nick "
+                , {
+                    type: QueryTypes.SELECT
+                });
 
-        const perfiles = await sequelize.query("select pe.id,pe.nombre from  usuario_perfil up "+
-        "INNER JOIN perfil pe on pe.id=up.perfilid "+
-        "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre "
-        , {
-            type: QueryTypes.SELECT
-        });
-        res.json({
-            data: {"estado":true,"messaje":"Ingreso exitoso!!",usuarios,perfiles,"token":token}
-        });
-    }
-        
+            const perfiles = await sequelize.query("select pe.id,pe.nombre,pe.sucursalid from  usuario_perfil up " +
+                "INNER JOIN perfil pe on pe.id=up.perfilid " +
+                "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre "
+                , {
+                    type: QueryTypes.SELECT
+                });
+            res.json({
+                data: { "estado": true, "messaje": "Ingreso exitoso!!", usuarios, perfiles, "token": token }
+            });
+        }
+
     } catch (e) {
         console.log(e);
 
         res.json({
-            data: {estado:false,"error":e.message}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -145,9 +145,9 @@ export async function createUsuario(req, res) {
             }, { transaction: t });
         }
 
-       /*  const token = jwt.sign({id:newUsuario.id},config.SECRET,{
-            expiresIn:86400//24 horas
-        }); */
+        /*  const token = jwt.sign({id:newUsuario.id},config.SECRET,{
+             expiresIn:86400//24 horas
+         }); */
         // commit
         await t.commit();
 
@@ -155,7 +155,7 @@ export async function createUsuario(req, res) {
             return res.json({
                 message: 'Usuario created successfully',
                 //data: {newUsuario,"token":token}
-                data: {newUsuario}
+                data: { newUsuario }
             });
         }
     } catch (err) {
@@ -466,11 +466,11 @@ export async function usuarioByEmpresa(req, res) {
 
 
         const usuarios = await sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " +
-            "inner join personal p on p.id=u.personalid " +
+            "inner join personal p on p.id=u.personalid and p.estado='ACT' " +
             "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " +
-            "INNER JOIN sucursal s on s.id= su.sucursalid " +
+            "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
             "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
-            "INNER JOIN perfil pe on pe.id=up.perfilid " +
+            "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
             "WHERE u.estado='ACT' and u.empresaid= '" + empresaid + "' order by u.id "
             , {
                 type: QueryTypes.SELECT
@@ -483,6 +483,30 @@ export async function usuarioByEmpresa(req, res) {
     }
 }
 
+
+
+export async function usuariosBySucursal(req, res) {
+    try {
+        const { sucursalid } = req.params;
+
+
+        const usuarios = await sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " +
+            "inner join personal p on p.id=u.personalid and p.estado='ACT' " +
+            "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " +
+            "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
+            "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
+            "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
+            "WHERE u.estado='ACT' and su.sucursalid= '" + sucursalid + "' order by u.id "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ usuarios });
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export async function bajaUsuario(req, res) {
     const { id } = req.params;

@@ -6,6 +6,7 @@ import Permiso from "../models/Permiso";
 import Pagina from "../models/Pagina";
 import Accion from "../models/Accion";
 import UsuarioPerfil from "../models/UsuarioPerfil";
+import Sucursal from "../models/Sucursal";
 
 export async function getPerfils(req, res) {
     try {
@@ -23,6 +24,7 @@ export async function createPerfil(req, res) {
     const {
         nombre,
         descripcion,
+        sucursalid,
         empresaid,
         usuarioregistro,
         usuariomodificacion,
@@ -34,6 +36,7 @@ export async function createPerfil(req, res) {
         let newPerfil = await Perfil.create({
             nombre,
             descripcion,
+            sucursalid,
             empresaid,
             usuarioregistro,
             usuariomodificacion,
@@ -41,7 +44,7 @@ export async function createPerfil(req, res) {
             fechamodificacion,
             estado
         }, {
-            fields: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['nombre', 'descripcion','sucursalid', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
         if (newPerfil) {
@@ -96,6 +99,7 @@ export async function updatePerfil(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
+        sucursalid,
         empresaid,
         usuarioregistro,
         usuariomodificacion,
@@ -106,6 +110,7 @@ export async function updatePerfil(req, res) {
         const updateRowCount = await Perfil.update({
             nombre,
             descripcion,
+            sucursalid,
             empresaid,
             usuarioregistro,
             usuariomodificacion,
@@ -149,7 +154,7 @@ export async function getPerfilByEmpresa(req, res) {
             'fechamodificacion','estado','empresaid'], */
             where: {
                 empresaid, estado: 'ACT'
-            }
+            },include:Sucursal
         });
         res.json({ perfils });
     } catch (e) {
@@ -157,6 +162,22 @@ export async function getPerfilByEmpresa(req, res) {
     }
 }
 
+
+export async function getPerfilBySucursal(req, res) {
+    try {
+        const { sucursalid } = req.params;
+        const perfils = await Perfil.findAll({
+            /* attributes: ['id', 'nombre', 'descripcion','fecharegistro',
+            'fechamodificacion','estado','empresaid'], */
+            where: {
+                sucursalid, estado: 'ACT'
+            },include:Sucursal
+        });
+        res.json({ perfils });
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export async function createPerfilPermisos(req, res) {
     const { perfilid } = req.params;

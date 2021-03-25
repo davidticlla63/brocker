@@ -1,7 +1,5 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Personal from "./Personal";
-import Usuario from "./Usuario";
 
 const Asegurado = sequelize.define('Asegurado', {
     id: {
@@ -39,10 +37,10 @@ const Asegurado = sequelize.define('Asegurado', {
     apellidomaternorepresentante: Sequelize.STRING,
     nombresrepresentante: Sequelize.STRING,
     nombrecompletorepresentante: Sequelize.STRING,
-    direccionpresentante:Sequelize.STRING,
-    emailpresentante:Sequelize.STRING,
-    telefonopresentante:Sequelize.STRING,
-    celularpresentante:Sequelize.STRING,
+    direccionrepresentante:Sequelize.STRING,
+    emailrepresentante:Sequelize.STRING,
+    telefonorepresentante:Sequelize.STRING,
+    celularrepresentante:Sequelize.STRING,
 
     sucursalid:Sequelize.STRING,
     ejecutivoid:Sequelize.STRING,

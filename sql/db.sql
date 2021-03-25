@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS perfil(
     fecharegistro timestamp  not null,
     fechamodificacion timestamp,
     estado character varying  not null,
-     --sucursalId integer REFERENCES sucursal(id)
+     sucursalid integer REFERENCES sucursal(id),
      empresaId character varying REFERENCES empresa(id)
 );
 
@@ -330,10 +330,10 @@ CREATE TABLE IF NOT EXISTS asegurado(
     apellidomaternorepresentante character varying ,
     nombresrepresentante character varying ,
     nombrecompletorepresentante character varying ,
-    direccionpresentante character varying ,
-    emailpresentante character varying ,
-    telefonopresentante character varying ,
-    celularpresentante character varying ,
+    direccionrepresentante character varying ,
+    emailrepresentante character varying ,
+    telefonorepresentante character varying ,
+    celularrepresentante character varying ,
     
     usuarioregistro character varying  not null,
     usuariobaja character varying,
