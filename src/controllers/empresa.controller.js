@@ -17,9 +17,11 @@ export async function getEmpresas(req, res) {
 }
 
 export async function createEmpresa(req, res) {
-    const { razonsocial,
+    const {razonsocial,
         descripcion,
         telefono,
+        nit,
+        representante,
         logo,
         fecharegistro = new Date(),
         fechamodificacion, estado } = req.body;
@@ -29,6 +31,8 @@ export async function createEmpresa(req, res) {
             razonsocial,
             descripcion,
             telefono,
+            nit,
+            representante,
             logo,
             fecharegistro,
             fechamodificacion,
@@ -37,6 +41,8 @@ export async function createEmpresa(req, res) {
             fields: ['razonsocial',
                 'descripcion',
                 'telefono',
+                'nit',
+                'representante',
                 'logo',
                 'fecharegistro',
                 'fechamodificacion', 'estado']
@@ -104,7 +110,7 @@ export async function updateEmpresa(req, res) {
     try {
 
 
-       const cant= await Empresa.update({
+        const cant = await Empresa.update({
             razonsocial,
             descripcion,
             telefono,
@@ -115,17 +121,17 @@ export async function updateEmpresa(req, res) {
             usuariomodificacion,
             fecharegistro,
             fechamodificacion
-        },{where:{id}});
+        }, { where: { id } });
 
 
-            const empresas = await Empresa.findOne({
-                where: {
-                    id
-                }
-            }//,{ include: Sucursal } 
-            );
+        const empresas = await Empresa.findOne({
+            where: {
+                id
+            }
+        }//,{ include: Sucursal } 
+        );
 
-      
+
 
         /* const empresas = await Empresa.findAll({
             attributes: ['id',
@@ -177,42 +183,42 @@ export async function updateEmpresa(req, res) {
 }
 
 export async function bajaEmpresa(req, res) {
-     const { id } = req.params;
-     const { 
-         //id,
-         usuariomodificacion,
-         fechamodificacion=new Date()
-          } = req.body;
-     try {
-         const updateRowCount = await Empresa.update({   
-             usuariomodificacion,
-             fechamodificacion,
-             estado:"BAJ"
-         },{
-             where: {
-                 id
-             }
-         });
+    const { id } = req.params;
+    const {
+        //id,
+        usuariomodificacion,
+        fechamodificacion = new Date()
+    } = req.body;
+    try {
+        const updateRowCount = await Empresa.update({
+            usuariomodificacion,
+            fechamodificacion,
+            estado: "BAJ"
+        }, {
+            where: {
+                id
+            }
+        });
 
-         const empresas = await Empresa.findOne({
+        const empresas = await Empresa.findOne({
             where: {
                 id
             }
         }//,{ include: Sucursal } 
         );
-         res.json({
-             message: 'Empresa baja successfully',
-             count: empresas
-         });
-        
- 
- 
- 
-     } catch (e) {
-         console.log(e);
-         res.status(500).json({
-             message: 'Something goes wrong',
-             data: {}
-         });
-     }
- }
+        res.json({
+            message: 'Empresa baja successfully',
+            count: empresas
+        });
+
+
+
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            message: 'Something goes wrong',
+            data: {}
+        });
+    }
+}

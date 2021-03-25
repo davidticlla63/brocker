@@ -12,7 +12,9 @@ import perfilRoutes from "./routes/perfil";
 import paginaRoutes from "./routes/paginas";
 import areaTrabajoRoutes from "./routes/areaTrabajo";
 import personalRoutes from "./routes/personal";
-import permisoRoutes from "./routes/permisos"
+import permisoRoutes from "./routes/permisos";
+import departamentoRoutes from "./routes/departamento";
+import accionRoutes  from "./routes/accion"
 
 const bodyParser = require("body-parser");
 var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
@@ -54,5 +56,6 @@ app.use('/api/permisos', permisoRoutes);
 //sistema
 app.use('/api/areaTrabajos', areaTrabajoRoutes);
 app.use('/api/personals', personalRoutes);
-
+app.use('/api/departamentos', departamentoRoutes);
+app.use('/api/accions', accionRoutes);
 export default app;

@@ -5,15 +5,15 @@ import Permiso from "./permiso";
 const PaginaAccion = sequelize.define('PaginaAccion', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         primaryKey: true
     },
     paginaid: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         allowNull: false
     },
     accionid: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
         allowNull: false
     },
     usuarioregistro: Sequelize.STRING,
@@ -32,6 +32,6 @@ const PaginaAccion = sequelize.define('PaginaAccion', {
 });
 
 
-/* PaginaAccion.hasMany(Permiso, { foreignKey: 'paginaAccionId', sourceKey: 'id' });
-Permiso.belongsTo(PaginaAccion, { foreignKey: 'paginaAccionId', sourceKey: 'id' }); */
+ PaginaAccion.hasMany(Permiso, { foreignKey: 'paginaaccionid', sourceKey: 'id' });
+Permiso.belongsTo(PaginaAccion, { foreignKey: 'paginaaccionid', sourceKey: 'id' }); 
 export default PaginaAccion;

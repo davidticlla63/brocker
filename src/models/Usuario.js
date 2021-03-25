@@ -12,7 +12,7 @@ const Usuario = sequelize.define('Usuario', {
     },
     //nombrecompleto: Sequelize.STRING,
     nick: Sequelize.STRING,
-    password: Sequelize.STRING,
+    password: Sequelize.STRING,    
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),

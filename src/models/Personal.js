@@ -16,10 +16,12 @@ const Personal = sequelize.define('Personal', {
     telefono2: Sequelize.STRING,
     correo1: Sequelize.STRING,
     correo2: Sequelize.STRING,
+    fotoperfil:Sequelize.BLOB,
     sucursalid:Sequelize.STRING,
     areatrabajoid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
+
 
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),

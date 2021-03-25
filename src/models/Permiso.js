@@ -7,8 +7,9 @@ const Permiso = sequelize.define('Permiso', {
         primaryKey: true
     },
    
-    accionid: Sequelize.STRING,
-    paginaid: Sequelize.STRING,
+    /* accionid: Sequelize.STRING,
+    paginaid: Sequelize.STRING, */
+    paginaaccionid:Sequelize.STRING,
     perfilid: Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,

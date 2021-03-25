@@ -2,8 +2,6 @@
 //import { sequelize } from "../database/database";
 import Empresa from "../models/Empresa";
 import Sucursal from "../models/Sucursal";
-import SucursalUsuario from "../models/SucursalUsuario";
-import Usuario from "../models/Usuario";
 
 export async function getSucursals(req, res) {
     try {
@@ -22,6 +20,9 @@ export async function createSucursal(req, res) {
         descripcion,
         telefono,
         actividad,
+        representante,
+        departamentoid,
+        direccion,
         usuarioregistro,
         fecharegistro=new Date(),
         fechamodificacion,
@@ -34,13 +35,17 @@ export async function createSucursal(req, res) {
             descripcion,
             telefono,
             actividad,
+            representante,
+            departamentoid,
+            direccion,
             usuarioregistro,
             fecharegistro,
             fechamodificacion,
             estado,
             empresaid
         }, {
-            fields: ['nombre', 'descripcion', 'telefono', 'actividad','usuarioregistro','fecharegistro',
+            fields: ['nombre', 'descripcion', 'telefono', 'actividad',  'representante',
+            'departamentoid','direccion','usuarioregistro','fecharegistro',
             'fechamodificacion','estado','empresaid']
         });
         if (newSucursal) {
@@ -97,22 +102,27 @@ export async function updateSucursal(req, res) {
         descripcion,
         telefono,
         actividad,
+        representante,
+        departamentoid,
+        direccion,
         fecharegistro,
-        fechamodificacion,
         estado,
         empresaid } = req.body;
     try {
 
 
         const cant= await Sucursal.update({
-            nombre,
-            descripcion,
-            telefono,
-            actividad,
-            fecharegistro,
-            fechamodificacion,
-            estado,
-            empresaid 
+            nombre:nombre,
+            descripcion:descripcion,
+            telefono:telefono,
+            actividad:actividad,
+            representante:representante,
+            departamentoid:departamentoid,
+            direccion:direccion,
+            fecharegistro:fecharegistro,
+            fechamodificacion:new Date(),
+            estado:estado,
+            empresaid:empresaid 
         },{where:{id}});
 
 
@@ -166,7 +176,7 @@ export async function getSucursalByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const sucursal = await Sucursal.findAll({
-            attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','usuarioregistro','fecharegistro',
+            attributes: ['id', 'nombre', 'descripcion','representante', 'departamentoid','direccion', 'telefono', 'actividad','usuarioregistro','fecharegistro',
             'fechamodificacion','estado','empresaid'],
             where: {
                 empresaid ,estado:'ACT'

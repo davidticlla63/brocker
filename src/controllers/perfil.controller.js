@@ -3,6 +3,8 @@ const { QueryTypes } = require('sequelize');
 import Empresa from "../models/Empresa";
 import Perfil from "../models/Perfil";
 import Permiso from "../models/Permiso";
+import Pagina from "../models/Pagina";
+import Accion from "../models/Accion";
 import UsuarioPerfil from "../models/UsuarioPerfil";
 
 export async function getPerfils(req, res) {
@@ -181,8 +183,10 @@ export async function createPerfilPermisos(req, res) {
         for (let i = 0; i < permisos.length; i++) {
             // listaPermisos.push( 
             await Permiso.create({
-                accionid: permisos[i].accionId,
-                paginaid: permisos[i].paginaId,
+               /*  accionid: permisos[i].accionId,
+                paginaid: permisos[i].paginaId, */
+                //accionid: permisos[i].accionId,
+                paginaaccionid: permisos[i].id,
                 perfilid: perfilid,
                 usuarioregistro,
                 usuariomodificacion: usuarioregistro,
@@ -191,8 +195,7 @@ export async function createPerfilPermisos(req, res) {
                 estado: 'ACT'
             }, {
                 fields: [
-                    'accionid',
-                    'paginaid',
+                    'paginaaccionid',
                     'perfilid',
                     'usuarioregistro',
                     'usuariomodificacion',
@@ -211,9 +214,9 @@ export async function createPerfilPermisos(req, res) {
 
     } catch (err) {
         // Rollback transaction only if the transaction object is defined
-       // if (t) {
-            await t.rollback();
-            //await newUsuario.destroy();
+        // if (t) {
+        await t.rollback();
+        //await newUsuario.destroy();
 
         //}
         console.log(err);
@@ -222,5 +225,54 @@ export async function createPerfilPermisos(req, res) {
             data: {}
         });
         // throw new Error(err);
+    }
+}
+
+/* export async function getPermisosPorPerfil(req, res) {
+    const { perfilid } = req.params;
+    console.log(req.params)
+    try {
+
+        const paginas = await Permiso.findAll({
+            where: { estado: 'ACT', perfilid }
+            , include: { model: Pagina, require: true, estado: 'ACT', 
+            include: { model: Accion, estado: 'ACT', require: true } }
+        });
+        res.json({
+            data: paginas
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+ */
+export async function getPermisosPorPerfil(req, res) {
+    const { perfilid } = req.params;
+    try {
+        /*   const permisos = await sequelize.query("select p.id as permisoid, per.id perfilid,per.nombre as nombreperfil,p.paginaid,pag.nombre as nombrepagina,p.accionid , a.nombre as nombreaccion "+
+          "from pagina pag "+
+           "inner join permiso p on p.paginaid=pag.id and p.estado='ACT' "+
+           "inner join accion a on a.id=p.accionid  "+
+           "inner join perfil per on per.id=p.perfilid "+
+           "where per.id= '" + perfilid + "' order by per.id "
+              , {
+                  type: QueryTypes.SELECT
+              }); */
+
+        const permisos = await sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " +
+            "from pagina pag " +
+            "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " +
+            "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " +
+            "inner join accion a on a.id=pa.accionid " +
+            "inner join perfil per on per.id=p.perfilid " +
+            "where per.id= '" + perfilid + "' order by per.id "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ permisos });
+    } catch (e) {
+        console.log(e);
     }
 }

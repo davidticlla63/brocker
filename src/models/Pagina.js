@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 import Accion from "./Accion";
+import PaginaAccion from "./PaginaAccion";
 import Permiso from "./Permiso";
 //  import PaginaAccion from "./PaginaAccion";
 
@@ -37,11 +38,14 @@ const Pagina = sequelize.define('Pagina', {
 Pagina.hasMany(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' });
 Pagina.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' });
 
-Pagina.hasMany(Accion, { foreignKey: 'paginaid', sourceKey: 'id' });
-Accion.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' });
+/* Pagina.hasMany(Accion, { foreignKey: 'paginaid', sourceKey: 'id' });
+Accion.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' }); */
 
-Pagina.hasMany(Permiso, { foreignKey: 'paginaid', sourceKey: 'id' });
-Permiso.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' });
+/* Pagina.hasMany(Permiso, { foreignKey: 'paginaid', sourceKey: 'id' });
+Permiso.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' }); */
+
+Pagina.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
+PaginaAccion.belongsTo(Pagina, { foreignKey: 'paginaid', sourceKey: 'id' });
 
 
 export default Pagina;

@@ -22,12 +22,16 @@ const Sucursal = sequelize.define('sucursal', {
    
     telefono:Sequelize.STRING,
     actividad:Sequelize.STRING,
+    representante:Sequelize.STRING,
+    direccion:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro:Sequelize.DATE(6),
     fechamodificacion:Sequelize.DATE(6),
     estado:Sequelize.STRING,
     empresaid:Sequelize.STRING,
+    departamentoid:Sequelize.STRING,
+
     
 }, {
     timestamps: false,

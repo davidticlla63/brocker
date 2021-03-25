@@ -18,7 +18,7 @@ router.get('/', user.getUsuarios);
 router.get('/:id', user.getOneUsuario);
 router.delete('/:id',user. deleteUsuario);
 router.put('/:id', user.updateUsuario);
-router.post('/login/:nick/:password', user.login);
+router.post('/login', user.login);
 //router.put('/login', login);
 router.get('/usuarioByEmpresa/:empresaid', user.usuarioByEmpresa);
 router.get('/usuarioBySucursal/:sucursalid', user.usuarioBySucursal);

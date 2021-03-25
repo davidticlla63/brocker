@@ -20,5 +20,6 @@ router.delete('/:id', perfil.deletePerfil);
 router.put('/:id', perfil.updatePerfil);
 router.get('/perfilPorEmpresa/:empresaid', perfil.getPerfilByEmpresa);
 router.post('/createPermisos/:perfilid', perfil.createPerfilPermisos);
+router.get('/obtenerPermisosXPerfil/:perfilid', perfil.getPermisosPorPerfil);
 
 export default router;

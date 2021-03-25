@@ -4,35 +4,73 @@ import UsuarioPerfil from "../models/UsuarioPerfil";
 import SucursalUsuario from "../models/SucursalUsuario";
 import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
-import bcrypt from 'bcryptjs'
-
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import config from '../config'
 
 
 export async function login(req, res) {
     try {
-        console.log(req.params);
-        const { nick,password } = req.params;
+       // console.log(req.params);
+        const { nick,password } = req.body;
+            /*   if(nick ==null || password ==null){
+                    throw new error("usuario y contraseña no pueden estar en blanco");
+                } */
+
+                if (typeof nick === "undefined") {
+                    throw new Error("ingrese el usuario!!!");
+                }
+                if (typeof password === "undefined") {
+                    throw new Error("ingrese el contraseña!!!");
+                }
         const usuario = await Usuario.findOne({
             where: {
                 nick
             }
         });
          
+        if  (!usuario){
+            throw new Error("no se encontró el usuario");
+        }
     // check account found and verify password
     if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
         // authentication failed
-        res.json({
-            data: {"estado":false,"messaje":"contraseña no valida!!","usuario":{}}
-        });
+        throw new Error("contraseña no valida!!");
     } else {
+
+        const token = jwt.sign({id:usuario.id},config.SECRET,{
+            expiresIn:86400//24 horas
+        });
         // authentication successful
+
+
+        const usuarios = await sequelize.query("select u.id, u.nick,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u "+
+        "inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' "+
+        "INNER JOIN sucursal s on s.id=su.sucursalid "+
+        "inner join personal p on p.id=u.personalid "+
+        "inner join empresa e on e.id=s.empresaid "+
+        "where u.id= '" + usuario.id + "' order by u.nick "
+        , {
+            type: QueryTypes.SELECT
+        });
+
+        const perfiles = await sequelize.query("select pe.id,pe.nombre from  usuario_perfil up "+
+        "INNER JOIN perfil pe on pe.id=up.perfilid "+
+        "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre "
+        , {
+            type: QueryTypes.SELECT
+        });
         res.json({
-            data: {"estado":true,"messaje":"Ingreso exitoso!!",usuario}
+            data: {"estado":true,"messaje":"Ingreso exitoso!!",usuarios,perfiles,"token":token}
         });
     }
         
     } catch (e) {
         console.log(e);
+
+        res.json({
+            data: {estado:false,"error":e.message}
+        });
     }
 }
 
@@ -106,13 +144,18 @@ export async function createUsuario(req, res) {
                 estado: 'ACT'
             }, { transaction: t });
         }
+
+       /*  const token = jwt.sign({id:newUsuario.id},config.SECRET,{
+            expiresIn:86400//24 horas
+        }); */
         // commit
         await t.commit();
 
         if (newUsuario) {
             return res.json({
                 message: 'Usuario created successfully',
-                data: newUsuario
+                //data: {newUsuario,"token":token}
+                data: {newUsuario}
             });
         }
     } catch (err) {

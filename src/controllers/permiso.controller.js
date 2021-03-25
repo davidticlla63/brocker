@@ -31,15 +31,14 @@ export async function createPermiso(req, res) {
     try {
         //const transaction= sequelize.transaction;
         let newPermiso = await Permiso.create({
-            accionid,
-            paginaid,
+            paginaaccionid,
             perfilid,
             usuarioregistro,
             fecharegistro:new Date(),
             fechamodificacion: new Date(),
             estado
         }, {
-            fields: ['accionid', 'paginaid', 'perfilid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['paginaaccionid', 'perfilid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
             'fechamodificacion', 'estado']
 
             
@@ -94,8 +93,7 @@ export async function deletePermiso(req, res) {
 
 export async function updatePermiso(req, res) {
     const { id } = req.params;
-    const { accionid,
-        paginaid,
+    const { paginaaccionid,
         perfilid,
         usuarioregistro,
         usuariomodificacion,
@@ -105,8 +103,7 @@ export async function updatePermiso(req, res) {
     try {
 
         const cant= await Permiso.update({
-            accionid,
-            paginaid,
+            paginaaccionid,
             perfilid,
             usuarioregistro,
             usuariomodificacion,
