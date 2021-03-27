@@ -17,6 +17,7 @@ const Asegurado = sequelize.define('Asegurado', {
     nombrecompleto: Sequelize.STRING,
     ci: Sequelize.STRING,
     nit: Sequelize.STRING,
+    sexo: Sequelize.STRING,
     telefonoasegurado: Sequelize.STRING,
     telefonodomicilio: Sequelize.STRING,
     telefonotrabajo: Sequelize.STRING,

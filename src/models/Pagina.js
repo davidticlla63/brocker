@@ -19,6 +19,7 @@ const Pagina = sequelize.define('Pagina', {
     badgestyleclass:Sequelize.STRING,
     badge:Sequelize.STRING,
     tipo: Sequelize.STRING,
+    orden: Sequelize.INTEGER,
     paginaid: Sequelize.STRING,
     usuarioregistro: Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,

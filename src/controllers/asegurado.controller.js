@@ -20,6 +20,7 @@ export async function createAsegurado(req, res) {
         nombrecompleto,
         ci,
         nit,
+        sexo,
         telefonoasegurado,
         telefonodomicilio,
         telefonotrabajo,
@@ -49,9 +50,8 @@ export async function createAsegurado(req, res) {
         ejecutivoid,
         carteraid,
         usuarioregistro,
-        usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion } = req.body;
+        usuariomodificacion
+     } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newAsegurado = await Asegurado.create({
@@ -61,6 +61,7 @@ export async function createAsegurado(req, res) {
         nombrecompleto,
         ci,
         nit,
+        sexo,
         telefonoasegurado,
         telefonodomicilio,
         telefonotrabajo,
@@ -91,8 +92,8 @@ export async function createAsegurado(req, res) {
         carteraid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado:'ACT'
         }, {
             fields: ['apellidopaterno',
@@ -101,6 +102,7 @@ export async function createAsegurado(req, res) {
             'nombrecompleto',
             'ci',
             'nit',
+            'sexo',
             'telefonoasegurado',
             'telefonodomicilio',
             'telefonotrabajo',
@@ -188,6 +190,7 @@ export async function updateAsegurado(req, res) {
         nombrecompleto,
         ci,
         nit,
+        sexo,
         telefonoasegurado,
         telefonodomicilio,
         telefonotrabajo,
@@ -216,10 +219,7 @@ export async function updateAsegurado(req, res) {
         sucursalid,
         ejecutivoid,
         carteraid,
-        usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await Asegurado.update({
@@ -229,6 +229,7 @@ export async function updateAsegurado(req, res) {
             nombrecompleto,
             ci,
             nit,
+            sexo,
             telefonoasegurado,
             telefonodomicilio,
             telefonotrabajo,
@@ -257,10 +258,8 @@ export async function updateAsegurado(req, res) {
             sucursalid,
             ejecutivoid,
             carteraid,
-            usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         },{
             where: {
@@ -294,8 +293,6 @@ export async function updateAsegurado(req, res) {
 
 export async function bajaAsegurado(req, res) {
     const { id } = req.params;
-
-   console.log("bajaAsegurado");
     const { 
    //    id,
         usuariobaja
@@ -334,5 +331,17 @@ export async function bajaAsegurado(req, res) {
             message: 'Something goes wrong',
             data: {}
         });
+    }
+}
+
+export async function aseguradosPorSucursal(req, res) {
+    try {
+        const{sucursalid}=req.params;
+        const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid }});
+        res.json({
+            data: asegurados
+        });
+    } catch (e) {
+        console.log(e);
     }
 }

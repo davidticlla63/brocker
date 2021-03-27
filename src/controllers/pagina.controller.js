@@ -2,7 +2,7 @@
 import Accion from "../models/Accion";
 import Pagina from "../models/Pagina";
 import PaginaAccion from "../models/PaginaAccion";
-
+import { sequelize } from "../database/database";
 export async function getPaginas(req, res) {
     try {
 
@@ -68,7 +68,7 @@ export async function getPaginas(req, res) {
                 type: QueryTypes.SELECT
             }); */
         const paginas = await Pagina.findAll({
-            where: { estado: 'ACT', paginaid: null , }
+            where: { estado: 'ACT', paginaid: null  },order:[['orden','ASC']]
             , include: [{
                 model: Pagina,require:true, estado: 'ACT'
                   , 

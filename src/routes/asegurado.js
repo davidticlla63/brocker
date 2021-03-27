@@ -19,5 +19,6 @@ router.get('/:id', asegurados.getOneAsegurado);
 router.delete('/:id', asegurados.deleteAsegurado);
 router.put('/:id', asegurados.updateAsegurado);
 router.put('/baja/:id', asegurados.bajaAsegurado);
+router.get('/aseguradosPorSucursal/:sucuesalid', asegurados.aseguradosPorSucursal);
 
 export default router;
