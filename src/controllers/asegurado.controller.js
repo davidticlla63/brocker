@@ -1,9 +1,10 @@
-
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 import Asegurado from "../models/Asegurado";
 
 export async function getAsegurados(req, res) {
     try {
-        const asegurados = await Asegurado.findAll({ where: { estado: 'ACT' }});
+        const asegurados = await Asegurado.findAll({ where: { estado: 'ACT' } });
         res.json({
             data: asegurados
         });
@@ -14,6 +15,7 @@ export async function getAsegurados(req, res) {
 
 export async function createAsegurado(req, res) {
     const {
+        tipoasegurado,
         apellidopaterno,
         apellidomaterno,
         nombres,
@@ -27,7 +29,8 @@ export async function createAsegurado(req, res) {
         correo,
         fotografia,
         direccionasegurado,
-    
+        fechanacimiento,
+
         //personalcobranza,
         apellidopaternocobranza,
         apellidomaternocobranza,
@@ -35,7 +38,7 @@ export async function createAsegurado(req, res) {
         nombrecompletocobranza,
         telefonocobranza,
         direccioncobranza,
-    
+
         //nombrerepresentante,
         apellidopaternorepresentante,
         apellidomaternorepresentante,
@@ -45,93 +48,103 @@ export async function createAsegurado(req, res) {
         emailrepresentante,
         telefonorepresentante,
         celularrepresentante,
-    
+
+        departamentoid,
         sucursalid,
         ejecutivoid,
         carteraid,
         usuarioregistro,
         usuariomodificacion
-     } = req.body;
+    } = req.body;
     try {
+
+      /*   if (tipoasegurado == 'corporativo') {
+            fechanacimiento= null;
+        } */
         //const transaction= sequelize.transaction;
         let newAsegurado = await Asegurado.create({
+            tipoasegurado,
             apellidopaterno,
-        apellidomaterno,
-        nombres,
-        nombrecompleto,
-        ci,
-        nit,
-        sexo,
-        telefonoasegurado,
-        telefonodomicilio,
-        telefonotrabajo,
-        correo,
-        fotografia,
-        direccionasegurado,
-    
-        //personalcobranza,
-        apellidopaternocobranza,
-        apellidomaternocobranza,
-        nombrescobranza,
-        nombrecompletocobranza,
-        telefonocobranza,
-        direccioncobranza,
-    
-        //nombrerepresentante,
-        apellidopaternorepresentante,
-        apellidomaternorepresentante,
-        nombresrepresentante,
-        nombrecompletorepresentante,
-        direccionrepresentante,
-        emailrepresentante,
-        telefonorepresentante,
-        celularrepresentante,
-    
-        sucursalid,
-        ejecutivoid,
-        carteraid,
+            apellidomaterno,
+            nombres,
+            nombrecompleto,
+            ci,
+            nit,
+            sexo,
+            telefonoasegurado,
+            telefonodomicilio,
+            telefonotrabajo,
+            correo,
+            fotografia,
+            direccionasegurado,
+            fechanacimiento,
+
+            //personalcobranza,
+            apellidopaternocobranza,
+            apellidomaternocobranza,
+            nombrescobranza,
+            nombrecompletocobranza,
+            telefonocobranza,
+            direccioncobranza,
+
+            //nombrerepresentante,
+            apellidopaternorepresentante,
+            apellidomaternorepresentante,
+            nombresrepresentante,
+            nombrecompletorepresentante,
+            direccionrepresentante,
+            emailrepresentante,
+            telefonorepresentante,
+            celularrepresentante,
+
+            departamentoid,
+            sucursalid,
+            ejecutivoid,
+            carteraid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
-            estado:'ACT'
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
+            estado: 'ACT'
         }, {
-            fields: ['apellidopaterno',
-            'apellidomaterno',
-            'nombres',
-            'nombrecompleto',
-            'ci',
-            'nit',
-            'sexo',
-            'telefonoasegurado',
-            'telefonodomicilio',
-            'telefonotrabajo',
-            'correo',
-            'fotografia',
-            'direccionasegurado',
-        
-            //personalcobranza,
-            'apellidopaternocobranza',
-            'apellidomaternocobranza',
-            'nombrescobranza',
-            'nombrecompletocobranza',
-            'telefonocobranza',
-            'direccioncobranza',
-        
-            //nombrerepresentante,
-            'apellidopaternorepresentante',
-            'apellidomaternorepresentante',
-            'nombresrepresentante',
-            'nombrecompletorepresentante',
-            'direccionrepresentante',
-            'emailrepresentante',
-            'telefonorepresentante',
-            'celularrepresentante',
-        
-            'sucursalid',
-            'ejecutivoid',
-            'carteraid',
-             'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['tipoasegurado', 'apellidopaterno',
+                'apellidomaterno',
+                'nombres',
+                'nombrecompleto',
+                'ci',
+                'nit',
+                'sexo',
+                'telefonoasegurado',
+                'telefonodomicilio',
+                'telefonotrabajo',
+                'correo',
+                'fotografia',
+                'direccionasegurado',
+                'fechanacimiento',
+
+                //personalcobranza,
+                'apellidopaternocobranza',
+                'apellidomaternocobranza',
+                'nombrescobranza',
+                'nombrecompletocobranza',
+                'telefonocobranza',
+                'direccioncobranza',
+
+                //nombrerepresentante,
+                'apellidopaternorepresentante',
+                'apellidomaternorepresentante',
+                'nombresrepresentante',
+                'nombrecompletorepresentante',
+                'direccionrepresentante',
+                'emailrepresentante',
+                'telefonorepresentante',
+                'celularrepresentante',
+
+                'departamentoid',
+                'sucursalid',
+                'ejecutivoid',
+                'carteraid',
+                'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
         if (newAsegurado) {
@@ -184,7 +197,7 @@ export async function deleteAsegurado(req, res) {
 
 export async function updateAsegurado(req, res) {
     const { id } = req.params;
-    const {  apellidopaterno,
+    const { tipoasegurado, apellidopaterno,
         apellidomaterno,
         nombres,
         nombrecompleto,
@@ -197,7 +210,8 @@ export async function updateAsegurado(req, res) {
         correo,
         fotografia,
         direccionasegurado,
-    
+        fechanacimiento,
+
         //personalcobranza,
         apellidopaternocobranza,
         apellidomaternocobranza,
@@ -205,7 +219,7 @@ export async function updateAsegurado(req, res) {
         nombrecompletocobranza,
         telefonocobranza,
         direccioncobranza,
-    
+
         //nombrerepresentante,
         apellidopaternorepresentante,
         apellidomaternorepresentante,
@@ -215,7 +229,8 @@ export async function updateAsegurado(req, res) {
         emailrepresentante,
         telefonorepresentante,
         celularrepresentante,
-    
+
+        departamentoid,
         sucursalid,
         ejecutivoid,
         carteraid,
@@ -223,6 +238,7 @@ export async function updateAsegurado(req, res) {
         estado } = req.body;
     try {
         const updateRowCount = await Asegurado.update({
+            tipoasegurado,
             apellidopaterno,
             apellidomaterno,
             nombres,
@@ -236,7 +252,8 @@ export async function updateAsegurado(req, res) {
             correo,
             fotografia,
             direccionasegurado,
-        
+            fechanacimiento,
+
             //personalcobranza,
             apellidopaternocobranza,
             apellidomaternocobranza,
@@ -244,7 +261,7 @@ export async function updateAsegurado(req, res) {
             nombrecompletocobranza,
             telefonocobranza,
             direccioncobranza,
-        
+
             //nombrerepresentante,
             apellidopaternorepresentante,
             apellidomaternorepresentante,
@@ -254,14 +271,15 @@ export async function updateAsegurado(req, res) {
             emailrepresentante,
             telefonorepresentante,
             celularrepresentante,
-        
+
+            departamentoid,
             sucursalid,
             ejecutivoid,
             carteraid,
             usuariomodificacion,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             estado
-        },{
+        }, {
             where: {
                 id
             }
@@ -277,7 +295,7 @@ export async function updateAsegurado(req, res) {
             message: 'Asegurado update successfully',
             count: asegurados
         });
-       
+
 
 
 
@@ -293,18 +311,18 @@ export async function updateAsegurado(req, res) {
 
 export async function bajaAsegurado(req, res) {
     const { id } = req.params;
-    const { 
-   //    id,
+    const {
+        //    id,
         usuariobaja
-         } = req.body;
+    } = req.body;
     try {
-       // var moment = require('moment');
-        const updateRowCount = await Asegurado.update({   
+        // var moment = require('moment');
+        const updateRowCount = await Asegurado.update({
             usuariobaja,
-           /*  fechamodificacion:moment().format(), */
-           fechambaja:new Date(),
-            estado:'BAJ'
-        },{
+            /*  fechamodificacion:moment().format(), */
+            fechambaja: new Date(),
+            estado: 'BAJ'
+        }, {
             where: {
                 id
             }
@@ -314,14 +332,14 @@ export async function bajaAsegurado(req, res) {
             where: {
                 id
             }
-        } 
+        }
         );
-        
+
         res.json({
             message: 'Asegurado baja successfully',
             count: asegurados
         });
-       
+
 
 
 
@@ -336,11 +354,60 @@ export async function bajaAsegurado(req, res) {
 
 export async function aseguradosPorSucursal(req, res) {
     try {
-        const{sucursalid}=req.params;
-        const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid }});
+        const { sucursalid } = req.params;
+        const asegurados = await Asegurado.findAll({ where: { estado: 'ACT', sucursalid } });
         res.json({
             data: asegurados
         });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+export async function aseguradosPorSucursalYTipo(req, res) {
+    try {
+        const { sucursalid, tipoasegurado } = req.params;
+
+        //console.log(req.params);
+
+        //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid:sucursalid ,tipoasegurado}});
+
+        let string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " +
+            " from asegurado a " +
+            "inner join personal e on e.id=a.ejecutivoid "+
+            "inner join personal c on c.id = a.carteraid "+
+            "inner join departamento d on d.id = a.departamentoid "+
+            " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.id "
+        //console.log(string)
+        const asegurados = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function aseguradosPorEmpresaYTipo(req, res) {
+    try {
+        const { empresaid, tipoasegurado } = req.params;
+        //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
+        let query = "select a.*, ej.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " +
+            "from asegurado a " +
+            "inner join sucursal s on s.id=a.sucursalid " +
+            " inner join empresa e on e.id=s.empresaid " +
+            "inner join personal ej on ej.id=a.ejecutivoid "+
+            "inner join personal c on c.id = a.carteraid "+
+            "inner join departamento d on d.id = a.departamentoid "+
+            "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.id ";
+        console.log(query)
+        const asegurados = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
     } catch (e) {
         console.log(e);
     }

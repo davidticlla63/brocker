@@ -24,6 +24,7 @@ const Asegurado = sequelize.define('Asegurado', {
     correo: Sequelize.STRING,
     fotografia:Sequelize.BLOB,
     direccionasegurado:Sequelize.STRING,
+    fechanacimiento:Sequelize.DATE,
 
     //personalcobranza:Sequelize.STRING,
     apellidopaternocobranza: Sequelize.STRING,
@@ -43,6 +44,7 @@ const Asegurado = sequelize.define('Asegurado', {
     telefonorepresentante:Sequelize.STRING,
     celularrepresentante:Sequelize.STRING,
 
+    departamentoid:Sequelize.STRING,
     sucursalid:Sequelize.STRING,
     ejecutivoid:Sequelize.STRING,
     carteraid:Sequelize.STRING,

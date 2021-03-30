@@ -20,5 +20,7 @@ router.delete('/:id', asegurados.deleteAsegurado);
 router.put('/:id', asegurados.updateAsegurado);
 router.put('/baja/:id', asegurados.bajaAsegurado);
 router.get('/aseguradosPorSucursal/:sucuesalid', asegurados.aseguradosPorSucursal);
+router.get('/aseguradosPorSucursalYTipo/:sucursalid/:tipoasegurado', asegurados.aseguradosPorSucursalYTipo);
+router.get('/aseguradosPorEmpresaYTipo/:empresaid/:tipoasegurado', asegurados.aseguradosPorEmpresaYTipo);
 
 export default router;

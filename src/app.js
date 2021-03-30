@@ -16,6 +16,12 @@ import permisoRoutes from "./routes/permisos";
 import departamentoRoutes from "./routes/departamento";
 import accionRoutes  from "./routes/accion"
 import asegusadoRoutes from './routes/asegurado'
+import companiaRoutes from './routes/companiaSeguro'
+import tiporamoRoutes from './routes/tipoRamo'
+import ramoRoutes from './routes/ramo'
+import bancoRoutes from './routes/banco'
+import subramoRoutes from './routes/subramo'
+import ramoCompaniaRoutes from './routes/ramoCompania'
 
 
 const bodyParser = require("body-parser");
@@ -55,10 +61,18 @@ app.use('/api/sucursalUsuarios', sucursalUsuarioRoutes);
 app.use('/api/perfils', perfilRoutes);
 app.use('/api/paginas', paginaRoutes);
 app.use('/api/permisos', permisoRoutes);
-//sistema
+app.use('/api/accions', accionRoutes);
+//sistema asegurado
 app.use('/api/areaTrabajos', areaTrabajoRoutes);
 app.use('/api/personals', personalRoutes);
 app.use('/api/departamentos', departamentoRoutes);
-app.use('/api/accions', accionRoutes);
 app.use('/api/asegurados', asegusadoRoutes);
+//
+app.use('/api/companias', companiaRoutes);
+app.use('/api/tiporamos', tiporamoRoutes);
+app.use('/api/ramos', ramoRoutes); 
+app.use('/api/bancos', bancoRoutes);
+app.use('/api/subramos', subramoRoutes);
+app.use('/api/ramoCompanias', ramoCompaniaRoutes);
+
 export default app;

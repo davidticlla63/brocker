@@ -6,6 +6,10 @@ import Perfil from "./Perfil";
 import AreaTrabajo from "./AreaTrabajo";
 import Usuario from "./Usuario";
 import Departamento from "./Departamento";
+import CompaniaSeguro from "./CompaniaSeguro";
+import Ramo from "./Ramo";
+import TipoRamo from "./TipoRamo";
+import Banco from "./Banco";
 
 const Empresa = sequelize.define('Empresa', {
     id: {
@@ -65,4 +69,16 @@ Usuario.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
 
 Empresa.hasMany(Departamento, { foreignKey: 'empresaid', sourceKey: 'id' });
 Departamento.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(CompaniaSeguro, { foreignKey: 'empresaid', sourceKey: 'id' });
+CompaniaSeguro.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(Ramo, { foreignKey: 'empresaid', sourceKey: 'id' });
+Ramo.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(TipoRamo, { foreignKey: 'empresaid', sourceKey: 'id' });
+TipoRamo.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
+
+Empresa.hasMany(Banco, { foreignKey: 'empresaid', sourceKey: 'id' });
+Banco.belongsTo(Empresa, { foreignKey: 'empresaid', sourceKey: 'id' });
 export default Empresa;

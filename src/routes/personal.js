@@ -31,7 +31,10 @@ router.delete('/:id', personal.deletePersonal);
 router.put('/:id', personal.updatePersonal);
 router.put('/baja/:id', personal.bajaPersonal);
 router.get('/personalBySucursal/:sucursalid', personal.personalBySucursal);
-router.get('/personalByAreaTrabajo/:areaTrabajoid', personal.personalByAreaTrabajo);
+router.get('/personalByAreaTrabajo/:areatrabajoid', personal.personalByAreaTrabajo);
 router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
+//router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
+router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid', personal.personalByAreaTrabajoYSucursal);
+router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid', personal.personalByAreaTrabajoYEmpresa);
 
 export default router;

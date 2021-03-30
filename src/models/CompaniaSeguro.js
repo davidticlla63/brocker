@@ -28,6 +28,7 @@ const CompaniaSeguro = sequelize.define('CompaniaSeguro', {
     nrocuenta2:Sequelize.STRING,
     banco2:Sequelize.STRING,
     tipomoneda2:Sequelize.STRING,
+    empresaid:Sequelize.STRING,
 
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
