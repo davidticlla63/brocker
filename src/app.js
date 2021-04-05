@@ -22,6 +22,8 @@ import ramoRoutes from './routes/ramo'
 import bancoRoutes from './routes/banco'
 import subramoRoutes from './routes/subramo'
 import ramoCompaniaRoutes from './routes/ramoCompania'
+import tipoPolizaRoutes from './routes/tipoPoliza'
+import polizaRoutes from './routes/poliza'
 
 
 const bodyParser = require("body-parser");
@@ -74,5 +76,8 @@ app.use('/api/ramos', ramoRoutes);
 app.use('/api/bancos', bancoRoutes);
 app.use('/api/subramos', subramoRoutes);
 app.use('/api/ramoCompanias', ramoCompaniaRoutes);
+
+app.use('/api/tipoPolizas', tipoPolizaRoutes);
+app.use('/api/polizas',polizaRoutes);
 
 export default app;

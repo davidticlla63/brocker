@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
+import Poliza from "./Poliza";
 
-const SubRamo = sequelize.define('SubRamo', {
+const TipoPoliza = sequelize.define('TipoPoliza', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
@@ -9,11 +10,6 @@ const SubRamo = sequelize.define('SubRamo', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    ramospvs:{
-        type:Sequelize.STRING,
-        //field:'ramo_spvs'
-    },
-    ramoid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
@@ -26,9 +22,9 @@ const SubRamo = sequelize.define('SubRamo', {
 
 }, {
     timestamps: false,
-    tableName: 'sub_ramo'
+    tableName: 'tipo_poliza'
 });
-/* SubRamo.hasMany(PaginaSubRamo, { foreignKey: 'accionid', sourceKey: 'id' });
-PaginaSubRamo.belongsTo(SubRamo, { foreignKey: 'accionid', sourceKey: 'id' }); */
+TipoPoliza.hasMany(Poliza, { foreignKey: 'companiaseguroid', sourceKey: 'id' });
+Poliza.belongsTo(TipoPoliza, { foreignKey: 'companiaseguroid', sourceKey: 'id' });
 
-export default SubRamo;
+export default TipoPoliza;

@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
+import Poliza from "./Poliza";
 
 const CompaniaSeguro = sequelize.define('CompaniaSeguro', {
     id: {
@@ -46,7 +47,7 @@ const CompaniaSeguro = sequelize.define('CompaniaSeguro', {
     tableName: 'compania_seguro'
 });
 
-/* CompaniaSeguro.hasMany(Permiso, { foreignKey: 'accionid', sourceKey: 'id' });
-Permiso.belongsTo(CompaniaSeguro, { foreignKey: 'accionid', sourceKey: 'id' }); */
+CompaniaSeguro.hasMany(Poliza, { foreignKey: 'accionid', sourceKey: 'id' });
+Poliza.belongsTo(CompaniaSeguro, { foreignKey: 'accionid', sourceKey: 'id' });
 
 export default CompaniaSeguro;

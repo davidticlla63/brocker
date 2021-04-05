@@ -10,9 +10,9 @@ const Ramo = sequelize.define('Ramo', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    ramoSpvs:{
-        type:Sequelize.STRING,
-        field:'ramo_spvs'
+    ramospvs:{
+        type:Sequelize.STRING//,
+        //field:'ramo_spvs'
     },
     tiporamoid:Sequelize.STRING,//tipo de riesgo
     //companiaseguroid:Sequelize.STRING,//compañia
