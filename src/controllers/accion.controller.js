@@ -44,8 +44,7 @@ export async function createAccion(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -80,6 +79,9 @@ export async function deleteAccion(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -124,8 +126,7 @@ export async function updateAccion(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -170,8 +171,7 @@ export async function bajaAccion(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }

@@ -9,6 +9,9 @@ export async function getBancos(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -23,6 +26,9 @@ export async function bancosPorEmpresa(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -61,8 +67,7 @@ export async function createBanco(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -80,6 +85,9 @@ export async function getOneBanco(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -97,6 +105,9 @@ export async function deleteBanco(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -141,8 +152,7 @@ export async function updateBanco(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -186,8 +196,7 @@ export async function bajaBanco(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }

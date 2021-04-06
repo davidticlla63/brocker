@@ -28,6 +28,9 @@ export async function getSucursalUsuarios(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -65,8 +68,7 @@ export async function createSucursalUsuario(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -84,6 +86,9 @@ export async function getOneSucursalUsuario(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -101,6 +106,9 @@ export async function deleteSucursalUsuario(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -144,8 +152,7 @@ export async function updateSucursalUsuario(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 
@@ -164,5 +171,8 @@ export async function getSucursalUsuarioByEmpresa(req, res) {
         res.json({ sucursalUsuario });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }

@@ -13,6 +13,9 @@ export async function getEmpresas(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -56,8 +59,7 @@ export async function createEmpresa(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -75,6 +77,9 @@ export async function getOneEmpresa(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -92,6 +97,9 @@ export async function deleteEmpresa(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -176,8 +184,7 @@ export async function updateEmpresa(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -217,8 +224,7 @@ export async function bajaEmpresa(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }

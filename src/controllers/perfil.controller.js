@@ -17,6 +17,9 @@ export async function getPerfils(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -56,8 +59,7 @@ export async function createPerfil(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -75,6 +77,9 @@ export async function getOnePerfil(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -92,6 +97,9 @@ export async function deletePerfil(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -139,8 +147,7 @@ export async function updatePerfil(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -159,6 +166,9 @@ export async function getPerfilByEmpresa(req, res) {
         res.json({ perfils });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -176,6 +186,9 @@ export async function getPerfilBySucursal(req, res) {
         res.json({ perfils });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -242,8 +255,7 @@ export async function createPerfilPermisos(req, res) {
         //}
         console.log(err);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
         // throw new Error(err);
     }
@@ -295,5 +307,8 @@ export async function getPermisosPorPerfil(req, res) {
         res.json({ permisos });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }

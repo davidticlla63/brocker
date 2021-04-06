@@ -1,47 +1,74 @@
 
-import TipoPoliza from "../models/TipoPoliza";
+import Archivo from "../models/Archivo";
 
-export async function getTipoPolizas(req, res) {
+export async function getArchivos(req, res) {
+    const { codigo } = req.params;
     try {
-        const tipoPolizas = await TipoPoliza.findAll({ where: { estado: 'ACT' }});
+        const archivos = await Archivo.findAll({ where: { estado: 'ACT' ,codigo}});
         res.json({
-            data: tipoPolizas
+            data: archivos
         });
     } catch (e) {
         console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
     }
 }
 
-export async function createTipoPoliza(req, res) {
+
+
+export async function getArchivosCodigo(req, res) {
+    try {
+        const archivos = await Archivo.findAll({ where: { estado: 'ACT' }});
+        res.json({
+            data: archivos
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+export async function createArchivo(req, res) {
     const {
         nombre,
         descripcion,
+        extension,
+        archivo,
+        tipo,
+        codigo,
+        aseguradoid,
+        sucursalid,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro= new Date(),
-        fechamodificacion,
+        fechamodificacion= new Date(),
         estado='ACT' } = req.body;
     try {
         //const transaction= sequelize.transaction;
-        let newTipoPoliza = await TipoPoliza.create({
+        let newArchivo = await Archivo.create({
             nombre,
             descripcion,
+            extension,
+            archivo,
+            tipo,
+            codigo,
+            aseguradoid,
+            sucursalid,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
             estado
         }, {
-            fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['nombre', 'descripcion', 'extension',
+            'archivo',
+            'tipo',
+            'codigo',
+            'aseguradoid',
+            'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
-        if (newTipoPoliza) {
+        if (newArchivo) {
             return res.json({
-                message: 'TipoPoliza created successfully',
-                data: newTipoPoliza
+                message: 'Archivo created successfully',
+                data: newArchivo
             });
         }
     } catch (e) {
@@ -52,10 +79,10 @@ export async function createTipoPoliza(req, res) {
     }
 }
 
-export async function getOneTipoPoliza(req, res) {
+export async function getOneArchivo(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await TipoPoliza.findOne({
+        const usuario = await Archivo.findOne({
             where: {
                 id
             }
@@ -71,16 +98,17 @@ export async function getOneTipoPoliza(req, res) {
     }
 }
 
-export async function deleteTipoPoliza(req, res) {
+export async function deleteArchivo(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await TipoPoliza.destroy({
+        const deleteRowCount = await Archivo.update({  estado:'ACT'},{
+          
             where: {
                 id
             }
         });
         res.json({
-            message: 'TipoPoliza deleted successfully',
+            message: 'Archivo deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -91,19 +119,31 @@ export async function deleteTipoPoliza(req, res) {
     }
 }
 
-export async function updateTipoPoliza(req, res) {
+export async function updateArchivo(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
+        extension,
+        archivo,
+        tipo,
+        codigo,
+        aseguradoid,
+        sucursalid,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
         fechamodificacion,
         estado } = req.body;
     try {
-        const updateRowCount = await TipoPoliza.update({
+        const updateRowCount = await Archivo.update({
             nombre,
             descripcion,
+            extension,
+            archivo,
+            tipo,
+            codigo,
+            aseguradoid,
+            sucursalid,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
@@ -115,15 +155,15 @@ export async function updateTipoPoliza(req, res) {
             }
         });
 
-        const tipoPolizas = await TipoPoliza.findOne({
+        const archivos = await Archivo.findOne({
             where: {
                 id
             }
         }
         );
         res.json({
-            message: 'TipoPoliza update successfully',
-            count: tipoPolizas
+            message: 'Archivo update successfully',
+            count: archivos
         });
        
 
@@ -138,17 +178,17 @@ export async function updateTipoPoliza(req, res) {
 }
 
 
-export async function bajaTipoPoliza(req, res) {
+export async function bajaArchivo(req, res) {
     const { id } = req.params;
 
-   console.log("bajaTipoPoliza");
+   console.log("bajaArchivo");
     const { 
    //    id,
         usuariomodificacion
          } = req.body;
     try {
        // var moment = require('moment');
-        const updateRowCount = await TipoPoliza.update({   
+        const updateRowCount = await Archivo.update({   
             usuariomodificacion,
            /*  fechamodificacion:moment().format(), */
            fechamodificacion:new Date(),
@@ -159,7 +199,7 @@ export async function bajaTipoPoliza(req, res) {
             }
         });
 
-        const tipoPolizas = await TipoPoliza.findOne({
+        const archivos = await Archivo.findOne({
             where: {
                 id
             }
@@ -167,8 +207,8 @@ export async function bajaTipoPoliza(req, res) {
         );
         
         res.json({
-            message: 'TipoPoliza baja successfully',
-            count: tipoPolizas
+            message: 'Archivo baja successfully',
+            count: archivos
         });
        
 

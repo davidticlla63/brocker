@@ -83,6 +83,9 @@ export async function getUsuarios(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -169,8 +172,7 @@ export async function createUsuario(req, res) {
         }
         console.log(err);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
         // throw new Error(err);
     }
@@ -269,6 +271,9 @@ export async function getOneUsuario(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -286,6 +291,9 @@ export async function deleteUsuario(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -396,8 +404,7 @@ export async function updateUsuario(req, res) {
         }
         console.log(err);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
         // throw new Error(err);
     }
@@ -456,6 +463,9 @@ export async function usuarioBySucursal(req, res) {
         res.json({ usuarios });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -480,6 +490,9 @@ export async function usuarioByEmpresa(req, res) {
         res.json({ usuarios });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -505,6 +518,9 @@ export async function usuariosBySucursal(req, res) {
         res.json({ usuarios });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -542,8 +558,7 @@ export async function bajaUsuario(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }

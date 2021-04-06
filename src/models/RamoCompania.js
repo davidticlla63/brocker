@@ -10,6 +10,7 @@ const RamoCompania = sequelize.define('RamoCompania', {
     ramoid:Sequelize.STRING,
     companiaseguroid:Sequelize.STRING,
     porcentajecomision:Sequelize.DECIMAL,
+    porcentajecomisioncredito:Sequelize.DECIMAL,
     porcentajeprima:Sequelize.DECIMAL,
     porcentajeprimacredito:Sequelize.DECIMAL,
     nota:Sequelize.STRING,

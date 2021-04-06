@@ -1,5 +1,6 @@
-
+import { sequelize } from "../database/database";
 import RamoCompania from "../models/RamoCompania";
+const { QueryTypes } = require('sequelize');
 
 export async function getRamoCompania(req, res) {
     try {
@@ -9,6 +10,9 @@ export async function getRamoCompania(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -17,12 +21,22 @@ export async function ramoCompaniaPorRamo(req, res) {
         ramoid } = req.params;
     try {
         console.log(req.params)
-        const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
+        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
+
+        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
+        "inner join ramo r on r.id=rc.ramoid " +
+        "where r.id= '" + ramoid + "' order by rc.id "
+        , {
+            type: QueryTypes.SELECT
+        });
         res.json({
             data: ramoCompania
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -30,23 +44,31 @@ export async function ramoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        console.log(req.params)
-        const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', companiaseguroid } });
+        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "where rc.companiaseguroid= '" + companiaseguroid + "' order by rc.id "
+            , {
+                type: QueryTypes.SELECT
+            });
         res.json({
             data: ramoCompania
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
 export async function createRamoCompania(req, res) {
     const {
         porcentajecomision,
+        porcentajecomisioncredito,
         porcentajeprima,
         porcentajeprimacredito,
         nota,
-        notacretido,
+        notacredito,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
@@ -56,12 +78,22 @@ export async function createRamoCompania(req, res) {
         companiaseguroid } = req.body;
     try {
         //const transaction= sequelize.transaction;
+
+        const regRamoCompanias=await RamoCompania.findAll({ where :{ramoid,companiaseguroid,estado:'ACT'}});
+        console.log(regRamoCompanias);
+        if (regRamoCompanias.length > 0) {
+            // authentication failed
+            throw new Error("Ya existe Ramo asignado a la Compania!!");
+        }
+
+
         let newRamoCompania = await RamoCompania.create({
             porcentajecomision,
+            porcentajecomisioncredito,
             porcentajeprima,
             porcentajeprimacredito,
             nota,
-            notacretido,
+            notacredito,
 
             usuarioregistro,
             usuariomodificacion,
@@ -72,10 +104,11 @@ export async function createRamoCompania(req, res) {
             companiaseguroid
         }, {
             fields: ['porcentajecomision',
+                'porcentajecomisioncredito',
                 'porcentajeprima',
                 'porcentajeprimacredito',
                 'nota',
-                'notacretido', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'notacredito', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado',
                 'ramoid', 'companiaseguroid']
         });
@@ -87,9 +120,8 @@ export async function createRamoCompania(req, res) {
         }
     } catch (e) {
         console.log(e);
-        res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+        res.json({
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -107,6 +139,9 @@ export async function getOneRamoCompania(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -124,16 +159,20 @@ export async function deleteRamoCompania(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
 export async function updateRamoCompania(req, res) {
     const { id } = req.params;
     const { porcentajecomision,
+        porcentajecomisioncredito,
         porcentajeprima,
         porcentajeprimacredito,
         nota,
-        notacretido,
+        notacredito,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
@@ -142,17 +181,24 @@ export async function updateRamoCompania(req, res) {
         ramoid,
         companiaseguroid } = req.body;
     try {
+        const regRamoCompanias=await RamoCompania.findAll({ where :{ramoid,companiaseguroid,estado:'ACT'}});
+        console.log(regRamoCompanias);
+        if (regRamoCompanias.length > 0) {
+            // authentication failed
+            throw new Error("Ya existe Ramo asignado a la Compania!!");
+        }
         const updateRowCount = await RamoCompania.update({
             porcentajecomision,
+            porcentajecomisioncredito,
             porcentajeprima,
             porcentajeprimacredito,
             nota,
-            notacretido,
+            notacredito,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
-            estado, 
+            estado,
             ramoid,
             companiaseguroid
         }, {
@@ -178,8 +224,7 @@ export async function updateRamoCompania(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -224,8 +269,7 @@ export async function bajaRamoCompania(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }

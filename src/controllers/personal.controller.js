@@ -13,6 +13,9 @@ export async function getPersonals(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -75,8 +78,7 @@ export async function createPersonal(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -94,6 +96,9 @@ export async function getOnePersonal(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -111,6 +116,9 @@ export async function deletePersonal(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -171,8 +179,7 @@ export async function updatePersonal(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -213,8 +220,7 @@ export async function bajaPersonal(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -236,6 +242,9 @@ export async function personalBySucursal(req, res) {
         res.json({ personals });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -255,6 +264,9 @@ export async function personalByEmpresa(req, res) {
         res.json({ personals });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -271,6 +283,9 @@ export async function personalByAreaTrabajo(req, res) {
         res.json({ personals });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -288,6 +303,9 @@ export async function personalByAreaTrabajoYSucursal(req, res) {
         res.json({personals });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -312,5 +330,8 @@ export async function personalByAreaTrabajoYEmpresa(req, res) {
         res.json({ personals });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }

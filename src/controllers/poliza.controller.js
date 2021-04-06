@@ -9,6 +9,9 @@ export async function getPolizas(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -161,8 +164,7 @@ export async function createPoliza(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -180,6 +182,9 @@ export async function getOnePoliza(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -196,6 +201,9 @@ export async function polizasPorSucursal(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -213,6 +221,9 @@ export async function deletePoliza(req, res) {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
 }
 
@@ -331,8 +342,7 @@ export async function updatePoliza(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
         });
     }
 }
@@ -377,8 +387,34 @@ export async function bajaPoliza(req, res) {
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function getPolizaPorTipoYSucursal(req, res) {
+    const { tipopolizaid,sucursalid } = req.params;
+    try {
+
+        const permisos =  await Poliza.findAll({where :{tipopolizaid,sucursalid, estado:'ACT'}});
+        
+        /* await sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " +
+            "from pagina pag " +
+            "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " +
+            "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " +
+            "inner join accion a on a.id=pa.accionid " +
+            "inner join perfil per on per.id=p.perfilid " +
+            "where per.id= '" + perfilid + "' order by per.id "
+            , {
+                type: QueryTypes.SELECT
+            }); */
+
+        res.json({ permisos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
         });
     }
 }

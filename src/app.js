@@ -24,19 +24,17 @@ import subramoRoutes from './routes/subramo'
 import ramoCompaniaRoutes from './routes/ramoCompania'
 import tipoPolizaRoutes from './routes/tipoPoliza'
 import polizaRoutes from './routes/poliza'
-
+import archivoRoutes from './routes/archivo'
+import contratanteRoutes from './routes/contratante'
 
 const bodyParser = require("body-parser");
 var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
   var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoded' })
 
-/*   var moment = require('moment'); // require
-moment().format();  */
 
-/* console.log(moment().format('YYYY-MM-DD h:mm:ss a')); */
-//console.log(moment().format());
-// initialization
 const app = express();
+
+
 
 // middlewares
 
@@ -46,14 +44,6 @@ app.use(urlencodedParser);
 app.use(morgan('dev'));
 app.use(json());
 
-/* const bodyParser = require('body-parser')
-const multer = require('multer');
-app.use(bodyParser.urlencoded({ extended: true })) */
-
-//app.use(limit(100000000));
-
-// routes
-//seguridad
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/empresas', empresaRoutes);
@@ -79,5 +69,7 @@ app.use('/api/ramoCompanias', ramoCompaniaRoutes);
 
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas',polizaRoutes);
+app.use('/api/archivos',archivoRoutes);
+app.use('/api/contratantes',contratanteRoutes);
 
 export default app;

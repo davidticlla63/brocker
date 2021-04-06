@@ -14,11 +14,14 @@ router
 router.post('/', polizas.createPoliza);
 router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
+router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);
 
 // /api/empresas/:empresaID
 router.get('/:id', polizas.getOnePoliza);
 router.delete('/:id', polizas.deletePoliza);
 router.put('/:id', polizas.updatePoliza);
 router.put('/baja/:id', polizas.bajaPoliza);
+
+
 
 export default router;
