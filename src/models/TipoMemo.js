@@ -1,8 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Poliza from "./Poliza";
 
-const Banco = sequelize.define('Banco', {
+const TipoMemo = sequelize.define('TipoMemo', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
@@ -10,9 +9,9 @@ const Banco = sequelize.define('Banco', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    empresaid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
+    empresaid:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
      estado: {
@@ -23,9 +22,9 @@ const Banco = sequelize.define('Banco', {
 
 }, {
     timestamps: false,
-    tableName: 'banco'
+    tableName: 'tipo_memo'
 });
-Banco.hasMany(Poliza, { foreignKey: 'bancoid', sourceKey: 'id' });
-Poliza.belongsTo(Banco, { foreignKey: 'bancoid', sourceKey: 'id' });
+/* TipoMemo.hasMany(PaginaTipoMemo, { foreignKey: 'accionid', sourceKey: 'id' });
+PaginaTipoMemo.belongsTo(TipoMemo, { foreignKey: 'accionid', sourceKey: 'id' }); */
 
-export default Banco;
+export default TipoMemo;

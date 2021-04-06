@@ -21,5 +21,6 @@ router.put('/:id', ramoCompanias.updateRamoCompania);
 router.put('/baja/:id', ramoCompanias.bajaRamoCompania);
 router.get('/ramoCompaniasPorRamo/:ramoid', ramoCompanias.ramoCompaniaPorRamo);
 router.get('/ramoCompaniasPorCompania/:companiaseguroid', ramoCompanias.ramoCompaniaPorCompania);
+router.get('/ramoCompaniaPorEmpresa/:empresaid', ramoCompanias.ramoCompaniaPorEmpresa);
 
 export default router;

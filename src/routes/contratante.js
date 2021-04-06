@@ -14,6 +14,7 @@ router
 router.post('/', contratantes.createContratante);
 router.get('/', contratantes.getContratantes);
 router.get('/contratantePorSucursal/:sucursalid', contratantes.getOneContratantePorSucursal);
+router.get('/contratantePorEmpresa/:empresaid', contratantes.getContratantesPorEmpresa);
 
 // /api/empresas/:empresaID
 router.get('/:id', contratantes.getOneContratante);

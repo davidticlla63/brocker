@@ -1,4 +1,5 @@
 
+import Archivo from "../models/Archivo";
 import Poliza from "../models/Poliza";
 
 export async function getPolizas(req, res) {
@@ -26,8 +27,8 @@ export async function createPoliza(req, res) {
         tipomoneda,
         primatotal,
         formapago,
-        nombreencargado,
-        nombresubrogacion,
+        encargadoid,
+        bancoid,
         ciudadexpedicion,
         broker,
         notas,
@@ -54,13 +55,15 @@ export async function createPoliza(req, res) {
         primaneta,
         porcentajecomision,
         detalle,
+        archivos,
 
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro=new Date(),
+        fecharegistro = new Date(),
         fechamodificacion = new Date(),
-        estado='ACT',
+        estado = 'ACT',
         sucursalid } = req.body;
+    let t = await sequelize.transaction();
     try {
         //const transaction= sequelize.transaction;
         let newPoliza = await Poliza.create({
@@ -73,8 +76,8 @@ export async function createPoliza(req, res) {
             tipomoneda,
             primatotal,
             formapago,
-            nombreencargado,
-            nombresubrogacion,
+            encargadoid,
+            bancoid,
             ciudadexpedicion,
             broker,
             notas,
@@ -118,8 +121,8 @@ export async function createPoliza(req, res) {
                 'tipomoneda',
                 'primatotal',
                 'formapago',
-                'nombreencargado',
-                'nombresubrogacion',
+                'encargadoid',
+                'bancoid',
                 'ciudadexpedicion',
 
                 'broker',
@@ -154,7 +157,42 @@ export async function createPoliza(req, res) {
                 'fechamodificacion',
                 'estado',
                 'sucursalid']
-        });
+        }, { transaction: t });
+
+        // step 2  archivos
+        for (let i = 0; i < archivos.length; i++) {
+            // listaPermisos.push( 
+            await Archivo.create({
+                codigo: newPoliza.id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                aseguradoid: archivos[i].aseguradoid,
+                sucursalid: archivos[i].sucursalid,
+                usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+        }
+
+        await t.commit();
         if (newPoliza) {
             return res.json({
                 message: 'Poliza created successfully',
@@ -163,6 +201,7 @@ export async function createPoliza(req, res) {
         }
     } catch (e) {
         console.log(e);
+        await t.rollback();
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });
@@ -193,7 +232,7 @@ export async function polizasPorSucursal(req, res) {
         const { sucursalid } = req.params;
         const usuario = await Poliza.findOne({
             where: {
-                sucursalid,estado:'ACT'
+                sucursalid, estado: 'ACT'
             }
         });
         res.json({
@@ -238,8 +277,8 @@ export async function updatePoliza(req, res) {
         tipomoneda,
         primatotal,
         formapago,
-        nombreencargado,
-        nombresubrogacion,
+        encargadoid,
+        bancoid,
         ciudadexpedicion,
         broker,
         notas,
@@ -270,7 +309,7 @@ export async function updatePoliza(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
-        fechamodificacion=new Date(),
+        fechamodificacion = new Date(),
         estado,
         sucursalid } = req.body;
     try {
@@ -284,8 +323,8 @@ export async function updatePoliza(req, res) {
             tipomoneda,
             primatotal,
             formapago,
-            nombreencargado,
-            nombresubrogacion,
+            encargadoid,
+            bancoid,
             ciudadexpedicion,
             broker,
             notas,
@@ -394,23 +433,34 @@ export async function bajaPoliza(req, res) {
 
 
 export async function getPolizaPorTipoYSucursal(req, res) {
-    const { tipopolizaid,sucursalid } = req.params;
+    const { tipopolizaid, sucursalid } = req.params;
     try {
 
-        const permisos =  await Poliza.findAll({where :{tipopolizaid,sucursalid, estado:'ACT'}});
-        
-        /* await sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " +
-            "from pagina pag " +
-            "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " +
-            "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " +
-            "inner join accion a on a.id=pa.accionid " +
-            "inner join perfil per on per.id=p.perfilid " +
-            "where per.id= '" + perfilid + "' order by per.id "
+        const polizas = await Poliza.findAll({ where: { tipopolizaid, sucursalid, estado: 'ACT' } });
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizasPorTipoYEmpresa(req, res) {
+    const { tipopolizaid, empresaid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.* " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=c.sucursalid  " +
+            "where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by c.id "
             , {
                 type: QueryTypes.SELECT
-            }); */
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
 
-        res.json({ permisos });
+        res.json({ polizas });
     } catch (e) {
         console.log(e);
         res.status(500).json({

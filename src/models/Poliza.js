@@ -16,8 +16,8 @@ const Poliza = sequelize.define('Poliza', {
     tipomoneda:Sequelize.STRING,
     primatotal:Sequelize.DECIMAL,
     formapago:Sequelize.STRING,
-    nombreencargado:Sequelize.STRING,
-    nombresubrogacion:Sequelize.STRING,
+    encargadoid:Sequelize.STRING,// nombreencargado:Sequelize.STRING,
+    bancoid:Sequelize.STRING,//banco nombresubrogacion
     ciudadexpedicion:Sequelize.STRING,
     broker:Sequelize.STRING,
     notas:Sequelize.STRING,
@@ -35,6 +35,7 @@ const Poliza = sequelize.define('Poliza', {
     llamadoid:Sequelize.STRING,
     vendedorid:Sequelize.STRING,
     nroplaca:Sequelize.STRING,
+    tipoemision :Sequelize.STRING,
 
     //detalle poliza
     fechainiciovigencia:Sequelize.DATE,

@@ -16,16 +16,16 @@ export async function getRamoCompania(req, res) {
     }
 }
 
-export async function ramoCompaniaPorRamo(req, res) {
+export async function ramoCompaniaPorEmpresa(req, res) {
     const {
-        ramoid } = req.params;
+        empresaid } = req.params;
     try {
         console.log(req.params)
         //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
 
         const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
         "inner join ramo r on r.id=rc.ramoid " +
-        "where r.id= '" + ramoid + "' order by rc.id "
+        "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id "
         , {
             type: QueryTypes.SELECT
         });
@@ -40,13 +40,39 @@ export async function ramoCompaniaPorRamo(req, res) {
     }
 }
 
+export async function ramoCompaniaPorRamo(req, res) {
+    const {
+        ramoid } = req.params;
+    try {
+        console.log(req.params)
+        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
+
+        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
+        "inner join ramo r on r.id=rc.ramoid " +
+        "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id "
+        , {
+            type: QueryTypes.SELECT
+        });
+        res.json({
+            data: ramoCompania
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+
 export async function ramoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
         const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
             "inner join ramo r on r.id=rc.ramoid " +
-            "where rc.companiaseguroid= '" + companiaseguroid + "' order by rc.id "
+            "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT
             });

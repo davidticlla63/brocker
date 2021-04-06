@@ -15,6 +15,7 @@ router.post('/', polizas.createPoliza);
 router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
 router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);
+router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPolizasPorTipoYEmpresa);
 
 // /api/empresas/:empresaID
 router.get('/:id', polizas.getOnePoliza);

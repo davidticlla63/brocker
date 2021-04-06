@@ -1,4 +1,5 @@
-
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 import Contratante from "../models/Contratante";
 
 export async function getContratantes(req, res) {
@@ -107,7 +108,6 @@ export async function getOneContratantePorSucursal(req, res) {
             data: contratantes
         });
     } catch (e) {
-        console.log(e);
         console.log(e);
         res.status(500).json({
             data: { estado: false, "error": e.message }
@@ -234,6 +234,32 @@ export async function bajaContratante(req, res) {
 
 
 
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getContratantesPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+
+        const contratantes = await sequelize.query("select c.* " +
+            "from contratante c " +
+            "inner join sucursal s on s.id=c.sucursalid  " +
+            "where s.empresaid= '" + empresaid + "' order by c.nombre "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        //res.json({ contratantes });
+
+        res.json({
+            data: contratantes
+        });
     } catch (e) {
         console.log(e);
         res.status(500).json({

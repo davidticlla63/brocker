@@ -378,16 +378,12 @@ export async function aseguradosPorSucursalYTipo(req, res) {
     try {
         const { sucursalid, tipoasegurado } = req.params;
 
-        //console.log(req.params);
-
-        //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid:sucursalid ,tipoasegurado}});
-
         let string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " +
             " from asegurado a " +
             "inner join personal e on e.id=a.ejecutivoid "+
             "inner join personal c on c.id = a.carteraid "+
             "inner join departamento d on d.id = a.departamentoid "+
-            " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.id "
+            " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto "
         //console.log(string)
         const asegurados = await sequelize.query(string
             , {
@@ -413,7 +409,58 @@ export async function aseguradosPorEmpresaYTipo(req, res) {
             "inner join personal ej on ej.id=a.ejecutivoid "+
             "inner join personal c on c.id = a.carteraid "+
             "inner join departamento d on d.id = a.departamentoid "+
-            "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.id ";
+            "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto ";
+        console.log(query)
+        const asegurados = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function aseguradosPorSucursals(req, res) {
+    try {
+        const { sucursalid} = req.params;
+
+        let string = "select a.id,a.nombrecompleto,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+            " from asegurado a " +
+            "inner join personal e on e.id=a.ejecutivoid "+
+            "inner join personal c on c.id = a.carteraid "+
+            "inner join departamento d on d.id = a.departamentoid "+
+            " where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.nombrecompleto "
+        //console.log(string)
+        const asegurados = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function aseguradosPorEmpresas(req, res) {
+    try {
+        const { empresaid } = req.params;
+        //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
+        let query = "select a.id,a.nombrecompleto,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+            "from asegurado a " +
+            "inner join sucursal s on s.id=a.sucursalid " +
+            " inner join empresa e on e.id=s.empresaid " +
+            "inner join personal ej on ej.id=a.ejecutivoid "+
+            "inner join personal c on c.id = a.carteraid "+
+            "inner join departamento d on d.id = a.departamentoid "+
+            "where e.id='" + empresaid + "' and a.estado='ACT' order by a.nombrecompleto ";
         console.log(query)
         const asegurados = await sequelize.query(query
             , {
