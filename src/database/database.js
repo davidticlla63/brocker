@@ -6,7 +6,8 @@ export const sequelize = new Sequelize(
     'admin',
     {
         host: 'localhost',
-        dialect: 'postgres', 
+        dialect: 'postgres',
+        port:5432, 
       dialectOptions: {
             useUTC: true, // -->Add this line. for reading from database
         },

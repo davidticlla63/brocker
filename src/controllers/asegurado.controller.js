@@ -33,6 +33,12 @@ export async function createAsegurado(req, res) {
         fotografia,
         direccionasegurado,
         fechanacimiento,
+         
+        fechavencimientocarnet,
+        fechavencimientobrevet,
+        fechavencimientofundempresa,
+        relacionasegurado,
+        cargorepresentante,
 
         //personalcobranza,
         apellidopaternocobranza,
@@ -81,7 +87,13 @@ export async function createAsegurado(req, res) {
             fotografia,
             direccionasegurado,
             fechanacimiento,
-
+         
+            //fechavencimientocarnet:fechavencimientocarnet==null?null:fechavencimientocarnet,
+            fechavencimientocarnet,
+            fechavencimientobrevet,
+            fechavencimientofundempresa,
+            relacionasegurado,
+            cargorepresentante,
             //personalcobranza,
             apellidopaternocobranza,
             apellidomaternocobranza,
@@ -124,7 +136,12 @@ export async function createAsegurado(req, res) {
                 'fotografia',
                 'direccionasegurado',
                 'fechanacimiento',
-
+ 
+                'fechavencimientocarnet',
+                'fechavencimientobrevet',
+                'fechavencimientofundempresa',
+                'relacionasegurado',
+                'cargorepresentante',
                 //personalcobranza,
                 'apellidopaternocobranza',
                 'apellidomaternocobranza',
@@ -220,6 +237,13 @@ export async function updateAsegurado(req, res) {
         direccionasegurado,
         fechanacimiento,
 
+         
+        fechavencimientocarnet,
+        fechavencimientobrevet,
+        fechavencimientofundempresa,
+        relacionasegurado,
+        cargorepresentante,
+
         //personalcobranza,
         apellidopaternocobranza,
         apellidomaternocobranza,
@@ -261,7 +285,13 @@ export async function updateAsegurado(req, res) {
             fotografia,
             direccionasegurado,
             fechanacimiento,
-
+ 
+            fechavencimientocarnet,
+            fechavencimientobrevet,
+            fechavencimientofundempresa,
+            relacionasegurado,
+            cargorepresentante,
+            
             //personalcobranza,
             apellidopaternocobranza,
             apellidomaternocobranza,

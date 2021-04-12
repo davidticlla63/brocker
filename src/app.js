@@ -25,7 +25,10 @@ import ramoCompaniaRoutes from './routes/ramoCompania'
 import tipoPolizaRoutes from './routes/tipoPoliza'
 import polizaRoutes from './routes/poliza'
 import archivoRoutes from './routes/archivo'
+import tipomemoRoutes from './routes/tipomemo'
 import contratanteRoutes from './routes/contratante'
+import vendedorRoutes from './routes/vendedor'
+import carpetaRoutes from './routes/carpeta'
 
 const bodyParser = require("body-parser");
 var jsonParser       = bodyParser.json({limit:1024*1024*20, type:'application/json'});
@@ -70,6 +73,9 @@ app.use('/api/ramoCompanias', ramoCompaniaRoutes);
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas',polizaRoutes);
 app.use('/api/archivos',archivoRoutes);
+app.use('/api/tipomemos',tipomemoRoutes);
 app.use('/api/contratantes',contratanteRoutes);
+app.use('/api/vendedors',vendedorRoutes);
+app.use('/api/carpetas',carpetaRoutes);
 
 export default app;

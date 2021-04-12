@@ -27,6 +27,12 @@ const Asegurado = sequelize.define('Asegurado', {
     direccionasegurado:Sequelize.STRING,
     fechanacimiento:Sequelize.DATE,
 
+    fechavencimientocarnet:Sequelize.DATE,
+    fechavencimientobrevet:Sequelize.DATE,
+    fechavencimientofundempresa:Sequelize.DATE,
+    relacionasegurado:Sequelize.STRING,
+    cargorepresentante:Sequelize.STRING,
+
     //personalcobranza:Sequelize.STRING,
     apellidopaternocobranza: Sequelize.STRING,
     apellidomaternocobranza: Sequelize.STRING,

@@ -15,6 +15,7 @@ const Archivo = sequelize.define('Archivo', {
     codigo: Sequelize.STRING,
     aseguradoid: Sequelize.STRING,
     sucursalid:Sequelize.STRING,
+    carpetaid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),

@@ -1,57 +1,34 @@
 
-import Archivo from "../models/Archivo";
+import Carpeta from "../models/Carpeta";
 
-export async function getArchivos(req, res) {
-    const { codigo } = req.params;
+export async function getCarpetas(req, res) {
     try {
-        const archivos = await Archivo.findAll({ where: { estado: 'ACT' ,codigo}});
+        const carpetas = await Carpeta.findAll({ where: { estado: 'ACT' }});
         res.json({
-            data: archivos
+            data: carpetas
         });
     } catch (e) {
         console.log(e);
     }
 }
 
-
-
-export async function getArchivosCodigo(req, res) {
-    try {
-        const archivos = await Archivo.findAll({ where: { estado: 'ACT' }});
-        res.json({
-            data: archivos
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
-export async function createArchivo(req, res) {
+export async function createCarpeta(req, res) {
     const {
         nombre,
         descripcion,
-        extension,
-        archivo,
-        tipo,
-        codigo,
-        aseguradoid,
-        sucursalid,
+        empresaid,
         carpetaid,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro= new Date(),
-        fechamodificacion= new Date(),
-        estado='ACT' } = req.body;
+        fechamodificacion,
+        estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
-        let newArchivo = await Archivo.create({
+        let newCarpeta = await Carpeta.create({
             nombre,
             descripcion,
-            extension,
-            archivo,
-            tipo,
-            codigo,
-            aseguradoid,
-            sucursalid,
+            empresaid,
             carpetaid,
             usuarioregistro,
             usuariomodificacion,
@@ -59,19 +36,14 @@ export async function createArchivo(req, res) {
             fechamodificacion,
             estado
         }, {
-            fields: ['nombre', 'descripcion', 'extension',
-            'archivo',
-            'tipo',
-            'codigo',
-            'aseguradoid',
-            'carpetaid',
-            'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['nombre', 'descripcion',  'empresaid',
+            'carpetaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
-        if (newArchivo) {
+        if (newCarpeta) {
             return res.json({
-                message: 'Archivo created successfully',
-                data: newArchivo
+                message: 'Carpeta created successfully',
+                data: newCarpeta
             });
         }
     } catch (e) {
@@ -82,10 +54,10 @@ export async function createArchivo(req, res) {
     }
 }
 
-export async function getOneArchivo(req, res) {
+export async function getOneCarpeta(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await Archivo.findOne({
+        const usuario = await Carpeta.findOne({
             where: {
                 id
             }
@@ -95,23 +67,19 @@ export async function getOneArchivo(req, res) {
         });
     } catch (e) {
         console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
     }
 }
 
-export async function deleteArchivo(req, res) {
+export async function deleteCarpeta(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Archivo.update({  estado:'ACT'},{
-          
+        const deleteRowCount = await Carpeta.destroy({
             where: {
                 id
             }
         });
         res.json({
-            message: 'Archivo deleted successfully',
+            message: 'Carpeta deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -122,16 +90,11 @@ export async function deleteArchivo(req, res) {
     }
 }
 
-export async function updateArchivo(req, res) {
+export async function updateCarpeta(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
-        extension,
-        archivo,
-        tipo,
-        codigo,
-        aseguradoid,
-        sucursalid,
+        empresaid,
         carpetaid,
         usuarioregistro,
         usuariomodificacion,
@@ -139,15 +102,10 @@ export async function updateArchivo(req, res) {
         fechamodificacion,
         estado } = req.body;
     try {
-        const updateRowCount = await Archivo.update({
+        const updateRowCount = await Carpeta.update({
             nombre,
             descripcion,
-            extension,
-            archivo,
-            tipo,
-            codigo,
-            aseguradoid,
-            sucursalid,
+            empresaid,
             carpetaid,
             usuarioregistro,
             usuariomodificacion,
@@ -160,15 +118,15 @@ export async function updateArchivo(req, res) {
             }
         });
 
-        const archivos = await Archivo.findOne({
+        const carpetas = await Carpeta.findOne({
             where: {
                 id
             }
         }
         );
         res.json({
-            message: 'Archivo update successfully',
-            count: archivos
+            message: 'Carpeta update successfully',
+            count: carpetas
         });
        
 
@@ -183,17 +141,17 @@ export async function updateArchivo(req, res) {
 }
 
 
-export async function bajaArchivo(req, res) {
+export async function bajaCarpeta(req, res) {
     const { id } = req.params;
 
-   console.log("bajaArchivo");
+   console.log("bajaCarpeta");
     const { 
    //    id,
         usuariomodificacion
          } = req.body;
     try {
        // var moment = require('moment');
-        const updateRowCount = await Archivo.update({   
+        const updateRowCount = await Carpeta.update({   
             usuariomodificacion,
            /*  fechamodificacion:moment().format(), */
            fechamodificacion:new Date(),
@@ -204,7 +162,7 @@ export async function bajaArchivo(req, res) {
             }
         });
 
-        const archivos = await Archivo.findOne({
+        const carpetas = await Carpeta.findOne({
             where: {
                 id
             }
@@ -212,8 +170,8 @@ export async function bajaArchivo(req, res) {
         );
         
         res.json({
-            message: 'Archivo baja successfully',
-            count: archivos
+            message: 'Carpeta baja successfully',
+            count: carpetas
         });
        
 

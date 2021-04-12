@@ -21,10 +21,10 @@ export async function ramoCompaniaPorEmpresa(req, res) {
         empresaid } = req.params;
     try {
         console.log(req.params)
-        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
+        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
         const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.ramoid " +
+        "inner join ramo r on r.id=rc.subramoid " +
         "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id "
         , {
             type: QueryTypes.SELECT
@@ -42,14 +42,14 @@ export async function ramoCompaniaPorEmpresa(req, res) {
 
 export async function ramoCompaniaPorRamo(req, res) {
     const {
-        ramoid } = req.params;
+        subramoid } = req.params;
     try {
         console.log(req.params)
-        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', ramoid } });
+        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
         const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.ramoid " +
-        "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id "
+        "inner join ramo r on r.id=rc.subramoid " +
+        "where r.id= '" + subramoid + "' and rc.estado ='ACT' order by rc.id "
         , {
             type: QueryTypes.SELECT
         });
@@ -71,7 +71,7 @@ export async function ramoCompaniaPorCompania(req, res) {
         companiaseguroid } = req.params;
     try {
         const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join ramo r on r.id=rc.subramoid " +
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT
@@ -101,11 +101,12 @@ export async function createRamoCompania(req, res) {
         fechamodificacion,
         estado,
         ramoid,
+        subramoid,
         companiaseguroid } = req.body;
     try {
         //const transaction= sequelize.transaction;
 
-        const regRamoCompanias=await RamoCompania.findAll({ where :{ramoid,companiaseguroid,estado:'ACT'}});
+        const regRamoCompanias=await RamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
         console.log(regRamoCompanias);
         if (regRamoCompanias.length > 0) {
             // authentication failed
@@ -127,6 +128,7 @@ export async function createRamoCompania(req, res) {
             fechamodificacion,
             estado,
             ramoid,
+            subramoid,
             companiaseguroid
         }, {
             fields: ['porcentajecomision',
@@ -135,8 +137,8 @@ export async function createRamoCompania(req, res) {
                 'porcentajeprimacredito',
                 'nota',
                 'notacredito', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                'fechamodificacion', 'estado',
-                'ramoid', 'companiaseguroid']
+                'fechamodificacion', 'estado','ramoid',
+                'subramoid', 'companiaseguroid']
         });
         if (newRamoCompania) {
             return res.json({
@@ -205,14 +207,15 @@ export async function updateRamoCompania(req, res) {
         fechamodificacion,
         estado,
         ramoid,
+        subramoid,
         companiaseguroid } = req.body;
     try {
-        const regRamoCompanias=await RamoCompania.findAll({ where :{ramoid,companiaseguroid,estado:'ACT'}});
+   /*      const regRamoCompanias=await RamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
         console.log(regRamoCompanias);
         if (regRamoCompanias.length > 0) {
             // authentication failed
             throw new Error("Ya existe Ramo asignado a la Compania!!");
-        }
+        } */
         const updateRowCount = await RamoCompania.update({
             porcentajecomision,
             porcentajecomisioncredito,
@@ -226,6 +229,7 @@ export async function updateRamoCompania(req, res) {
             fechamodificacion,
             estado,
             ramoid,
+            subramoid,
             companiaseguroid
         }, {
             where: {

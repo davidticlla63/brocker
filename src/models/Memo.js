@@ -29,7 +29,7 @@ const Memo = sequelize.define('Memo', {
     montocomisionbolivianos:Sequelize.DECIMAL,    
     descripcion: Sequelize.STRING,
     tipocomision:Sequelize.STRING,
-    seguradoid:Sequelize.STRING,
+    aseguradoid:Sequelize.STRING,
     companiaseguroid:Sequelize.STRING,
     ciaspvs:Sequelize.STRING,
     tiporamoid:Sequelize.STRING,
@@ -81,9 +81,9 @@ const Memo = sequelize.define('Memo', {
 
 }, {
     timestamps: false,
-    tableName: 'accion'
+    tableName: 'memo'
 });
-Memo.hasMany(PaginaMemo, { foreignKey: 'accionid', sourceKey: 'id' });
-PaginaMemo.belongsTo(Memo, { foreignKey: 'accionid', sourceKey: 'id' });
+/* Memo.hasMany(PaginaMemo, { foreignKey: 'accionid', sourceKey: 'id' });
+PaginaMemo.belongsTo(Memo, { foreignKey: 'accionid', sourceKey: 'id' }); */
 
 export default Memo;
