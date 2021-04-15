@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 
-const RamoCompania = sequelize.define('RamoCompania', {
+const SubRamoCompania = sequelize.define('SubRamoCompania', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
@@ -28,9 +28,9 @@ const RamoCompania = sequelize.define('RamoCompania', {
 
 }, {
     timestamps: false,
-    tableName: 'ramo_compania'
+    tableName: 'sub_ramo_compania'
 });
 /* RamoCompania.hasMany(PaginaRamoCompania, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaRamoCompania.belongsTo(RamoCompania, { foreignKey: 'accionid', sourceKey: 'id' }); */
 
-export default RamoCompania;
+export default SubRamoCompania;

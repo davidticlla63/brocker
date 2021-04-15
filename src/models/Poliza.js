@@ -22,7 +22,7 @@ const Poliza = sequelize.define('Poliza', {
     broker:Sequelize.STRING,
     notas:Sequelize.STRING,
     companiaseguroid:Sequelize.STRING,
-    ramocompaniaid:Sequelize.STRING,
+    subramocompaniaid:Sequelize.STRING,
     tiporamoid:Sequelize.STRING,
     contratanteid:Sequelize.STRING,
     aseguradoid:Sequelize.STRING,

@@ -45,7 +45,7 @@ export async function createRamo(req, res) {
     const {
         nombre,
         descripcion,
-        ramoSpvs,
+        spvs,
         tiporamoid,
         empresaid,
         usuarioregistro,
@@ -58,7 +58,7 @@ export async function createRamo(req, res) {
         let newRamo = await Ramo.create({
             nombre,
             descripcion,
-            ramoSpvs,
+            spvs,
             tiporamoid,
             empresaid,
             usuarioregistro,
@@ -67,7 +67,7 @@ export async function createRamo(req, res) {
             fechamodificacion,
             estado
         }, {
-            fields: ['nombre', 'descripcion', 'ramoSpvs',
+            fields: ['nombre', 'descripcion', 'spvs',
                 'tiporamoid',
                 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
@@ -129,7 +129,7 @@ export async function updateRamo(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
-        ramoSpvs,
+        spvs,
         tiporamoid,
         empresaid,
         usuarioregistro,
@@ -141,7 +141,7 @@ export async function updateRamo(req, res) {
         const updateRowCount = await Ramo.update({
             nombre,
             descripcion,
-            ramoSpvs,
+            spvs,
             tiporamoid,
             empresaid,
             usuarioregistro,

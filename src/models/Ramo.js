@@ -10,7 +10,7 @@ const Ramo = sequelize.define('Ramo', {
     },
     nombre: Sequelize.STRING,
     descripcion: Sequelize.STRING,
-    ramospvs:{
+    spvs:{
         type:Sequelize.STRING//,
         //field:'ramo_spvs'
     },

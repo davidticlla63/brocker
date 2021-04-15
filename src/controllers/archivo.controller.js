@@ -17,7 +17,19 @@ export async function getArchivos(req, res) {
 
 export async function getArchivosCodigo(req, res) {
     try {
-        const archivos = await Archivo.findAll({ where: { estado: 'ACT' }});
+        const { codigo } = req.params;
+        const archivos = await Archivo.findAll({ where: { codigo,estado: 'ACT' }});
+        res.json({
+            data: archivos
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+export async function getArchivosXAsegurado(req, res) {
+    try {
+        const { aseguradoid } = req.params;
+        const archivos = await Archivo.findAll({ where: { aseguradoid,estado: 'ACT' }});
         res.json({
             data: archivos
         });

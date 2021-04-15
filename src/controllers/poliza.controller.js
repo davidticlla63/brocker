@@ -34,7 +34,7 @@ export async function createPoliza(req, res) {
         broker,
         notas,
         companiaseguroid,
-        ramocompaniaid,
+        subramocompaniaid,
         tiporamoid,
         contratanteid,
         aseguradoid,
@@ -50,14 +50,14 @@ export async function createPoliza(req, res) {
         nroplaca,
         tipoemision,
 
-        fechainiciovigencia,
+      /*   fechainiciovigencia,
         fechafinvigencia,
         fechainclusion,
         prima,
         porcentajeprima,
         primaneta,
         porcentajecomision,
-        detalle,
+        detalle, */
         archivos,
 
         usuarioregistro,
@@ -86,7 +86,7 @@ export async function createPoliza(req, res) {
             broker,
             notas,
             companiaseguroid,
-            ramocompaniaid,
+            subramocompaniaid,
             tiporamoid,
             contratanteid,
             aseguradoid,
@@ -102,14 +102,14 @@ export async function createPoliza(req, res) {
             nroplaca,
             tipoemision,
 
-            fechainiciovigencia,
+        /*     fechainiciovigencia,
             fechafinvigencia,
             fechainclusion,
             prima,
             porcentajeprima,
             primaneta,
             porcentajecomision,
-            detalle,
+            detalle, */
 
             usuarioregistro,
             usuariomodificacion,
@@ -134,7 +134,7 @@ export async function createPoliza(req, res) {
                 'broker',
                 'notas',
                 'companiaseguroid',
-                'ramocompaniaid',
+                'subramocompaniaid',
                 'tiporamoid',
                 'contratanteid',
                 'aseguradoid',
@@ -150,14 +150,14 @@ export async function createPoliza(req, res) {
                 'nroplaca',
                 'tipoemision',
 
-                'fechainiciovigencia',
+            /*     'fechainiciovigencia',
                 'fechafinvigencia',
                 'fechainclusion',
                 'prima',
                 'porcentajeprima',
                 'primaneta',
                 'porcentajecomision',
-                'detalle',
+                'detalle', */
 
                 'usuarioregistro',
                 'usuariomodificacion',
@@ -297,7 +297,7 @@ export async function updatePoliza(req, res) {
         broker,
         notas,
         companiaseguroid,
-        ramocompaniaid,
+        subramocompaniaid,
         contratanteid,
         aseguradoid,
         ejecutivoid,
@@ -312,14 +312,14 @@ export async function updatePoliza(req, res) {
         nroplaca,
         tipoemision,
 
-        fechainiciovigencia,
+/*         fechainiciovigencia,
         fechafinvigencia,
         fechainclusion,
         prima,
         porcentajeprima,
         primaneta,
         porcentajecomision,
-        detalle,
+        detalle, */
 
         usuarioregistro,
         usuariomodificacion,
@@ -345,7 +345,7 @@ export async function updatePoliza(req, res) {
             broker,
             notas,
             companiaseguroid,
-            ramocompaniaid,
+            subramocompaniaid,
             tiporamoid,
             contratanteid,
             aseguradoid,
@@ -361,14 +361,14 @@ export async function updatePoliza(req, res) {
             nroplaca,
             tipoemision,
 
-            fechainiciovigencia,
+         /*    fechainiciovigencia,
             fechafinvigencia,
             fechainclusion,
             prima,
             porcentajeprima,
             primaneta,
             porcentajecomision,
-            detalle,
+            detalle, */
 
             usuarioregistro,
             usuariomodificacion,
@@ -387,7 +387,7 @@ export async function updatePoliza(req, res) {
 
             await Archivo.update({
                 estado: 'BAJ',
-                fechamodificacion
+                fechamodificacion: new Date()
             }, { where: { id: archivoseliminados[i].id } }, { transaction: t });
 
         }
@@ -395,15 +395,15 @@ export async function updatePoliza(req, res) {
         for (let i = 0; i < archivos.length; i++) {
 
             await Archivo.create({
-                codigo: newPoliza.id,
+                codigo: id,
                 nombre: archivos[i].nombre,
                 descripcion: archivos[i].nombre,
                 extension: archivos[i].extension,
                 archivo: archivos[i].archivo,
                 aseguradoid: aseguradoid,
                 sucursalid: sucursalid,
-                usuarioregistro,
-                usuariomodificacion: usuarioregistro,
+                usuarioregistro:usuariomodificacion,
+                usuariomodificacion: usuariomodificacion,
                 fecharegistro: new Date(),
                 fechamodificacion: new Date(),
                 estado: 'ACT'
@@ -539,7 +539,7 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
         const polizas = await sequelize.query("select p.* ,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join ramo_compania rc on rc.id=p.ramocompaniaid "+
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid "+
             "inner join ramo r on r.id=rc.ramoid "+
             "inner join asegurado a on a.id=p.aseguradoid "+
             "inner join compania_seguro cs on cs.id=p.companiaseguroid "+
@@ -566,7 +566,7 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             "inner join sucursal s on s.id=p.sucursalid  " + */
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join ramo_compania rc on rc.id=p.ramocompaniaid "+
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid "+
             "inner join ramo r on r.id=rc.ramoid "+
             "inner join asegurado a on a.id=p.aseguradoid "+
             "inner join compania_seguro cs on cs.id=p.companiaseguroid "+

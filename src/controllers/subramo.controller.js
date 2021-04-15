@@ -50,7 +50,7 @@ export async function createSubRamo(req, res) {
     const {
         nombre,
         descripcion,
-        ramoSpvs,
+        spvs,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
@@ -62,7 +62,7 @@ export async function createSubRamo(req, res) {
         let newSubRamo = await SubRamo.create({
             nombre,
             descripcion,
-            ramoSpvs,
+            spvs,
 
             usuarioregistro,
             usuariomodificacion,
@@ -71,7 +71,7 @@ export async function createSubRamo(req, res) {
             estado,
             ramoid
         }, {
-            fields: ['nombre', 'descripcion','ramoSpvs', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: ['nombre', 'descripcion','spvs', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado',
                 'ramoid']
         });
@@ -132,7 +132,7 @@ export async function updateSubRamo(req, res) {
     const { id } = req.params;
     const { nombre,
         descripcion,
-        ramoSpvs,
+        spvs,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
@@ -142,7 +142,7 @@ export async function updateSubRamo(req, res) {
         const updateRowCount = await SubRamo.update({
             nombre,
             descripcion,
-            ramoSpvs,
+            spvs,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,

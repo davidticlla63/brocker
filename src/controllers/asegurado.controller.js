@@ -1,4 +1,5 @@
 import { sequelize } from "../database/database";
+import Archivo from "../models/Archivo";
 const { QueryTypes } = require('sequelize');
 import Asegurado from "../models/Asegurado";
 
@@ -63,15 +64,18 @@ export async function createAsegurado(req, res) {
         ejecutivoid,
         carteraid,
         usuarioregistro,
-        usuariomodificacion
+        usuariomodificacion,
+        archivos
     } = req.body;
+    let t = await sequelize.transaction();
+    let newAsegurado;
     try {
 
       /*   if (tipoasegurado == 'corporativo') {
             fechanacimiento= null;
         } */
         //const transaction= sequelize.transaction;
-        let newAsegurado = await Asegurado.create({
+         newAsegurado = await Asegurado.create({
             tipoasegurado,
             apellidopaterno,
             apellidomaterno,
@@ -166,7 +170,44 @@ export async function createAsegurado(req, res) {
                 'carteraid',
                 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
-        });
+        }, { transaction: t });
+
+
+         // step 2  archivos
+         for (let i = 0; i < archivos.length; i++) {
+            // listaPermisos.push( 
+            await Archivo.create({
+                codigo: newAsegurado.id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                aseguradoid:  newAsegurado.id,
+                sucursalid: sucursalid,
+                usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+        }
+
+        await t.commit();
+
         if (newAsegurado) {
             return res.json({
                 message: 'Asegurado created successfully',
@@ -175,6 +216,13 @@ export async function createAsegurado(req, res) {
         }
     } catch (e) {
         console.log(e);
+        if (t) {
+            await t.rollback();
+            //await newUsuario.destroy();
+            if (newAsegurado) {
+                await Asegurado.destroy({ where: { id: newAsegurado.id } })
+            }
+        }
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });
@@ -267,7 +315,8 @@ export async function updateAsegurado(req, res) {
         ejecutivoid,
         carteraid,
         usuariomodificacion,
-        estado } = req.body;
+        estado, archivos, archivoseliminados } = req.body;
+        let t = await sequelize.transaction();
     try {
         const updateRowCount = await Asegurado.update({
             tipoasegurado,
@@ -321,8 +370,51 @@ export async function updateAsegurado(req, res) {
             where: {
                 id
             }
-        });
+        }, { transaction: t });
 
+
+        for (let i = 0; i < archivoseliminados.length; i++) {
+
+            await Archivo.update({
+                estado: 'BAJ',
+                fechamodificacion: new Date()
+            }, { where: { id: archivoseliminados[i].id } }, { transaction: t });
+
+        }
+        // step 2  archivos
+        for (let i = 0; i < archivos.length; i++) {
+
+            await Archivo.create({
+                codigo: id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                aseguradoid: id,
+                sucursalid: sucursalid,
+                usuarioregistro:usuariomodificacion,
+                usuariomodificacion: usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+
+        }
+        await t.commit();
         const asegurados = await Asegurado.findOne({
             where: {
                 id
@@ -339,6 +431,9 @@ export async function updateAsegurado(req, res) {
 
     } catch (e) {
         console.log(e);
+        if (t) {
+            await t.rollback();
+        }
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });

@@ -1,12 +1,12 @@
 import { sequelize } from "../database/database";
-import RamoCompania from "../models/RamoCompania";
+import SubRamoCompania from "../models/SubRamoCompania";
 const { QueryTypes } = require('sequelize');
 
-export async function getRamoCompania(req, res) {
+export async function getSubRamoCompania(req, res) {
     try {
-        const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT' } });
+        const subRamoCompania = await SubRamoCompania.findAll({ where: { estado: 'ACT' } });
         res.json({
-            data: ramoCompania
+            data: subRamoCompania
         });
     } catch (e) {
         console.log(e);
@@ -16,21 +16,21 @@ export async function getRamoCompania(req, res) {
     }
 }
 
-export async function ramoCompaniaPorEmpresa(req, res) {
+export async function subRamoCompaniaPorEmpresa(req, res) {
     const {
         empresaid } = req.params;
     try {
         console.log(req.params)
-        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
+        //const subRamoCompania = await SubRamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
-        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.subramoid " +
+        const subRamoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
+        "inner join ramo r on r.id=rc.ramoid " +
         "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id "
         , {
             type: QueryTypes.SELECT
         });
         res.json({
-            data: ramoCompania
+            data: subRamoCompania
         });
     } catch (e) {
         console.log(e);
@@ -40,21 +40,20 @@ export async function ramoCompaniaPorEmpresa(req, res) {
     }
 }
 
-export async function ramoCompaniaPorRamo(req, res) {
+export async function subRamoCompaniaPorRamo(req, res) {
     const {
         subramoid } = req.params;
     try {
         console.log(req.params)
-        //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
-        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.subramoid " +
+        const subRamoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
+        "inner join ramo r on r.id=rc.ramoid " +
         "where r.id= '" + subramoid + "' and rc.estado ='ACT' order by rc.id "
         , {
             type: QueryTypes.SELECT
         });
         res.json({
-            data: ramoCompania
+            data: subRamoCompania
         });
     } catch (e) {
         console.log(e);
@@ -66,18 +65,18 @@ export async function ramoCompaniaPorRamo(req, res) {
 
 
 
-export async function ramoCompaniaPorCompania(req, res) {
+export async function subRamoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-            "inner join ramo r on r.id=rc.subramoid " +
+        const subRamoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
+            "inner join ramo r on r.id=rc.ramoid " +
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT
             });
         res.json({
-            data: ramoCompania
+            data: subRamoCompania
         });
     } catch (e) {
         console.log(e);
@@ -87,7 +86,7 @@ export async function ramoCompaniaPorCompania(req, res) {
     }
 }
 
-export async function createRamoCompania(req, res) {
+export async function createSubRamoCompania(req, res) {
     const {
         porcentajecomision,
         porcentajecomisioncredito,
@@ -106,15 +105,15 @@ export async function createRamoCompania(req, res) {
     try {
         //const transaction= sequelize.transaction;
 
-        const regRamoCompanias=await RamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
-        console.log(regRamoCompanias);
-        if (regRamoCompanias.length > 0) {
+        const regSubRamoCompanias=await SubRamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
+        console.log(regSubRamoCompanias);
+        if (regSubRamoCompanias.length > 0) {
             // authentication failed
             throw new Error("Ya existe Ramo asignado a la Compania!!");
         }
 
 
-        let newRamoCompania = await RamoCompania.create({
+        let newSubRamoCompania = await SubRamoCompania.create({
             porcentajecomision,
             porcentajecomisioncredito,
             porcentajeprima,
@@ -140,10 +139,10 @@ export async function createRamoCompania(req, res) {
                 'fechamodificacion', 'estado','ramoid',
                 'subramoid', 'companiaseguroid']
         });
-        if (newRamoCompania) {
+        if (newSubRamoCompania) {
             return res.json({
-                message: 'RamoCompania created successfully',
-                data: newRamoCompania
+                message: 'SubRamoCompania created successfully',
+                data: newSubRamoCompania
             });
         }
     } catch (e) {
@@ -154,10 +153,10 @@ export async function createRamoCompania(req, res) {
     }
 }
 
-export async function getOneRamoCompania(req, res) {
+export async function getOneSubRamoCompania(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await RamoCompania.findOne({
+        const usuario = await SubRamoCompania.findOne({
             where: {
                 id
             }
@@ -173,16 +172,16 @@ export async function getOneRamoCompania(req, res) {
     }
 }
 
-export async function deleteRamoCompania(req, res) {
+export async function deleteSubRamoCompania(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await RamoCompania.destroy({
+        const deleteRowCount = await SubRamoCompania.destroy({
             where: {
                 id
             }
         });
         res.json({
-            message: 'RamoCompania deleted successfully',
+            message: 'SubRamoCompania deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -193,7 +192,7 @@ export async function deleteRamoCompania(req, res) {
     }
 }
 
-export async function updateRamoCompania(req, res) {
+export async function updateSubRamoCompania(req, res) {
     const { id } = req.params;
     const { porcentajecomision,
         porcentajecomisioncredito,
@@ -210,13 +209,13 @@ export async function updateRamoCompania(req, res) {
         subramoid,
         companiaseguroid } = req.body;
     try {
-   /*      const regRamoCompanias=await RamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
-        console.log(regRamoCompanias);
-        if (regRamoCompanias.length > 0) {
+   /*      const regSubRamoCompanias=await SubRamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
+        console.log(regSubRamoCompanias);
+        if (regSubRamoCompanias.length > 0) {
             // authentication failed
             throw new Error("Ya existe Ramo asignado a la Compania!!");
         } */
-        const updateRowCount = await RamoCompania.update({
+        const updateRowCount = await SubRamoCompania.update({
             porcentajecomision,
             porcentajecomisioncredito,
             porcentajeprima,
@@ -237,15 +236,15 @@ export async function updateRamoCompania(req, res) {
             }
         });
 
-        const ramoCompania = await RamoCompania.findOne({
+        const subRamoCompania = await SubRamoCompania.findOne({
             where: {
                 id
             }
         }
         );
         res.json({
-            message: 'RamoCompania update successfully',
-            count: ramoCompania
+            message: 'SubRamoCompania update successfully',
+            count: subRamoCompania
         });
 
 
@@ -260,17 +259,17 @@ export async function updateRamoCompania(req, res) {
 }
 
 
-export async function bajaRamoCompania(req, res) {
+export async function bajaSubRamoCompania(req, res) {
     const { id } = req.params;
 
-    console.log("bajaRamoCompania");
+    console.log("bajaSubRamoCompania");
     const {
         //    id,
         usuariomodificacion
     } = req.body;
     try {
         // var moment = require('moment');
-        const updateRowCount = await RamoCompania.update({
+        const updateRowCount = await SubRamoCompania.update({
             usuariomodificacion,
             /*  fechamodificacion:moment().format(), */
             fechamodificacion: new Date(),
@@ -281,7 +280,7 @@ export async function bajaRamoCompania(req, res) {
             }
         });
 
-        const ramoCompania = await RamoCompania.findOne({
+        const subRamoCompania = await SubRamoCompania.findOne({
             where: {
                 id
             }
@@ -289,8 +288,8 @@ export async function bajaRamoCompania(req, res) {
         );
 
         res.json({
-            message: 'RamoCompania baja successfully',
-            count: ramoCompania
+            message: 'SubRamoCompania baja successfully',
+            count: subRamoCompania
         });
 
 

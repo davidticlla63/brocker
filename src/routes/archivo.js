@@ -14,7 +14,7 @@ router
 router.post('/',archivo. createArchivo);
 router.get('/', archivo.getArchivos);
 router.get('/:codigo', archivo.getArchivosCodigo);
-
+router.get('/archivosXAsegurado/:aseguradoid', archivo.getArchivosXAsegurado);
 // /api/archivos/:archivoID
 router.get('/:id', archivo.getOneArchivo);
 router.delete('/:id', archivo.deleteArchivo);

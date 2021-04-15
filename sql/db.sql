@@ -443,7 +443,7 @@ CREATE TABLE IF NOT EXISTS ramo(
     id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
      nombre character varying not null ,
       descripcion character varying ,
-      ramospvs character varying,
+    spvs character varying,
     usuarioregistro character varying  not null,
     usuariomodificacion character varying,
     fecharegistro timestamp  not null,
@@ -457,9 +457,9 @@ CREATE TABLE IF NOT EXISTS ramo(
 
 CREATE TABLE IF NOT EXISTS sub_ramo(
     id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
-     nombre character varying not null ,
-      descripcion character varying ,
-      ramospvs character varying,
+    nombre character varying not null ,
+    descripcion character varying ,
+    spvs character varying,
     usuarioregistro character varying  not null,
     usuariomodificacion character varying,
     fecharegistro timestamp  not null,
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS sub_ramo(
 );
 
 
-CREATE TABLE IF NOT EXISTS ramo_compania(
+CREATE TABLE IF NOT EXISTS sub_ramo_compania(
     id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
     porcentajecomision decimal,
     porcentajecomisioncredito decimal,
@@ -518,7 +518,7 @@ CREATE TABLE IF NOT EXISTS poliza(
     broker character varying,
     notas character varying,
     companiaseguroid character varying  REFERENCES compania_seguro(id),
-    ramocompaniaid character varying  REFERENCES ramo_compania(id),
+    subramocompaniaid character varying  REFERENCES sub_ramo_compania(id),
 	tiporamoid character varying  REFERENCES tipo_ramo(id),
     contratanteid character varying  REFERENCES contratante(id),
     aseguradoid character varying  REFERENCES asegurado(id),
@@ -535,6 +535,31 @@ CREATE TABLE IF NOT EXISTS poliza(
     tipoemision character varying,
 
     --detalle poliza
+    --fechainiciovigencia timestamp,
+    --fechafinvigencia timestamp,
+    --fechainclusion timestamp,
+    --prima  decimal,
+    --porcentajeprima  decimal,
+    --primaneta  decimal,
+    --porcentajecomision  decimal,
+    --detalle character varying,
+
+    usuarioregistro character varying,
+    usuariomodificacion character varying,
+    fecharegistro timestamp,
+    fechamodificacion timestamp,
+     estado   character varying not null,
+     sucursalid  character varying REFERENCES sucursal(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS poliza_detalle(
+    id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
+    nropoliza character varying,
+    nrocertificado character varying,
+  
+
+    --detalle poliza
     fechainiciovigencia timestamp,
     fechafinvigencia timestamp,
     fechainclusion timestamp,
@@ -544,14 +569,15 @@ CREATE TABLE IF NOT EXISTS poliza(
     porcentajecomision  decimal,
     detalle character varying,
 
-    usuarioregistro character varying,
+    usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp,
     fechamodificacion timestamp,
-     estado   character varying,
-     sucursalid  character varying REFERENCES sucursal(id)
+    estado   character varying not null,
+    polizaid  character varying REFERENCES poliza(id)
+    --,
+    --sucursalid  character varying REFERENCES sucursal(id)
 );
-
 
 CREATE TABLE IF NOT EXISTS carpeta(
     id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),

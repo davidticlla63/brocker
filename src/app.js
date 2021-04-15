@@ -21,7 +21,7 @@ import tiporamoRoutes from './routes/tipoRamo'
 import ramoRoutes from './routes/ramo'
 import bancoRoutes from './routes/banco'
 import subramoRoutes from './routes/subramo'
-import ramoCompaniaRoutes from './routes/ramoCompania'
+import subRamoCompaniaRoutes from './routes/SubRamoCompania'
 import tipoPolizaRoutes from './routes/tipoPoliza'
 import polizaRoutes from './routes/poliza'
 import archivoRoutes from './routes/archivo'
@@ -68,7 +68,7 @@ app.use('/api/tiporamos', tiporamoRoutes);
 app.use('/api/ramos', ramoRoutes); 
 app.use('/api/bancos', bancoRoutes);
 app.use('/api/subramos', subramoRoutes);
-app.use('/api/ramoCompanias', ramoCompaniaRoutes);
+app.use('/api/subRamoCompanias', subRamoCompaniaRoutes);
 
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas',polizaRoutes);
