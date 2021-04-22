@@ -38,6 +38,8 @@ export async function getArchivosXAsegurado(req, res) {
     }
 }
 export async function createArchivo(req, res) {
+
+    
     const {
         nombre,
         descripcion,
@@ -53,6 +55,8 @@ export async function createArchivo(req, res) {
         fecharegistro= new Date(),
         fechamodificacion= new Date(),
         estado='ACT' } = req.body;
+
+
     try {
         //const transaction= sequelize.transaction;
         let newArchivo = await Archivo.create({
