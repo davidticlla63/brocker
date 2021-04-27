@@ -2,6 +2,7 @@ import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
 import Archivo from "../models/Archivo";
 import Poliza from "../models/Poliza";
+import PolizaAdicional from "../models/PolizaAdicionales";
 
 export async function getPolizas(req, res) {
     try {
@@ -50,15 +51,23 @@ export async function createPoliza(req, res) {
         nroplaca,
         tipoemision,
 
-      /*   fechainiciovigencia,
-        fechafinvigencia,
-        fechainclusion,
-        prima,
-        porcentajeprima,
-        primaneta,
-        porcentajecomision,
-        detalle, */
+        /*   fechainiciovigencia,
+          fechafinvigencia,
+          fechainclusion,
+          prima,
+          porcentajeprima,
+          primaneta,
+          porcentajecomision,
+          detalle, */
+        placa,
+        tipovehiculo,
+        marca,
+        anio,
+        color,
+
         archivos,
+        adicionales,
+        detalle,
 
         usuarioregistro,
         usuariomodificacion,
@@ -102,15 +111,19 @@ export async function createPoliza(req, res) {
             nroplaca,
             tipoemision,
 
-        /*     fechainiciovigencia,
-            fechafinvigencia,
-            fechainclusion,
-            prima,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
-            detalle, */
-
+            /*     fechainiciovigencia,
+                fechafinvigencia,
+                fechainclusion,
+                prima,
+                porcentajeprima,
+                primaneta,
+                porcentajecomision,
+                detalle, */
+            placa,
+            tipovehiculo,
+            marca,
+            anio,
+            color,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
@@ -150,15 +163,20 @@ export async function createPoliza(req, res) {
                 'nroplaca',
                 'tipoemision',
 
-            /*     'fechainiciovigencia',
-                'fechafinvigencia',
-                'fechainclusion',
-                'prima',
-                'porcentajeprima',
-                'primaneta',
-                'porcentajecomision',
-                'detalle', */
+                /*     'fechainiciovigencia',
+                    'fechafinvigencia',
+                    'fechainclusion',
+                    'prima',
+                    'porcentajeprima',
+                    'primaneta',
+                    'porcentajecomision',
+                    'detalle', */
 
+                'placa',
+                'tipovehiculo',
+                'marca',
+                'anio',
+                'color',
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -199,6 +217,33 @@ export async function createPoliza(req, res) {
                     'estado']
             }, { transaction: t });
         }
+
+
+        for (let i = 0; i < adicionales.length; i++) {
+            // listaPermisos.push( 
+            await PolizaAdicional.create({
+                polizaid: newPoliza.id,
+                valor: adicionales[i].valor,
+                dato: adicionales[i].dato,
+                usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'polizaid',
+                    'valor',
+                    'dato',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+        }
+
+        
 
         await t.commit();
         if (newPoliza) {
@@ -312,14 +357,20 @@ export async function updatePoliza(req, res) {
         nroplaca,
         tipoemision,
 
-/*         fechainiciovigencia,
-        fechafinvigencia,
-        fechainclusion,
-        prima,
-        porcentajeprima,
-        primaneta,
-        porcentajecomision,
-        detalle, */
+        /*         fechainiciovigencia,
+                fechafinvigencia,
+                fechainclusion,
+                prima,
+                porcentajeprima,
+                primaneta,
+                porcentajecomision,
+                detalle, */
+
+        placa,
+        tipovehiculo,
+        marca,
+        anio,
+        color,
 
         usuarioregistro,
         usuariomodificacion,
@@ -361,14 +412,20 @@ export async function updatePoliza(req, res) {
             nroplaca,
             tipoemision,
 
-         /*    fechainiciovigencia,
-            fechafinvigencia,
-            fechainclusion,
-            prima,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
-            detalle, */
+            /*    fechainiciovigencia,
+               fechafinvigencia,
+               fechainclusion,
+               prima,
+               porcentajeprima,
+               primaneta,
+               porcentajecomision,
+               detalle, */
+
+            placa,
+            tipovehiculo,
+            marca,
+            anio,
+            color,
 
             usuarioregistro,
             usuariomodificacion,
@@ -402,7 +459,7 @@ export async function updatePoliza(req, res) {
                 archivo: archivos[i].archivo,
                 aseguradoid: aseguradoid,
                 sucursalid: sucursalid,
-                usuarioregistro:usuariomodificacion,
+                usuarioregistro: usuariomodificacion,
                 usuariomodificacion: usuariomodificacion,
                 fecharegistro: new Date(),
                 fechamodificacion: new Date(),
@@ -424,6 +481,9 @@ export async function updatePoliza(req, res) {
             }, { transaction: t });
 
         }
+
+
+
         await t.commit();
         const polizas = await Poliza.findOne({
             where: {
@@ -539,10 +599,10 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
         const polizas = await sequelize.query("select p.* ,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid "+
-            "inner join ramo r on r.id=rc.ramoid "+
-            "inner join asegurado a on a.id=p.aseguradoid "+
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid "+
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.aseguradoid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
             , {
                 type: QueryTypes.SELECT
@@ -562,14 +622,14 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
     try {
 
         const polizas = await sequelize.query("select p.* ,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
-      /*       "from poliza p " +
-            "inner join sucursal s on s.id=p.sucursalid  " + */
+            /*       "from poliza p " +
+                  "inner join sucursal s on s.id=p.sucursalid  " + */
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid "+
-            "inner join ramo r on r.id=rc.ramoid "+
-            "inner join asegurado a on a.id=p.aseguradoid "+
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid "+
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.aseguradoid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "where s.empresaid= '" + empresaid + "' and s.id='" + sucursalid + "' order by p.id "
             , {
                 type: QueryTypes.SELECT

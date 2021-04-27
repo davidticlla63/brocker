@@ -544,6 +544,12 @@ CREATE TABLE IF NOT EXISTS poliza(
     --porcentajecomision  decimal,
     --detalle character varying,
 
+    placa  character varying,
+    tipovehiculo  character varying,
+    marca  character varying,
+    anio  character varying,
+    color  character varying,
+
     usuarioregistro character varying,
     usuariomodificacion character varying,
     fecharegistro timestamp,
@@ -568,6 +574,24 @@ CREATE TABLE IF NOT EXISTS poliza_detalle(
     primaneta  decimal,
     porcentajecomision  decimal,
     detalle character varying,
+
+    
+
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp,
+    fechamodificacion timestamp,
+    estado   character varying not null,
+    polizaid  character varying REFERENCES poliza(id)
+    --,
+    --sucursalid  character varying REFERENCES sucursal(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS poliza_adicional(
+    id character varying PRIMARY KEY  DEFAULT  gen_random_uuid(),
+    valor character varying,   
+    dato character varying,    
 
     usuarioregistro character varying not null,
     usuariomodificacion character varying,

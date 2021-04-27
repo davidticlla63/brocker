@@ -38,7 +38,7 @@ const Poliza = sequelize.define('Poliza', {
     nroplaca:Sequelize.STRING,
     tipoemision :Sequelize.STRING,
 
-    //detalle poliza
+   /*  //detalle poliza
     fechainiciovigencia:Sequelize.DATE,
     fechafinvigencia:Sequelize.DATE,
     fechainclusion:Sequelize.DATE,
@@ -46,7 +46,14 @@ const Poliza = sequelize.define('Poliza', {
     porcentajeprima:Sequelize.DECIMAL,
     primaneta:Sequelize.DECIMAL,
     porcentajecomision:Sequelize.DECIMAL,
-    detalle:Sequelize.STRING,
+    detalle:Sequelize.STRING, */
+    
+    //automotor
+    placa:Sequelize.STRING,
+    tipovehiculo:Sequelize.STRING,
+    marca:Sequelize.STRING,
+    anio:Sequelize.STRING,
+    color:Sequelize.STRING,
 
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,

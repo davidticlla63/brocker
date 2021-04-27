@@ -10,8 +10,8 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
     nropoliza: Sequelize.STRING,
     nrocertificado: Sequelize.STRING,    
     //detalle poliza
-    fechainiciovigencia:Sequelize.DATE,
-    fechafinvigencia:Sequelize.DATE,
+  /*   fechainiciovigencia:Sequelize.DATE,
+    fechafinvigencia:Sequelize.DATE, */
     fechainclusion:Sequelize.DATE,
     prima:Sequelize.DECIMAL,
     porcentajeprima:Sequelize.DECIMAL,

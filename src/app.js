@@ -69,6 +69,15 @@ app.use(urlencodedParser);
 app.use(morgan('dev'));
 app.use(json());
 
+
+/* 
+var rdlc = require('../index.js')
+rdlc ({ report: 'test.rdl' }, function (err, result) {
+	if (!!err) throw err;
+	var fs = require('fs')
+	fs.writeFileSync('test.pdf', result)
+})
+ */
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/empresas', empresaRoutes);
