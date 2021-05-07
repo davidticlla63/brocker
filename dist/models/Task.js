@@ -13,6 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var Task = _database.sequelize.define('tasks', {
   id: {
+    //defaultValue: Sequelize.literal('uuid_generate_v4()'),
     type: _sequelize["default"].INTEGER,
     primaryKey: true
   },

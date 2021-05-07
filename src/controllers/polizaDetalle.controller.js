@@ -1,5 +1,6 @@
 
 import PolizaDetalle from "../models/PolizaDetalle";
+import PolizaDetalleAdicional from '../models/PolizaDetalleAdicionales'
 
 export async function getPolizaDetalles(req, res) {
     try {
@@ -33,56 +34,119 @@ export async function getPolizaDetalles(req, res) {
 
 export async function createPolizaDetalle(req, res) {
     const {
-        nropoliza,
-        nrocertificado,
-        fechainiciovigencia,
-        fechafinvigencia,
-        fechainclusion,
-        prima,
-        porcentajeprima,
-        primaneta,
-        porcentajecomision,
-        detalle,
+        /*   nropoliza,
+          nrocertificado,
+          fechainiciovigencia,
+          fechafinvigencia,
+          fechainclusion,
+          prima,
+          porcentajeprima,
+          primaneta,
+          porcentajecomision,
+          detalle, */
+        titular,
+        placa,
+        tipovehiculo,
+        marcavehiculo,
+        colorvehiculo,
+        aniovehiculo,
+
+        primaindividual,
+        primanetaindividualbs,
+        primanetaindividualusd,
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
-        fechamodificacion= new Date(),
+        fechamodificacion = new Date(),
         estado,
-        ramoid } = req.body;
+        polizaid ,adicionales} = req.body;
+        let t = await sequelize.transaction();
+        let newPolizaDetalle;
     try {
         //const transaction= sequelize.transaction;
-        let newPolizaDetalle = await PolizaDetalle.create({
-            nropoliza,
-            nrocertificado,
-            fechainiciovigencia,
-            fechafinvigencia,
-            fechainclusion,
-            prima,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
-            detalle,
+         newPolizaDetalle = await PolizaDetalle.create({
+            /*   nropoliza,
+              nrocertificado,
+              fechainiciovigencia,
+              fechafinvigencia,
+              fechainclusion,
+              prima,
+              porcentajeprima,
+              primaneta,
+              porcentajecomision,
+              detalle, */
+            titular,
+            placa,
+            tipovehiculo,
+            marcavehiculo,
+            colorvehiculo,
+            aniovehiculo,
+
+            primaindividual,
+            primanetaindividualbs,
+            primanetaindividualusd,
 
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
             estado,
-            ramoid
+            polizaid
         }, {
-            fields: [ 'nropoliza',
-                'nrocertificado',
-                'fechainiciovigencia',
-                'fechafinvigencia',
-                'fechainclusion',
-                'prima',
-                'porcentajeprima',
-                'primaneta',
-                'porcentajecomision',
-                'detalle', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+            fields: [
+                /*  'nropoliza',
+                 'nrocertificado',
+                 'fechainiciovigencia',
+                 'fechafinvigencia',
+                 'fechainclusion',
+                 'prima',
+                 'porcentajeprima',
+                 'primaneta',
+                 'porcentajecomision',
+                 'detalle', */
+                'titular',
+                'placa',
+                'tipovehiculo',
+                'marcavehiculo',
+                'colorvehiculo',
+                'aniovehiculo',
+
+                'primaindividual',
+                'primanetaindividualbs',
+                'primanetaindividualusd',
+                'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado',
-                'ramoid']
-        });
+                'polizaid']
+        }, { transaction: t });
+
+
+
+
+        for (let i = 0; i < adicionales.length; i++) {
+            // listaPermisos.push( 
+            await PolizaDetalleAdicional.create({
+                polizadetalleid: newPolizaDetalle.id,
+                valor: adicionales[i].valor,
+                dato: adicionales[i].dato,
+                usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'polizadetalleid',
+                    'valor',
+                    'dato',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+        }
+
+        await t.commit();
         if (newPolizaDetalle) {
             return res.json({
                 message: 'PolizaDetalle created successfully',
@@ -90,7 +154,13 @@ export async function createPolizaDetalle(req, res) {
             });
         }
     } catch (e) {
-        console.log(e);
+        if (t) {
+            await t.rollback();
+            //await newUsuario.destroy();
+            if (newPolizaDetalle) {
+                await Poliza.destroy({ where: { id: newPoliza.id } })
+            }
+        }
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });
@@ -100,33 +170,56 @@ export async function createPolizaDetalle(req, res) {
 
 export async function updatePolizaDetalle(req, res) {
     const { id } = req.params;
-    const {  nropoliza,
-        nrocertificado,
-        fechainiciovigencia,
-        fechafinvigencia,
-        fechainclusion,
-        prima,
-        porcentajeprima,
-        primaneta,
-        porcentajecomision,
-        detalle,
+    const {
+        /*  nropoliza,
+         nrocertificado,
+         fechainiciovigencia,
+         fechafinvigencia,
+         fechainclusion,
+         prima,
+         porcentajeprima,
+         primaneta,
+         porcentajecomision,
+         detalle, */
+        titular,
+        placa,
+        tipovehiculo,
+        marcavehiculo,
+        colorvehiculo,
+        aniovehiculo,
+
+        primaindividual,
+        primanetaindividualbs,
+        primanetaindividualusd,
+
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
-        fechamodificacion= new Date(),
+        fechamodificacion = new Date(),
         estado } = req.body;
     try {
         const updateRowCount = await PolizaDetalle.update({
-            nropoliza,
-            nrocertificado,
-            fechainiciovigencia,
-            fechafinvigencia,
-            fechainclusion,
-            prima,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
-            detalle,
+            /*  nropoliza,
+             nrocertificado,
+             fechainiciovigencia,
+             fechafinvigencia,
+             fechainclusion,
+             prima,
+             porcentajeprima,
+             primaneta,
+             porcentajecomision,
+             detalle, */
+            titular,
+            placa,
+            tipovehiculo,
+            marcavehiculo,
+            colorvehiculo,
+            aniovehiculo,
+
+            primaindividual,
+            primanetaindividualbs,
+            primanetaindividualusd,
+
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
@@ -210,7 +303,7 @@ export async function getPolizaDetallePorPoliza(req, res) {
         const { polizaid } = req.params;
         const usuario = await PolizaDetalle.findAll({
             where: {
-                polizaid,estado:'ACT'
+                polizaid, estado: 'ACT'
             }
         });
         res.json({

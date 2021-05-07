@@ -69,8 +69,9 @@ export async function subRamoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        const subRamoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
-            "inner join ramo r on r.id=rc.ramoid " +
+        const subRamoCompania= await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo from sub_ramo_compania  rc  " +
+        "inner join sub_ramo s on s.id=rc.subramoid " +
+            "inner join ramo r on r.id=s.ramoid " +
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT

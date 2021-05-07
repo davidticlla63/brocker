@@ -2,7 +2,8 @@ import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
 import Archivo from "../models/Archivo";
 import Poliza from "../models/Poliza";
-import PolizaAdicional from "../models/PolizaAdicionales";
+import PolizaDetalleAdicional from "../models/PolizaDetalleAdicionales";
+import PolizaDetalle  from '../models/PolizaDetalle'
 
 export async function getPolizas(req, res) {
     try {
@@ -38,7 +39,7 @@ export async function createPoliza(req, res) {
         subramocompaniaid,
         tiporamoid,
         contratanteid,
-        aseguradoid,
+        tomadorid,
         ejecutivoid,
         colocacionid,
         ciaspvs,
@@ -50,6 +51,8 @@ export async function createPoliza(req, res) {
         vendedorid,
         nroplaca,
         tipoemision,
+        franquicia,
+        valorasegurado,
 
         /*   fechainiciovigencia,
           fechafinvigencia,
@@ -59,15 +62,15 @@ export async function createPoliza(req, res) {
           primaneta,
           porcentajecomision,
           detalle, */
-        placa,
-        tipovehiculo,
-        marca,
-        anio,
-        color,
-
+        comisionbs,
+        comisionusd,
+        tipocambio,
+        porcentajeprima,
+        primaneta,
+        porcentajecomision,
         archivos,
-        adicionales,
-        detalle,
+        //adicionales,
+        automotores,
 
         usuarioregistro,
         usuariomodificacion,
@@ -98,7 +101,7 @@ export async function createPoliza(req, res) {
             subramocompaniaid,
             tiporamoid,
             contratanteid,
-            aseguradoid,
+            tomadorid,
             ejecutivoid,
             colocacionid,
             ciaspvs,
@@ -110,7 +113,8 @@ export async function createPoliza(req, res) {
             vendedorid,
             nroplaca,
             tipoemision,
-
+            franquicia,
+            valorasegurado,
             /*     fechainiciovigencia,
                 fechafinvigencia,
                 fechainclusion,
@@ -119,11 +123,12 @@ export async function createPoliza(req, res) {
                 primaneta,
                 porcentajecomision,
                 detalle, */
-            placa,
-            tipovehiculo,
-            marca,
-            anio,
-            color,
+            comisionbs,
+            comisionusd,
+            tipocambio,
+            porcentajeprima,
+            primaneta,
+            porcentajecomision,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
@@ -150,7 +155,7 @@ export async function createPoliza(req, res) {
                 'subramocompaniaid',
                 'tiporamoid',
                 'contratanteid',
-                'aseguradoid',
+                'tomadorid',
                 'ejecutivoid',
                 'colocacionid',
                 'ciaspvs',
@@ -162,6 +167,8 @@ export async function createPoliza(req, res) {
                 'vendedorid',
                 'nroplaca',
                 'tipoemision',
+                'franquicia',
+                'valorasegurado',
 
                 /*     'fechainiciovigencia',
                     'fechafinvigencia',
@@ -172,11 +179,13 @@ export async function createPoliza(req, res) {
                     'porcentajecomision',
                     'detalle', */
 
-                'placa',
-                'tipovehiculo',
-                'marca',
-                'anio',
-                'color',
+                'comisionbs',
+                'comisionusd',
+                'tipocambio',
+                'porcentajeprima',
+                'primaneta',
+                'porcentajecomision',
+
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -184,44 +193,108 @@ export async function createPoliza(req, res) {
                 'estado',
                 'sucursalid']
         }, { transaction: t });
+            // step 2  archivos
+           // if( archivos!) 
+            for (let i = 0; i < archivos.length; i++) {
+                // listaPermisos.push( 
+                await Archivo.create({
+                    codigo: newPoliza.id,
+                    nombre: archivos[i].nombre,
+                    descripcion: archivos[i].nombre,
+                    extension: archivos[i].extension,
+                    archivo: archivos[i].archivo,
+                    aseguradoid: tomadorid,
+                    sucursalid: sucursalid,
+                    usuarioregistro,
+                    usuariomodificacion: usuarioregistro,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT'
+                }, {
+                    fields: [
+                        'codigo',
+                        'nombre',
+                        'descripcion',
+                        'extension',
+                        'archivo',
+                        'aseguradoid',
+                        'sucursalid',
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado']
+                }, { transaction: t });
 
-        // step 2  archivos
-        for (let i = 0; i < archivos.length; i++) {
-            // listaPermisos.push( 
-            await Archivo.create({
-                codigo: newPoliza.id,
-                nombre: archivos[i].nombre,
-                descripcion: archivos[i].nombre,
-                extension: archivos[i].extension,
-                archivo: archivos[i].archivo,
-                aseguradoid: aseguradoid,
-                sucursalid: sucursalid,
+
+            }
+        for (let i = 0; i < automotores.length; i++) {
+          let  newPolizaDetalle = await PolizaDetalle.create({
+               
+                titular:automotores[i].titular,
+                placa:automotores[i].placa,
+                tipovehiculo:automotores[i].tipovehiculo,
+                marcavehiculo:automotores[i].marcavehiculo,
+                colorvehiculo:automotores[i].colorvehiculo,
+                aniovehiculo:automotores[i].aniovehiculo,
+    
+                primaindividual:automotores[i].primaindividual,
+                primanetaindividualbs:automotores[i].primanetaindividualbs,
+                primanetaindividualusd:automotores[i].primanetaindividualusd,
+    
                 usuarioregistro,
-                usuariomodificacion: usuarioregistro,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT'
+                usuariomodificacion,
+                fecharegistro:new Date(),
+                fechamodificacion:new Date(),
+                estado:'ACT',
+                polizaid:newPoliza.id
             }, {
                 fields: [
-                    'codigo',
-                    'nombre',
-                    'descripcion',
-                    'extension',
-                    'archivo',
-                    'aseguradoid',
-                    'sucursalid',
-                    'usuarioregistro',
-                    'usuariomodificacion',
-                    'fecharegistro',
-                    'fechamodificacion',
-                    'estado']
+                   
+                    'titular',
+                    'placa',
+                    'tipovehiculo',
+                    'marcavehiculo',
+                    'colorvehiculo',
+                    'aniovehiculo',
+    
+                    'primaindividual',
+                    'primanetaindividualbs',
+                    'primanetaindividualusd',
+                    'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                    'fechamodificacion', 'estado',
+                    'polizaid']
             }, { transaction: t });
+ let campos=automotores[i].campos;
+            for (let j = 0; j < campos.length; j++) {
+                // listaPermisos.push( 
+                await PolizaDetalleAdicional.create({
+                    polizadetalleid: newPolizaDetalle.id,
+                    valor: campos[j].valor,
+                    dato: campos[j].dato,
+                    usuarioregistro,
+                    usuariomodificacion: usuarioregistro,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT'
+                }, {
+                    fields: [
+                        'polizadetalleid',
+                        'valor',
+                        'dato',
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado']
+                }, { transaction: t });
+            }
+    
         }
 
-
-        for (let i = 0; i < adicionales.length; i++) {
+        /* for (let i = 0; i < adicionales.length; i++) {
             // listaPermisos.push( 
-            await PolizaAdicional.create({
+            await PolizaDetalleAdicional.create({
                 polizaid: newPoliza.id,
                 valor: adicionales[i].valor,
                 dato: adicionales[i].dato,
@@ -241,9 +314,9 @@ export async function createPoliza(req, res) {
                     'fechamodificacion',
                     'estado']
             }, { transaction: t });
-        }
+        } */
 
-        
+
 
         await t.commit();
         if (newPoliza) {
@@ -339,12 +412,12 @@ export async function updatePoliza(req, res) {
         encargadoid,
         bancoid,
         ciudadexpedicion,
-        broker,
+        // broker,
         notas,
         companiaseguroid,
         subramocompaniaid,
         contratanteid,
-        aseguradoid,
+        tomadorid,
         ejecutivoid,
         colocacionid,
         ciaspvs,
@@ -356,7 +429,8 @@ export async function updatePoliza(req, res) {
         vendedorid,
         nroplaca,
         tipoemision,
-
+        franquicia,
+        valorasegurado,
         /*         fechainiciovigencia,
                 fechafinvigencia,
                 fechainclusion,
@@ -366,11 +440,12 @@ export async function updatePoliza(req, res) {
                 porcentajecomision,
                 detalle, */
 
-        placa,
-        tipovehiculo,
-        marca,
-        anio,
-        color,
+        comisionbs,
+        comisionusd,
+        tipocambio,
+        porcentajeprima,
+        primaneta,
+        porcentajecomision,
 
         usuarioregistro,
         usuariomodificacion,
@@ -393,13 +468,13 @@ export async function updatePoliza(req, res) {
             encargadoid,
             bancoid,
             ciudadexpedicion,
-            broker,
+            //broker,
             notas,
             companiaseguroid,
             subramocompaniaid,
             tiporamoid,
             contratanteid,
-            aseguradoid,
+            tomadorid,
             ejecutivoid,
             colocacionid,
             ciaspvs,
@@ -411,7 +486,8 @@ export async function updatePoliza(req, res) {
             vendedorid,
             nroplaca,
             tipoemision,
-
+            franquicia,
+            valorasegurado,
             /*    fechainiciovigencia,
                fechafinvigencia,
                fechainclusion,
@@ -421,11 +497,12 @@ export async function updatePoliza(req, res) {
                porcentajecomision,
                detalle, */
 
-            placa,
-            tipovehiculo,
-            marca,
-            anio,
-            color,
+            comisionbs,
+            comisionusd,
+            tipocambio,
+            porcentajeprima,
+            primaneta,
+            porcentajecomision,
 
             usuarioregistro,
             usuariomodificacion,
@@ -457,7 +534,7 @@ export async function updatePoliza(req, res) {
                 descripcion: archivos[i].nombre,
                 extension: archivos[i].extension,
                 archivo: archivos[i].archivo,
-                aseguradoid: aseguradoid,
+                aseguradoid: tomadorid,
                 sucursalid: sucursalid,
                 usuarioregistro: usuariomodificacion,
                 usuariomodificacion: usuariomodificacion,
@@ -560,7 +637,8 @@ export async function getPolizaPorTipoYSucursal(req, res) {
     const { tipopolizaid, sucursalid } = req.params;
     try {
 
-        const polizas = await Poliza.findAll({ where: { tipopolizaid, sucursalid, estado: 'ACT' } });
+        //const polizas = await Poliza.findAll({ where: { tipopolizaid, sucursalid, estado: 'ACT' } });
+        const polizas = await Poliza.findAll({ where: { tpoliza:tipopolizaid, sucursalid, estado: 'ACT' } });
 
         res.json({ polizas });
     } catch (e) {
@@ -578,7 +656,8 @@ export async function getPolizasPorTipoYEmpresa(req, res) {
         const polizas = await sequelize.query("select p.* " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
-            "where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by p.id "
+            //"where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tipopolizaid + "' order by p.id "
             , {
                 type: QueryTypes.SELECT
             });
@@ -596,14 +675,16 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.* ,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.aseguradoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
+            //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tiporamoid + "' order by p.id "
             , {
                 type: QueryTypes.SELECT
             });
@@ -621,14 +702,15 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.* ,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
+        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
             /*       "from poliza p " +
                   "inner join sucursal s on s.id=p.sucursalid  " + */
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.aseguradoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "where s.empresaid= '" + empresaid + "' and s.id='" + sucursalid + "' order by p.id "
             , {

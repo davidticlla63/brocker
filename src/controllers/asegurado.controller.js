@@ -34,7 +34,7 @@ export async function createAsegurado(req, res) {
         fotografia,
         direccionasegurado,
         fechanacimiento,
-         
+
         fechavencimientocarnet,
         fechavencimientobrevet,
         fechavencimientofundempresa,
@@ -71,11 +71,11 @@ export async function createAsegurado(req, res) {
     let newAsegurado;
     try {
 
-      /*   if (tipoasegurado == 'corporativo') {
-            fechanacimiento= null;
-        } */
+        /*   if (tipoasegurado == 'corporativo') {
+              fechanacimiento= null;
+          } */
         //const transaction= sequelize.transaction;
-         newAsegurado = await Asegurado.create({
+        newAsegurado = await Asegurado.create({
             tipoasegurado,
             apellidopaterno,
             apellidomaterno,
@@ -91,7 +91,7 @@ export async function createAsegurado(req, res) {
             fotografia,
             direccionasegurado,
             fechanacimiento,
-         
+
             //fechavencimientocarnet:fechavencimientocarnet==null?null:fechavencimientocarnet,
             fechavencimientocarnet,
             fechavencimientobrevet,
@@ -140,7 +140,7 @@ export async function createAsegurado(req, res) {
                 'fotografia',
                 'direccionasegurado',
                 'fechanacimiento',
- 
+
                 'fechavencimientocarnet',
                 'fechavencimientobrevet',
                 'fechavencimientofundempresa',
@@ -173,8 +173,8 @@ export async function createAsegurado(req, res) {
         }, { transaction: t });
 
 
-         // step 2  archivos
-         for (let i = 0; i < archivos.length; i++) {
+        // step 2  archivos
+        for (let i = 0; i < archivos.length; i++) {
             // listaPermisos.push( 
             await Archivo.create({
                 codigo: newAsegurado.id,
@@ -182,8 +182,9 @@ export async function createAsegurado(req, res) {
                 descripcion: archivos[i].nombre,
                 extension: archivos[i].extension,
                 archivo: archivos[i].archivo,
-                aseguradoid:  newAsegurado.id,
+                aseguradoid: newAsegurado.id,
                 sucursalid: sucursalid,
+                carpetaid: archivos[i].carpetaid,
                 usuarioregistro,
                 usuariomodificacion: usuarioregistro,
                 fecharegistro: new Date(),
@@ -198,6 +199,7 @@ export async function createAsegurado(req, res) {
                     'archivo',
                     'aseguradoid',
                     'sucursalid',
+                    'carpetaid',
                     'usuarioregistro',
                     'usuariomodificacion',
                     'fecharegistro',
@@ -285,7 +287,7 @@ export async function updateAsegurado(req, res) {
         direccionasegurado,
         fechanacimiento,
 
-         
+
         fechavencimientocarnet,
         fechavencimientobrevet,
         fechavencimientofundempresa,
@@ -316,7 +318,7 @@ export async function updateAsegurado(req, res) {
         carteraid,
         usuariomodificacion,
         estado, archivos, archivoseliminados } = req.body;
-        let t = await sequelize.transaction();
+    let t = await sequelize.transaction();
     try {
         const updateRowCount = await Asegurado.update({
             tipoasegurado,
@@ -334,13 +336,13 @@ export async function updateAsegurado(req, res) {
             fotografia,
             direccionasegurado,
             fechanacimiento,
- 
+
             fechavencimientocarnet,
             fechavencimientobrevet,
             fechavencimientofundempresa,
             relacionasegurado,
             cargorepresentante,
-            
+
             //personalcobranza,
             apellidopaternocobranza,
             apellidomaternocobranza,
@@ -392,7 +394,8 @@ export async function updateAsegurado(req, res) {
                 archivo: archivos[i].archivo,
                 aseguradoid: id,
                 sucursalid: sucursalid,
-                usuarioregistro:usuariomodificacion,
+                carpetaid: archivos[i].carpetaid,
+                usuarioregistro: usuariomodificacion,
                 usuariomodificacion: usuariomodificacion,
                 fecharegistro: new Date(),
                 fechamodificacion: new Date(),
@@ -406,6 +409,7 @@ export async function updateAsegurado(req, res) {
                     'archivo',
                     'aseguradoid',
                     'sucursalid',
+                    'carpetaid',
                     'usuarioregistro',
                     'usuariomodificacion',
                     'fecharegistro',
@@ -505,9 +509,9 @@ export async function aseguradosPorSucursalYTipo(req, res) {
 
         let string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " +
             " from asegurado a " +
-            "inner join personal e on e.id=a.ejecutivoid "+
-            "inner join personal c on c.id = a.carteraid "+
-            "inner join departamento d on d.id = a.departamentoid "+
+            "inner join personal e on e.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
             " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto "
         //console.log(string)
         const asegurados = await sequelize.query(string
@@ -531,9 +535,9 @@ export async function aseguradosPorEmpresaYTipo(req, res) {
             "from asegurado a " +
             "inner join sucursal s on s.id=a.sucursalid " +
             " inner join empresa e on e.id=s.empresaid " +
-            "inner join personal ej on ej.id=a.ejecutivoid "+
-            "inner join personal c on c.id = a.carteraid "+
-            "inner join departamento d on d.id = a.departamentoid "+
+            "inner join personal ej on ej.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
             "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto ";
         console.log(query)
         const asegurados = await sequelize.query(query
@@ -552,13 +556,13 @@ export async function aseguradosPorEmpresaYTipo(req, res) {
 
 export async function aseguradosPorSucursals(req, res) {
     try {
-        const { sucursalid} = req.params;
+        const { sucursalid } = req.params;
 
-        let string = "select a.id,a.nombrecompleto,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+        let string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
             " from asegurado a " +
-            "inner join personal e on e.id=a.ejecutivoid "+
-            "inner join personal c on c.id = a.carteraid "+
-            "inner join departamento d on d.id = a.departamentoid "+
+            "inner join personal e on e.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
             " where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.nombrecompleto "
         //console.log(string)
         const asegurados = await sequelize.query(string
@@ -578,13 +582,13 @@ export async function aseguradosPorEmpresas(req, res) {
     try {
         const { empresaid } = req.params;
         //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
-        let query = "select a.id,a.nombrecompleto,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+        let query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
             "from asegurado a " +
             "inner join sucursal s on s.id=a.sucursalid " +
             " inner join empresa e on e.id=s.empresaid " +
-            "inner join personal ej on ej.id=a.ejecutivoid "+
-            "inner join personal c on c.id = a.carteraid "+
-            "inner join departamento d on d.id = a.departamentoid "+
+            "inner join personal ej on ej.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
             "where e.id='" + empresaid + "' and a.estado='ACT' order by a.nombrecompleto ";
         console.log(query)
         const asegurados = await sequelize.query(query

@@ -274,7 +274,8 @@ function _getTasksByProject() {
             return _Task["default"].findAll({
               attributes: ['id', 'projectid', 'name', 'done'],
               where: {
-                projectid: projectid
+                projectid: projectid,
+                estado: 'ACT'
               }
             });
 

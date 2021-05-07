@@ -5,7 +5,7 @@ export const sequelize = new Sequelize(
     'postgres',
     'admin',
     {
-        host: 'localhost',
+        host: 'ec2-3-133-91-105.us-east-2.compute.amazonaws.com',
         dialect: 'postgres',
         port:5432, 
       dialectOptions: {

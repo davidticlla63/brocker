@@ -19,6 +19,6 @@ router.get('/:id', polizaDetalles.getOnePolizaDetalle);
 router.delete('/:id', polizaDetalles.deletePolizaDetalle);
 router.put('/:id', polizaDetalles.updatePolizaDetalle);
 router.put('/baja/:id', polizaDetalles.bajaPolizaDetalle);
-router.get('/polizaDetallesPorPoliza/:ramoid', polizaDetalles.polizaDetallesPorPoliza);
+router.get('/polizaDetallesPorPoliza/:polizaid', polizaDetalles.polizaDetallesPorPoliza);
 
 export default router;

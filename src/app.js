@@ -29,6 +29,8 @@ import tipomemoRoutes from './routes/tipomemo'
 import contratanteRoutes from './routes/contratante'
 import vendedorRoutes from './routes/vendedor'
 import carpetaRoutes from './routes/carpeta'
+import tipoCambioRoutes from './routes/tipoCambio'
+import plansRoutes from './routes/plan'
 
 const compression = require("compression");
 
@@ -40,7 +42,7 @@ var jsonParser       = bodyParser.json({limit:1024*1024*50, type:'application/js
 //const app = express();
 
 const app = express();
-const shouldCompress = (req, res) => {
+/* const shouldCompress = (req, res) => {
   if (req.headers['x-no-compression']) {
     // Will not compress responses, if this header is present
     return false;
@@ -48,9 +50,10 @@ const shouldCompress = (req, res) => {
   // Resort to standard compression
   return compression.filter(req, res);
 };
+
 // Compress all HTTP responses
 app.use(compression({
-  level:6,
+  level:100,
   // filter: Decide if the answer should be compressed or not,
   // depending on the 'shouldCompress' function above
   filter: shouldCompress,
@@ -58,7 +61,7 @@ app.use(compression({
   // body size before considering compression, the default is 1 kB
   threshold: 10*1000
 }));
-
+ */
 // middlewares
 
 app.use(jsonParser);
@@ -88,6 +91,8 @@ app.use('/api/perfils', perfilRoutes);
 app.use('/api/paginas', paginaRoutes);
 app.use('/api/permisos', permisoRoutes);
 app.use('/api/accions', accionRoutes);
+
+app.use('/api/tipocambios',tipoCambioRoutes);
 //sistema asegurado
 app.use('/api/areaTrabajos', areaTrabajoRoutes);
 app.use('/api/personals', personalRoutes);
@@ -100,6 +105,7 @@ app.use('/api/ramos', ramoRoutes);
 app.use('/api/bancos', bancoRoutes);
 app.use('/api/subramos', subramoRoutes);
 app.use('/api/subRamoCompanias', subRamoCompaniaRoutes);
+app.use('/api/plans', plansRoutes);
 
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas',polizaRoutes);
@@ -108,5 +114,7 @@ app.use('/api/tipomemos',tipomemoRoutes);
 app.use('/api/contratantes',contratanteRoutes);
 app.use('/api/vendedors',vendedorRoutes);
 app.use('/api/carpetas',carpetaRoutes);
+
+
 
 export default app;

@@ -11,6 +11,8 @@ exports.updateProject = updateProject;
 
 var _Project = _interopRequireDefault(require("../models/Project"));
 
+var _Task = _interopRequireDefault(require("../models/Task"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -30,7 +32,9 @@ function _getProjects() {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _Project["default"].findAll();
+            return _Project["default"].findAll({
+              include: _Task["default"]
+            });
 
           case 3:
             projects = _context.sent;

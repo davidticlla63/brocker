@@ -1,4 +1,5 @@
-
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 import Archivo from "../models/Archivo";
 
 export async function getArchivos(req, res) {
@@ -18,7 +19,18 @@ export async function getArchivos(req, res) {
 export async function getArchivosCodigo(req, res) {
     try {
         const { codigo } = req.params;
-        const archivos = await Archivo.findAll({ where: { codigo,estado: 'ACT' }});
+        //const archivos = await Archivo.findAll({ where: { codigo,estado: 'ACT' }});
+        //console.log(archivos);
+
+
+        let query = "select a.*" +
+        "from archivo a " +
+        "where a.codigo='" + codigo + "' and a.estado='ACT' order by a.nombre ";
+    console.log(query)
+    const archivos = await sequelize.query(query
+        , {
+            type: QueryTypes.SELECT
+        });
         res.json({
             data: archivos
         });

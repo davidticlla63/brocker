@@ -15,8 +15,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var Project = _database.sequelize.define('projects', {
   id: {
-    type: _sequelize["default"].INTEGER,
-    primaryKey: true
+    //type: Sequelize.INTEGER,
+    primaryKey: true,
+    type: _sequelize["default"].UUID,
+    defaultValue: _sequelize["default"].UUIDV1
   },
   name: {
     type: _sequelize["default"].TEXT
@@ -28,7 +30,7 @@ var Project = _database.sequelize.define('projects', {
     type: _sequelize["default"].TEXT
   },
   deliverydate: {
-    type: _sequelize["default"].DATE
+    type: _sequelize["default"].DATE(6)
   }
 }, {
   timestamps: false

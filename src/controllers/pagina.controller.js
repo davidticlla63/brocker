@@ -1,74 +1,12 @@
 
-import Accion from "../models/Accion";
 import Pagina from "../models/Pagina";
 import PaginaAccion from "../models/PaginaAccion";
-import { sequelize } from "../database/database";
 export async function getPaginas(req, res) {
     try {
 
-      /*   Pagina.findAll({
-            include: [
-              {
-                model: PaginaAccion,
-                include: [
-                  {
-                    model: Accion
-                  }
-                ]
-              }
-            ]
-          }).then(paginas => {
-            const resObj = paginas.map(user => {
-      
-              //tidy up the user data
-              return Object.assign(
-                {},
-                {
-                  user_id: user.id,
-                  username: user.username,
-                  role: user.role,
-                  posts: user.posts.map(post => {
-      
-                    //tidy up the post data
-                    return Object.assign(
-                      {},
-                      {
-                        post_id: post.id,
-                        user_id: post.user_id,
-                        content: post.content,
-                        comments: post.comments.map(comment => {
-      
-                          //tidy up the comment data
-                          return Object.assign(
-                            {},
-                            {
-                              comment_id: comment.id,
-                              post_id: comment.post_id,
-                              commenter: comment.commenter_username,
-                              commenter_email: comment.commenter_email,
-                              content: comment.content
-                            }
-                          )
-                        })
-                      }
-                      )
-                  })
-                }
-              )
-            });
-            res.json(resObj)
-          }); */
-   /*      const paginas = await sequelize.query("select pa.id as paginaaccionid,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " +
-            "from pagina pag       " +
-            "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " +
-            "inner join accion a on a.id=pa.accionid  " +
-            "where pag.estado='ACT' " +
-            "ORDER BY pag.nombre "
-            , {
-                type: QueryTypes.SELECT
-            }); */
+     
         const paginas = await Pagina.findAll({
-            where: { estado: 'ACT', paginaid: null  },order:[['orden','ASC']]
+            where: { estado: 'ACT', paginaid: null },require:true ,order:[['orden','ASC']]
             , include: [{
                 model: Pagina,require:true, estado: 'ACT'
                   , 
@@ -81,8 +19,11 @@ export async function getPaginas(req, res) {
             },{ model: PaginaAccion ,attributes:['id','accionid','paginaid'],require:true, estado: 'ACT'}
         ]
         });
+
+        const lista=paginas.filter(item => item.estado ='ACT' );
+        console.log(lista);
         res.json({
-            data: paginas
+            data: lista
         });
     } catch (e) {
         console.log(e);

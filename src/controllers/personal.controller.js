@@ -301,9 +301,7 @@ export async function personalByAreaTrabajoYSucursal(req, res) {
             }
         });
         res.json({personals }); */
-        if (condition) {
-            
-        }
+      
 
         const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
         ",p.fecharegistro,p.fechamodificacion,p.estado " +
