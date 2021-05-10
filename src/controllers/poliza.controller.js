@@ -712,7 +712,7 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "where s.empresaid= '" + empresaid + "' and s.id='" + sucursalid + "' order by p.id "
+            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "'  order by p.id "
             , {
                 type: QueryTypes.SELECT
             });
