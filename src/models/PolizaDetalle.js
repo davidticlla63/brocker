@@ -17,8 +17,6 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
         porcentajecomision:Sequelize.DECIMAL,
         detalle:Sequelize.STRING, */
 
-
-
     titular: Sequelize.STRING,
     placa: Sequelize.STRING,
     tipovehiculo: Sequelize.STRING,
@@ -43,7 +41,7 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
 }, {
     timestamps: false,
     //tableName: 'poliza_detalle'
-    tableName:'poliza_detalle_automotor'
+    tableName: 'poliza_detalle_automotor'
 });
 /* PolizaDetalle.hasMany(PaginaPolizaDetalle, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaPolizaDetalle.belongsTo(PolizaDetalle, { foreignKey: 'accionid', sourceKey: 'id' }); */

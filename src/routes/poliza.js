@@ -12,6 +12,12 @@ router
     .use(compression());
 // /api/empresas/
 router.post('/', polizas.createPoliza);
+router.put('/:id', polizas.updatePoliza);
+router.post('/salud/', polizas.createPolizaSalud);
+router.put('/salud/:id', polizas.updatePolizaSalud);
+router.post('/general/', polizas.createPolizaGeneral);
+router.put('/general/:id', polizas.updatePolizaGeneral);
+
 router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
 router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);
@@ -23,7 +29,7 @@ router.get('/polizasPorTipoRamoYSucursal/:tiporamoid/:sucursalid', polizas.getPo
 // /api/empresas/:empresaID
 router.get('/:id', polizas.getOnePoliza);
 router.delete('/:id', polizas.deletePoliza);
-router.put('/:id', polizas.updatePoliza);
+
 router.put('/baja/:id', polizas.bajaPoliza);
 
 

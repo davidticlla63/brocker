@@ -12,7 +12,7 @@ const Poliza = sequelize.define('Poliza', {
     fechainicio: Sequelize.DATE,
     fechafin: Sequelize.DATE,
     fechaexpedicion: Sequelize.DATE,
-    fechaerecepcion: Sequelize.DATE,
+    fecharecepcion: Sequelize.DATE,
     tipomoneda: Sequelize.STRING,
     primatotal: Sequelize.DECIMAL,
     formapago: Sequelize.STRING,
@@ -75,6 +75,7 @@ const Poliza = sequelize.define('Poliza', {
         allowNull: false,
     },
     sucursalid: Sequelize.STRING,
+    planid: Sequelize.STRING
 
 }, {
     timestamps: false,
