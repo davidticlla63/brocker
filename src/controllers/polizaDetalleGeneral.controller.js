@@ -1,12 +1,11 @@
 
-import PolizaDetalle from "../models/PolizaDetalle";
-import PolizaDetalleAdicional from '../models/PolizaDetalleAdicionales'
+import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
 
-export async function getPolizaDetalles(req, res) {
+export async function getPolizaDetalleGenerals(req, res) {
     try {
-        const polizaDetalles = await PolizaDetalle.findAll({ where: { estado: 'ACT' } });
+        const polizaDetalleGenerals = await PolizaDetalleGeneral.findAll({ where: { estado: 'ACT' } });
         res.json({
-            data: polizaDetalles
+            data: polizaDetalleGenerals
         });
     } catch (e) {
         console.log(e);
@@ -16,7 +15,7 @@ export async function getPolizaDetalles(req, res) {
     }
 }
 
-export async function createPolizaDetalle(req, res) {
+export async function createPolizaDetalleGeneral(req, res) {
     const {
         /*   nropoliza,
           nrocertificado,
@@ -45,10 +44,10 @@ export async function createPolizaDetalle(req, res) {
         estado,
         polizaid ,adicionales} = req.body;
         let t = await sequelize.transaction();
-        let newPolizaDetalle;
+        let newPolizaDetalleGeneral;
     try {
         //const transaction= sequelize.transaction;
-         newPolizaDetalle = await PolizaDetalle.create({
+         newPolizaDetalleGeneral = await PolizaDetalleGeneral.create({
             /*   nropoliza,
               nrocertificado,
               fechainiciovigencia,
@@ -108,8 +107,8 @@ export async function createPolizaDetalle(req, res) {
 
         for (let i = 0; i < adicionales.length; i++) {
             // listaPermisos.push( 
-            await PolizaDetalleAdicional.create({
-                polizadetalleid: newPolizaDetalle.id,
+            await PolizaDetalleGeneralAdicional.create({
+                polizadetalleid: newPolizaDetalleGeneral.id,
                 valor: adicionales[i].valor,
                 dato: adicionales[i].dato,
                 usuarioregistro,
@@ -131,17 +130,17 @@ export async function createPolizaDetalle(req, res) {
         }
 
         await t.commit();
-        if (newPolizaDetalle) {
+        if (newPolizaDetalleGeneral) {
             return res.json({
-                message: 'PolizaDetalle created successfully',
-                data: newPolizaDetalle
+                message: 'PolizaDetalleGeneral created successfully',
+                data: newPolizaDetalleGeneral
             });
         }
     } catch (e) {
         if (t) {
             await t.rollback();
             //await newUsuario.destroy();
-            if (newPolizaDetalle) {
+            if (newPolizaDetalleGeneral) {
                 await Poliza.destroy({ where: { id: newPoliza.id } })
             }
         }
@@ -152,7 +151,7 @@ export async function createPolizaDetalle(req, res) {
 }
 
 
-export async function updatePolizaDetalle(req, res) {
+export async function updatePolizaDetalleGeneral(req, res) {
     const { id } = req.params;
     const {
         /*  nropoliza,
@@ -182,7 +181,7 @@ export async function updatePolizaDetalle(req, res) {
         fechamodificacion = new Date(),
         estado } = req.body;
     try {
-        const updateRowCount = await PolizaDetalle.update({
+        const updateRowCount = await PolizaDetalleGeneral.update({
             /*  nropoliza,
              nrocertificado,
              fechainiciovigencia,
@@ -215,15 +214,15 @@ export async function updatePolizaDetalle(req, res) {
             }
         });
 
-        const polizaDetalles = await PolizaDetalle.findOne({
+        const polizaDetalleGenerals = await PolizaDetalleGeneral.findOne({
             where: {
                 id
             }
         }
         );
         res.json({
-            message: 'PolizaDetalle update successfully',
-            count: polizaDetalles
+            message: 'PolizaDetalleGeneral update successfully',
+            count: polizaDetalleGenerals
         });
 
 
@@ -238,17 +237,17 @@ export async function updatePolizaDetalle(req, res) {
 }
 
 
-export async function bajaPolizaDetalle(req, res) {
+export async function bajaPolizaDetalleGeneral(req, res) {
     const { id } = req.params;
 
-    console.log("bajaPolizaDetalle");
+    console.log("bajaPolizaDetalleGeneral");
     const {
         //    id,
         usuariomodificacion
     } = req.body;
     try {
         // var moment = require('moment');
-        const updateRowCount = await PolizaDetalle.update({
+        const updateRowCount = await PolizaDetalleGeneral.update({
             usuariomodificacion,
             /*  fechamodificacion:moment().format(), */
             fechamodificacion: new Date(),
@@ -259,7 +258,7 @@ export async function bajaPolizaDetalle(req, res) {
             }
         });
 
-        const polizaDetalles = await PolizaDetalle.findOne({
+        const polizaDetalleGenerals = await PolizaDetalleGeneral.findOne({
             where: {
                 id
             }
@@ -267,8 +266,8 @@ export async function bajaPolizaDetalle(req, res) {
         );
 
         res.json({
-            message: 'PolizaDetalle baja successfully',
-            count: polizaDetalles
+            message: 'PolizaDetalleGeneral baja successfully',
+            count: polizaDetalleGenerals
         });
 
 
@@ -282,10 +281,10 @@ export async function bajaPolizaDetalle(req, res) {
     }
 }
 
-export async function getPolizaDetallePorPoliza(req, res) {
+export async function getPolizaDetalleGeneralPorPoliza(req, res) {
     try {
         const { polizaid } = req.params;
-        const usuario = await PolizaDetalle.findAll({
+        const usuario = await PolizaDetalleGeneral.findAll({
             where: {
                 polizaid, estado: 'ACT'
             }
@@ -301,14 +300,14 @@ export async function getPolizaDetallePorPoliza(req, res) {
     }
 }
 
-export async function polizaDetallesPorPoliza(req, res) {
+export async function polizaDetalleGeneralsPorPoliza(req, res) {
     const {
         polizaid } = req.params;
     try {
         console.log(req.params)
-        const polizaDetalles = await PolizaDetalle.findAll({ where: { estado: 'ACT', polizaid } });
+        const polizaDetalleGenerals = await PolizaDetalleGeneral.findAll({ where: { estado: 'ACT', polizaid } });
         res.json({
-            data: polizaDetalles
+            data: polizaDetalleGenerals
         });
     } catch (e) {
         console.log(e);
@@ -318,16 +317,16 @@ export async function polizaDetallesPorPoliza(req, res) {
     }
 }
 
-export async function deletePolizaDetalle(req, res) {
+export async function deletePolizaDetalleGeneral(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await PolizaDetalle.destroy({
+        const deleteRowCount = await PolizaDetalleGeneral.destroy({
             where: {
                 id
             }
         });
         res.json({
-            message: 'PolizaDetalle deleted successfully',
+            message: 'PolizaDetalleGeneral deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {

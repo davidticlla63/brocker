@@ -58,15 +58,16 @@ export async function createMemo(req, res) {
         porcentajeprima,
         primaneta,
         porcentajecomision,
-        archivos,
-        planpagos,
+        
 
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
         fechamodificacion = new Date(),
         estado = 'ACT',
-        sucursalid } = req.body;
+        sucursalid,
+        archivos,
+        planpagos } = req.body;
     let t = await sequelize.transaction();
     let newMemo;
     try {
@@ -231,58 +232,11 @@ export async function createMemo(req, res) {
                     'fechamodificacion', 'estado',
                     'memoid']
             }, { transaction: t });
-            let campos = planpagos[i].campos;
-            for (let j = 0; j < campos.length; j++) {
-                // listaPermisos.push( 
-                await PlanPagoAdicional.create({
-                    memodetalleid: newPlanPago.id,
-                    valor: campos[j].valor,
-                    dato: campos[j].dato,
-                    usuarioregistro,
-                    usuariomodificacion: usuarioregistro,
-                    fecharegistro: new Date(),
-                    fechamodificacion: new Date(),
-                    estado: 'ACT'
-                }, {
-                    fields: [
-                        'memodetalleid',
-                        'valor',
-                        'dato',
-                        'usuarioregistro',
-                        'usuariomodificacion',
-                        'fecharegistro',
-                        'fechamodificacion',
-                        'estado']
-                }, { transaction: t });
-            }
+           
 
         }
 
-        /* for (let i = 0; i < adicionales.length; i++) {
-            // listaPermisos.push( 
-            await PlanPagoAdicional.create({
-                memoid: newMemo.id,
-                valor: adicionales[i].valor,
-                dato: adicionales[i].dato,
-                usuarioregistro,
-                usuariomodificacion: usuarioregistro,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT'
-            }, {
-                fields: [
-                    'memoid',
-                    'valor',
-                    'dato',
-                    'usuarioregistro',
-                    'usuariomodificacion',
-                    'fecharegistro',
-                    'fechamodificacion',
-                    'estado']
-            }, { transaction: t });
-        } */
-
-
+      
 
         await t.commit();
         if (newMemo) {
@@ -378,7 +332,6 @@ export async function updateMemo(req, res) {
         encargadoid,
         bancoid,
         ciudadexpedicion,
-        // broker,
         notas,
         companiaseguroid,
         subramocompaniaid,
@@ -397,14 +350,7 @@ export async function updateMemo(req, res) {
         tipoemision,
         franquicia,
         valorasegurado,
-        /*         fechainiciovigencia,
-                fechafinvigencia,
-                fechainclusion,
-                prima,
-                porcentajeprima,
-                primaneta,
-                porcentajecomision,
-                detalle, */
+        
 
         comisionbs,
         comisionusd,
@@ -418,7 +364,9 @@ export async function updateMemo(req, res) {
         fecharegistro,
         fechamodificacion = new Date(),
         estado,
-        sucursalid, archivos, archivoseliminados } = req.body;
+        sucursalid, archivos, archivoseliminados,
+        planpagosliminados,
+        planpagos } = req.body;
     let t = await sequelize.transaction();
     try {
         const updateRowCount = await Memo.update({
@@ -524,8 +472,50 @@ export async function updateMemo(req, res) {
             }, { transaction: t });
 
         }
+        for (let i = 0; i < planpagosliminados.length; i++) {
 
+            await PlanPago.update({
+                estado: 'BAJ',
+                fechamodificacion: new Date()
+            }, { where: { id: planpagosliminados[i].id } }, { transaction: t });
 
+        }
+        for (let i = 0; i < planpagos.length; i++) {
+            let newPlanPago = await PlanPago.create({
+
+                fechapago: planpagos[i].fechapago,
+                montobs: planpagos[i].montobs,
+                montousd: planpagos[i].montousd,
+                porcentaje: planpagos[i].porcentaje,
+                comisionbs: planpagos[i].comisionbs,
+                comisionusd: planpagos[i].comisionusd,
+
+                usuarioregistro,
+                usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT',
+                memoid: id
+            }, {
+                fields: [
+
+                    'titular',
+                    'placa',
+                    'tipovehiculo',
+                    'marcavehiculo',
+                    'colorvehiculo',
+                    'aniovehiculo',
+
+                    'primaindividual',
+                    'primanetaindividualbs',
+                    'primanetaindividualusd',
+                    'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                    'fechamodificacion', 'estado',
+                    'memoid']
+            }, { transaction: t });
+           
+
+        }
 
         await t.commit();
         const memos = await Memo.findOne({
