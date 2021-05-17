@@ -16,8 +16,9 @@ export async function getProjects(req, res) {
 }
 
 export async function createProject(req, res) {
-    const { name, priority, description, deliverydate } = req.body;
+    const { name, priority, description, deliverydate, tasks } = req.body;
     try {
+        
         //const transaction= sequelize.transaction;
         let newProject = await Project.create({
             name,

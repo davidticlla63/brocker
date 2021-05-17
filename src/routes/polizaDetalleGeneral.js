@@ -15,6 +15,6 @@ router.post('/', polizaDetalleGenerals.createPolizaDetalleGeneral);
 router.get('/', polizaDetalleGenerals.getPolizaDetalleGenerals);
 
 // /api/empresas/:empresaID
-router.get('/polizaDetalleGeneralsPorPoliza/:polizaid', polizaDetalleGenerals.polizaDetalleGeneralsPorPoliza);
+router.get('/polizaDetallesPorPoliza/:polizaid', polizaDetalleGenerals.polizaDetalleGeneralsPorPoliza);
 
 export default router;

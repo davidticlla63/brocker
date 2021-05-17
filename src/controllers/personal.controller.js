@@ -191,6 +191,7 @@ export async function bajaPersonal(req, res) {
         usuariomodificacion,
         fechamodificacion = new Date(),
         estado = "BAJ" } = req.body;
+        console.log("bajaPersonal");
     try {
         const updateRowCount = await Personal.update({
             usuariomodificacion,

@@ -1,5 +1,5 @@
 import { sequelize } from "../database/database";
-const { QueryTypes } = require('sequelize');
+const { QueryTypes, Promise } = require('sequelize');
 import Archivo from "../models/Archivo";
 import Poliza from "../models/Poliza";
 import PolizaDetalleAdicional from "../models/PolizaDetalleAdicionales";
@@ -50,9 +50,9 @@ export async function createPoliza(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        //llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -81,9 +81,10 @@ export async function createPoliza(req, res) {
         estado = 'ACT',
         sucursalid,
         planid } = req.body;
-    let t = await sequelize.transaction();
     let newPoliza;
+    let t;
     try {
+        t = await sequelize.transaction();
         //const transaction= sequelize.transaction;
         newPoliza = await Poliza.create({
             nropoliza,
@@ -112,9 +113,9 @@ export async function createPoliza(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            // llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -167,9 +168,9 @@ export async function createPoliza(req, res) {
                 'tpoliza',
                 'tipocontrato',
                 'menoid',
-                'llamadoid',
+                // 'llamadoid',
                 'vendedorid',
-                'nroplaca',
+                //'nroplaca',
                 'tipoemision',
                 'franquicia',
                 'valorasegurado',
@@ -374,9 +375,9 @@ export async function updatePoliza(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        // llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -394,8 +395,9 @@ export async function updatePoliza(req, res) {
         estado,
         sucursalid, planid, archivos, archivoseliminados,
         automotores, eliminadosautomotores } = req.body;
-    let t = await sequelize.transaction();
+    let t;
     try {
+        t = await sequelize.transaction();
         const updateRowCount = await Poliza.update({
             nropoliza,
             nrocertificado,
@@ -423,9 +425,9 @@ export async function updatePoliza(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            //llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -620,9 +622,9 @@ export async function createPolizaSalud(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        //llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -642,7 +644,7 @@ export async function createPolizaSalud(req, res) {
         porcentajecomision,
         archivos,
         //adicionales,
-        saluds,
+        personas,
 
         usuarioregistro,
         usuariomodificacion,
@@ -651,9 +653,10 @@ export async function createPolizaSalud(req, res) {
         estado = 'ACT',
         sucursalid,
         planid } = req.body;
-    let t = await sequelize.transaction();
     let newPoliza;
+    let t;
     try {
+        t = await sequelize.transaction();
         //const transaction= sequelize.transaction;
         newPoliza = await Poliza.create({
             nropoliza,
@@ -682,9 +685,9 @@ export async function createPolizaSalud(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            //llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -737,9 +740,9 @@ export async function createPolizaSalud(req, res) {
                 'tpoliza',
                 'tipocontrato',
                 'menoid',
-                'llamadoid',
+                //'llamadoid',
                 'vendedorid',
-                'nroplaca',
+                //'nroplaca',
                 'tipoemision',
                 'franquicia',
                 'valorasegurado',
@@ -804,19 +807,19 @@ export async function createPolizaSalud(req, res) {
 
         }
         //DETALLE PERSONA
-        for (let i = 0; i < saluds.length; i++) {
+        for (let i = 0; i < personas.length; i++) {
             let newPolizaDetalle = await PolizaDetallePersona.create({
 
-                titular: saluds[i].titular,
-                cobertura: saluds[i].cobertura,
-                fechanacimiento: saluds[i].fechanacimiento,
-                sexo: saluds[i].sexo,
-                ambitogeografico: saluds[i].ambitogeografico,
-                sistemaatencion: saluds[i].sistemaatencion,
+                titular: personas[i].titular,
+                cobertura: personas[i].coberturamaternidad,
+                fechanacimiento: personas[i].fechanacimiento,
+                sexo: personas[i].sexo,
+                ambitogeografico: personas[i].ambitogeografico,
+                sistemaatencion: personas[i].sistemaatencion,
 
-                primaindividual: saluds[i].primaindividual,
-                primanetaindividualbs: saluds[i].primanetaindividualbs,
-                primanetaindividualusd: saluds[i].primanetaindividualusd,
+                primaindividual: personas[i].primaindividual,
+                primanetaindividualbs: personas[i].primanetaindividualbs,
+                primanetaindividualusd: personas[i].primanetaindividualusd,
 
                 usuarioregistro,
                 usuariomodificacion,
@@ -841,17 +844,17 @@ export async function createPolizaSalud(req, res) {
                     'fechamodificacion', 'estado',
                     'polizaid']
             }, { transaction: t });
-            
+
             //SUB DETALLE PERSONA
-            let campos = saluds[i].campos;
-            for (let j = 0; j < campos.length; j++) {
+            let dependientes = personas[i].dependientes;
+            for (let j = 0; j < dependientes.length; j++) {
                 // listaPermisos.push( 
                 await PolizaDetallePersonaTitular.create({
-                    polizadetalleid: newPolizaDetalle.id,
-                    nombre: campos[j].nombre,
-                    parentezco: campos[j].parentezco,
-                    fechanacimiento:campos[j].fechanacimiento,
-                    sexo:campos[j].sexo,
+                    polizadetallepersonaid: newPolizaDetalle.id,
+                    nombre: dependientes[j].nombre,
+                    parentezco: dependientes[j].parentezco,
+                    fechanacimiento: dependientes[j].fechanacimiento,
+                    sexo: dependientes[j].sexo,
                     usuarioregistro,
                     usuariomodificacion: usuarioregistro,
                     fecharegistro: new Date(),
@@ -859,7 +862,7 @@ export async function createPolizaSalud(req, res) {
                     estado: 'ACT'
                 }, {
                     fields: [
-                        'polizadetalleid',
+                        'polizadetallepersonaid',
                         'nombre',
                         'parentezco',
                         'fechanacimiento',
@@ -950,9 +953,9 @@ export async function updatePolizaSalud(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        //llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -969,9 +972,10 @@ export async function updatePolizaSalud(req, res) {
         fechamodificacion = new Date(),
         estado,
         sucursalid, planid, archivos, archivoseliminados,
-        saluds, eliminadossaluds } = req.body;
-    let t = await sequelize.transaction();
+        personas, eliminadospersonas } = req.body;
+    let t;
     try {
+        t = await sequelize.transaction();
         const updateRowCount = await Poliza.update({
             nropoliza,
             nrocertificado,
@@ -999,9 +1003,9 @@ export async function updatePolizaSalud(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            //llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -1068,28 +1072,28 @@ export async function updatePolizaSalud(req, res) {
 
         }
         //DETALLE  ELIMINADOS
-        for (let i = 0; i < eliminadossaluds.length; i++) {
+        for (let i = 0; i < eliminadospersonas.length; i++) {
 
             await PolizaDetalle.update({
                 estado: 'BAJ',
                 fechamodificacion: new Date()
-            }, { where: { id: eliminadossaluds[i].id } }, { transaction: t });
+            }, { where: { id: eliminadospersonas[i].id } }, { transaction: t });
 
         }
-         //DETALLE PERSONA
-         for (let i = 0; i < saluds.length; i++) {
+        //DETALLE PERSONA
+        for (let i = 0; i < personas.length; i++) {
             let newPolizaDetalle = await PolizaDetallePersona.create({
 
-                titular: saluds[i].titular,
-                cobertura: saluds[i].cobertura,
-                fechanacimiento: saluds[i].fechanacimiento,
-                sexo: saluds[i].sexo,
-                ambitogeografico: saluds[i].ambitogeografico,
-                sistemaatencion: saluds[i].sistemaatencion,
+                titular: personas[i].titular,
+                cobertura: personas[i].coberturamaternidad,
+                fechanacimiento: personas[i].fechanacimiento,
+                sexo: personas[i].sexo,
+                ambitogeografico: personas[i].ambitogeografico,
+                sistemaatencion: personas[i].sistemaatencion,
 
-                primaindividual: saluds[i].primaindividual,
-                primanetaindividualbs: saluds[i].primanetaindividualbs,
-                primanetaindividualusd: saluds[i].primanetaindividualusd,
+                primaindividual: personas[i].primaindividual,
+                primanetaindividualbs: personas[i].primanetaindividualbs,
+                primanetaindividualusd: personas[i].primanetaindividualusd,
 
                 usuarioregistro,
                 usuariomodificacion,
@@ -1114,17 +1118,17 @@ export async function updatePolizaSalud(req, res) {
                     'fechamodificacion', 'estado',
                     'polizaid']
             }, { transaction: t });
-            
+
             //SUB DETALLE PERSONA
-            let campos = saluds[i].campos;
-            for (let j = 0; j < campos.length; j++) {
+            let dependientes = personas[i].dependientes;
+            for (let j = 0; j < dependientes.length; j++) {
                 // listaPermisos.push( 
                 await PolizaDetallePersonaTitular.create({
-                    polizadetalleid: newPolizaDetalle.id,
-                    nombre: campos[j].nombre,
-                    parentezco: campos[j].parentezco,
-                    fechanacimiento:campos[j].fechanacimiento,
-                    sexo:campos[j].sexo,
+                    polizadetallepersonaid: newPolizaDetalle.id,
+                    nombre: dependientes[j].nombre,
+                    parentezco: dependientes[j].parentezco,
+                    fechanacimiento: dependientes[j].fechanacimiento,
+                    sexo: dependientes[j].sexo,
                     usuarioregistro,
                     usuariomodificacion: usuarioregistro,
                     fecharegistro: new Date(),
@@ -1132,7 +1136,7 @@ export async function updatePolizaSalud(req, res) {
                     estado: 'ACT'
                 }, {
                     fields: [
-                        'polizadetalleid',
+                        'polizadetallepersonaid',
                         'nombre',
                         'parentezco',
                         'fechanacimiento',
@@ -1201,9 +1205,9 @@ export async function createPolizaGeneral(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        //llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -1224,9 +1228,10 @@ export async function createPolizaGeneral(req, res) {
         estado = 'ACT',
         sucursalid,
         planid } = req.body;
-    let t = await sequelize.transaction();
     let newPoliza;
+    let t;
     try {
+        t = await sequelize.transaction();
         //const transaction= sequelize.transaction;
         newPoliza = await Poliza.create({
             nropoliza,
@@ -1255,9 +1260,9 @@ export async function createPolizaGeneral(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            //llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -1310,9 +1315,9 @@ export async function createPolizaGeneral(req, res) {
                 'tpoliza',
                 'tipocontrato',
                 'menoid',
-                'llamadoid',
+                //'llamadoid',
                 'vendedorid',
-                'nroplaca',
+                //'nroplaca',
                 'tipoemision',
                 'franquicia',
                 'valorasegurado',
@@ -1379,7 +1384,7 @@ export async function createPolizaGeneral(req, res) {
         //DETALLE GENERAL
         for (let i = 0; i < generales.length; i++) {
             let newPolizaDetalle = await PolizaDetalleGeneral.create({
-
+                titular: generales[i].titular,
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
 
@@ -1395,7 +1400,7 @@ export async function createPolizaGeneral(req, res) {
                 polizaid: newPoliza.id
             }, {
                 fields: [
-
+                    'titular',
                     'tipopolizageneral',
                     'direccion',
 
@@ -1406,7 +1411,7 @@ export async function createPolizaGeneral(req, res) {
                     'fechamodificacion', 'estado',
                     'polizaid']
             }, { transaction: t });
-            
+
 
         }
         await t.commit();
@@ -1459,9 +1464,9 @@ export async function updatePolizaGeneral(req, res) {
         tpoliza,
         tipocontrato,
         menoid,
-        llamadoid,
+        //llamadoid,
         vendedorid,
-        nroplaca,
+        //nroplaca,
         tipoemision,
         franquicia,
         valorasegurado,
@@ -1479,8 +1484,9 @@ export async function updatePolizaGeneral(req, res) {
         estado,
         sucursalid, planid, archivos, archivoseliminados,
         generales, eliminadosgenerales } = req.body;
-    let t = await sequelize.transaction();
+    let t;
     try {
+        t = await sequelize.transaction();
         const updateRowCount = await Poliza.update({
             nropoliza,
             nrocertificado,
@@ -1508,9 +1514,9 @@ export async function updatePolizaGeneral(req, res) {
             tpoliza,
             tipocontrato,
             menoid,
-            llamadoid,
+            //llamadoid,
             vendedorid,
-            nroplaca,
+            //nroplaca,
             tipoemision,
             franquicia,
             valorasegurado,
@@ -1590,7 +1596,7 @@ export async function updatePolizaGeneral(req, res) {
         //DETALLE GENERAL
         for (let i = 0; i < generales.length; i++) {
             let newPolizaDetalle = await PolizaDetalleGeneral.create({
-
+                titular: generales[i].titular,
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
 
@@ -1605,7 +1611,7 @@ export async function updatePolizaGeneral(req, res) {
                 polizaid: id
             }, {
                 fields: [
-
+                    'titular',
                     'tipopolizageneral',
                     'direccion',
 
@@ -1616,10 +1622,10 @@ export async function updatePolizaGeneral(req, res) {
                     'fechamodificacion', 'estado',
                     'polizaid']
             }, { transaction: t });
-            
+
 
         }
-        
+
 
 
         await t.commit();
@@ -1713,14 +1719,11 @@ export async function bajaPoliza(req, res) {
 
     console.log("bajaPoliza");
     const {
-        //    id,
         usuariomodificacion
     } = req.body;
     try {
-        // var moment = require('moment');
         const updateRowCount = await Poliza.update({
             usuariomodificacion,
-            /*  fechamodificacion:moment().format(), */
             fechamodificacion: new Date(),
             estado: 'BAJ'
         }, {
@@ -1728,14 +1731,14 @@ export async function bajaPoliza(req, res) {
                 id
             }
         });
-
+        console.log("UPDATE ");
         const polizas = await Poliza.findOne({
             where: {
                 id
             }
         }
         );
-
+        console.log("FIND");
         res.json({
             message: 'Poliza baja successfully',
             count: polizas
@@ -1833,6 +1836,35 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "'  order by p.id "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function getPolizasPorTomadorYEmpresa(req, res) {
+    const { tomadorid, empresaid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and s.id='" + tomadorid + "' order by p.id "
             , {
                 type: QueryTypes.SELECT
             });

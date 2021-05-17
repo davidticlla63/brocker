@@ -1,9 +1,9 @@
 
-import PolizaAdicional from "../models/PolizaAdicional";
+import PolizaDetalleAdicionales from "../models/PolizaDetalleAdicionales";
 
-export async function getPolizaAdicionals(req, res) {
+export async function getPolizaDetalleAdicionales(req, res) {
     try {
-        const polizaAdicionals = await PolizaAdicional.findAll({ where: { estado: 'ACT' }});
+        const polizaAdicionals = await PolizaDetalleAdicionales.findAll({ where: { estado: 'ACT' }});
         res.json({
             data: polizaAdicionals
         });
@@ -12,72 +12,19 @@ export async function getPolizaAdicionals(req, res) {
     }
 }
 
-export async function createPolizaAdicional(req, res) {
-    const {
-        valor,
-        dato,
-        usuarioregistro,
-        usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion,
-        polizaid,
-        estado } = req.body;
-    try {
-        //const transaction= sequelize.transaction;
-        let newPolizaAdicional = await PolizaAdicional.create({
-            valor,
-            dato,
-            usuarioregistro,
-            usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
-            polizaid,
-            estado
-        }, {
-            fields: [' valor',
-            'dato', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                'fechamodificacion','polizaid', 'estado']
-        });
-        if (newPolizaAdicional) {
-            return res.json({
-                message: 'PolizaAdicional created successfully',
-                data: newPolizaAdicional
-            });
-        }
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
 
-export async function getOnePolizaAdicional(req, res) {
+
+
+export async function deletePolizaDetalleAdicionales(req, res) {
     try {
         const { id } = req.params;
-        const usuario = await PolizaAdicional.findOne({
+        const deleteRowCount = await PolizaDetalleAdicionales.destroy({
             where: {
                 id
             }
         });
         res.json({
-            data: usuario
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-export async function deletePolizaAdicional(req, res) {
-    try {
-        const { id } = req.params;
-        const deleteRowCount = await PolizaAdicional.destroy({
-            where: {
-                id
-            }
-        });
-        res.json({
-            message: 'PolizaAdicional deleted successfully',
+            message: 'PolizaDetalleAdicionales deleted successfully',
             count: deleteRowCount
         });
     } catch (e) {
@@ -88,7 +35,7 @@ export async function deletePolizaAdicional(req, res) {
     }
 }
 
-export async function updatePolizaAdicional(req, res) {
+export async function updatePolizaDetalleAdicionales(req, res) {
     const { id } = req.params;
     const {valor,
         dato,
@@ -98,7 +45,7 @@ export async function updatePolizaAdicional(req, res) {
         fechamodificacion,
         estado } = req.body;
     try {
-        const updateRowCount = await PolizaAdicional.update({
+        const updateRowCount = await PolizaDetalleAdicionales.update({
             valor,
             dato,
             usuarioregistro,
@@ -112,14 +59,14 @@ export async function updatePolizaAdicional(req, res) {
             }
         });
 
-        const polizaAdicionals = await PolizaAdicional.findOne({
+        const polizaAdicionals = await PolizaDetalleAdicionales.findOne({
             where: {
                 id
             }
         }
         );
         res.json({
-            message: 'PolizaAdicional update successfully',
+            message: 'PolizaDetalleAdicionales update successfully',
             count: polizaAdicionals
         });
        
@@ -135,17 +82,17 @@ export async function updatePolizaAdicional(req, res) {
 }
 
 
-export async function bajaPolizaAdicional(req, res) {
+export async function bajaPolizaDetalleAdicionales(req, res) {
     const { id } = req.params;
 
-   console.log("bajaPolizaAdicional");
+   console.log("bajaPolizaDetalleAdicionales");
     const { 
    //    id,
         usuariomodificacion
          } = req.body;
     try {
        // var moment = require('moment');
-        const updateRowCount = await PolizaAdicional.update({   
+        const updateRowCount = await PolizaDetalleAdicionales.update({   
             usuariomodificacion,
            /*  fechamodificacion:moment().format(), */
            fechamodificacion:new Date(),
@@ -156,7 +103,7 @@ export async function bajaPolizaAdicional(req, res) {
             }
         });
 
-        const polizaAdicionals = await PolizaAdicional.findOne({
+        const polizaAdicionals = await PolizaDetalleAdicionales.findOne({
             where: {
                 id
             }
@@ -164,13 +111,49 @@ export async function bajaPolizaAdicional(req, res) {
         );
         
         res.json({
-            message: 'PolizaAdicional baja successfully',
+            message: 'PolizaDetalleAdicionales baja successfully',
             count: polizaAdicionals
         });
        
 
 
 
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizaDetalleAdicionalesPorDetalle(req, res) {
+    try {
+        const { polizadetalleid } = req.params;
+        const polizaDetalleAdicionaless = await PolizaDetalleAdicionales.findAll({
+            where: {
+                polizadetalleid, estado: 'ACT'
+            }
+        });
+        res.json({
+            data: polizaDetalleAdicionaless
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function polizaDetalleAdicionalessPorPoliza(req, res) {
+    const {
+        polizaid } = req.params;
+    try {
+        console.log(req.params)
+        const polizaDetalleAdicionaless = await PolizaDetalleAdicionales.findAll({ where: { estado: 'ACT', polizaid } });
+        res.json({
+            data: polizaDetalleAdicionaless
+        });
     } catch (e) {
         console.log(e);
         res.status(500).json({

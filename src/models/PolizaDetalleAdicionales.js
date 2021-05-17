@@ -19,8 +19,8 @@ const PolizaDetalleAdicional = sequelize.define('PolizaDetalleAdicional', {
      estado: {
         type: Sequelize.STRING,
         allowNull: false,
-    },
-    sucursalid:Sequelize.STRING,
+    }//,
+    //sucursalid:Sequelize.STRING,
 
 }, {
     timestamps: false,

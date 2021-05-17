@@ -35,29 +35,12 @@ const Poliza = sequelize.define('Poliza', {
     tpoliza: Sequelize.STRING,
     tipocontrato: Sequelize.STRING,
     memoid: Sequelize.STRING,
-    llamadoid: Sequelize.STRING,
     vendedorid: Sequelize.STRING,
-    nroplaca: Sequelize.STRING,
     tipoemision: Sequelize.STRING,
 
     franquicia: Sequelize.DECIMAL,//agregar
 
-    /*  //detalle poliza
-     fechainiciovigencia:Sequelize.DATE,
-     fechafinvigencia:Sequelize.DATE,
-     fechainclusion:Sequelize.DATE,
-     prima:Sequelize.DECIMAL,
-     porcentajeprima:Sequelize.DECIMAL,
-     primaneta:Sequelize.DECIMAL,
-     porcentajecomision:Sequelize.DECIMAL,
-     detalle:Sequelize.STRING, */
-
-    /*    //automotor
-       placa:Sequelize.STRING,
-       tipovehiculo:Sequelize.STRING,
-       marca:Sequelize.STRING,
-       anio:Sequelize.STRING,
-       color:Sequelize.STRING, */
+  
 
     comisionbs: Sequelize.DECIMAL,
     comisionusd: Sequelize.DECIMAL,
