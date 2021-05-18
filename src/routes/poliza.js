@@ -25,7 +25,8 @@ router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPoliza
 router.get('/polizasPorTipoRamoYEmpresa/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
 router.get('/polizasPorTipoRamoYSucursal/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
 
-
+router.get('/polizasPorTomadorYEmpresa/:tomadorid/:empresaid', polizas.getPolizasPorTomadorYEmpresa);
+router.get('/polizasPorTomadorYSucursal/:tomadorid/:sucursalid', polizas.getPolizasPorTomadorYSucursal);
 // /api/empresas/:empresaID
 router.get('/:id', polizas.getOnePoliza);
 router.delete('/:id', polizas.deletePoliza);

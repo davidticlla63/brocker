@@ -1731,19 +1731,16 @@ export async function bajaPoliza(req, res) {
                 id
             }
         });
-        console.log("UPDATE ");
-        const polizas = await Poliza.findOne({
+        const poliza = await Poliza.findOne({
             where: {
                 id
             }
-        }
-        );
-        console.log("FIND");
+        });
         res.json({
             message: 'Poliza baja successfully',
-            count: polizas
+            data: poliza
         });
-
+       
 
 
 
@@ -1865,6 +1862,35 @@ export async function getPolizasPorTomadorYEmpresa(req, res) {
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
             "where s.empresaid= '" + empresaid + "' and s.id='" + tomadorid + "' order by p.id "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizasPorTomadorYSucursal(req, res) {
+    const { tomadorid, sucursalid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
+            /*       "from poliza p " +
+                  "inner join sucursal s on s.id=p.sucursalid  " + */
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "where s.id='" + sucursalid + "'  and a.id='" + tomadorid + "'  order by p.id "
             , {
                 type: QueryTypes.SELECT
             });

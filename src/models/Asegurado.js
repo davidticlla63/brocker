@@ -72,8 +72,8 @@ const Asegurado = sequelize.define('Asegurado', {
     tableName: 'asegurado'
 });
 
-Asegurado.hasMany(Poliza, { foreignKey: 'aseguradoid', sourceKey: 'id' });
-Poliza.belongsTo(Asegurado, { foreignKey: 'aseguradoid', sourceKey: 'id' });
+Asegurado.hasMany(Poliza, { foreignKey: 'tomadorid', sourceKey: 'id' });
+Poliza.belongsTo(Asegurado, { foreignKey: 'tomadorid', sourceKey: 'id' });
 /* 
 Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
 PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
