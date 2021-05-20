@@ -7,7 +7,7 @@ const Memo = sequelize.define('Memo', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    memoid:Sequelize.STRING,
+    /* memoid:Sequelize.STRING,
     tipomemoid: Sequelize.STRING,
     fechamemo:Sequelize.DATE,
     tipomoneda:Sequelize.STRING,
@@ -67,17 +67,29 @@ const Memo = sequelize.define('Memo', {
     saldocomisionbroker:Sequelize.DECIMAL,
     comisionvendedor:Sequelize.DECIMAL,
     carteraid:Sequelize.STRING,
-    nroplaca:Sequelize.STRING,
+    nroplaca:Sequelize.STRING, */
 
-    usuarioregistro:Sequelize.STRING,
-    usuariomodificacion:Sequelize.STRING,
+    fechamemo: Sequelize.DATE(6),
+    fechapago: Sequelize.DATE(6),
+    nrocuotas: Sequelize.DECIMAL,
+    cuotainicial: Sequelize.DECIMAL,
+    pagocada: Sequelize.DECIMAL,
+    diapago: Sequelize.DECIMAL,
+    impuesto: Sequelize.STRING,
+    fechaproduccion: Sequelize.DATE(6),
+    mesproduccion: Sequelize.DECIMAL,
+    anioproduccion: Sequelize.DECIMAL,
+
+    usuarioregistro: Sequelize.STRING,
+    usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
-     estado: {
+    estado: {
         type: Sequelize.STRING,
         allowNull: false,
-    }
-
+    },
+    sucursalid:Sequelize.STRING,
+    polizaid:Sequelize.STRING
 
 }, {
     timestamps: false,

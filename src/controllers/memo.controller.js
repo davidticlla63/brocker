@@ -20,45 +20,62 @@ export async function getMemos(req, res) {
 
 export async function createMemo(req, res) {
     const {
-        nromemo,
-        nrocertificado,
-        fechainicio,
-        fechafin,
-        fechaexpedicion,
-        fecharecepcion,
-        tipomoneda,
-        primatotal,
-        formapago,
-        encargadoid,
-        bancoid,
-        ciudadexpedicion,
-        notas,
-        companiaseguroid,
-        subramocompaniaid,
-        tiporamoid,
-        contratanteid,
-        tomadorid,
-        ejecutivoid,
-        colocacionid,
-        ciaspvs,
-        tipomemoid,
-        tmemo,
-        tipocontrato,
-        menoid,
-        llamadoid,
-        vendedorid,
-        nroplaca,
-        tipoemision,
-        franquicia,
-        valorasegurado,
-
-        comisionbs,
-        comisionusd,
-        tipocambio,
-        porcentajeprima,
-        primaneta,
-        porcentajecomision,
-        
+        /*    nromemo,
+           nrocertificado,
+           fechainicio,
+           fechafin,
+           fechaexpedicion,
+           fecharecepcion,
+           tipomoneda,
+           primatotal,
+           formapago,
+           encargadoid,
+           bancoid,
+           ciudadexpedicion,
+           notas,
+           companiaseguroid,
+           subramocompaniaid,
+           tiporamoid,
+           contratanteid,
+           tomadorid,
+           ejecutivoid,
+           colocacionid,
+           ciaspvs,
+           tipomemoid,
+           tmemo,
+           tipocontrato,
+           menoid,
+           llamadoid,
+           vendedorid,
+           nroplaca,
+           tipoemision,
+           franquicia,
+           valorasegurado,
+   
+           comisionbs,
+           comisionusd,
+           tipocambio,
+           porcentajeprima,
+           primaneta,
+           porcentajecomision,
+   
+   
+           usuarioregistro,
+           usuariomodificacion,
+           fecharegistro = new Date(),
+           fechamodificacion = new Date(),
+           estado = 'ACT',
+           sucursalid, */
+        fechamemo,
+        fechapago,
+        nrocuotas,
+        cuotainicial,
+        pagocada,
+        diapago,
+        impuesto,
+        fechaproduccion,
+        mesproduccion,
+        anioproduccion,
 
         usuarioregistro,
         usuariomodificacion,
@@ -66,103 +83,142 @@ export async function createMemo(req, res) {
         fechamodificacion = new Date(),
         estado = 'ACT',
         sucursalid,
+        polizaid,
         archivos,
-        planpagos } = req.body;
+        planpago } = req.body;
     let t = await sequelize.transaction();
     let newMemo;
     try {
         newMemo = await Memo.create({
-            nromemo,
-            nrocertificado,
-            fechainicio,
-            fechafin,
-            fechaexpedicion,
-            fecharecepcion,
-            tipomoneda,
-            primatotal,
-            formapago,
-            encargadoid,
-            bancoid,
-            ciudadexpedicion,
-            notas,
-            companiaseguroid,
-            subramocompaniaid,
-            tiporamoid,
-            contratanteid,
-            tomadorid,
-            ejecutivoid,
-            colocacionid,
-            ciaspvs,
-            tipomemoid,
-            tmemo,
-            tipocontrato,
-            menoid,
-            llamadoid,
-            vendedorid,
-            nroplaca,
-            tipoemision,
-            franquicia,
-            valorasegurado,
-            comisionbs,
-            comisionusd,
-            tipocambio,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
+            /*  nromemo,
+             nrocertificado,
+             fechainicio,
+             fechafin,
+             fechaexpedicion,
+             fecharecepcion,
+             tipomoneda,
+             primatotal,
+             formapago,
+             encargadoid,
+             bancoid,
+             ciudadexpedicion,
+             notas,
+             companiaseguroid,
+             subramocompaniaid,
+             tiporamoid,
+             contratanteid,
+             tomadorid,
+             ejecutivoid,
+             colocacionid,
+             ciaspvs,
+             tipomemoid,
+             tmemo,
+             tipocontrato,
+             menoid,
+             llamadoid,
+             vendedorid,
+             nroplaca,
+             tipoemision,
+             franquicia,
+             valorasegurado,
+             comisionbs,
+             comisionusd,
+             tipocambio,
+             porcentajeprima,
+             primaneta,
+             porcentajecomision,
+             usuarioregistro,
+             usuariomodificacion,
+             fecharegistro,
+             fechamodificacion,
+             estado, */
+            fechamemo,
+            fechapago,
+            nrocuotas,
+            cuotainicial,
+            pagocada,
+            diapago,
+            impuesto,
+            fechaproduccion,
+            mesproduccion,
+            anioproduccion,
+
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
             estado,
-            sucursalid
+            sucursalid,
+            polizaid
         }, {
-            fields: ['nromemo',
-                'nrocertificado',
-                'fechainicio',
-                'fechafin',
-                'fechaexpedicion',
-                'fecharecepcion',
-                'tipomoneda',
-                'primatotal',
-                'formapago',
-                'encargadoid',
-                'bancoid',
-                'ciudadexpedicion',
+            fields: [
+                /*  'nromemo',
+                 'nrocertificado',
+                 'fechainicio',
+                 'fechafin',
+                 'fechaexpedicion',
+                 'fecharecepcion',
+                 'tipomoneda',
+                 'primatotal',
+                 'formapago',
+                 'encargadoid',
+                 'bancoid',
+                 'ciudadexpedicion',
+ 
+                 'broker',
+                 'notas',
+                 'companiaseguroid',
+                 'subramocompaniaid',
+                 'tiporamoid',
+                 'contratanteid',
+                 'tomadorid',
+                 'ejecutivoid',
+                 'colocacionid',
+                 'ciaspvs',
+                 'tipomemoid',
+                 'tmemo',
+                 'tipocontrato',
+                 'menoid',
+                 'llamadoid',
+                 'vendedorid',
+                 'nroplaca',
+                 'tipoemision',
+                 'franquicia',
+                 'valorasegurado',
+ 
+                 'comisionbs',
+                 'comisionusd',
+                 'tipocambio',
+                 'porcentajeprima',
+                 'primaneta',
+                 'porcentajecomision',
+ 
+                 'usuarioregistro',
+                 'usuariomodificacion',
+                 'fecharegistro',
+                 'fechamodificacion',
+                 'estado',
+                 'sucursalid' */
 
-                'broker',
-                'notas',
-                'companiaseguroid',
-                'subramocompaniaid',
-                'tiporamoid',
-                'contratanteid',
-                'tomadorid',
-                'ejecutivoid',
-                'colocacionid',
-                'ciaspvs',
-                'tipomemoid',
-                'tmemo',
-                'tipocontrato',
-                'menoid',
-                'llamadoid',
-                'vendedorid',
-                'nroplaca',
-                'tipoemision',
-                'franquicia',
-                'valorasegurado',
-
-                'comisionbs',
-                'comisionusd',
-                'tipocambio',
-                'porcentajeprima',
-                'primaneta',
-                'porcentajecomision',
+                'fechamemo',
+                'fechapago',
+                'nrocuotas',
+                'cuotainicial',
+                'pagocada',
+                'diapago',
+                'impuesto',
+                'fechaproduccion',
+                'mesproduccion',
+                'anioproduccion',
 
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
                 'fechamodificacion',
                 'estado',
-                'sucursalid']
+                'sucursalid',
+                'polizaid'
+            ]
         }, { transaction: t });
         // step 2  archivos
         // if( archivos!) 
@@ -199,44 +255,56 @@ export async function createMemo(req, res) {
 
 
         }
-        for (let i = 0; i < planpagos.length; i++) {
-            let newPlanPago = await PlanPago.create({
 
-                fechapago: planpagos[i].fechapago,
-                montobs: planpagos[i].montobs,
-                montousd: planpagos[i].montousd,
-                porcentaje: planpagos[i].porcentaje,
-                comisionbs: planpagos[i].comisionbs,
-                comisionusd: planpagos[i].comisionusd,
+        if (planpago) {//plan de pagos
+            for (let i = 0; i < planpago.length; i++) {
+                let newPlanPago = await PlanPago.create({
 
-                usuarioregistro,
-                usuariomodificacion,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT',
-                memoid: newMemo.id
-            }, {
-                fields: [
+                    /*     fechapago: planpago[i].fechapago,
+                        montobs: planpago[i].montobs,
+                        montousd: planpago[i].montousd,
+                        porcentaje: planpago[i].porcentaje,
+                        comisionbs: planpago[i].comisionbs,
+                        comisionusd: planpago[i].comisionusd, */
+                    nro: planpago[i].nro,
+                    fechapago: planpago[i].fechapago,
+                    montocuota: planpago[i].montocuota,
+                    primaneta: planpago[i].primaneta,
+                    comision: planpago[i].comision,
 
-                    'titular',
-                    'placa',
-                    'tipovehiculo',
-                    'marcavehiculo',
-                    'colorvehiculo',
-                    'aniovehiculo',
+                    usuarioregistro,
+                    usuariomodificacion,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT',
+                    memoid: newMemo.id
+                }, {
+                    fields: [
 
-                    'primaindividual',
-                    'primanetaindividualbs',
-                    'primanetaindividualusd',
-                    'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                    'fechamodificacion', 'estado',
-                    'memoid']
-            }, { transaction: t });
-           
+                        /*  'fechapago',
+                         'montobs',
+                         'montousd',
+                         'porcentaje',
+                         'comisionbs',
+                         'comisionusd', */
+                        'nro',
+                        'fechapago',
+                        'montocuota',
+                        'primaneta',
+                        'comision',
 
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado',
+                        'memoid']
+                }, { transaction: t });
+
+
+            }
         }
 
-      
 
         await t.commit();
         if (newMemo) {
@@ -259,68 +327,9 @@ export async function createMemo(req, res) {
         });
     }
 }
-
-export async function getOneMemo(req, res) {
-    try {
-        const { id } = req.params;
-        const memo = await Memo.findOne({
-            where: {
-                id
-            }
-        });
-        res.json({
-            data: memo
-        });
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
-
-export async function memosPorSucursal(req, res) {
-    try {
-        const { sucursalid } = req.params;
-        const memo = await Memo.findOne({
-            where: {
-                sucursalid, estado: 'ACT'
-            }
-        });
-        res.json({
-            data: memo
-        });
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
-
-export async function deleteMemo(req, res) {
-    try {
-        const { id } = req.params;
-        const deleteRowCount = await Memo.destroy({
-            where: {
-                id
-            }
-        });
-        res.json({
-            message: 'Memo deleted successfully',
-            count: deleteRowCount
-        });
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
-
 export async function updateMemo(req, res) {
     const { id } = req.params;
-    const { nromemo,
+    const { /* nromemo,
         nrocertificado,
         fechainicio,
         fechafin,
@@ -350,7 +359,7 @@ export async function updateMemo(req, res) {
         tipoemision,
         franquicia,
         valorasegurado,
-        
+
 
         comisionbs,
         comisionusd,
@@ -363,67 +372,97 @@ export async function updateMemo(req, res) {
         usuariomodificacion,
         fecharegistro,
         fechamodificacion = new Date(),
+        estado, */
+        // sucursalid,
+
+        fechamemo,
+        fechapago,
+        nrocuotas,
+        cuotainicial,
+        pagocada,
+        diapago,
+        impuesto,
+        fechaproduccion,
+        mesproduccion,
+        anioproduccion,
+
+        usuarioregistro,
+        usuariomodificacion,
+        fecharegistro,
+        fechamodificacion,
         estado,
-        sucursalid, archivos, archivoseliminados,
-        planpagosliminados,
-        planpagos } = req.body;
+        sucursalid,
+        polizaid,
+
+        archivos, archivoseliminados,
+        planpagoliminados,
+        planpago } = req.body;
     let t = await sequelize.transaction();
     try {
         const updateRowCount = await Memo.update({
-            nromemo,
-            nrocertificado,
-            fechainicio,
-            fechafin,
-            fechaexpedicion,
-            fecharecepcion,
-            tipomoneda,
-            primatotal,
-            formapago,
-            encargadoid,
-            bancoid,
-            ciudadexpedicion,
-            //broker,
-            notas,
-            companiaseguroid,
-            subramocompaniaid,
-            tiporamoid,
-            contratanteid,
-            tomadorid,
-            ejecutivoid,
-            colocacionid,
-            ciaspvs,
-            tipomemoid,
-            tmemo,
-            tipocontrato,
-            menoid,
-            llamadoid,
-            vendedorid,
-            nroplaca,
-            tipoemision,
-            franquicia,
-            valorasegurado,
-            /*    fechainiciovigencia,
-               fechafinvigencia,
-               fechainclusion,
-               prima,
-               porcentajeprima,
-               primaneta,
-               porcentajecomision,
-               detalle, */
-
-            comisionbs,
-            comisionusd,
-            tipocambio,
-            porcentajeprima,
-            primaneta,
-            porcentajecomision,
+            /*  nromemo,
+             nrocertificado,
+             fechainicio,
+             fechafin,
+             fechaexpedicion,
+             fecharecepcion,
+             tipomoneda,
+             primatotal,
+             formapago,
+             encargadoid,
+             bancoid,
+             ciudadexpedicion,
+             notas,
+             companiaseguroid,
+             subramocompaniaid,
+             tiporamoid,
+             contratanteid,
+             tomadorid,
+             ejecutivoid,
+             colocacionid,
+             ciaspvs,
+             tipomemoid,
+             tmemo,
+             tipocontrato,
+             menoid,
+             llamadoid,
+             vendedorid,
+             nroplaca,
+             tipoemision,
+             franquicia,
+             valorasegurado,
+ 
+             comisionbs,
+             comisionusd,
+             tipocambio,
+             porcentajeprima,
+             primaneta,
+             porcentajecomision,
+ 
+             usuarioregistro,
+             usuariomodificacion,
+             fecharegistro,
+             fechamodificacion,
+             estado,
+             sucursalid */
+            fechamemo,
+            fechapago,
+            nrocuotas,
+            cuotainicial,
+            pagocada,
+            diapago,
+            impuesto,
+            fechaproduccion,
+            mesproduccion,
+            anioproduccion,
 
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
             estado,
-            sucursalid
+            sucursalid,
+            polizaid
         }, {
             where: {
                 id
@@ -472,23 +511,29 @@ export async function updateMemo(req, res) {
             }, { transaction: t });
 
         }
-        for (let i = 0; i < planpagosliminados.length; i++) {
+        for (let i = 0; i < planpagoliminados.length; i++) {
 
             await PlanPago.update({
                 estado: 'BAJ',
                 fechamodificacion: new Date()
-            }, { where: { id: planpagosliminados[i].id } }, { transaction: t });
+            }, { where: { id: planpagoliminados[i].id } }, { transaction: t });
 
         }
-        for (let i = 0; i < planpagos.length; i++) {
+        for (let i = 0; i < planpago.length; i++) {
             let newPlanPago = await PlanPago.create({
 
-                fechapago: planpagos[i].fechapago,
-                montobs: planpagos[i].montobs,
-                montousd: planpagos[i].montousd,
-                porcentaje: planpagos[i].porcentaje,
-                comisionbs: planpagos[i].comisionbs,
-                comisionusd: planpagos[i].comisionusd,
+                /*    fechapago: planpago[i].fechapago,
+                   montobs: planpago[i].montobs,
+                   montousd: planpago[i].montousd,
+                   porcentaje: planpago[i].porcentaje,
+                   comisionbs: planpago[i].comisionbs,
+                   comisionusd: planpago[i].comisionusd, */
+
+                nro: planpago[i].nro,
+                fechapago: planpago[i].fechapago,
+                montocuota: planpago[i].montocuota,
+                primaneta: planpago[i].primaneta,
+                comision: planpago[i].comision,
 
                 usuarioregistro,
                 usuariomodificacion,
@@ -499,21 +544,27 @@ export async function updateMemo(req, res) {
             }, {
                 fields: [
 
-                    'titular',
-                    'placa',
-                    'tipovehiculo',
-                    'marcavehiculo',
-                    'colorvehiculo',
-                    'aniovehiculo',
+                    /*  'fechapago',
+                     'montobs',
+                     'montousd',
+                     'porcentaje',
+                     'comisionbs',
+                     'comisionusd', */
 
-                    'primaindividual',
-                    'primanetaindividualbs',
-                    'primanetaindividualusd',
-                    'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                    'fechamodificacion', 'estado',
+                    'nro',
+                    'fechapago',
+                    'montocuota',
+                    'primaneta',
+                    'comision',
+
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado',
                     'memoid']
             }, { transaction: t });
-           
+
 
         }
 
@@ -542,6 +593,88 @@ export async function updateMemo(req, res) {
         });
     }
 }
+
+export async function getOneMemo(req, res) {
+    try {
+        const { id } = req.params;
+        const memo = await Memo.findOne({
+            where: {
+                id
+            }
+        });
+        res.json({
+            data: memo
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function memosPorSucursal(req, res) {
+    try {
+        const { sucursalid } = req.params;
+        const memo = await Memo.findOne({
+            where: {
+                sucursalid, estado: 'ACT'
+            }
+        });
+        res.json({
+            data: memo
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function memosPorEmpresa(req, res) {
+    try {
+        const { empresaid } = req.params;
+
+        const memos = await sequelize.query("select p.* " +
+            " from memo p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.estado='ACT' order by p.id "
+            , {
+                type: QueryTypes.SELECT
+            })
+        res.json({
+            data: memos
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function deleteMemo(req, res) {
+    try {
+        const { id } = req.params;
+        const deleteRowCount = await Memo.destroy({
+            where: {
+                id
+            }
+        });
+        res.json({
+            message: 'Memo deleted successfully',
+            count: deleteRowCount
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
 
 
 export async function bajaMemo(req, res) {

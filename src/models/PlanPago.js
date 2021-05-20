@@ -7,18 +7,26 @@ const PlanPago = sequelize.define('PlanPago', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    fechapago:Sequelize.DATE,
-    montobs:Sequelize.DECIMAL,
-    montousd:Sequelize.DECIMAL,
-    porcentaje:Sequelize.DECIMAL,
-    comisionbs:Sequelize.DECIMAL,
-    comisionusd:Sequelize.DECIMAL,
-    memoid:Sequelize.STRING,
-    usuarioregistro:Sequelize.STRING,
-    usuariomodificacion:Sequelize.STRING,
+    /*   fechapago:Sequelize.DATE,
+      montobs:Sequelize.DECIMAL,
+      montousd:Sequelize.DECIMAL,
+      porcentaje:Sequelize.DECIMAL,
+      comisionbs:Sequelize.DECIMAL,
+      comisionusd:Sequelize.DECIMAL,
+      primaneta:Sequelize.DECIMAL, */
+
+    nro: Sequelize.DECIMAL,
+    fechapago: Sequelize.DATE,
+    montocuota: Sequelize.DECIMAL,
+    primaneta: Sequelize.DECIMAL,
+    comision: Sequelize.DECIMAL,
+    memoid: Sequelize.STRING,
+    
+    usuarioregistro: Sequelize.STRING,
+    usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
-     estado: {
+    estado: {
         type: Sequelize.STRING,
         allowNull: false,
     }

@@ -36,6 +36,8 @@ import polizaDetalleGeneralRoutes from './routes/polizaDetalleGeneral'
 import polizaDetallePersonaRoutes from './routes/polizaDetallePersona'
 import polizaDetallePersonaTitularRoutes from './routes/polizaDetallePersonaTitular'
 import polizaDetalleAdicionalRoutes from './routes/polizaDetalleAdicional'
+import memoRoutes from './routes/memo'
+
 
 const compression = require("compression");
 
@@ -125,6 +127,8 @@ app.use('/api/tipomemos', tipomemoRoutes);
 app.use('/api/contratantes', contratanteRoutes);
 app.use('/api/vendedors', vendedorRoutes);
 app.use('/api/carpetas', carpetaRoutes);
+
+app.use('/api/memos', memoRoutes);
 
 
 

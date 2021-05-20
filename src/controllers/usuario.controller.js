@@ -54,8 +54,10 @@ export async function login(req, res) {
                     type: QueryTypes.SELECT
                 });
 
-            const perfiles = await sequelize.query("select pe.id,pe.nombre,pe.sucursalid from  usuario_perfil up " +
+            const perfiles = await sequelize.query("select pe.id,pe.nombre,pe.sucursalid ,p.diaproduccion " +
+                " from  usuario_perfil up " +
                 "INNER JOIN perfil pe on pe.id=up.perfilid " +
+                " left join param_produccion p  on p.sucursalid=pe.sucursalid and p.estado='ACT' " +
                 "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre "
                 , {
                     type: QueryTypes.SELECT

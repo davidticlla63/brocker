@@ -8,6 +8,8 @@ const PolizaDetallePersona = sequelize.define('PolizaDetallePersona', {
         primaryKey: true
     },
    
+    nrocertificado: Sequelize.STRING,
+    tipoasegurado: Sequelize.STRING,
     titular: Sequelize.STRING,
     cobertura: Sequelize.BOOLEAN,
     fechanacimiento: Sequelize.DATE,

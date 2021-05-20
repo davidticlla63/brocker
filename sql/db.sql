@@ -144,7 +144,7 @@ insert into
         empresaid
     )
 values
-(
+    (
         'Santa Cruz',
         'Santa Cruz',
         'admin',
@@ -801,7 +801,7 @@ insert into
         empresaid
     )
 values
-(
+    (
         'TIPO 1',
         'TIPO 1',
         'DTICLLA',
@@ -851,63 +851,503 @@ values
         empresaid character varying REFERENCES empresa(id)
     );
 
-    insert into ramo( nombre,descripcion,spvs,estado,tiporamoid,empresaid,usuarioregistro,fecharegistro,fechamodificacion )
-values('VIDA INDIVIDUAL LARGO PLAZO',	'',						'41','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('VIDA INDIVIDUAL CORTO PLAZO',	'',						'42','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('VIDA GRUPO',						'',					'46','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TRANSPORTES',							'',				'03','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TRANSPORTE NACIONAL E INTERNACIONAL',		'',			'03','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TRANSPORTE IMPORTACION',					'',			'03','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TRANSPORTE EXPORTACION',					'',			'03','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TODO RIESGO EXISTENCIA',					'',			'01','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('TODO RIESGO DAÑOS A LA PROPIEDAD',		'',			'01','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SERIEDAD DE PRESENTACION DE PROPUESTA',	'',			'21','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SEGUROS AGROPECUARIOS',					'',			'10','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SEGURO OBLIGATORIO DE ACCIDENTES DE TRANSITO','',		'55','ACT',	'd024a334-6a2e-4b72-ad79-cdcf5d8029b1','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SEGURO DE CREDITOS',							'',		'28','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SALUD O ENFERMEDAD(personas)',				'',		'47','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('SALUD O ENFERMEDAD(general)',					'',		'11','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('ROBO Y ASALTO',								'',		'02','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('RIESGOS VARIOS MISCELANIOS',					'',		'09','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('RESPONSABILIDAD CIVIL',						'',		'08','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('RENTAS',										'',		'43','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('RAMOS TECNICOS',								'',		'07','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('NAVES O EMBARCACIONES',						'',		'04','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('MULTIRRIESGO',								'',		'01','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('INCENDIO',									'',		'01','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('GARANTIA DE CUMPLIMIENTO DE OBLIGACIONES ADUANERAS','','29','ACT','48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('FIDELIDAD DE EMPLEADO',						'',		'27','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('DESGRAVAMEN HIPOTECARIO LARGO PLAZO',			'',		'48','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('DESGRAVAMEN HIPOTECARIO CORTO PLAZO',			'',		'49','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('DELITOS FINANCIEROS',							'',		'27','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('DEFUNCION Y/O SEPELIO DE LARGO PLAZO',		'',		'44','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('DEFUNCION Y/O SEPELIO DE CORTO PLAZO',		'',		'45','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('CUMPLIMIENTO DE OBLIGACIONES LEGALES Y CONTRACTUALES DE TELECOMUNICACIONES','','30','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('CUMPLIMIENTO DE CONTRATO DE SUMINISTROS',		'',		'25','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('CUMPLIMIENTO DE CONTRATO DE SERVICIOS',		'',		'24','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('CUMPLIMIENTO DE CONTRATO DE OBRAS',			'',		'22','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('CORRECTA INVERSION DE ANTICIPOS',				'',		'26','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('COMPRESIVO 3D',								'',		'27','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('BUENA EJECUCION DE TRANSPORTE',				'',		'31','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('BUENA EJECUCION DE OBRA',						'',		'23','ACT',	'48d31440-c854-460b-b91d-b5841df59cdc','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('BREVET',										'',		'05','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('AUTOMOTORES',									'',		'05','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('AERONAVEGACION',								'',		'06','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('ACCIDENTES PERSONALES (personas)',			'',		'50','ACT',	'87ae6d17-2d74-415b-b4de-fa731a7e07d3','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW()),
-('ACCIDENTES PERSONALES (generales)',			'',		'12','ACT',	'192001c3-5ac1-4ba8-9c5e-067583f5d256','fd2169be-1d80-4416-a009-a07658f1678e','0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',NOW(),NOW())
-
-CREATE TABLE IF NOT EXISTS sub_ramo(
-    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre character varying not null,
-    descripcion character varying,
-    spvs character varying,
-    usuarioregistro character varying not null,
-    usuariomodificacion character varying,
-    fecharegistro timestamp not null,
-    fechamodificacion timestamp,
-    estado character varying not null,
-    ramoid character varying REFERENCES ramo(id)
-);
+insert into
+    ramo(
+        nombre,
+        descripcion,
+        spvs,
+        estado,
+        tiporamoid,
+        empresaid,
+        usuarioregistro,
+        fecharegistro,
+        fechamodificacion
+    )
+values
+(
+        'VIDA INDIVIDUAL LARGO PLAZO',
+        '',
+        '41',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'VIDA INDIVIDUAL CORTO PLAZO',
+        '',
+        '42',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'VIDA GRUPO',
+        '',
+        '46',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TRANSPORTES',
+        '',
+        '03',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TRANSPORTE NACIONAL E INTERNACIONAL',
+        '',
+        '03',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TRANSPORTE IMPORTACION',
+        '',
+        '03',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TRANSPORTE EXPORTACION',
+        '',
+        '03',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TODO RIESGO EXISTENCIA',
+        '',
+        '01',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'TODO RIESGO DAÑOS A LA PROPIEDAD',
+        '',
+        '01',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SERIEDAD DE PRESENTACION DE PROPUESTA',
+        '',
+        '21',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SEGUROS AGROPECUARIOS',
+        '',
+        '10',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SEGURO OBLIGATORIO DE ACCIDENTES DE TRANSITO',
+        '',
+        '55',
+        'ACT',
+        'd024a334-6a2e-4b72-ad79-cdcf5d8029b1',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SEGURO DE CREDITOS',
+        '',
+        '28',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SALUD O ENFERMEDAD(personas)',
+        '',
+        '47',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'SALUD O ENFERMEDAD(general)',
+        '',
+        '11',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'ROBO Y ASALTO',
+        '',
+        '02',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'RIESGOS VARIOS MISCELANIOS',
+        '',
+        '09',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'RESPONSABILIDAD CIVIL',
+        '',
+        '08',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'RENTAS',
+        '',
+        '43',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'RAMOS TECNICOS',
+        '',
+        '07',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'NAVES O EMBARCACIONES',
+        '',
+        '04',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'MULTIRRIESGO',
+        '',
+        '01',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'INCENDIO',
+        '',
+        '01',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'GARANTIA DE CUMPLIMIENTO DE OBLIGACIONES ADUANERAS',
+        '',
+        '29',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'FIDELIDAD DE EMPLEADO',
+        '',
+        '27',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'DESGRAVAMEN HIPOTECARIO LARGO PLAZO',
+        '',
+        '48',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'DESGRAVAMEN HIPOTECARIO CORTO PLAZO',
+        '',
+        '49',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'DELITOS FINANCIEROS',
+        '',
+        '27',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'DEFUNCION Y/O SEPELIO DE LARGO PLAZO',
+        '',
+        '44',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'DEFUNCION Y/O SEPELIO DE CORTO PLAZO',
+        '',
+        '45',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'CUMPLIMIENTO DE OBLIGACIONES LEGALES Y CONTRACTUALES DE TELECOMUNICACIONES',
+        '',
+        '30',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'CUMPLIMIENTO DE CONTRATO DE SUMINISTROS',
+        '',
+        '25',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'CUMPLIMIENTO DE CONTRATO DE SERVICIOS',
+        '',
+        '24',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'CUMPLIMIENTO DE CONTRATO DE OBRAS',
+        '',
+        '22',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'CORRECTA INVERSION DE ANTICIPOS',
+        '',
+        '26',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'COMPRESIVO 3D',
+        '',
+        '27',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'BUENA EJECUCION DE TRANSPORTE',
+        '',
+        '31',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'BUENA EJECUCION DE OBRA',
+        '',
+        '23',
+        'ACT',
+        '48d31440-c854-460b-b91d-b5841df59cdc',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'BREVET',
+        '',
+        '05',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'AUTOMOTORES',
+        '',
+        '05',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'AERONAVEGACION',
+        '',
+        '06',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'ACCIDENTES PERSONALES (personas)',
+        '',
+        '50',
+        'ACT',
+        '87ae6d17-2d74-415b-b4de-fa731a7e07d3',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ),
+    (
+        'ACCIDENTES PERSONALES (generales)',
+        '',
+        '12',
+        'ACT',
+        '192001c3-5ac1-4ba8-9c5e-067583f5d256',
+        'fd2169be-1d80-4416-a009-a07658f1678e',
+        '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
+        NOW(),
+        NOW()
+    ) CREATE TABLE IF NOT EXISTS sub_ramo(
+        id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+        nombre character varying not null,
+        descripcion character varying,
+        spvs character varying,
+        usuarioregistro character varying not null,
+        usuariomodificacion character varying,
+        fecharegistro timestamp not null,
+        fechamodificacion timestamp,
+        estado character varying not null,
+        ramoid character varying REFERENCES ramo(id)
+    );
 
 CREATE TABLE IF NOT EXISTS sub_ramo_compania(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -950,6 +1390,18 @@ CREATE TABLE IF NOT EXISTS plan(
     estado character varying not null,
     companiaseguroid character varying REFERENCES compania_seguro(id) not null --,
     --sucursalid  character varying REFERENCES sucursal(id)
+);
+
+			
+CREATE TABLE IF NOT EXISTS param_produccion(
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+    diaproduccion integer not null default 0,
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp not null,
+    estado character varying not null,
+    sucursalid character varying REFERENCES sucursal(id) not null
 );
 
 CREATE TABLE IF NOT EXISTS poliza(
@@ -1038,9 +1490,6 @@ CREATE TABLE IF NOT EXISTS poliza_detalle(
     --sucursalid  character varying REFERENCES sucursal(id)
 );
 
-
-
-
 CREATE TABLE IF NOT EXISTS poliza_detalle_automotor(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     titular character varying,
@@ -1062,16 +1511,15 @@ CREATE TABLE IF NOT EXISTS poliza_detalle_automotor(
     --sucursalid  character varying REFERENCES sucursal(id)
 );
 
-
 CREATE TABLE IF NOT EXISTS poliza_detalle_general(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     titular character varying not null,
     tipopolizageneral character varying not null,
-    direccion character varying  not null,
+    direccion character varying not null,
     --detalle poliza
-    primaindividual decimal default  0,
-    primanetaindividualbs decimal default  0,
-    primanetaindividualusd decimal default  0,
+    primaindividual decimal default 0,
+    primanetaindividualbs decimal default 0,
+    primanetaindividualusd decimal default 0,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp,
@@ -1083,7 +1531,9 @@ CREATE TABLE IF NOT EXISTS poliza_detalle_general(
 
 CREATE TABLE IF NOT EXISTS poliza_detalle_persona(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-    titular  character varying not null,
+    nrocertificado character varying not null,
+    tipoasegurado character varying not null,
+    titular character varying not null,
     cobertura boolean not null,
     fechanacimiento timestamp,
     sexo character varying not null,
@@ -1102,10 +1552,9 @@ CREATE TABLE IF NOT EXISTS poliza_detalle_persona(
     --sucursalid  character varying REFERENCES sucursal(id)
 );
 
-
 CREATE TABLE IF NOT EXISTS poliza_detalle_persona_titular(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre  character varying,
+    nombre character varying,
     fechanacimiento timestamp,
     sexo character varying,
     parentezco character varying,
@@ -1216,7 +1665,7 @@ CREATE TABLE IF NOT EXISTS tipo_memo(
     empresaid character varying REFERENCES empresa(id)
 );
 
-CREATE TABLE IF NOT EXISTS memo(
+/* CREATE TABLE IF NOT EXISTS memo(
     --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     memoid character varying REFERENCES memo(id),
@@ -1280,6 +1729,45 @@ CREATE TABLE IF NOT EXISTS memo(
     comisionvendedor decimal,
     carteraid character varying REFERENCES personal(id),
     nroplaca character varying,
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp,
+    estado character varying not null
+); */
+
+CREATE TABLE IF NOT EXISTS memo(
+    --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+    fechamemo timestamp not null,
+    fechapago timestamp not null,
+    nrocuotas  decimal not null,
+    cuotainicial  decimal not null,
+    pagocada  decimal not null,
+    diapago decimal,
+    impuesto character varying not null,
+    fechaproduccion timestamp not null,
+    mesproduccion  decimal not null,
+    anioproduccion  decimal not null,
+    sucursalid character varying REFERENCES sucursal(id) not null,
+    polizaid character varying REFERENCES poliza(id) not null,
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp,
+    estado character varying not null
+);
+
+
+CREATE TABLE IF NOT EXISTS plan_pago(
+    --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+   nro decimal not null default 0,
+    fechapago timestamp not null,
+    montocuota decimal not null default 0,
+    primaneta decimal not null default 0,
+    comision decimal not null default 0,
+    memoid  character varying REFERENCES memo(id) not null,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp not null,
