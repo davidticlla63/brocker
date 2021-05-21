@@ -80,7 +80,8 @@ export async function createPoliza(req, res) {
         fechamodificacion = new Date(),
         estado = 'ACT',
         sucursalid,
-        planid } = req.body;
+        planid,
+        polizaid } = req.body;
     let newPoliza;
     let t;
     try {
@@ -139,7 +140,8 @@ export async function createPoliza(req, res) {
             fechamodificacion,
             estado,
             sucursalid,
-            planid
+            planid,
+            polizaid
         }, {
             fields: ['nropoliza',
                 'nrocertificado',
@@ -197,7 +199,8 @@ export async function createPoliza(req, res) {
                 'fechamodificacion',
                 'estado',
                 'sucursalid',
-                'planid']
+                'planid',
+                'polizaid']
         }, { transaction: t });
         // step 2  archivos
         // if( archivos!) 
@@ -655,7 +658,8 @@ export async function createPolizaSalud(req, res) {
         fechamodificacion = new Date(),
         estado = 'ACT',
         sucursalid,
-        planid } = req.body;
+        planid ,
+        polizaid} = req.body;
     let newPoliza;
     let t;
     try {
@@ -714,7 +718,8 @@ export async function createPolizaSalud(req, res) {
             fechamodificacion,
             estado,
             sucursalid,
-            planid
+            planid,
+            polizaid
         }, {
             fields: ['nropoliza',
                 'nrocertificado',
@@ -772,7 +777,8 @@ export async function createPolizaSalud(req, res) {
                 'fechamodificacion',
                 'estado',
                 'sucursalid',
-                'planid']
+                'planid',
+                'polizaid']
         }, { transaction: t });
         // step 2  archivos
         // if( archivos!) 
@@ -849,35 +855,35 @@ export async function createPolizaSalud(req, res) {
                     'polizaid']
             }, { transaction: t });
 
-          /*   //SUB DETALLE PERSONA
-            let dependientes = personas[i].dependientes;
-            for (let j = 0; j < dependientes.length; j++) {
-                // listaPermisos.push( 
-                await PolizaDetallePersonaTitular.create({
-                    polizadetallepersonaid: newPolizaDetalle.id,
-                    nombre: dependientes[j].nombre,
-                    parentezco: dependientes[j].parentezco,
-                    fechanacimiento: dependientes[j].fechanacimiento,
-                    sexo: dependientes[j].sexo,
-                    usuarioregistro,
-                    usuariomodificacion: usuarioregistro,
-                    fecharegistro: new Date(),
-                    fechamodificacion: new Date(),
-                    estado: 'ACT'
-                }, {
-                    fields: [
-                        'polizadetallepersonaid',
-                        'nombre',
-                        'parentezco',
-                        'fechanacimiento',
-                        'sexo',
-                        'usuarioregistro',
-                        'usuariomodificacion',
-                        'fecharegistro',
-                        'fechamodificacion',
-                        'estado']
-                }, { transaction: t });
-            } */
+            /*   //SUB DETALLE PERSONA
+              let dependientes = personas[i].dependientes;
+              for (let j = 0; j < dependientes.length; j++) {
+                  // listaPermisos.push( 
+                  await PolizaDetallePersonaTitular.create({
+                      polizadetallepersonaid: newPolizaDetalle.id,
+                      nombre: dependientes[j].nombre,
+                      parentezco: dependientes[j].parentezco,
+                      fechanacimiento: dependientes[j].fechanacimiento,
+                      sexo: dependientes[j].sexo,
+                      usuarioregistro,
+                      usuariomodificacion: usuarioregistro,
+                      fecharegistro: new Date(),
+                      fechamodificacion: new Date(),
+                      estado: 'ACT'
+                  }, {
+                      fields: [
+                          'polizadetallepersonaid',
+                          'nombre',
+                          'parentezco',
+                          'fechanacimiento',
+                          'sexo',
+                          'usuarioregistro',
+                          'usuariomodificacion',
+                          'fecharegistro',
+                          'fechamodificacion',
+                          'estado']
+                  }, { transaction: t });
+              } */
 
         }
 
@@ -1127,35 +1133,35 @@ export async function updatePolizaSalud(req, res) {
                         'polizaid']
                 }, { transaction: t });
 
-               /*  //SUB DETALLE PERSONA
-                let dependientes = personas[i].dependientes;
-                for (let j = 0; j < dependientes.length; j++) {
-                    // listaPermisos.push( 
-                    await PolizaDetallePersonaTitular.create({
-                        polizadetallepersonaid: newPolizaDetalle.id,
-                        nombre: dependientes[j].nombre,
-                        parentezco: dependientes[j].parentezco,
-                        fechanacimiento: dependientes[j].fechanacimiento,
-                        sexo: dependientes[j].sexo,
-                        usuarioregistro,
-                        usuariomodificacion: usuarioregistro,
-                        fecharegistro: new Date(),
-                        fechamodificacion: new Date(),
-                        estado: 'ACT'
-                    }, {
-                        fields: [
-                            'polizadetallepersonaid',
-                            'nombre',
-                            'parentezco',
-                            'fechanacimiento',
-                            'sexo',
-                            'usuarioregistro',
-                            'usuariomodificacion',
-                            'fecharegistro',
-                            'fechamodificacion',
-                            'estado']
-                    }, { transaction: t });
-                } */
+                /*  //SUB DETALLE PERSONA
+                 let dependientes = personas[i].dependientes;
+                 for (let j = 0; j < dependientes.length; j++) {
+                     // listaPermisos.push( 
+                     await PolizaDetallePersonaTitular.create({
+                         polizadetallepersonaid: newPolizaDetalle.id,
+                         nombre: dependientes[j].nombre,
+                         parentezco: dependientes[j].parentezco,
+                         fechanacimiento: dependientes[j].fechanacimiento,
+                         sexo: dependientes[j].sexo,
+                         usuarioregistro,
+                         usuariomodificacion: usuarioregistro,
+                         fecharegistro: new Date(),
+                         fechamodificacion: new Date(),
+                         estado: 'ACT'
+                     }, {
+                         fields: [
+                             'polizadetallepersonaid',
+                             'nombre',
+                             'parentezco',
+                             'fechanacimiento',
+                             'sexo',
+                             'usuarioregistro',
+                             'usuariomodificacion',
+                             'fecharegistro',
+                             'fechamodificacion',
+                             'estado']
+                     }, { transaction: t });
+                 } */
 
             }
         }
@@ -1235,7 +1241,8 @@ export async function createPolizaGeneral(req, res) {
         fechamodificacion = new Date(),
         estado = 'ACT',
         sucursalid,
-        planid } = req.body;
+        planid,
+        polizaid } = req.body;
     let newPoliza;
     let t;
     try {
@@ -1294,7 +1301,8 @@ export async function createPolizaGeneral(req, res) {
             fechamodificacion,
             estado,
             sucursalid,
-            planid
+            planid,
+            polizaid
         }, {
             fields: ['nropoliza',
                 'nrocertificado',
@@ -1352,7 +1360,8 @@ export async function createPolizaGeneral(req, res) {
                 'fechamodificacion',
                 'estado',
                 'sucursalid',
-                'planid']
+                'planid',
+                'polizaid']
         }, { transaction: t });
         // step 2  archivos
         // if( archivos!) 
@@ -1861,18 +1870,18 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
 export async function getPolizasPorTomadorYEmpresa(req, res) {
     const { tomadorid, empresaid } = req.params;
     try {
-//console.log(tomadorid, empresaid );
-let query="select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
-"from poliza p " +
-"inner join sucursal s on s.id=p.sucursalid  " +
-"inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-"inner join sub_ramo sr on sr.id=rc.subramoid " +
-"inner join ramo r on r.id=rc.ramoid " +
-"inner join asegurado a on a.id=p.tomadorid " +
-"inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-//"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-"where s.empresaid= '" + empresaid + "' and a.id='" + tomadorid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
-//console.log(query );
+        //console.log(tomadorid, empresaid );
+        let query = "select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and a.id='" + tomadorid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
+        //console.log(query );
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -1920,7 +1929,7 @@ export async function getPolizasPorTomadorYSucursal(req, res) {
 
 
 export async function getPolizasPorEmpresaSinMemo(req, res) {
-    const {  empresaid } = req.params;
+    const { empresaid } = req.params;
     try {
 
         const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
@@ -1931,7 +1940,7 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "left join memo m on m.polizaid=p.id and m.estado='ACT' "+
+            "left join memo m on m.polizaid=p.id and m.estado='ACT' " +
             "where m.polizaid is null and  s.empresaid= '" + empresaid + "'  and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
@@ -1960,7 +1969,7 @@ export async function getPolizasPorSucursalSinMemo(req, res) {
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "left join memo m on m.polizaid=p.id and m.estado='ACT' "+
+            "left join memo m on m.polizaid=p.id and m.estado='ACT' " +
             "where m.polizaid is null and s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT

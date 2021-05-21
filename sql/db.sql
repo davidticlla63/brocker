@@ -1465,7 +1465,8 @@ CREATE TABLE IF NOT EXISTS poliza(
     fechamodificacion timestamp,
     estado character varying not null,
     sucursalid character varying REFERENCES sucursal(id),
-    planid character varying REFERENCES plan(id)
+    planid character varying REFERENCES plan(id),
+    polizaid character varying REFERENCES poliza(id)
 );
 
 CREATE TABLE IF NOT EXISTS poliza_detalle(

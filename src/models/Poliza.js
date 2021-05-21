@@ -58,7 +58,9 @@ const Poliza = sequelize.define('Poliza', {
         allowNull: false,
     },
     sucursalid: Sequelize.STRING,
-    planid: Sequelize.STRING
+    planid: Sequelize.STRING,
+    polizaid:Sequelize.STRING
+    
 
 }, {
     timestamps: false,
