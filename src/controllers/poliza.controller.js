@@ -1823,7 +1823,7 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
@@ -1851,7 +1851,7 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.id "
+            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
