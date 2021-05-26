@@ -18,6 +18,7 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
         detalle:Sequelize.STRING, */
 
     titular: Sequelize.STRING,
+    nrocertificado: Sequelize.STRING,
     placa: Sequelize.STRING,
     tipovehiculo: Sequelize.STRING,
     marcavehiculo: Sequelize.STRING,

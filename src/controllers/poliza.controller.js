@@ -240,8 +240,8 @@ export async function createPoliza(req, res) {
         //DETALLE AUTOMOTORES
         for (let i = 0; i < automotores.length; i++) {
             let newPolizaDetalle = await PolizaDetalle.create({
-
-                titular: automotores[i].titular,
+                nrocertificado:automotores[i].nrocertificado,
+                //titular: automotores[i].titular,
                 placa: automotores[i].placa,
                 tipovehiculo: automotores[i].tipovehiculo,
                 marcavehiculo: automotores[i].marcavehiculo,
@@ -511,8 +511,8 @@ export async function updatePoliza(req, res) {
             //DETALLE AUTOMOTORES
             for (let i = 0; i < automotores.length; i++) {
                 let newPolizaDetalle = await PolizaDetalle.create({
-
-                    titular: automotores[i].titular,
+                    nrocertificado:automotores[i].nrocertificado,
+                    //titular: automotores[i].titular,
                     placa: automotores[i].placa,
                     tipovehiculo: automotores[i].tipovehiculo,
                     marcavehiculo: automotores[i].marcavehiculo,
@@ -1401,7 +1401,8 @@ export async function createPolizaGeneral(req, res) {
         //DETALLE GENERAL
         for (let i = 0; i < generales.length; i++) {
             let newPolizaDetalle = await PolizaDetalleGeneral.create({
-                titular: generales[i].titular,
+                //titular: generales[i].titular,
+                nrocertificado:generales[i].nrocertificado,
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
 
@@ -1615,7 +1616,8 @@ export async function updatePolizaGeneral(req, res) {
             //DETALLE GENERAL
             for (let i = 0; i < generales.length; i++) {
                 let newPolizaDetalle = await PolizaDetalleGeneral.create({
-                    titular: generales[i].titular,
+                    //titular: generales[i].titular,
+                    nrocertificado:generales[i].nrocertificado,
                     tipopolizageneral: generales[i].tipopolizageneral,
                     direccion: generales[i].direccion,
 
@@ -1837,6 +1839,7 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
         });
     }
 }
+
 export async function getPolizasPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {

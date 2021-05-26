@@ -1518,6 +1518,7 @@ CREATE TABLE IF NOT EXISTS poliza_detalle(
 
 CREATE TABLE IF NOT EXISTS poliza_detalle_automotor(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+      nrocertificado character varying,
     titular character varying,
     placa character varying,
     tipovehiculo character varying,
@@ -1540,6 +1541,7 @@ CREATE TABLE IF NOT EXISTS poliza_detalle_automotor(
 CREATE TABLE IF NOT EXISTS poliza_detalle_general(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     titular character varying not null,
+    nrocertificado character varying not null,
     tipopolizageneral character varying not null,
     direccion character varying not null,
     --detalle poliza
