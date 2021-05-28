@@ -207,7 +207,7 @@ export async function getPagosGeneralesPorSucursal(req, res) {
     const {  sucursalid } = req.params;
     try {
 
-        const pagos = await sequelize.query("select pp.*,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
@@ -231,7 +231,7 @@ export async function getPagosActualesPorSucursal(req, res) {
     const {  sucursalid } = req.params;
     try {
 
-        const pagos = await sequelize.query("select pp.*,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
@@ -255,7 +255,7 @@ export async function getPagosPendientesPorSucursal(req, res) {
     const {  sucursalid } = req.params;
     try {
 
-        const pagos = await sequelize.query("select pp.*,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
@@ -279,12 +279,91 @@ export async function getPagosMoraPorSucursal(req, res) {
     const {  sucursalid } = req.params;
     try {
 
-        const pagos = await sequelize.query("select pp.*,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " where p.estado='ACT' and p.sucursalid='"+sucursalid+"' "+
+        " and to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER "+
+        " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({ pagos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function getPagosActualesPorEmpresa(req, res) {
+    const {  empresaid } = req.params;
+    try {
+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " inner join memo m on m.polizaid=p.id "+
+        " inner join plan_pago pp on pp.memoid=m.id "+
+        " inner join sucursal s on s.id= p.sucursalid "+
+        " inner join empresa e on e.id= s.empresaid "+
+        " where p.estado='ACT' and e.id='"+empresaid+"' "+
+        " and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER "+
+        " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({ pagos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPagosPendientesPorEmpresa(req, res) {
+    const {  empresaid } = req.params;
+    try {
+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " inner join memo m on m.polizaid=p.id "+
+        " inner join plan_pago pp on pp.memoid=m.id "+
+        " inner join sucursal s on s.id= p.sucursalid "+
+        " inner join empresa e on e.id= s.empresaid "+
+        " where p.estado='ACT' and e.id='"+empresaid+"' "+
+        " and to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER "+
+        " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({ pagos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPagosMoraPorEmpresa(req, res) {
+    const {  empresaid } = req.params;
+    try {
+
+        const pagos = await sequelize.query("select pp.*,p.nropoliza,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " inner join memo m on m.polizaid=p.id "+
+        " inner join plan_pago pp on pp.memoid=m.id "+
+        " inner join sucursal s on s.id= p.sucursalid "+
+        " inner join empresa e on e.id= s.empresaid "+
+        " where p.estado='ACT' and e.id='"+empresaid+"' "+
         " and to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER "+
         " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {

@@ -24,4 +24,8 @@ router.get('/actualesPorSucursal/:sucursalid', pagos.getPagosActualesPorSucursal
 router.get('/pendientesPorSucursal/:sucursalid', pagos.getPagosPendientesPorSucursal);
 router.get('/moraPorSucursal/:sucursalid', pagos.getPagosMoraPorSucursal);
 
+router.get('/actualesPorEmpresa/:empresaid', pagos.getPagosActualesPorEmpresa);
+router.get('/pendientesPorEmpresa/:empresaid', pagos.getPagosPendientesPorEmpresa);
+router.get('/moraPorEmpresa/:empresaid', pagos.getPagosMoraPorEmpresa);
+
 export default router;
