@@ -1361,7 +1361,9 @@ values
         '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
         NOW(),
         NOW()
-    ) CREATE TABLE IF NOT EXISTS sub_ramo(
+
+    ) 
+    CREATE TABLE IF NOT EXISTS sub_ramo(
         id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
         nombre character varying not null,
         descripcion character varying,
@@ -1373,6 +1375,44 @@ values
         estado character varying not null,
         ramoid character varying REFERENCES ramo(id)
     );
+
+    insert into sub_ramo(nombre,descripcion,spvs,usuarioregistro,usuariomodificacion,fecharegistro,fechamodificacion,estado,ramoid )
+values
+
+('Accidentes Personales de Aeronavegación','Accidentes Personales de Aeronavegación','03','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
+('Casco de Aeronavegación','Casco de Aeronavegación','02','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
+('Responsabilidad Civil de Aeronavegación','Responsabilidad Civil de Aeronavegación','01','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
+('Equipo Electronico','	Equipo Electronico','02','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Equipo Movil','Equipo Movil','05','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Equipos de Preforación','Equipos de Preforación','07','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Montaje','Montaje','03','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Rotura de maquina','Rotura de maquina','01','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Todo Riesgo Contratistas','Todo Riesgo Contratistas','04','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
+('Pieles y Joyas','Pieles y Joyas','06','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Remesas de Dinero','	Remesas de Dinero','02','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Rotura de Vidrios y Cristales','Rotura de Vidrios y Cristales','01','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Seguros Comprensivo para Deshonestidad','Seguros Comprensivo para Deshonestidad','04','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Seguros de Banqueros','Seguros de Banqueros','03','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Todo Riesgos Objetos de valor','Todo Riesgos Objetos de valor','05','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
+('Poliza Agricola','Poliza Agricola','01','dticlla',null,now(),now(),'ACT','d24d95f8-e087-4d58-8b60-97ce17c57d18'),
+('Poliza de especies animales','Poliza de especies animales','02','dticlla',null,now(),now(),'ACT','d24d95f8-e087-4d58-8b60-97ce17c57d18'),
+('Asistencia Medica','Asistencia Medica','01','dticlla',null,now(),now(),'ACT','ba83e6fc-78a6-4df0-b99f-ad4cbad97e37'),
+('Acidentes Personales','Acidentes Personales','01','dticlla',null,now(),now(),'ACT','b6cd9377-d9d8-435c-bb60-9e1bdad9c741'),
+('Vida Eterna','Vida Eterna','01','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
+('Vida Termporal','Vida Termporal','02','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
+('Vida Total o mixta','Vida Total o mixta','03','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
+('Vida Universal','Vida Universal','04','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
+('Vida Individual Anual Renovable','Vida Individual Anual Renovable','01','dticlla',null,now(),now(),'ACT','152e5451-7e8d-46db-a073-985e9a2b9d5e'),
+('Rentas temporales','Rentas temporales','01','dticlla',null,now(),now(),'ACT','f040c9ac-bd64-4746-8e66-548992efe8df'),
+('Rentas Vitalicias','Rentas Vitalicias','02','dticlla',null,now(),now(),'ACT','f040c9ac-bd64-4746-8e66-548992efe8df'),
+('Sepelio y/o Defuncion','Sepelio y/o Defuncion','01','dticlla',null,now(),now(),'ACT','4d866dbd-7fd3-4a80-ae99-d29c79e77689'),
+('Sepelio y/o Defuncion Anual Renobable','Sepelio y/o Defuncion Anual Renobable','01','dticlla',null,now(),now(),'ACT','c83c545e-d431-4eaa-abef-41a84e8b7c5f'),
+('Vida Grupo Anual Renobable','Vida Grupo Anual Renobable',	'01','dticlla',null,now(),now(),'ACT','1a107505-9ff9-4d11-97fc-a6e79b21dd66'),
+('Asistencia Medica','Asistencia Medica','01','dticlla',null,now(),now(),'ACT','22e1ccce-6c00-4b69-984f-18a77ebc07f3'),
+('Desgravamen Hipotecario','Desgravamen Hipotecario','01','dticlla',null,now(),now(),'ACT','573f76a0-9217-49c4-b918-f608ca39e781'),
+('Desgravamen Hipetecario Anual Renovable','Desgravamen Hipetecario Anual Renovable','01','dticlla',null,now(),now(),'ACT','a1d95ad5-3b66-4821-8904-d98c63ac2368'),
+('Seguros Obligatorios','Seguros Obligatorios','01','dticlla',null,now(),now(),'ACT','aa3658f2-7552-4bda-91a5-629b08850eb9')
+
 
 CREATE TABLE IF NOT EXISTS sub_ramo_compania(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
