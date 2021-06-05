@@ -468,7 +468,6 @@ CREATE TABLE IF NOT EXISTS personal(
  
  insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','5adfc0c3-5f38-4119-a667-d2dca57cfdb3',id from  accion order by nombre */
-
 /* 	insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','dc134e96-e1df-4dd0-8505-53be95f28d50',id from  accion order by nombre
  
@@ -478,21 +477,19 @@ CREATE TABLE IF NOT EXISTS personal(
  insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','73e95846-378c-42c5-a353-2c8533725fca',id from  accion order by nombre
  
-  insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
+ insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','47b729dd-520f-4aca-ab68-5b1d72d248b1',id from  accion order by nombre
  
-   insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
+ insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','9159b5bb-7080-4ff7-b870-ddfe12fce4c1',id from  accion order by nombre */
-
- /* 	insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
+/* 	insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','ee7f40a9-ed08-428f-8bf4-78d38afa4625',id from  accion order by nombre
  
- 	insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
+ insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','1d5677de-a6e8-4725-87b2-b9196238d814',id from  accion order by nombre
  
  insert into pagina_accion(usuarioregistro,fecharegistro,fechamodificacion,estado,paginaid,accionid)
  select 'DTICLLA',now(),now(),'ACT','df8d2989-1e0a-41ac-8bc1-4df3ffc084e4',id from  accion order by nombre */
-
 CREATE TABLE IF NOT EXISTS asegurado(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     tipoasegurado character varying not null,
@@ -889,7 +886,7 @@ insert into
         fechamodificacion
     )
 values
-(
+    (
         'VIDA INDIVIDUAL LARGO PLAZO',
         '',
         '41',
@@ -1361,9 +1358,7 @@ values
         '0ed82d49-0899-48f5-8a1d-5ae0b3707c7a',
         NOW(),
         NOW()
-
-    ) 
-    CREATE TABLE IF NOT EXISTS sub_ramo(
+    ) CREATE TABLE IF NOT EXISTS sub_ramo(
         id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
         nombre character varying not null,
         descripcion character varying,
@@ -1376,61 +1371,398 @@ values
         ramoid character varying REFERENCES ramo(id)
     );
 
-    insert into sub_ramo(nombre,descripcion,spvs,usuarioregistro,usuariomodificacion,fecharegistro,fechamodificacion,estado,ramoid )
+insert into
+    sub_ramo(
+        nombre,
+        descripcion,
+        spvs,
+        usuarioregistro,
+        usuariomodificacion,
+        fecharegistro,
+        fechamodificacion,
+        estado,
+        ramoid
+    )
 values
-
-('Accidentes Personales de Aeronavegación','Accidentes Personales de Aeronavegación','03','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
-('Casco de Aeronavegación','Casco de Aeronavegación','02','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
-('Responsabilidad Civil de Aeronavegación','Responsabilidad Civil de Aeronavegación','01','dticlla',null,now(),now(),'ACT','a33435cd-dd5d-4a63-9d73-4fa048d86027'),
-('Equipo Electronico','	Equipo Electronico','02','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Equipo Movil','Equipo Movil','05','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Equipos de Preforación','Equipos de Preforación','07','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Montaje','Montaje','03','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Rotura de maquina','Rotura de maquina','01','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Todo Riesgo Contratistas','Todo Riesgo Contratistas','04','dticlla',null,now(),now(),'ACT','04a8f9a6-278a-4560-9d2f-c905913c1dd6'),
-('Pieles y Joyas','Pieles y Joyas','06','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Remesas de Dinero','	Remesas de Dinero','02','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Rotura de Vidrios y Cristales','Rotura de Vidrios y Cristales','01','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Seguros Comprensivo para Deshonestidad','Seguros Comprensivo para Deshonestidad','04','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Seguros de Banqueros','Seguros de Banqueros','03','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Todo Riesgos Objetos de valor','Todo Riesgos Objetos de valor','05','dticlla',null,now(),now(),'ACT','3cad6c41-07a0-4031-82d6-779146697812'),
-('Poliza Agricola','Poliza Agricola','01','dticlla',null,now(),now(),'ACT','d24d95f8-e087-4d58-8b60-97ce17c57d18'),
-('Poliza de especies animales','Poliza de especies animales','02','dticlla',null,now(),now(),'ACT','d24d95f8-e087-4d58-8b60-97ce17c57d18'),
-('Asistencia Medica','Asistencia Medica','01','dticlla',null,now(),now(),'ACT','ba83e6fc-78a6-4df0-b99f-ad4cbad97e37'),
-('Acidentes Personales','Acidentes Personales','01','dticlla',null,now(),now(),'ACT','b6cd9377-d9d8-435c-bb60-9e1bdad9c741'),
-('Vida Eterna','Vida Eterna','01','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
-('Vida Termporal','Vida Termporal','02','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
-('Vida Total o mixta','Vida Total o mixta','03','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
-('Vida Universal','Vida Universal','04','dticlla',null,now(),now(),'ACT','9a47c8c6-0f16-45b8-a455-84894ce26cb7'),
-('Vida Individual Anual Renovable','Vida Individual Anual Renovable','01','dticlla',null,now(),now(),'ACT','152e5451-7e8d-46db-a073-985e9a2b9d5e'),
-('Rentas temporales','Rentas temporales','01','dticlla',null,now(),now(),'ACT','f040c9ac-bd64-4746-8e66-548992efe8df'),
-('Rentas Vitalicias','Rentas Vitalicias','02','dticlla',null,now(),now(),'ACT','f040c9ac-bd64-4746-8e66-548992efe8df'),
-('Sepelio y/o Defuncion','Sepelio y/o Defuncion','01','dticlla',null,now(),now(),'ACT','4d866dbd-7fd3-4a80-ae99-d29c79e77689'),
-('Sepelio y/o Defuncion Anual Renobable','Sepelio y/o Defuncion Anual Renobable','01','dticlla',null,now(),now(),'ACT','c83c545e-d431-4eaa-abef-41a84e8b7c5f'),
-('Vida Grupo Anual Renobable','Vida Grupo Anual Renobable',	'01','dticlla',null,now(),now(),'ACT','1a107505-9ff9-4d11-97fc-a6e79b21dd66'),
-('Asistencia Medica','Asistencia Medica','01','dticlla',null,now(),now(),'ACT','22e1ccce-6c00-4b69-984f-18a77ebc07f3'),
-('Desgravamen Hipotecario','Desgravamen Hipotecario','01','dticlla',null,now(),now(),'ACT','573f76a0-9217-49c4-b918-f608ca39e781'),
-('Desgravamen Hipetecario Anual Renovable','Desgravamen Hipetecario Anual Renovable','01','dticlla',null,now(),now(),'ACT','a1d95ad5-3b66-4821-8904-d98c63ac2368'),
-('Seguros Obligatorios','Seguros Obligatorios','01','dticlla',null,now(),now(),'ACT','aa3658f2-7552-4bda-91a5-629b08850eb9')
-
-
-CREATE TABLE IF NOT EXISTS sub_ramo_compania(
-    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-    porcentajecomision decimal,
-    porcentajecomisioncredito decimal,
-    porcentajeprima decimal,
-    porcentajeprimacredito decimal,
-    nota character varying,
-    notacredito character varying,
-    usuarioregistro character varying not null,
-    usuariomodificacion character varying,
-    fecharegistro timestamp not null,
-    fechamodificacion timestamp,
-    estado character varying not null,
-    ramoid character varying REFERENCES ramo(id),
-    subramoid character varying REFERENCES sub_ramo(id),
-    companiaseguroid character varying REFERENCES compania_seguro(id)
-);
+    (
+        'Accidentes Personales de Aeronavegación',
+        'Accidentes Personales de Aeronavegación',
+        '03',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'a33435cd-dd5d-4a63-9d73-4fa048d86027'
+    ),
+    (
+        'Casco de Aeronavegación',
+        'Casco de Aeronavegación',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'a33435cd-dd5d-4a63-9d73-4fa048d86027'
+    ),
+    (
+        'Responsabilidad Civil de Aeronavegación',
+        'Responsabilidad Civil de Aeronavegación',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'a33435cd-dd5d-4a63-9d73-4fa048d86027'
+    ),
+    (
+        'Equipo Electronico',
+        '	Equipo Electronico',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Equipo Movil',
+        'Equipo Movil',
+        '05',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Equipos de Preforación',
+        'Equipos de Preforación',
+        '07',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Montaje',
+        'Montaje',
+        '03',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Rotura de maquina',
+        'Rotura de maquina',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Todo Riesgo Contratistas',
+        'Todo Riesgo Contratistas',
+        '04',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '04a8f9a6-278a-4560-9d2f-c905913c1dd6'
+    ),
+    (
+        'Pieles y Joyas',
+        'Pieles y Joyas',
+        '06',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Remesas de Dinero',
+        '	Remesas de Dinero',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Rotura de Vidrios y Cristales',
+        'Rotura de Vidrios y Cristales',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Seguros Comprensivo para Deshonestidad',
+        'Seguros Comprensivo para Deshonestidad',
+        '04',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Seguros de Banqueros',
+        'Seguros de Banqueros',
+        '03',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Todo Riesgos Objetos de valor',
+        'Todo Riesgos Objetos de valor',
+        '05',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '3cad6c41-07a0-4031-82d6-779146697812'
+    ),
+    (
+        'Poliza Agricola',
+        'Poliza Agricola',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'd24d95f8-e087-4d58-8b60-97ce17c57d18'
+    ),
+    (
+        'Poliza de especies animales',
+        'Poliza de especies animales',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'd24d95f8-e087-4d58-8b60-97ce17c57d18'
+    ),
+    (
+        'Asistencia Medica',
+        'Asistencia Medica',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'ba83e6fc-78a6-4df0-b99f-ad4cbad97e37'
+    ),
+    (
+        'Acidentes Personales',
+        'Acidentes Personales',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'b6cd9377-d9d8-435c-bb60-9e1bdad9c741'
+    ),
+    (
+        'Vida Eterna',
+        'Vida Eterna',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '9a47c8c6-0f16-45b8-a455-84894ce26cb7'
+    ),
+    (
+        'Vida Termporal',
+        'Vida Termporal',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '9a47c8c6-0f16-45b8-a455-84894ce26cb7'
+    ),
+    (
+        'Vida Total o mixta',
+        'Vida Total o mixta',
+        '03',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '9a47c8c6-0f16-45b8-a455-84894ce26cb7'
+    ),
+    (
+        'Vida Universal',
+        'Vida Universal',
+        '04',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '9a47c8c6-0f16-45b8-a455-84894ce26cb7'
+    ),
+    (
+        'Vida Individual Anual Renovable',
+        'Vida Individual Anual Renovable',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '152e5451-7e8d-46db-a073-985e9a2b9d5e'
+    ),
+    (
+        'Rentas temporales',
+        'Rentas temporales',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'f040c9ac-bd64-4746-8e66-548992efe8df'
+    ),
+    (
+        'Rentas Vitalicias',
+        'Rentas Vitalicias',
+        '02',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'f040c9ac-bd64-4746-8e66-548992efe8df'
+    ),
+    (
+        'Sepelio y/o Defuncion',
+        'Sepelio y/o Defuncion',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '4d866dbd-7fd3-4a80-ae99-d29c79e77689'
+    ),
+    (
+        'Sepelio y/o Defuncion Anual Renobable',
+        'Sepelio y/o Defuncion Anual Renobable',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'c83c545e-d431-4eaa-abef-41a84e8b7c5f'
+    ),
+    (
+        'Vida Grupo Anual Renobable',
+        'Vida Grupo Anual Renobable',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '1a107505-9ff9-4d11-97fc-a6e79b21dd66'
+    ),
+    (
+        'Asistencia Medica',
+        'Asistencia Medica',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '22e1ccce-6c00-4b69-984f-18a77ebc07f3'
+    ),
+    (
+        'Desgravamen Hipotecario',
+        'Desgravamen Hipotecario',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        '573f76a0-9217-49c4-b918-f608ca39e781'
+    ),
+    (
+        'Desgravamen Hipetecario Anual Renovable',
+        'Desgravamen Hipetecario Anual Renovable',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'a1d95ad5-3b66-4821-8904-d98c63ac2368'
+    ),
+    (
+        'Seguros Obligatorios',
+        'Seguros Obligatorios',
+        '01',
+        'dticlla',
+        null,
+        now(),
+        now(),
+        'ACT',
+        'aa3658f2-7552-4bda-91a5-629b08850eb9'
+    ) CREATE TABLE IF NOT EXISTS sub_ramo_compania(
+        id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+        porcentajecomision decimal,
+        porcentajecomisioncredito decimal,
+        porcentajeprima decimal,
+        porcentajeprimacredito decimal,
+        nota character varying,
+        notacredito character varying,
+        usuarioregistro character varying not null,
+        usuariomodificacion character varying,
+        fecharegistro timestamp not null,
+        fechamodificacion timestamp,
+        estado character varying not null,
+        ramoid character varying REFERENCES ramo(id),
+        subramoid character varying REFERENCES sub_ramo(id),
+        companiaseguroid character varying REFERENCES compania_seguro(id)
+    );
 
 /* CREATE TABLE IF NOT EXISTS tipo_poliza(
  --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
@@ -1457,7 +1789,6 @@ CREATE TABLE IF NOT EXISTS plan(
     --sucursalid  character varying REFERENCES sucursal(id)
 );
 
-			
 CREATE TABLE IF NOT EXISTS param_produccion(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     diaproduccion integer not null default 0,
@@ -1558,7 +1889,7 @@ CREATE TABLE IF NOT EXISTS poliza_detalle(
 
 CREATE TABLE IF NOT EXISTS poliza_detalle_automotor(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-      nrocertificado character varying,
+    nrocertificado character varying,
     titular character varying,
     placa character varying,
     tipovehiculo character varying,
@@ -1734,89 +2065,88 @@ CREATE TABLE IF NOT EXISTS tipo_memo(
 );
 
 /* CREATE TABLE IF NOT EXISTS memo(
-    --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
-    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-    memoid character varying REFERENCES memo(id),
-    tipomemoid: Sequelize.STRING,
-    fechamemo timestamp,
-    tipomoneda character varying,
-    tipocambiodolares decimal,
-    polizaid character varying,
-    nropoliza character varying,
-    nrocertificado character varying,
-    fechavigenciainicial timestamp,
-    fechavigenciafinal timestamp,
-    fechapago timestamp,
-    formapago character varying,
-    primatotal decimal,
-    primaneta decimal,
-    montocomision decimal,
-    porcentajeprima decimal,
-    porcentajecomision decimal,
-    primatotalbolivianos decimal,
-    primanetabolivianos decimal,
-    montocomisionbolivianos decimal,
-    descripcion character varying,
-    tipocomision character varying,
-    aseguradoid character varying REFERENCES asegurado(id),
-    companiaseguroid character varying,
-    ciaspvs character varying,
-    tiporamoid character varying REFERENCES tipo_ramo(id),
-    ramoid character varying REFERENCES ramo(id),
-    ramospvs character varying,
-    subramoid character varying REFERENCES sub_ramo(id),
-    subramospvs character varying,
-    spvs character varying,
-    contratanteid character varying REFERENCES contratante(id),
-    ejecutivoid character varying REFERENCES personal(id),
-    sucursalid character varying REFERENCES sucursal(id),
-    ciudadorigen character varying,
-    cuotainicial decimal,
-    nrocuotas decimal,
-    cantidadcuotas decimal,
-    periodopago character varying,
-    impuesto character varying,
-    fechaspago timestamp,
-    fechaemision timestamp,
-    fechaproduccion timestamp,
-    mesproduccion character varying,
-    tipocontrato character varying,
-    cuotainicialliteral character varying,
-    anioproduccion character varying,
-    vendedorid character varying,
-    comisionvendedor decimal,
-    comisioncontratante decimal,
-    depositoinicial decimal,
-    montocomisionvendedor decimal,
-    montocomisioncontratante decimal,
-    comisionvendedor decimal,
-    nombresobrogacion character varying,
-    agente character varying,
-    porcentajeagente decimal,
-    saldocomisionbroker decimal,
-    comisionvendedor decimal,
-    carteraid character varying REFERENCES personal(id),
-    nroplaca character varying,
-    usuarioregistro character varying not null,
-    usuariomodificacion character varying,
-    fecharegistro timestamp not null,
-    fechamodificacion timestamp,
-    estado character varying not null
-); */
-
+ --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+ id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+ memoid character varying REFERENCES memo(id),
+ tipomemoid: Sequelize.STRING,
+ fechamemo timestamp,
+ tipomoneda character varying,
+ tipocambiodolares decimal,
+ polizaid character varying,
+ nropoliza character varying,
+ nrocertificado character varying,
+ fechavigenciainicial timestamp,
+ fechavigenciafinal timestamp,
+ fechapago timestamp,
+ formapago character varying,
+ primatotal decimal,
+ primaneta decimal,
+ montocomision decimal,
+ porcentajeprima decimal,
+ porcentajecomision decimal,
+ primatotalbolivianos decimal,
+ primanetabolivianos decimal,
+ montocomisionbolivianos decimal,
+ descripcion character varying,
+ tipocomision character varying,
+ aseguradoid character varying REFERENCES asegurado(id),
+ companiaseguroid character varying,
+ ciaspvs character varying,
+ tiporamoid character varying REFERENCES tipo_ramo(id),
+ ramoid character varying REFERENCES ramo(id),
+ ramospvs character varying,
+ subramoid character varying REFERENCES sub_ramo(id),
+ subramospvs character varying,
+ spvs character varying,
+ contratanteid character varying REFERENCES contratante(id),
+ ejecutivoid character varying REFERENCES personal(id),
+ sucursalid character varying REFERENCES sucursal(id),
+ ciudadorigen character varying,
+ cuotainicial decimal,
+ nrocuotas decimal,
+ cantidadcuotas decimal,
+ periodopago character varying,
+ impuesto character varying,
+ fechaspago timestamp,
+ fechaemision timestamp,
+ fechaproduccion timestamp,
+ mesproduccion character varying,
+ tipocontrato character varying,
+ cuotainicialliteral character varying,
+ anioproduccion character varying,
+ vendedorid character varying,
+ comisionvendedor decimal,
+ comisioncontratante decimal,
+ depositoinicial decimal,
+ montocomisionvendedor decimal,
+ montocomisioncontratante decimal,
+ comisionvendedor decimal,
+ nombresobrogacion character varying,
+ agente character varying,
+ porcentajeagente decimal,
+ saldocomisionbroker decimal,
+ comisionvendedor decimal,
+ carteraid character varying REFERENCES personal(id),
+ nroplaca character varying,
+ usuarioregistro character varying not null,
+ usuariomodificacion character varying,
+ fecharegistro timestamp not null,
+ fechamodificacion timestamp,
+ estado character varying not null
+ ); */
 CREATE TABLE IF NOT EXISTS memo(
     --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     fechamemo timestamp not null,
     fechapago timestamp not null,
-    nrocuotas  decimal not null,
-    cuotainicial  decimal not null,
-    pagocada  decimal not null,
+    nrocuotas decimal not null,
+    cuotainicial decimal not null,
+    pagocada decimal not null,
     diapago decimal,
     impuesto character varying not null,
     fechaproduccion timestamp not null,
-    mesproduccion  decimal not null,
-    anioproduccion  decimal not null,
+    mesproduccion decimal not null,
+    anioproduccion decimal not null,
     sucursalid character varying REFERENCES sucursal(id) not null,
     polizaid character varying REFERENCES poliza(id) not null,
     usuarioregistro character varying not null,
@@ -1826,16 +2156,15 @@ CREATE TABLE IF NOT EXISTS memo(
     estado character varying not null
 );
 
-
 CREATE TABLE IF NOT EXISTS plan_pago(
     --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
-   nro decimal not null default 0,
+    nro decimal not null default 0,
     fechapago timestamp not null,
     montocuota decimal not null default 0,
     primaneta decimal not null default 0,
     comision decimal not null default 0,
-    memoid  character varying REFERENCES memo(id) not null,
+    memoid character varying REFERENCES memo(id) not null,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp not null,
@@ -1862,7 +2191,7 @@ CREATE TABLE IF NOT EXISTS pagos(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     montobs decimal default 0,
     montousd decimal default 0,
-    comisionbs  decimal default 0,
+    comisionbs decimal default 0,
     comisionusd decimal default 0,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
@@ -1871,4 +2200,26 @@ CREATE TABLE IF NOT EXISTS pagos(
     estado character varying not null,
     planpagoid character varying REFERENCES plan_pago(id),
     sucursalid character varying REFERENCES sucursal(id)
+);
+CREATE TABLE IF NOT EXISTS siniestro(
+    --id integer PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+    fechanotificacion timestamp not null,
+    fechasiniestro timestamp not null,
+    descripcion character varying,
+    resumen character varying,
+    resumenfinalsiniestro character varying,
+    montoindemnizar decimal not null default 0,
+    fecharecordatorio timestamp not null,
+    notarecordatorio character varying,
+    tipo character varying,
+    estadosiniestro character varying,
+    encargadoid character varying,
+    polizaid character varying REFERENCES poliza(id) not null,
+	 sucursalid character varying REFERENCES sucursal(id) not null,
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp,
+    estado character varying not null
 );

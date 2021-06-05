@@ -20,4 +20,7 @@ router.delete('/:id', siniestros.deleteSiniestro);
 router.put('/:id', siniestros.updateSiniestro);
 router.put('/baja/:id', siniestros.bajaSiniestro);
 
+router.get('/siniestroPorSucursal/:sucursalid', siniestros.getSiniestroPorSucursal);
+router.get('/siniestroPorEmpresa/:empresaid', siniestros.getSiniestroPorEmpresa);
+
 export default router;

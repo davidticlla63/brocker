@@ -239,3 +239,63 @@ export async function bajaSiniestro(req, res) {
         });
     }
 }
+
+export async function getSiniestroPorSucursal(req, res) {
+    const { sucursalid } = req.params;
+    try {
+
+        const siniestros = await sequelize.query("select ss.* "+
+        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+            "from siniestro ss " +
+            "inner join poliza p on p.id = ss.polizaid "+
+            "inner join sucursal s on s.id=ss.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ siniestros });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getSiniestroPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+
+        const siniestros = await sequelize.query("select ss.* "+
+        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+            "from siniestro ss " +
+            "inner join poliza p on p.id = ss.polizaid "+
+            "inner join sucursal s on s.id=ss.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where  s.empresaid= '" + empresaid + "'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ siniestros });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}

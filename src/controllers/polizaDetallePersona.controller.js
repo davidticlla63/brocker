@@ -150,7 +150,6 @@ export async function createPolizaDetallePersona(req, res) {
     }
 }
 
-
 export async function updatePolizaDetallePersona(req, res) {
     const { id } = req.params;
     const {
@@ -235,7 +234,6 @@ export async function updatePolizaDetallePersona(req, res) {
         });
     }
 }
-
 
 export async function bajaPolizaDetallePersona(req, res) {
     const { id } = req.params;
