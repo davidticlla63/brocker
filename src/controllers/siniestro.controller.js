@@ -1,4 +1,5 @@
-
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 import Siniestro from "../models/Siniestro";
 
 export async function getSiniestros(req, res) {

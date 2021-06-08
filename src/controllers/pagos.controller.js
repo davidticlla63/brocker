@@ -67,42 +67,65 @@ export async function createPagos(req, res) {
     }
 }
 
-export async function getOnePagos(req, res) {
+export async function crearPagos(req, res) {
+    const {
+        pagos } = req.body;
+        let t;
     try {
-        const { id } = req.params;
-        const pagos = await Pagos.findOne({
-            where: {
-                id
-            }
-        });
-        res.json({
-            data: pagos
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
+        //const transaction= sequelize.transaction;
+        let newPagos
+        t = await sequelize.transaction();
+        for (let i = 0; i < pagos.length; i++) {
+            newPagos = await Pagos.create({
+                //titular: pagos[i].titular,
+                montobs:pagos[i].montobs,
+                montousd: pagos[i].montousd,
+                comisionbs: pagos[i].comisionbs,
+                comisionusd: pagos[i].comisionusd,
+                planpagoid: pagos[i].planpagoid,
+                sucursalid: pagos[i].sucursalid,
 
-export async function deletePagos(req, res) {
-    try {
-        const { id } = req.params;
-        const deleteRowCount = await Pagos.destroy({
-            where: {
-                id
-            }
-        });
-        res.json({
-            message: 'Pagos deleted successfully',
-            count: deleteRowCount
-        });
+                usuarioregistro,
+                usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT',
+              
+               
+            }, {
+                fields:  ['montobs',
+                'montousd',
+                'comisionbs',
+                'comisionusd',
+                'planpagoid',
+                'sucursalid',
+                'usuarioregistro',
+                'usuariomodificacion',
+                'fecharegistro',
+                'fechamodificacion',
+                'estado']
+            }, { transaction: t });
+
+
+        }
+        await t.commit();
+        if (newPagos) {
+            return res.json({
+                message: 'Pagos created successfully',
+                data: newPagos
+            });
+        }
     } catch (e) {
         console.log(e);
+        if (t) {
+            await t.rollback();
+            
+        }
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });
     }
 }
-
 export async function updatePagos(req, res) {
     const { id } = req.params;
     const {
@@ -157,6 +180,43 @@ export async function updatePagos(req, res) {
         });
     }
 }
+export async function getOnePagos(req, res) {
+    try {
+        const { id } = req.params;
+        const pagos = await Pagos.findOne({
+            where: {
+                id
+            }
+        });
+        res.json({
+            data: pagos
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function deletePagos(req, res) {
+    try {
+        const { id } = req.params;
+        const deleteRowCount = await Pagos.destroy({
+            where: {
+                id
+            }
+        });
+        res.json({
+            message: 'Pagos deleted successfully',
+            count: deleteRowCount
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
 
 
 export async function bajaPagos(req, res) {
@@ -397,10 +457,13 @@ export async function getPagosPorSucursalyCi(req, res) {
     const {  sucursalid,cinit } = req.params;
     try {
 
-        const pagos = await sequelize.query("select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion," +
+        const pagos = await sequelize.query("select  pp.id ,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion," +
         " p.nropoliza,a.nombrecompleto,p.tipomoneda,(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as pagado,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         "when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,p.tipoemision from poliza p "+
         "inner join memo m on m.polizaid=p.id "+
         "inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
@@ -428,7 +491,10 @@ export async function getPagosPorEmpresayCi(req, res) {
 let query="select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion," +
 " p.nropoliza,a.nombrecompleto,p.tipomoneda,(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as pagado,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
 "when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-"when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+"when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+"from cobranza_motivo "+
+"where estado='ACT' AND planpagoid=pp.id "+
+ "group by planpagoid) as Motivos,p.tipoemision from poliza p "+
 "inner join memo m on m.polizaid=p.id "+
 "inner join plan_pago pp on pp.memoid=m.id "+
 "inner join asegurado a on a.id=p.tomadorid "+

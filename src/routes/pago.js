@@ -12,6 +12,7 @@ router
     .use(compression());
     
 router.post('/', pagos.createPagos);
+router.post('/crear/', pagos.crearPagos);
 router.get('/', pagos.getPagoss);
 
 // /api/empresas/:empresaID

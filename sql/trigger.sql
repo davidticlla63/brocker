@@ -12,3 +12,6 @@ CREATE TRIGGER tr_concluir_poliza
   ON poliza
   FOR EACH ROW
   EXECUTE PROCEDURE concluir_poliza();
+
+
+
