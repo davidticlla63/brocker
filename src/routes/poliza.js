@@ -11,10 +11,13 @@ router
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
+//automotor
 router.post('/', polizas.createPoliza);
 router.put('/:id', polizas.updatePoliza);
+//salud
 router.post('/salud/', polizas.createPolizaSalud);
 router.put('/salud/:id', polizas.updatePolizaSalud);
+//proposito general
 router.post('/general/', polizas.createPolizaGeneral);
 router.put('/general/:id', polizas.updatePolizaGeneral);
 
@@ -37,7 +40,7 @@ router.delete('/:id', polizas.deletePoliza);
 router.put('/baja/:id', polizas.bajaPoliza);
 
 //siniestro
-router.get('/polizasPorSucursal/:sucursalid', polizas.getPolizasPorSucursal);
-router.get('/polizasPorEmpresa/:empresaid', polizas.getPolizasPorEmpresa);
+router.get('/polizasPorSucursals/:sucursalid', polizas.getPolizasPorSucursal);
+router.get('/polizasPorEmpresas/:empresaid', polizas.getPolizasPorEmpresa);
 
 export default router;

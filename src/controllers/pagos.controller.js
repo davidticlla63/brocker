@@ -15,36 +15,37 @@ export async function getPagoss(req, res) {
 
 export async function createPagos(req, res) {
     const {
-        montobs,
-        montousd,
+        monto,
+       /*  montousd,
         comisionbs,
-        comisionusd,
+        comisionusd, */
+        tipo,
         planpagoid,
         sucursalid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion= new Date(),
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newPagos = await Pagos.create({
-            montobs,
-            montousd,
-            comisionbs,
-            comisionusd,
+            montobs:monto,
+            montousd:0,
+            comisionbs:0,
+            comisionusd:0,
+            tipo,
             planpagoid,
             sucursalid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
             estado
         }, {
             fields: ['montobs',
             'montousd',
             'comisionbs',
             'comisionusd',
+            'tipo',
             'planpagoid',
             'sucursalid',
             'usuarioregistro',
@@ -78,20 +79,18 @@ export async function crearPagos(req, res) {
         for (let i = 0; i < pagos.length; i++) {
             newPagos = await Pagos.create({
                 //titular: pagos[i].titular,
-                montobs:pagos[i].montobs,
-                montousd: pagos[i].montousd,
-                comisionbs: pagos[i].comisionbs,
-                comisionusd: pagos[i].comisionusd,
+
+                montobs:pagos[i].monto,
+                montousd: pagos[i].monto,
+                comisionbs: 0,
+                comisionusd: 0,
                 planpagoid: pagos[i].planpagoid,
                 sucursalid: pagos[i].sucursalid,
-
-                usuarioregistro,
-                usuariomodificacion,
+                usuarioregistro:pagos[i].usuarioregistro,
                 fecharegistro: new Date(),
                 fechamodificacion: new Date(),
                 estado: 'ACT',
-              
-               
+                tipo:pagos[i].tipo
             }, {
                 fields:  ['montobs',
                 'montousd',
@@ -100,13 +99,12 @@ export async function crearPagos(req, res) {
                 'planpagoid',
                 'sucursalid',
                 'usuarioregistro',
-                'usuariomodificacion',
                 'fecharegistro',
                 'fechamodificacion',
-                'estado']
+                'estado',
+                'tipo'
+            ]
             }, { transaction: t });
-
-
         }
         await t.commit();
         if (newPagos) {
@@ -270,7 +268,10 @@ export async function getPagosGeneralesPorSucursal(req, res) {
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
@@ -294,9 +295,13 @@ export async function getPagosActualesPorSucursal(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
@@ -320,9 +325,13 @@ export async function getPagosPendientesPorSucursal(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
@@ -346,6 +355,7 @@ export async function getPagosMoraPorSucursal(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
@@ -373,9 +383,13 @@ export async function getPagosActualesPorEmpresa(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -401,9 +415,13 @@ export async function getPagosPendientesPorEmpresa(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -429,9 +447,13 @@ export async function getPagosMoraPorEmpresa(req, res) {
     try {
 
         const pagos = await sequelize.query("select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto "+
+        ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         " ,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
+        "from cobranza_motivo "+
+        "where estado='ACT' AND planpagoid=pp.id "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -458,12 +480,12 @@ export async function getPagosPorSucursalyCi(req, res) {
     try {
 
         const pagos = await sequelize.query("select  pp.id ,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion," +
-        " p.nropoliza,a.nombrecompleto,p.tipomoneda,(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as pagado,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+        " p.nropoliza,a.nombrecompleto,p.tipomoneda,pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         "when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
         "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,p.tipoemision from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision from poliza p "+
         "inner join memo m on m.polizaid=p.id "+
         "inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
@@ -489,12 +511,12 @@ export async function getPagosPorEmpresayCi(req, res) {
     const {  empresaid,cinit } = req.params;
     try {
 let query="select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion," +
-" p.nropoliza,a.nombrecompleto,p.tipomoneda,(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as pagado,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
+" p.nropoliza,a.nombrecompleto,p.tipomoneda,pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
 "when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
 "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
 "from cobranza_motivo "+
 "where estado='ACT' AND planpagoid=pp.id "+
- "group by planpagoid) as Motivos,p.tipoemision from poliza p "+
+ "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusion' then 'E' when p.tipoemision='Anexo Exclusion' then 'E' else 'I' end tipo,p.tipoemision from poliza p "+
 "inner join memo m on m.polizaid=p.id "+
 "inner join plan_pago pp on pp.memoid=m.id "+
 "inner join asegurado a on a.id=p.tomadorid "+

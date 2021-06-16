@@ -5,20 +5,24 @@ export const sequelize = new Sequelize(
     'postgres',
     'admin',
     {
-       /*  host: 'ec2-3-133-91-105.us-east-2.compute.amazonaws.com', */
-       host:'ec2-3-134-244-83.us-east-2.compute.amazonaws.com',//nueva ruta
+        /*  host: 'ec2-3-133-91-105.us-east-2.compute.amazonaws.com', */
+        /*    host:'ec2-3-134-244-83.us-east-2.compute.amazonaws.com',//nueva ruta */
+        host: 'localhost',//nueva ruta
         dialect: 'postgres',
-        port:5432, 
-      dialectOptions: {
+        port: 5432,
+        dialectOptions: {
             useUTC: true, // -->Add this line. for reading from database
         },
         timezone: '-04:00',  /// -->Add this line. for writing to database 
         pool: {
-            max: 5, 
+            max: 5,
             min: 0,
             require: 30000,
             idle: 10000
         },
         logging: false
     }
+    ,{
+        isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE
+      }
 );

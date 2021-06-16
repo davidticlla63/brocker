@@ -834,7 +834,8 @@ export async function createPolizaSalud(req, res) {
                 polizaid: newPoliza.id
             }, {
                 fields: [
-
+                    'nrocertificado',
+                    'tipoasegurado',
                     'titular',
                     'cobertura',
                     'fechanacimiento',
@@ -1111,7 +1112,8 @@ export async function updatePolizaSalud(req, res) {
                     polizaid: id
                 }, {
                     fields: [
-
+                        'nrocertificado',
+                        'tipoasegurado',
                         'titular',
                         'cobertura',
                         'fechanacimiento',
@@ -1410,7 +1412,7 @@ export async function createPolizaGeneral(req, res) {
                 polizaid: newPoliza.id
             }, {
                 fields: [
-                    'titular',
+                    'nrocertificado',
                     'tipopolizageneral',
                     'direccion',
 
@@ -1623,7 +1625,7 @@ export async function updatePolizaGeneral(req, res) {
                     polizaid: id
                 }, {
                     fields: [
-                        'titular',
+                        'nrocertificado',
                         'tipopolizageneral',
                         'direccion',
 
@@ -1983,10 +1985,11 @@ export async function getPolizasPorEmpresa(req, res) {
     try {
 
         const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion "+
-        ",p.primatotal "+
+        ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante "+
         " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join contratante c on c.id=p.contratanteid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
@@ -2013,10 +2016,11 @@ export async function getPolizasPorSucursal(req, res) {
     try {
 
         const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion "+
-        ",p.primatotal "+
+        ",p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante "+
         " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join contratante c on c.id=p.contratanteid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
@@ -2027,6 +2031,16 @@ export async function getPolizasPorSucursal(req, res) {
             , {
                 type: QueryTypes.SELECT
             });
+
+
+ /*            const polizas = await sequelize.query("call pa_polizas_por_sucursal(:params) ", { replacements: {params : [sucursalid]} }
+                , {
+                    type: QueryTypes.SELECT
+                }); */
+
+              /*   const polizas = await sequelize.query("select * from pa_polizas_por_sucursal('"+sucursalid+"') ", {
+                    type: QueryTypes.SELECT
+                }); */
         //console.log(JSON.stringify(usuarios[0], null, 2));
 
         res.json({ polizas });

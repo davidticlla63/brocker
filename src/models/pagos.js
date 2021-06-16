@@ -7,6 +7,7 @@ const Pagos = sequelize.define('Pagos', {
         type: Sequelize.STRING,
         primaryKey: true
     },
+    tipo:Sequelize.STRING,
     montobs: Sequelize.DECIMAL,
     montousd: Sequelize.DECIMAL,
     comisionbs: Sequelize.DECIMAL,
