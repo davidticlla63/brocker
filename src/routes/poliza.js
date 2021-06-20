@@ -11,13 +11,13 @@ router
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-//automotor
+//polizas de automotor
 router.post('/', polizas.createPoliza);
 router.put('/:id', polizas.updatePoliza);
-//salud
+//polizas de salud
 router.post('/salud/', polizas.createPolizaSalud);
 router.put('/salud/:id', polizas.updatePolizaSalud);
-//proposito general
+//polizas de proposito general
 router.post('/general/', polizas.createPolizaGeneral);
 router.put('/general/:id', polizas.updatePolizaGeneral);
 

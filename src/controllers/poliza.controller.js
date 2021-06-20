@@ -259,7 +259,7 @@ export async function createPoliza(req, res) {
             }, {
                 fields: [
 
-                    'titular',
+                    'nrocertificado',
                     'placa',
                     'tipovehiculo',
                     'marcavehiculo',
@@ -529,7 +529,7 @@ export async function updatePoliza(req, res) {
                 }, {
                     fields: [
 
-                        'titular',
+                        'nrocertificado',
                         'placa',
                         'tipovehiculo',
                         'marcavehiculo',
