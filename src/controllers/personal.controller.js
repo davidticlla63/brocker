@@ -189,14 +189,13 @@ export async function bajaPersonal(req, res) {
     const { id } = req.params;
     const {
         usuariomodificacion,
-        fechamodificacion = new Date(),
-        estado = "BAJ" } = req.body;
+    } = req.body;
         console.log("bajaPersonal");
     try {
         const updateRowCount = await Personal.update({
             usuariomodificacion,
-            fechamodificacion,
-            estado
+            fechamodificacion:new Date(),
+            estado:"BAJ"
         }, {
             where: {
                 id

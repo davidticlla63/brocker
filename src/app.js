@@ -39,6 +39,7 @@ import polizaDetalleAdicionalRoutes from './routes/polizaDetalleAdicional'
 import memoRoutes from './routes/memo'
 import pagoRoutes from './routes/pago'
 import siniestroRoutes from './routes/siniestro'
+import requisitoRoutes from './routes/requisito'
 import cobranzaMotivoRoutes from './routes/cobranzaMotivo'
 
 const compression = require("compression");
@@ -136,5 +137,7 @@ app.use('/api/pago',pagoRoutes);
 
 app.use('/api/siniestro',siniestroRoutes);
 app.use('/api/cobranzaMotivo',cobranzaMotivoRoutes);
+
+app.use('/api/requisito',requisitoRoutes);
 
 export default app;

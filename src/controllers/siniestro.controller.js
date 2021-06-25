@@ -17,21 +17,18 @@ export async function createSiniestro(req, res) {
     const {
         fechanotificacion,
         fechasiniestro,
-        descripcion,
-        resumen,
-        placa,
-        resumenfinalsiniestro,
+        comentarioinicial,
+        resumenejecutivo,
+        resumenfinal,
         montoindemnizar,
-        fecharecordatorio,
-        notarecordatorio,
-        tipo,
-        estadosiniestro,
+        fecharecordatoria,
+        notarecordatoria,
+        tpoliza,
+        status,
         encargadoid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
-        estado,
+        idpolizadetalle,
         polizaid,
         sucursalid } = req.body;
     try {
@@ -39,29 +36,28 @@ export async function createSiniestro(req, res) {
         let newSiniestro = await Siniestro.create({
             fechanotificacion,
             fechasiniestro,
-            descripcion,
-            resumen,
-            placa,
-            resumenfinalsiniestro,
+            comentarioinicial,
+            resumenejecutivo,
+            resumenfinalsiniestro:resumenfinal,
             montoindemnizar,
-            fecharecordatorio,
-            notarecordatorio,
-            tipo,
-            estadosiniestro,
+            fecharecordatorio:fecharecordatoria,
+            notarecordatorio:notarecordatoria,
+            tipo:tpoliza,
+            estadosiniestro:status,
             encargadoid,
             usuarioregistro,
             usuariomodificacion,
             fecharegistro:new Date(),
             fechamodificacion:new Date(),
             estado:'ACT',
+            idpolizadetalle,
             polizaid,
             sucursalid
         }, {
             fields: [ 'fechanotificacion',
                 'fechasiniestro',
-                'descripcion',
-                'resumen',
-                'placa',
+                'comentarioinicial',
+                'resumenejecutivo',
                 'resumenfinalsiniestro',
                 'montoindemnizar',
                 'fecharecordatorio',
@@ -74,6 +70,7 @@ export async function createSiniestro(req, res) {
                 'fecharegistro',
                 'fechamodificacion',
                 'estado',
+                'idpolizadetalle',
                 'polizaid',
                 'sucursalid']
         });
@@ -95,42 +92,37 @@ export async function updateSiniestro(req, res) {
     const { id } = req.params;
     const { fechanotificacion,
         fechasiniestro,
-        descripcion,
-        resumen,
-        placa,
-        resumenfinalsiniestro,
+        comentarioinicial,
+        resumenejecutivo,
+        resumenfinal,
         montoindemnizar,
-        fecharecordatorio,
-        notarecordatorio,
-        tipo,
-        estadosiniestro,
+        fecharecordatoria,
+        notarecordatoria,
+        tpoliza,
+        status,
         encargadoid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
-        estado,
+        idpolizadetalle,
         polizaid,
         sucursalid } = req.body;
     try {
         const updateRowCount = await Siniestro.update({
             fechanotificacion,
             fechasiniestro,
-            descripcion,
-            resumen,
-            placa,
-            resumenfinalsiniestro,
+            comentarioinicial,
+            resumenejecutivo,
+            resumenfinalsiniestro:resumenfinal,
             montoindemnizar,
-            fecharecordatorio,
-            notarecordatorio,
-            tipo,
-            estadosiniestro,
+            fecharecordatorio:fecharecordatoria,
+            notarecordatorio:notarecordatoria,
+            tipo:tpoliza,
+            estadosiniestro:status,
             encargadoid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
             fechamodificacion:new Date(),
-            estado,
+            idpolizadetalle,
             polizaid,
             sucursalid
         },{
@@ -245,15 +237,16 @@ export async function getSiniestroPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.* "+
+        const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante "+
         " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from siniestro ss " +
             "inner join poliza p on p.id = ss.polizaid "+
-            "inner join sucursal s on s.id=ss.sucursalid  " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join contratante c on c.id=p.contratanteid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
             "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc "
@@ -275,15 +268,16 @@ export async function getSiniestroPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.* "+
+        const siniestros = await sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante "+
         " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from siniestro ss " +
             "inner join poliza p on p.id = ss.polizaid "+
-            "inner join sucursal s on s.id=ss.sucursalid  " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join contratante c on c.id=p.contratanteid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
             "where  s.empresaid= '" + empresaid + "'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc "

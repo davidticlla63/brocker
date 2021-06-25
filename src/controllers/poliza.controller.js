@@ -815,7 +815,7 @@ export async function createPolizaSalud(req, res) {
             let newPolizaDetalle = await PolizaDetallePersona.create({
                 nrocertificado: personas[i].nrocertificado,
                 tipoasegurado: personas[i].tipoasegurado,
-                titular: personas[i].titular,
+                titular: personas[i].asegurado,
                 cobertura: personas[i].coberturamaternidad,
                 fechanacimiento: personas[i].fechanacimiento,
                 sexo: personas[i].sexo,
@@ -1080,7 +1080,7 @@ export async function updatePolizaSalud(req, res) {
             //DETALLE  ELIMINADOS
             for (let i = 0; i < eliminadospersonas.length; i++) {
 
-                await PolizaDetalle.update({
+                await PolizaDetallePersona.update({
                     estado: 'BAJ',
                     fechamodificacion: new Date()
                 }, { where: { id: eliminadospersonas[i].id } }, { transaction: t });
@@ -1093,7 +1093,7 @@ export async function updatePolizaSalud(req, res) {
                 let newPolizaDetalle = await PolizaDetallePersona.create({
                     nrocertificado: personas[i].nrocertificado,
                     tipoasegurado: personas[i].tipoasegurado,
-                    titular: personas[i].titular,
+                    titular: personas[i].asegurado,
                     cobertura: personas[i].coberturamaternidad,
                     fechanacimiento: personas[i].fechanacimiento,
                     sexo: personas[i].sexo,
@@ -1401,8 +1401,8 @@ export async function createPolizaGeneral(req, res) {
                 direccion: generales[i].direccion,
 
                 primaindividual: generales[i].primaindividual,
-                primanetaindividualbs: generales[i].primanetaindividualbs,
-                primanetaindividualusd: generales[i].primanetaindividualusd,
+            /*     primanetaindividualbs: generales[i].primanetaindividualbs,
+                primanetaindividualusd: generales[i].primanetaindividualusd, */
 
                 usuarioregistro,
                 usuariomodificacion,
@@ -1615,8 +1615,8 @@ export async function updatePolizaGeneral(req, res) {
                     direccion: generales[i].direccion,
 
                     primaindividual: generales[i].primaindividual,
-                    primanetaindividualbs: generales[i].primanetaindividualbs,
-                    primanetaindividualusd: generales[i].primanetaindividualusd,
+                   /*  primanetaindividualbs: generales[i].primanetaindividualbs,
+                    primanetaindividualusd: generales[i].primanetaindividualusd, */
 
                     usuarioregistro,
                     usuariomodificacion,

@@ -7,7 +7,7 @@ const PolizaDetalleGeneral = sequelize.define('PolizaDetalleGeneral', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    titular:Sequelize.STRING,
+    //titular:Sequelize.STRING,
     nrocertificado:Sequelize.STRING,
     tipopolizageneral: Sequelize.STRING,
     direccion: Sequelize.STRING,

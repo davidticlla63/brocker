@@ -9,8 +9,9 @@ const PolizaDetallePersona = sequelize.define('PolizaDetallePersona', {
     },
    
     nrocertificado: Sequelize.STRING,
+    //asegurado: Sequelize.STRING,
     tipoasegurado: Sequelize.STRING,
-   // titular: Sequelize.STRING,
+    titular: Sequelize.STRING,
     cobertura: Sequelize.BOOLEAN,
     fechanacimiento: Sequelize.DATE,
     sexo: Sequelize.STRING,

@@ -105,6 +105,9 @@ export async function crearPagos(req, res) {
                 'tipo'
             ]
             }, { transaction: t });
+
+
+            
         }
         await t.commit();
         if (newPagos) {

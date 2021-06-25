@@ -484,7 +484,7 @@ export async function usuarioByEmpresa(req, res) {
             "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
             "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
             "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
-            "WHERE u.estado='ACT' and u.empresaid= '" + empresaid + "' order by u.id "
+            "WHERE u.estado='ACT' and u.empresaid= '" + empresaid + "' order by u.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });

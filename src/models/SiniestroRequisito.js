@@ -1,25 +1,12 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
 
-const Siniestro = sequelize.define('Siniestro', {
+const SiniestroRequisito = sequelize.define('SiniestroRequisito', {
     id: {
         //defaultValue: Sequelize.literal('uuid_generate_v4()'),
         type: Sequelize.STRING,
         primaryKey: true
     },
-    //nombre: Sequelize.STRING,
-
-    fechanotificacion: Sequelize.DATE(6),
-    fechasiniestro: Sequelize.DATE(6),
-    comentarioinicial: Sequelize.STRING,
-    resumenejecutivo: Sequelize.STRING,
-    resumenfinalsiniestro: Sequelize.STRING,
-    montoindemnizar: Sequelize.DECIMAL,
-    fecharecordatorio: Sequelize.DATE,
-    notarecordatorio: Sequelize.STRING,
-    tipo: Sequelize.STRING,
-    estadosiniestro:Sequelize.STRING,
-    encargadoid:Sequelize.STRING,
     usuarioregistro: Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
@@ -28,16 +15,15 @@ const Siniestro = sequelize.define('Siniestro', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    idpolizadetalle: Sequelize.STRING,
-    polizaid: Sequelize.STRING,
-    sucursalid: Sequelize.STRING
+    siniestroid: Sequelize.STRING,
+    requisitoid: Sequelize.STRING
 
 
 }, {
     timestamps: false,
-    tableName: 'siniestro'
+    tableName: 'siniestro_requisito'
 });
 /* Siniestro.hasMany(PaginaSiniestro, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaSiniestro.belongsTo(Siniestro, { foreignKey: 'accionid', sourceKey: 'id' }); */
 
-export default Siniestro;
+export default SiniestroRequisito;

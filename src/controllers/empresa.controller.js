@@ -193,13 +193,12 @@ export async function bajaEmpresa(req, res) {
     const { id } = req.params;
     const {
         //id,
-        usuariomodificacion,
-        fechamodificacion = new Date()
+        usuariomodificacion
     } = req.body;
     try {
         const updateRowCount = await Empresa.update({
             usuariomodificacion,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado: "BAJ"
         }, {
             where: {
