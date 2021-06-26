@@ -1927,7 +1927,8 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const polizas = await sequelize.query("select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid "+
+        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
@@ -1951,21 +1952,24 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
     }
 }
 export async function getPolizasPorSucursalSinMemo(req, res) {
-    const { tiporamoid, sucursalid } = req.params;
+    const {  sucursalid } = req.params;
     try {
+const QUERY="select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid "+
+" ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
+/*       "from poliza p " +
+      "inner join sucursal s on s.id=p.sucursalid  " + */
+"from poliza p " +
+"inner join sucursal s on s.id=p.sucursalid  " +
+"inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+"inner join sub_ramo sr on sr.id=rc.subramoid " +
+"inner join ramo r on r.id=rc.ramoid " +
+"inner join asegurado a on a.id=p.tomadorid " +
+"inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+"left join memo m on m.polizaid=p.id and m.estado='ACT' " +
+"where m.polizaid is null and s.id='" + sucursalid + "'   and p.estado IN ('ACT','CER') order by p.fechamodificacion desc ";
 
-        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
-            /*       "from poliza p " +
-                  "inner join sucursal s on s.id=p.sucursalid  " + */
-            "from poliza p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "left join memo m on m.polizaid=p.id and m.estado='ACT' " +
-            "where m.polizaid is null and s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado IN ('ACT','CER') order by p.fechamodificacion desc "
+//console.log(QUERY);
+        const polizas = await sequelize.query(QUERY
             , {
                 type: QueryTypes.SELECT
             });

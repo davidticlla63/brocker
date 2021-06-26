@@ -25,7 +25,7 @@ export async function login(req, res) {
         }
         const usuario = await Usuario.findOne({
             where: {
-                nick
+                nick,estado:'ACT'
             }
         });
 

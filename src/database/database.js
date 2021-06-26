@@ -22,7 +22,7 @@ export const sequelize = new Sequelize(
         },
         logging: false
     }
-    ,{
+   /*  ,{
         isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE
-      }
+      } */
 );

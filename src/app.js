@@ -52,7 +52,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true, limit: 1024 * 102
 //const app = express();
 
 const app = express();
-const shouldCompress = (req, res) => {
+/* const shouldCompress = (req, res) => {
   if (req.headers['x-no-compression']) {
     // Will not compress responses, if this header is present
     return false;
@@ -70,7 +70,7 @@ app.use(compression({
   // threshold: It is the byte threshold for the response 
   // body size before considering compression, the default is 1 kB
   threshold: 10*1000
-}));
+})); */
 
 // middlewares
 
