@@ -23,6 +23,6 @@ router.post('/login', user.login);
 router.get('/usuarioByEmpresa/:empresaid', user.usuarioByEmpresa);
 router.get('/usuarioBySucursal/:sucursalid', user.usuarioBySucursal);
 router.get('/usuariosBySucursal/:sucursalid', user.usuariosBySucursal);
-router.get('/baja/:id', user.bajaUsuario);
+router.put('/baja/:id', user.bajaUsuario);
 
 export default router;

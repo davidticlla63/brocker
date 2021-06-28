@@ -3,7 +3,9 @@ import SubRamo from "../models/SubRamo";
 
 export async function getSubRamos(req, res) {
     try {
-        const subRamos = await SubRamo.findAll({ where: { estado: 'ACT' } });
+        const subRamos = await SubRamo.findAll({ where: { estado: 'ACT' } , order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: subRamos
         });
@@ -34,7 +36,9 @@ export async function subRamosPorRamo(req, res) {
         ramoid } = req.params;
     try {
         console.log(req.params)
-        const subRamos = await SubRamo.findAll({ where: { estado: 'ACT', ramoid } });
+        const subRamos = await SubRamo.findAll({ where: { estado: 'ACT', ramoid }, order: [
+            ['fechamodificacion', 'DESC']
+        ] });
         res.json({
             data: subRamos
         });

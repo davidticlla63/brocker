@@ -3,7 +3,9 @@ import CompaniaSeguro from "../models/CompaniaSeguro";
 
 export async function getCompaniaSeguros(req, res) {
     try {
-        const companiaSeguros = await CompaniaSeguro.findAll({ where: { estado: 'ACT' } });
+        const companiaSeguros = await CompaniaSeguro.findAll({ where: { estado: 'ACT' }, order: [
+            ['fechamodificacion', 'DESC']
+        ] });
         res.json({
             data: companiaSeguros
         });
@@ -16,7 +18,9 @@ export async function getCompaniaSegurosPorEmpresa(req, res) {
     const {
         empresaid } = req.params;
     try {
-        const companiaSeguros = await CompaniaSeguro.findAll({ where: { estado: 'ACT', empresaid } });
+        const companiaSeguros = await CompaniaSeguro.findAll({ where: { estado: 'ACT', empresaid } , order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: companiaSeguros
         });

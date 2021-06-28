@@ -7,7 +7,9 @@ export async function getAreaTrabajos(req, res) {
     try {
 
         /* const usuarios = await AreaTrabajo.findAll({ where: { estado: 'ACT' }, include: Personal,include: Empresa }); */
-        const usuarios = await AreaTrabajo.findAll({ where: { estado: 'ACT' }, include: Personal});
+        const usuarios = await AreaTrabajo.findAll({ where: { estado: 'ACT' }, order: [
+            ['fechamodificacion', 'DESC']
+        ], include: Personal});
         res.json({
             data: usuarios
         });
@@ -198,7 +200,9 @@ export async function areaTrabajoByEmpresa(req, res) {
             'fechamodificacion', 'estado'], */
             where: {
                 empresaid ,estado:'ACT'
-            }
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ]
         }); 
         res.json({ areaTrabajos });
     } catch (e) {

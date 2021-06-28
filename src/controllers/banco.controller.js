@@ -3,7 +3,9 @@ import Banco from "../models/Banco";
 
 export async function getBancos(req, res) {
     try {
-        const bancos = await Banco.findAll({ where: { estado: 'ACT' }});
+        const bancos = await Banco.findAll({ where: { estado: 'ACT' }, order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: bancos
         });
@@ -20,7 +22,9 @@ export async function bancosPorEmpresa(req, res) {
         empresaid } = req.params;
     try {
         console.log(req.params)
-        const bancos = await Banco.findAll({ where: { estado: 'ACT' ,empresaid:empresaid}});
+        const bancos = await Banco.findAll({ where: { estado: 'ACT' ,empresaid:empresaid}, order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: bancos
         });

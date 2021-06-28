@@ -23,15 +23,27 @@ export async function login(req, res) {
         if (typeof password === "undefined") {
             throw new Error("ingrese el contraseña!!!");
         }
+      /*   const { Op } = require("sequelize");
         const usuario = await Usuario.findOne({
             where: {
-                nick,estado:'ACT'
+                nick,estado:{[Op.notIn]:['BAJ']} ,//,estado:'ACT'
             }
-        });
+        }); */
 
-        if (!usuario) {
+        const usuarios = await sequelize.query("select up.* " +
+                " from  usuario up " +
+                "where   up.estado !='BAJ' and up.nick= '" + nick + "' "
+                , {
+                    type: QueryTypes.SELECT
+                });
+
+        if (!usuarios) {
             throw new Error("no se encontró el usuario");
         }
+        if (usuarios.length===0) {
+            throw new Error("no se encontró el usuario");
+        }
+        let usuario=usuarios[0];
         // check account found and verify password
         if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
             // authentication failed
@@ -484,7 +496,7 @@ export async function usuarioByEmpresa(req, res) {
             "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
             "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
             "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
-            "WHERE u.estado='ACT' and u.empresaid= '" + empresaid + "' order by u.fechamodificacion desc "
+            "WHERE u.estado  !='BAJ' and u.empresaid= '" + empresaid + "' order by u.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
@@ -499,8 +511,6 @@ export async function usuarioByEmpresa(req, res) {
     }
 }
 
-
-
 export async function usuariosBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
@@ -512,7 +522,7 @@ export async function usuariosBySucursal(req, res) {
             "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
             "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
             "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
-            "WHERE u.estado='ACT' and su.sucursalid= '" + sucursalid + "' order by u.id "
+            "WHERE u.estado !='BAJ' and su.sucursalid= '" + sucursalid + "' order by u.id "
             , {
                 type: QueryTypes.SELECT
             });

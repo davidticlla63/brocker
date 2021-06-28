@@ -228,17 +228,29 @@ export async function bajaPersonal(req, res) {
 export async function personalBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
-        const personals = await Personal.findAll({
-            /*    attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
-               'fechamodificacion','estado','sucursalid'], */
+
+        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
+        ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " +
+        "from personal p " +
+        "inner join area_trabajo a on a.id=p.areatrabajoid " +
+        "inner join sucursal s on s.id=p.sucursalid " +
+        "where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+        , {
+            type: QueryTypes.SELECT
+        });
+
+
+       /*  const personals = await Personal.findAll({
             where: {
                 sucursalid, estado: 'ACT'
-            },
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ],
             include: [{ model: AreaTrabajo, attributes: ['nombre'], require: true },
             {
                 model: Sucursal, attributes: ['nombre'], require: true
             }]
-        });
+        }); */
         res.json({ personals });
     } catch (e) {
         console.log(e);
@@ -251,16 +263,31 @@ export async function personalBySucursal(req, res) {
 export async function personalByEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
-        const personals = await Personal.findAll({
-            where: { estado: 'ACT' },
+
+
+        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
+        ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " +
+        "from personal p " +
+        "inner join area_trabajo a on a.id=p.areatrabajoid " +
+        "inner join sucursal s on s.id=p.sucursalid " +
+        "inner join empresa e on e.id=s.empresaid " +
+        "where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+        , {
+            type: QueryTypes.SELECT
+        });
+
+        /* const personals = await Personal.findAll({
+            where: { estado: 'ACT' }, order: [
+                ['fechamodificacion', 'DESC']
+            ],
             include: [{ model: AreaTrabajo, attributes: ['nombre'], require: true },
             {
                 model: Sucursal, attributes: ['nombre'], require: true,
                 where: {
                     empresaid
                 }
-            }]
-        });
+            }] 
+        });*/
         res.json({ personals });
     } catch (e) {
         console.log(e);
@@ -278,7 +305,9 @@ export async function personalByAreaTrabajo(req, res) {
             , 'fecharegistro', 'fechamodificacion', 'estado'],
             where: {
                 areatrabajoid, estado: 'ACT'
-            }
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ]
         });
         res.json({ personals });
     } catch (e) {

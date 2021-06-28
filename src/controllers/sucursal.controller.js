@@ -6,7 +6,9 @@ import Sucursal from "../models/Sucursal";
 export async function getSucursals(req, res) {
     try {
         
-        const sucursals = await Sucursal.findAll({where:{estado:'ACT'}});
+        const sucursals = await Sucursal.findAll({where:{estado:'ACT'}, order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: sucursals
         });
@@ -187,7 +189,9 @@ export async function getSucursalByEmpresa(req, res) {
             'fechamodificacion','estado','empresaid'],
             where: {
                 empresaid ,estado:'ACT'
-            }
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ]
         }); 
         res.json({ sucursal });
     } catch (e) {

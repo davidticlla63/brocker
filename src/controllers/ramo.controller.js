@@ -4,7 +4,9 @@ import Ramo from "../models/Ramo";
 
 export async function getRamos(req, res) {
     try {
-        const ramos = await Ramo.findAll({ where: { estado: 'ACT' } });
+        const ramos = await Ramo.findAll({ where: { estado: 'ACT' } , order: [
+            ['fechamodificacion', 'DESC']
+        ]});
         res.json({
             data: ramos
         });
@@ -25,7 +27,7 @@ export async function getRamosPorEmpresa(req, res) {
         const ramos = await sequelize.query("select r.* ,tr.nombre as tiporamo " +
         "from ramo r " +
         "inner join tipo_ramo tr on tr.id=r.tiporamoid " +
-        "where r.empresaid= '" + empresaid + "' and r.estado='ACT' order by r.id "
+        "where r.empresaid= '" + empresaid + "' and r.estado='ACT' order by r.fechamodificacion desc "
         , {
             type: QueryTypes.SELECT
         });

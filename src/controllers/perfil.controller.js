@@ -11,7 +11,9 @@ import Sucursal from "../models/Sucursal";
 export async function getPerfils(req, res) {
     try {
 
-        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, include: UsuarioPerfil, include: Empresa });
+        const usuarios = await Perfil.findAll({ where: { estado: 'ACT' }, order: [
+            ['fechamodificacion', 'DESC']
+        ], include: UsuarioPerfil, include: Empresa });
         res.json({
             data: usuarios
         });
@@ -161,7 +163,9 @@ export async function getPerfilByEmpresa(req, res) {
             'fechamodificacion','estado','empresaid'], */
             where: {
                 empresaid, estado: 'ACT'
-            },include:Sucursal
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ],include:Sucursal
         });
         res.json({ perfils });
     } catch (e) {
@@ -176,12 +180,22 @@ export async function getPerfilByEmpresa(req, res) {
 export async function getPerfilBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
+
+      /*   const perfils = await sequelize.query("select c.* " +
+        "from perfil c " +
+        "inner join sucursal s on s.id=c.sucursalid  " +
+        "where s.id= '" + sucursalid + "' and c.estado='ACT' order by c.fechamodificacion desc "
+        , {
+            type: QueryTypes.SELECT
+        }); */
         const perfils = await Perfil.findAll({
             /* attributes: ['id', 'nombre', 'descripcion','fecharegistro',
             'fechamodificacion','estado','empresaid'], */
             where: {
                 sucursalid, estado: 'ACT'
-            },include:Sucursal
+            }, order: [
+                ['fechamodificacion', 'DESC']
+            ],include:Sucursal
         });
         res.json({ perfils });
     } catch (e) {
@@ -298,13 +312,53 @@ export async function getPermisosPorPerfil(req, res) {
             "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " +
             "inner join accion a on a.id=pa.accionid " +
             "inner join perfil per on per.id=p.perfilid " +
-            "where per.id= '" + perfilid + "' order by per.id "
+            "where per.id= '" + perfilid + "' order by per.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
         //console.log(JSON.stringify(usuarios[0], null, 2));
 
         res.json({ permisos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function bajaPerfil(req, res) {
+    const { id } = req.params;
+    const {
+        //id,
+        usuariomodificacion
+    } = req.body;
+    try {
+        const updateRowCount = await Perfil.update({
+            usuariomodificacion,
+            fechamodificacion: new Date(),
+            estado: "BAJ"
+        }, {
+            where: {
+                id
+            }
+        });
+
+        const usuarios = await Perfil.findOne({
+            where: {
+                id
+            }
+        }//,{ include: Sucursal } 
+        );
+        res.json({
+            message: 'Perfil baja successfully',
+            count: usuarios
+        });
+
+
+
+
     } catch (e) {
         console.log(e);
         res.status(500).json({

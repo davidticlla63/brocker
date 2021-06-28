@@ -99,11 +99,19 @@ export async function getOneContratante(req, res) {
 export async function getOneContratantePorSucursal(req, res) {
     try {
         const { sucursalid } = req.params;
-        const contratantes = await Contratante.findAll({
+
+        const contratantes = await sequelize.query("select c.* " +
+            "from contratante c " +
+            "inner join sucursal s on s.id=c.sucursalid  " +
+            "where s.id= '" + sucursalid + "' order by c.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        /* const contratantes = await Contratante.findAll({
             where: {
                 sucursalid, estado:'ACT'
             }
-        });
+        }); */
         res.json({
             data: contratantes
         });
@@ -249,7 +257,7 @@ export async function getContratantesPorEmpresa(req, res) {
         const contratantes = await sequelize.query("select c.* " +
             "from contratante c " +
             "inner join sucursal s on s.id=c.sucursalid  " +
-            "where s.empresaid= '" + empresaid + "' order by c.nombre "
+            "where s.empresaid= '" + empresaid + "' order by c.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
