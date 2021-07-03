@@ -274,8 +274,9 @@ export async function getPagosGeneralesPorSucursal(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal   from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
+        " inner join sucursal s on s.id=m.sucursalid "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
         " where p.estado='ACT' and p.sucursalid='"+sucursalid+"'  AND  P.estado in ('ACT','CER') "+
@@ -304,8 +305,9 @@ export async function getPagosActualesPorSucursal(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre sucursal  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
+        " inner join sucursal s on s.id=m.sucursalid "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
         " where p.estado='ACT' and p.sucursalid='"+sucursalid+"'  AND  P.estado in ('ACT','CER') "+
@@ -334,8 +336,9 @@ export async function getPagosPendientesPorSucursal(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
+        " inner join sucursal s on s.id=m.sucursalid "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
         " where p.estado='ACT' and p.sucursalid='"+sucursalid+"' "+
@@ -361,8 +364,9 @@ export async function getPagosMoraPorSucursal(req, res) {
         ",pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo"+
         ",case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' "+
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' "+
-        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado from poliza p "+
+        " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,s.nombre as sucursal from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
+        " inner join sucursal s on s.id=m.sucursalid "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
         " where p.estado='ACT' and p.sucursalid='"+sucursalid+"'  AND  P.estado in ('ACT','CER') "+
@@ -392,7 +396,7 @@ export async function getPagosActualesPorEmpresa(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -424,7 +428,7 @@ export async function getPagosPendientesPorEmpresa(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -456,7 +460,7 @@ export async function getPagosMoraPorEmpresa(req, res) {
         " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision  from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal  from poliza p "+
         " inner join memo m on m.polizaid=p.id "+
         " inner join plan_pago pp on pp.memoid=m.id "+
         " inner join sucursal s on s.id= p.sucursalid "+
@@ -488,8 +492,9 @@ export async function getPagosPorSucursalyCi(req, res) {
         "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
         "from cobranza_motivo "+
         "where estado='ACT' AND planpagoid=pp.id "+
-         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision from poliza p "+
+         "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal from poliza p "+
         "inner join memo m on m.polizaid=p.id "+
+        " inner join sucursal s on s.id=m.sucursalid "+
         "inner join plan_pago pp on pp.memoid=m.id "+
         "inner join asegurado a on a.id=p.tomadorid "+
         "where p.estado='ACT' and p.sucursalid='"+sucursalid+"'  AND  P.estado in ('ACT','CER') "+
@@ -519,7 +524,7 @@ let query="select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primane
 "when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) "+
 "from cobranza_motivo "+
 "where estado='ACT' AND planpagoid=pp.id "+
- "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusion' then 'E' when p.tipoemision='Anexo Exclusion' then 'E' else 'I' end tipo,p.tipoemision from poliza p "+
+ "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusion' then 'E' when p.tipoemision='Anexo Exclusion' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal from poliza p "+
 "inner join memo m on m.polizaid=p.id "+
 "inner join plan_pago pp on pp.memoid=m.id "+
 "inner join asegurado a on a.id=p.tomadorid "+

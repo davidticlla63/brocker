@@ -6,8 +6,8 @@ export const sequelize = new Sequelize(
     'admin',
     {
         /*  host: 'ec2-3-133-91-105.us-east-2.compute.amazonaws.com', */
-           host:'ec2-3-23-95-77.us-east-2.compute.amazonaws.com',//nueva ruta
-        /* host: 'localhost',//nueva ruta */
+          /*  host:'ec2-3-23-95-77.us-east-2.compute.amazonaws.com',//nueva ruta */
+        host: 'localhost',//nueva ruta
         dialect: 'postgres',
         port: 5432,
         dialectOptions: {

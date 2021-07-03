@@ -238,7 +238,7 @@ export async function getSiniestroPorSucursal(req, res) {
     try {
 
         const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from siniestro ss " +
             "inner join poliza p on p.id = ss.polizaid "+
             "inner join sucursal s on s.id=p.sucursalid  " +
@@ -269,7 +269,7 @@ export async function getSiniestroPorEmpresa(req, res) {
     try {
 
         const siniestros = await sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from siniestro ss " +
             "inner join poliza p on p.id = ss.polizaid "+
             "inner join sucursal s on s.id=p.sucursalid  " +

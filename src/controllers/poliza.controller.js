@@ -134,8 +134,8 @@ export async function createPoliza(req, res) {
             porcentajecomision,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid,
@@ -238,7 +238,7 @@ export async function createPoliza(req, res) {
         //DETALLE AUTOMOTORES
         for (let i = 0; i < automotores.length; i++) {
             let newPolizaDetalle = await PolizaDetalle.create({
-                nrocertificado:automotores[i].nrocertificado,
+                nrocertificado: automotores[i].nrocertificado,
                 //titular: automotores[i].titular,
                 placa: automotores[i].placa,
                 tipovehiculo: automotores[i].tipovehiculo,
@@ -441,7 +441,7 @@ export async function updatePoliza(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid
@@ -508,7 +508,7 @@ export async function updatePoliza(req, res) {
             //DETALLE AUTOMOTORES
             for (let i = 0; i < automotores.length; i++) {
                 let newPolizaDetalle = await PolizaDetalle.create({
-                    nrocertificado:automotores[i].nrocertificado,
+                    nrocertificado: automotores[i].nrocertificado,
                     //titular: automotores[i].titular,
                     placa: automotores[i].placa,
                     tipovehiculo: automotores[i].tipovehiculo,
@@ -653,8 +653,8 @@ export async function createPolizaSalud(req, res) {
         usuariomodificacion,
         estado = 'ACT',
         sucursalid,
-        planid ,
-        polizaid} = req.body;
+        planid,
+        polizaid } = req.body;
     let newPoliza;
     let t;
     try {
@@ -708,9 +708,9 @@ export async function createPolizaSalud(req, res) {
             primaneta,
             porcentajecomision,
             usuarioregistro,
-            usuariomodificacion,          
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
+            usuariomodificacion,
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid,
@@ -1024,7 +1024,7 @@ export async function updatePolizaSalud(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid
@@ -1291,8 +1291,8 @@ export async function createPolizaGeneral(req, res) {
             porcentajecomision,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid,
@@ -1396,13 +1396,13 @@ export async function createPolizaGeneral(req, res) {
         for (let i = 0; i < generales.length; i++) {
             let newPolizaDetalle = await PolizaDetalleGeneral.create({
                 //titular: generales[i].titular,
-                nrocertificado:generales[i].nrocertificado,
+                nrocertificado: generales[i].nrocertificado,
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
 
                 primaindividual: generales[i].primaindividual,
-            /*     primanetaindividualbs: generales[i].primanetaindividualbs,
-                primanetaindividualusd: generales[i].primanetaindividualusd, */
+                /*     primanetaindividualbs: generales[i].primanetaindividualbs,
+                    primanetaindividualusd: generales[i].primanetaindividualusd, */
 
                 usuarioregistro,
                 usuariomodificacion,
@@ -1541,7 +1541,7 @@ export async function updatePolizaGeneral(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             estado,
             sucursalid,
             planid
@@ -1610,13 +1610,13 @@ export async function updatePolizaGeneral(req, res) {
             for (let i = 0; i < generales.length; i++) {
                 let newPolizaDetalle = await PolizaDetalleGeneral.create({
                     //titular: generales[i].titular,
-                    nrocertificado:generales[i].nrocertificado,
+                    nrocertificado: generales[i].nrocertificado,
                     tipopolizageneral: generales[i].tipopolizageneral,
                     direccion: generales[i].direccion,
 
                     primaindividual: generales[i].primaindividual,
-                   /*  primanetaindividualbs: generales[i].primanetaindividualbs,
-                    primanetaindividualusd: generales[i].primanetaindividualusd, */
+                    /*  primanetaindividualbs: generales[i].primanetaindividualbs,
+                     primanetaindividualusd: generales[i].primanetaindividualusd, */
 
                     usuarioregistro,
                     usuariomodificacion,
@@ -1771,8 +1771,19 @@ export async function getPolizaPorTipoYSucursal(req, res) {
     const { tipopolizaid, sucursalid } = req.params;
     try {
 
+        let query = "select p.*,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            //"where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by p.id "
+            "where s.id= '" + sucursalid + "' and p.tpoliza='" + tipopolizaid + "' order by p.fechamodificacion desc ";
+        const polizas = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({ polizas });
+
         //const polizas = await Poliza.findAll({ where: { tipopolizaid, sucursalid, estado: 'ACT' } });
-        const polizas = await Poliza.findAll({ where: { tpoliza: tipopolizaid, sucursalid, estado: 'ACT' } });
+        //const polizas = await Poliza.findAll({ where: { tpoliza: tipopolizaid, sucursalid, estado: 'ACT' } });
 
         res.json({ polizas });
     } catch (e) {
@@ -1786,11 +1797,11 @@ export async function getPolizaPorTipoYSucursal(req, res) {
 export async function getPolizasPorTipoYEmpresa(req, res) {
     const { tipopolizaid, empresaid } = req.params;
     try {
-let query="select p.* " +
-"from poliza p " +
-"inner join sucursal s on s.id=p.sucursalid  " +
-//"where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by p.id "
-"where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tipopolizaid + "' order by p.fechamodificacion desc ";
+        let query = "select p.*,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            //"where s.empresaid= '" + empresaid + "' and p.tipopolizaid='" + tipopolizaid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tipopolizaid + "' order by p.fechamodificacion desc ";
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -1808,16 +1819,16 @@ let query="select p.* " +
 export async function getPolizasPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     try {
-        let query ="select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
-        "from poliza p " +
-        "inner join sucursal s on s.id=p.sucursalid  " +
-        "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-        "inner join sub_ramo sr on sr.id=rc.subramoid " +
-        "inner join ramo r on r.id=rc.ramoid " +
-        "inner join asegurado a on a.id=p.tomadorid " +
-        "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-        //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-        "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
+        let query = "select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
         console.log(query);
         const polizas = await sequelize.query(query
             , {
@@ -1837,17 +1848,17 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
 export async function getPolizasPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {
-let query="select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
-/*       "from poliza p " +
-      "inner join sucursal s on s.id=p.sucursalid  " + */
-"from poliza p " +
-"inner join sucursal s on s.id=p.sucursalid  " +
-"inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-"inner join sub_ramo sr on sr.id=rc.subramoid " +
-"inner join ramo r on r.id=rc.ramoid " +
-"inner join asegurado a on a.id=p.tomadorid " +
-"inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-"where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
+        let query = "select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal  " +
+            /*       "from poliza p " +
+                  "inner join sucursal s on s.id=p.sucursalid  " + */
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tiporamoid + "' and p.estado='ACT' order by p.fechamodificacion desc ";
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -1868,7 +1879,7 @@ export async function getPolizasPorTomadorYEmpresa(req, res) {
     const { tomadorid, empresaid } = req.params;
     try {
         //console.log(tomadorid, empresaid );
-        let query = "select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        let query = "select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
@@ -1898,7 +1909,7 @@ export async function getPolizasPorTomadorYSucursal(req, res) {
     const { tomadorid, sucursalid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
+        const polizas = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
             /*       "from poliza p " +
                   "inner join sucursal s on s.id=p.sucursalid  " + */
             "from poliza p " +
@@ -1927,8 +1938,8 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const polizas = await sequelize.query("select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
@@ -1952,23 +1963,23 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
     }
 }
 export async function getPolizasPorSucursalSinMemo(req, res) {
-    const {  sucursalid } = req.params;
+    const { sucursalid } = req.params;
     try {
-const QUERY="select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid "+
-" ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
-/*       "from poliza p " +
-      "inner join sucursal s on s.id=p.sucursalid  " + */
-"from poliza p " +
-"inner join sucursal s on s.id=p.sucursalid  " +
-"inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-"inner join sub_ramo sr on sr.id=rc.subramoid " +
-"inner join ramo r on r.id=rc.ramoid " +
-"inner join asegurado a on a.id=p.tomadorid " +
-"inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-"left join memo m on m.polizaid=p.id and m.estado='ACT' " +
-"where m.polizaid is null and s.id='" + sucursalid + "'   and p.estado IN ('ACT','CER') order by p.fechamodificacion desc ";
+        const QUERY = "select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
+            /*       "from poliza p " +
+                  "inner join sucursal s on s.id=p.sucursalid  " + */
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "left join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where m.polizaid is null and s.id='" + sucursalid + "'   and p.estado IN ('ACT','CER') order by p.fechamodificacion desc ";
 
-//console.log(QUERY);
+        //console.log(QUERY);
         const polizas = await sequelize.query(QUERY
             , {
                 type: QueryTypes.SELECT
@@ -1988,9 +1999,9 @@ export async function getPolizasPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion "+
-        ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
+            ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join contratante c on c.id=p.contratanteid  " +
@@ -2019,9 +2030,9 @@ export async function getPolizasPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion "+
-        ",p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
+            ",p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join contratante c on c.id=p.contratanteid  " +
@@ -2037,14 +2048,14 @@ export async function getPolizasPorSucursal(req, res) {
             });
 
 
- /*            const polizas = await sequelize.query("call pa_polizas_por_sucursal(:params) ", { replacements: {params : [sucursalid]} }
-                , {
-                    type: QueryTypes.SELECT
-                }); */
+        /*            const polizas = await sequelize.query("call pa_polizas_por_sucursal(:params) ", { replacements: {params : [sucursalid]} }
+                       , {
+                           type: QueryTypes.SELECT
+                       }); */
 
-              /*   const polizas = await sequelize.query("select * from pa_polizas_por_sucursal('"+sucursalid+"') ", {
-                    type: QueryTypes.SELECT
-                }); */
+        /*   const polizas = await sequelize.query("select * from pa_polizas_por_sucursal('"+sucursalid+"') ", {
+              type: QueryTypes.SELECT
+          }); */
         //console.log(JSON.stringify(usuarios[0], null, 2));
 
         res.json({ polizas });

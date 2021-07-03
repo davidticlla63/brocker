@@ -616,13 +616,22 @@ export async function getOneMemo(req, res) {
 export async function memosPorSucursal(req, res) {
     try {
         const { sucursalid } = req.params;
-        const memo = await Memo.findOne({
+        /* const memo = await Memo.findOne({
             where: {
                 sucursalid, estado: 'ACT'
             }
-        });
+        }); */
+
+        const memos = await sequelize.query("select p.*,s.nombre as sucursal  " +
+            " from memo p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+            "where s.id= '" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            })
         res.json({
-            data: memo
+            data: memos
         });
     } catch (e) {
         console.log(e);
@@ -636,11 +645,11 @@ export async function memosPorEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
 
-        const memos = await sequelize.query("select p.* " +
+        const memos = await sequelize.query("select p.*,s.nombre as sucursal  " +
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.estado='ACT' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             })
@@ -726,8 +735,16 @@ export async function getMemoPorTipoYSucursal(req, res) {
     const { tipomemoid, sucursalid } = req.params;
     try {
 
+        const memos = await sequelize.query("select p.*,s.nombre as sucursal " +
+            "from memo p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+            "where s.id= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
         //const memos = await Memo.findAll({ where: { tipomemoid, sucursalid, estado: 'ACT' } });
-        const memos = await Memo.findAll({ where: { tmemo: tipomemoid, sucursalid, estado: 'ACT' } });
+        //const memos = await Memo.findAll({ where: { tmemo: tipomemoid, sucursalid, estado: 'ACT' } });
 
         res.json({ memos });
     } catch (e) {
@@ -742,11 +759,11 @@ export async function getMemosPorTipoYEmpresa(req, res) {
     const { tipomemoid, empresaid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* " +
+        const memos = await sequelize.query("select p.*,s.nombre as sucursal " +
             "from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
@@ -764,7 +781,7 @@ export async function getMemosPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania " +
+        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
@@ -773,7 +790,7 @@ export async function getMemosPorTipoRamoYEmpresa(req, res) {
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tiporamoid + "' order by p.id "
+            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tiporamoid + "' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
@@ -791,7 +808,7 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania  " +
+        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
             /*       "from memo p " +
                   "inner join sucursal s on s.id=p.sucursalid  " + */
             "from memo p " +
@@ -801,7 +818,7 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.id "
+            "where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });

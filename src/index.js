@@ -75,8 +75,10 @@ async function conectar() {
 
 async function main() {
     //conectar();
-    await app.listen(3000);
-    console.log('Server on port 3000');
+
+    const PORT=3000
+    await app.listen(PORT);
+    console.log('Server on port : '+PORT);
 /*     let a=1;
     let result = a==null?'true':'false';
     console.log(result); */
