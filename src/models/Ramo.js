@@ -24,7 +24,8 @@ const Ramo = sequelize.define('Ramo', {
      estado: {
         type: Sequelize.STRING,
         allowNull: false,
-    }
+    },
+    ramoid:Sequelize.STRING,
 
 
 }, {

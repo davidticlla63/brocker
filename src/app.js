@@ -41,6 +41,7 @@ import pagoRoutes from './routes/pago'
 import siniestroRoutes from './routes/siniestro'
 import requisitoRoutes from './routes/requisito'
 import cobranzaMotivoRoutes from './routes/cobranzaMotivo'
+import ramoCompaniaRoutes from './routes/ramoCompania'
 
 const compression = require("compression");
 
@@ -140,4 +141,6 @@ app.use('/api/cobranzaMotivo',cobranzaMotivoRoutes);
 
 app.use('/api/requisito',requisitoRoutes);
 
+
+app.use('/api/ramoCompania',ramoCompaniaRoutes);
 export default app;

@@ -84,6 +84,7 @@ const Memo = sequelize.define('Memo', {
     usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
+    nro:Sequelize.INTEGER,
     estado: {
         type: Sequelize.STRING,
         allowNull: false,

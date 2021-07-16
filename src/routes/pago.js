@@ -21,6 +21,7 @@ router.delete('/:id', pagos.deletePagos);
 router.put('/:id', pagos.updatePagos);
 router.put('/baja/:id', pagos.bajaPagos);
 router.get('/generalPorSucursal/:sucursalid', pagos.getPagosGeneralesPorSucursal);
+
 router.get('/actualesPorSucursal/:sucursalid', pagos.getPagosActualesPorSucursal);
 router.get('/pendientesPorSucursal/:sucursalid', pagos.getPagosPendientesPorSucursal);
 router.get('/moraPorSucursal/:sucursalid', pagos.getPagosMoraPorSucursal);
@@ -31,5 +32,8 @@ router.get('/moraPorEmpresa/:empresaid', pagos.getPagosMoraPorEmpresa);
 
 router.get('/pagosPorSucursalYCI/:sucursalid/:cinit', pagos.getPagosPorSucursalyCi);
 router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', pagos.getPagosPorEmpresayCi);
+
+router.get('/pagoPorSucursal/:sucursalid', pagos.getPagosPorSucursal);
+router.get('/pagoPorEmpresa/:empresaid', pagos.getPagosPorEmpresa);
 
 export default router;
