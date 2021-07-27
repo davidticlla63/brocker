@@ -616,17 +616,19 @@ export async function getOneMemo(req, res) {
 export async function memosPorSucursal(req, res) {
     try {
         const { sucursalid } = req.params;
+        const { fechainicio,fechafin } = req.body;
         /* const memo = await Memo.findOne({
             where: {
                 sucursalid, estado: 'ACT'
             }
         }); */
 
-        const memos = await sequelize.query("select p.*,s.nombre as sucursal  " +
+        const memos = await sequelize.query("select select po.ciaspvs,p.*,s.nombre as sucursal  " +
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join poliza po on po.id=p.polizaid  " +
             //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.id= '" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+            "where s.id= '" + sucursalid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado='ACT' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             })
@@ -644,15 +646,18 @@ export async function memosPorSucursal(req, res) {
 export async function memosPorEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
-
-        const memos = await sequelize.query("select p.*,s.nombre as sucursal  " +
-            " from memo p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+        const { fechainicio,fechafin } = req.body;
+const query="select po.ciaspvs,p.*,s.nombre as sucursal  " +
+" from memo p " +
+"inner join sucursal s on s.id=p.sucursalid  " +
+"inner join poliza po on po.id=p.polizaid  " +
+//"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+"where s.empresaid= '" + empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado='ACT' order by p.fechamodificacion desc ";
+        const memos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
             })
+            console.log(query);
         res.json({
             data: memos
         });

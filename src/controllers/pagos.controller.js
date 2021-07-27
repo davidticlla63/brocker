@@ -554,17 +554,18 @@ export async function getPagosPorEmpresayCi(req, res) {
 
 export async function getPagosPorSucursal(req, res) {
     const { sucursalid } = req.params;
+    const { fechainicio,fechafin } = req.body;
     console.log(sucursalid);
     try {
-const query="SELECT pa.montobs,pa.montousd,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
+const query="SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
 +"      from pagos pa " 
 +"      inner join plan_pago pp on pp.id=pa.planpagoid " 
 +"      inner join memo m on m.id=pp.memoid " 
 +"      inner join poliza p on p.id=m.polizaid " 
 +"      inner join sucursal s on s.id=m.sucursalid " 
 +"      inner join asegurado a on a.id=p.tomadorid " 
-+"      where pa.estado='ACT' and pa.montousd>0 and s.id='" +sucursalid + "'  order by pa.fechamodificacion asc";
-//console.log(query);
++"      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and s.id='" +sucursalid + "'  order by pa.fechamodificacion asc";
+console.log(query);
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -579,17 +580,18 @@ const query="SELECT pa.montobs,pa.montousd,pa.fechamodificacion,p.nropoliza, cas
 }
 
 export async function getPagosPorEmpresa(req, res) {
-    const { empresaid } = req.params;
+    const { empresaid} = req.params;
+    const { fechainicio,fechafin } = req.body;
     try {
-const query="SELECT pa.montobs,pa.montousd,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
+const query="SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
 +"      from pagos pa " 
 +"      inner join plan_pago pp on pp.id=pa.planpagoid " 
 +"      inner join memo m on m.id=pp.memoid " 
 +"      inner join poliza p on p.id=m.polizaid " 
 +"      inner join sucursal s on s.id=m.sucursalid " 
 +"      inner join asegurado a on a.id=p.tomadorid " 
-+"      where pa.estado='ACT' and pa.montousd>0 and s.empresaid='" +empresaid + "'  order by pa.fechamodificacion asc";
-//console.log(query);
++"      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and s.empresaid='" +empresaid + "'  order by pa.fechamodificacion asc";
+console.log(query);
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT

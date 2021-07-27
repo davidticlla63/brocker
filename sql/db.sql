@@ -527,6 +527,7 @@ CREATE TABLE IF NOT EXISTS asegurado(
     nombrecompletocobranza character varying,
     telefonocobranza character varying,
     direccioncobranza character varying,
+    correocobranza character varying,
     apellidopaternorepresentante character varying,
     apellidomaternorepresentante character varying,
     nombresrepresentante character varying,

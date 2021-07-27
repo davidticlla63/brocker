@@ -33,7 +33,7 @@ router.get('/moraPorEmpresa/:empresaid', pagos.getPagosMoraPorEmpresa);
 router.get('/pagosPorSucursalYCI/:sucursalid/:cinit', pagos.getPagosPorSucursalyCi);
 router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', pagos.getPagosPorEmpresayCi);
 
-router.get('/pagoPorSucursal/:sucursalid', pagos.getPagosPorSucursal);
-router.get('/pagoPorEmpresa/:empresaid', pagos.getPagosPorEmpresa);
+router.post('/pagoPorSucursal/:sucursalid', pagos.getPagosPorSucursal);
+router.post('/pagoPorEmpresa/:empresaid', pagos.getPagosPorEmpresa);
 
 export default router;

@@ -19,6 +19,6 @@ router.get('/:id', memos.getOneMemo);
 router.delete('/:id', memos.deleteMemo);
 router.put('/:id', memos.updateMemo);
 router.put('/baja/:id', memos.bajaMemo);
-router.get('/memosPorEmpresa/:empresaid', memos.memosPorEmpresa);
-router.get('/memosPorSucursal/:sucursalid', memos.memosPorSucursal);
+router.post('/memosPorEmpresa/:empresaid', memos.memosPorEmpresa);
+router.post('/memosPorSucursal/:sucursalid', memos.memosPorSucursal);
 export default router;

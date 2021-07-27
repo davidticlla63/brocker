@@ -48,6 +48,7 @@ export async function createAsegurado(req, res) {
         nombrecompletocobranza,
         telefonocobranza,
         direccioncobranza,
+        correocobranza,
 
         //nombrerepresentante,
         apellidopaternorepresentante,
@@ -105,6 +106,7 @@ export async function createAsegurado(req, res) {
             nombrecompletocobranza,
             telefonocobranza,
             direccioncobranza,
+            correocobranza,
 
             //nombrerepresentante,
             apellidopaternorepresentante,
@@ -153,6 +155,7 @@ export async function createAsegurado(req, res) {
                 'nombrecompletocobranza',
                 'telefonocobranza',
                 'direccioncobranza',
+                'correocobranza',
 
                 //nombrerepresentante,
                 'apellidopaternorepresentante',
@@ -301,6 +304,7 @@ export async function updateAsegurado(req, res) {
         nombrecompletocobranza,
         telefonocobranza,
         direccioncobranza,
+        correocobranza,
 
         //nombrerepresentante,
         apellidopaternorepresentante,
@@ -350,6 +354,7 @@ export async function updateAsegurado(req, res) {
             nombrecompletocobranza,
             telefonocobranza,
             direccioncobranza,
+            correocobranza,
 
             //nombrerepresentante,
             apellidopaternorepresentante,
@@ -560,7 +565,7 @@ export async function aseguradosPorSucursals(req, res) {
     try {
         const { sucursalid } = req.params;
 
-        let string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+        let string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit " +
             " from asegurado a " +
             "inner join personal e on e.id=a.ejecutivoid " +
             "inner join personal c on c.id = a.carteraid " +
@@ -584,7 +589,7 @@ export async function aseguradosPorEmpresas(req, res) {
     try {
         const { empresaid } = req.params;
         //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
-        let query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " +
+        let query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  " +
             "from asegurado a " +
             "inner join sucursal s on s.id=a.sucursalid " +
             " inner join empresa e on e.id=s.empresaid " +
