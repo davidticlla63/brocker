@@ -591,7 +591,7 @@ const query="SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion
 +"      inner join sucursal s on s.id=m.sucursalid " 
 +"      inner join asegurado a on a.id=p.tomadorid " 
 +"      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and s.empresaid='" +empresaid + "'  order by pa.fechamodificacion asc";
-console.log(query);
+//console.log(query);
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
