@@ -37,8 +37,7 @@ router
       //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
       const dir="http://107.23.14.238:8080/broker/rest/reporte/pago/"+id;
       request.get({
-          url: dir,  
-         
+          url: dir        
         }, function(err, response, body) {
           //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
   

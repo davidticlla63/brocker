@@ -72,6 +72,7 @@ export async function crearPagos(req, res) {
     const {
         pagos } = req.body;
     let t;
+    const listaPagos= []
     try {
         //const transaction= sequelize.transaction;
         let newPagos
@@ -106,14 +107,14 @@ export async function crearPagos(req, res) {
                 ]
             }, { transaction: t });
 
-
+            listaPagos.push(newPagos);
 
         }
         await t.commit();
-        if (newPagos) {
+        if (listaPagos) {
             return res.json({
                 message: 'Pagos created successfully',
-                data: newPagos
+                data: listaPagos
             });
         }
     } catch (e) {
