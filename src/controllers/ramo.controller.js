@@ -143,7 +143,6 @@ export async function updateRamo(req, res) {
     }
 }
 
-
 export async function getRamos(req, res) {
     try {
         const ramos = await Ramo.findAll({
@@ -161,7 +160,6 @@ export async function getRamos(req, res) {
         });
     }
 }
-
 
 export async function getSubRamos(req, res) {
     const {
@@ -207,7 +205,6 @@ export async function getRamosPorEmpresa(req, res) {
     }
 }
 
-
 export async function bajaRamo(req, res) {
     const { id } = req.params;
 
@@ -251,8 +248,6 @@ export async function bajaRamo(req, res) {
         });
     }
 }
-
-
 
 export async function getRamosPorEmpresas(req, res) {
     const {
@@ -318,7 +313,6 @@ export async function getRamosPorEmpresas(req, res) {
         });
     }
 }
-
 
 export async function obtenerRamosPorEmpresa(req, res) {
     const {
