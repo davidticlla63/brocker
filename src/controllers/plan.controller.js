@@ -31,7 +31,7 @@ export async function createPlan(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
-        fechamodificacion,
+        fechamodificacion = new Date(),
         estado,
         companiaseguroid } = req.body;
     try {

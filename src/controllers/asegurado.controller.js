@@ -534,6 +534,56 @@ export async function aseguradosPorSucursalYTipo(req, res) {
     }
 }
 
+export async function todoLosAseguradosPorSucursal(req, res) {
+    try {
+        const { sucursalid } = req.params;
+
+        let string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " +
+            " from asegurado a " +
+            "inner join personal e on e.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
+            " where a.sucursalid='" + sucursalid + "'  and a.estado='ACT' order by a.fechamodificacion desc "
+        //console.log(string)
+        const asegurados = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function todoLosAseguradosPorEmpresa(req, res) {
+    try {
+        const { empresaid } = req.params;
+
+        let string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento,s.nombre sucursal " +
+            " from asegurado a " +
+            "inner join personal e on e.id=a.ejecutivoid " +
+            "inner join personal c on c.id = a.carteraid " +
+            "inner join departamento d on d.id = a.departamentoid " +
+            "inner join sucursal s on s.id=a.sucursalid "+
+            " where s.empresaid='" + empresaid + "'  and a.estado='ACT' order by a.fechamodificacion desc "
+        //console.log(string)
+        const asegurados = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json(asegurados);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
 export async function aseguradosPorEmpresaYTipo(req, res) {
     try {
         const { empresaid, tipoasegurado } = req.params;

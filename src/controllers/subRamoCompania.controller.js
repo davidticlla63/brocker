@@ -266,7 +266,7 @@ export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
             "inner join ramo r on r.id=rc.ramoid  " +
             "left join ramo s on s.ramoid=r.id  and  s.id=rc.subramoid  " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
-            "inner join compania_seguro c on c.id=r.companiaseguroid  " +
+            "inner join compania_seguro c on c.id=rc.companiaseguroid  " +
             "where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
