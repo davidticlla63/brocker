@@ -21,13 +21,22 @@ export async function createSubRamoCompania(req, res) {
         companiaseguroid } = req.body;
     try {
         //const transaction= sequelize.transaction;
-
-        const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { subramoid, companiaseguroid, estado: 'ACT' } });
-        console.log(regSubRamoCompanias);
-        if (regSubRamoCompanias.length > 0) {
-            // authentication failed
-            throw new Error("Ya existe Ramo asignado a la Compania!!");
+        if  (subramoid !=null){
+            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { subramoid, companiaseguroid, estado: 'ACT' } });
+            console.log(regSubRamoCompanias);
+            if (regSubRamoCompanias.length > 0) {
+                // authentication failed
+                throw new Error("Ya existe Ramo asignado a la Compania!!");
+            }
+        }else if(subramoid!=null){
+            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramoid, companiaseguroid, estado: 'ACT' } });
+            console.log(regSubRamoCompanias);
+            if (regSubRamoCompanias.length > 0) {
+                // authentication failed
+                throw new Error("Ya existe Ramo asignado a la Compania!!");
+            }
         }
+        
 
 
         let newSubRamoCompania = await SubRamoCompania.create({
@@ -41,7 +50,7 @@ export async function createSubRamoCompania(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado,
             ramoid,
             subramoid,
@@ -245,7 +254,33 @@ export async function subRamoCompaniaPorCompania(req, res) {
         res.status(500).json({
             data: { estado: false, "error": e.message }
         });
+    }    
+}
+
+export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
+    const {
+        empresaid } = req.params;
+    try {
+        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when s.spvs is null then '00' else  s.spvs end  spvsubramo,t.spvs spvstiporamo " +
+            "from sub_ramo_compania  rc  " +
+            "inner join ramo r on r.id=rc.ramoid  " +
+            "left join ramo s on s.ramoid=r.id  and  s.id=rc.subramoid  " +
+            "inner join tipo_ramo t on t.id=r.tiporamoid  " +
+            "inner join compania_seguro c on c.id=r.companiaseguroid  " +
+            "where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({
+            data: subRamoCompania
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
     }
+
 }
 
 
