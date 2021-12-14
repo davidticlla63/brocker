@@ -1,7 +1,9 @@
 
 import Plan from "../models/Plan";
+const { QueryTypes } = require('sequelize');
+import { sequelize } from "../database/database";
 
-export async function getPlans(req, res) {
+/* export async function getPlans(req, res) {
     try {
         const plans = await Plan.findAll({ where: { estado: 'ACT' } });
         res.json({
@@ -10,9 +12,59 @@ export async function getPlans(req, res) {
     } catch (e) {
         console.log(e);
     }
+} */
+
+export async function getPlans(req, res) {
+    try {
+
+        let string = "select p.*,c.nombre as companiaSeguro" +
+            " from plan p "+
+            " inner join  compania_seguro c on c.id= p.companiaseguroid"+
+            " where p.estado='ACT' order by p.fechamodificacion desc "
+        //console.log(string)
+        const plans = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+
+            res.json({
+                data: plans
+            });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
 }
 
+
 export async function getPlansPorCompania(req, res) {
+    try {
+        const { companiaseguroid } = req.params;
+
+        let string = "select p.*,c.nombre as companiaSeguro" +
+            " from plan p "+
+            " inner join  compania_seguro c on c.id= p.companiaseguroid"+
+            " where c.id='" + companiaseguroid + "'  and p.estado='ACT' order by p.fechamodificacion desc "
+        //console.log(string)
+        const plans = await sequelize.query(string
+            , {
+                type: QueryTypes.SELECT
+            });
+
+            res.json({
+                data: plans
+            });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+/* export async function getPlansPorCompania(req, res) {
     const { companiaseguroid } = req.params;
     try {
         const plans = await Plan.findAll({ where: {companiaseguroid, estado: 'ACT' } });
@@ -22,7 +74,7 @@ export async function getPlansPorCompania(req, res) {
     } catch (e) {
         console.log(e);
     }
-}
+} */
 
 export async function createPlan(req, res) {
     const {
