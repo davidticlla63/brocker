@@ -158,7 +158,8 @@ export async function updatePlan(req, res) {
         usuariomodificacion,
         fecharegistro,
         fechamodificacion,
-        estado } = req.body;
+        estado,companiaseguroid } = req.body;
+
     try {
         const updateRowCount = await Plan.update({
             nombre,
@@ -167,7 +168,8 @@ export async function updatePlan(req, res) {
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
-            estado
+            estado,
+            companiaseguroid
         }, {
             where: {
                 id
