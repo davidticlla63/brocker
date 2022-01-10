@@ -4,7 +4,7 @@ import SiniestroRequisito from "../models/SiniestroRequisito";
 
 export async function getSiniestroRequisitos(req, res) {
     try {
-        const siniestroRequisitos = await SiniestroRequisito.findAll({ where: { estado: 'ACT' }});
+        const siniestroRequisitos = await SiniestroRequisito.findAll({ where: { estado: 'ACT' } });
         res.json({
             data: siniestroRequisitos
         });
@@ -22,16 +22,16 @@ export async function createSiniestroRequisito(req, res) {
     try {
         //const transaction= sequelize.transaction;
         let newSiniestroRequisito = await SiniestroRequisito.create({
-         
+
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
-            estado:'ACT',
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
+            estado: 'ACT',
             siniestroid,
             requisitoid
         }, {
-            fields: [ 
+            fields: [
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -56,22 +56,22 @@ export async function createSiniestroRequisito(req, res) {
 
 export async function updateSiniestroRequisito(req, res) {
     const { id } = req.params;
-    const {  usuarioregistro,
+    const { usuarioregistro,
         usuariomodificacion,
         fecharegistro,
         estado,
         siniestroid,
-        requisitoid} = req.body;
+        requisitoid } = req.body;
     try {
         const updateRowCount = await SiniestroRequisito.update({
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             estado,
             siniestroid,
             requisitoid
-        },{
+        }, {
             where: {
                 id
             }
@@ -87,7 +87,7 @@ export async function updateSiniestroRequisito(req, res) {
             message: 'SiniestroRequisito update successfully',
             count: siniestroRequisitos
         });
-       
+
 
 
 
@@ -138,19 +138,19 @@ export async function deleteSiniestroRequisito(req, res) {
 export async function bajaSiniestroRequisito(req, res) {
     const { id } = req.params;
 
-   console.log("bajaSiniestroRequisito");
-    const { 
-   //    id,
+    console.log("bajaSiniestroRequisito");
+    const {
+        //    id,
         usuariomodificacion
-         } = req.body;
+    } = req.body;
     try {
-       // var moment = require('moment');
-        const updateRowCount = await SiniestroRequisito.update({   
+        // var moment = require('moment');
+        const updateRowCount = await SiniestroRequisito.update({
             usuariomodificacion,
-           /*  fechamodificacion:moment().format(), */
-           fechamodificacion:new Date(),
-            estado:'BAJ'
-        },{
+            /*  fechamodificacion:moment().format(), */
+            fechamodificacion: new Date(),
+            estado: 'BAJ'
+        }, {
             where: {
                 id
             }
@@ -160,14 +160,14 @@ export async function bajaSiniestroRequisito(req, res) {
             where: {
                 id
             }
-        } 
+        }
         );
-        
+
         res.json({
             message: 'SiniestroRequisito baja successfully',
             count: siniestroRequisitos
         });
-       
+
 
 
 
@@ -182,7 +182,7 @@ export async function bajaSiniestroRequisito(req, res) {
 export async function getSiniestroRequisitosPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
-        const requisitos = await Requisito.findAll({ where: {empresaid, estado: 'ACT' } });
+        const requisitos = await Requisito.findAll({ where: { empresaid, estado: 'ACT' } });
         res.json({
             data: requisitos
         });

@@ -145,8 +145,6 @@ export async function deleteRequisito(req, res) {
     }
 }
 
-
-
 export async function bajaRequisito(req, res) {
     const { id } = req.params;
 
