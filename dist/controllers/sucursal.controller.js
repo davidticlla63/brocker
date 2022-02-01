@@ -37,7 +37,8 @@ function _getSucursals() {
             return _Sucursal["default"].findAll({
               where: {
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 3:
@@ -330,7 +331,8 @@ function _getSucursalByEmpresa() {
               where: {
                 empresaid: empresaid,
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 4:

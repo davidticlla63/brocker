@@ -69,6 +69,32 @@ var _tipoCambio = _interopRequireDefault(require("./routes/tipoCambio"));
 
 var _plan = _interopRequireDefault(require("./routes/plan"));
 
+var _polizaDetalle = _interopRequireDefault(require("./routes/polizaDetalle"));
+
+var _polizaDetalleGeneral = _interopRequireDefault(require("./routes/polizaDetalleGeneral"));
+
+var _polizaDetallePersona = _interopRequireDefault(require("./routes/polizaDetallePersona"));
+
+var _polizaDetallePersonaTitular = _interopRequireDefault(require("./routes/polizaDetallePersonaTitular"));
+
+var _polizaDetalleAdicional = _interopRequireDefault(require("./routes/polizaDetalleAdicional"));
+
+var _memo = _interopRequireDefault(require("./routes/memo"));
+
+var _pago = _interopRequireDefault(require("./routes/pago"));
+
+var _siniestro = _interopRequireDefault(require("./routes/siniestro"));
+
+var _requisito = _interopRequireDefault(require("./routes/requisito"));
+
+var _siniestroSeguimiento = _interopRequireDefault(require("./routes/siniestroSeguimiento"));
+
+var _cobranzaMotivo = _interopRequireDefault(require("./routes/cobranzaMotivo"));
+
+var _ramoCompania = _interopRequireDefault(require("./routes/ramoCompania"));
+
+var _reportes = _interopRequireDefault(require("./routes/reportes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -109,8 +135,7 @@ app.use(compression({
   // threshold: It is the byte threshold for the response 
   // body size before considering compression, the default is 1 kB
   threshold: 10*1000
-}));
- */
+})); */
 // middlewares
 
 app.use(jsonParser);
@@ -121,9 +146,9 @@ app.use((0, _express.json)());
 /* 
 var rdlc = require('../index.js')
 rdlc ({ report: 'test.rdl' }, function (err, result) {
-	if (!!err) throw err;
-	var fs = require('fs')
-	fs.writeFileSync('test.pdf', result)
+  if (!!err) throw err;
+  var fs = require('fs')
+  fs.writeFileSync('test.pdf', result)
 })
  */
 
@@ -151,12 +176,32 @@ app.use('/api/bancos', _banco["default"]);
 app.use('/api/subramos', _subramo["default"]);
 app.use('/api/subRamoCompanias', _SubRamoCompania["default"]);
 app.use('/api/plans', _plan["default"]);
-app.use('/api/tipoPolizas', _tipoPoliza["default"]);
-app.use('/api/polizas', _poliza["default"]);
-app.use('/api/archivos', _archivo["default"]);
 app.use('/api/tipomemos', _tipomemo["default"]);
 app.use('/api/contratantes', _contratante["default"]);
-app.use('/api/vendedors', _vendedor["default"]);
+app.use('/api/vendedors', _vendedor["default"]); //polizas
+
+app.use('/api/tipoPolizas', _tipoPoliza["default"]);
+app.use('/api/polizas', _poliza["default"]);
+app.use('/api/polizas/automotor', _polizaDetalle["default"]);
+app.use('/api/polizas/generals', _polizaDetalleGeneral["default"]);
+app.use('/api/polizas/personas', _polizaDetallePersona["default"]);
+app.use('/api/polizas/dependientes', _polizaDetallePersonaTitular["default"]);
+app.use('/api/polizas/adicionales', _polizaDetalleAdicional["default"]); //archivos
+
 app.use('/api/carpetas', _carpeta["default"]);
+app.use('/api/archivos', _archivo["default"]); //memos
+
+app.use('/api/memos', _memo["default"]); //pagos
+
+app.use('/api/pago', _pago["default"]); //cobranza
+
+app.use('/api/cobranzaMotivo', _cobranzaMotivo["default"]);
+app.use('/api/ramoCompania', _ramoCompania["default"]); //siniestro
+
+app.use('/api/siniestro', _siniestro["default"]);
+app.use('/api/requisito', _requisito["default"]);
+app.use('/api/seguimiento', _siniestroSeguimiento["default"]); //reportes
+
+app.use('/api/reporte', _reportes["default"]);
 var _default = app;
 exports["default"] = _default;

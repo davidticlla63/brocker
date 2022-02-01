@@ -209,15 +209,18 @@ function _getOneContratantePorSucursal() {
             _context4.prev = 0;
             sucursalid = req.params.sucursalid;
             _context4.next = 4;
-            return _Contratante["default"].findAll({
-              where: {
-                sucursalid: sucursalid,
-                estado: 'ACT'
-              }
+            return _database.sequelize.query("select c.* " + "from contratante c " + "inner join sucursal s on s.id=c.sucursalid  " + "where s.id= '" + sucursalid + "' order by c.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
             });
 
           case 4:
             contratantes = _context4.sent;
+
+            /* const contratantes = await Contratante.findAll({
+                where: {
+                    sucursalid, estado:'ACT'
+                }
+            }); */
             res.json({
               data: contratantes
             });
@@ -453,7 +456,7 @@ function _getContratantesPorEmpresa() {
             empresaid = req.params.empresaid;
             _context8.prev = 1;
             _context8.next = 4;
-            return _database.sequelize.query("select c.* " + "from contratante c " + "inner join sucursal s on s.id=c.sucursalid  " + "where s.empresaid= '" + empresaid + "' order by c.nombre ", {
+            return _database.sequelize.query("select c.* " + "from contratante c " + "inner join sucursal s on s.id=c.sucursalid  " + "where s.empresaid= '" + empresaid + "' order by c.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 

@@ -35,7 +35,8 @@ function _getBancos() {
             return _Banco["default"].findAll({
               where: {
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 3:
@@ -86,7 +87,8 @@ function _bancosPorEmpresa() {
               where: {
                 estado: 'ACT',
                 empresaid: empresaid
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 5:

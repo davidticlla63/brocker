@@ -49,6 +49,7 @@ var Asegurado = _database.sequelize.define('Asegurado', {
   nombrecompletocobranza: _sequelize["default"].STRING,
   telefonocobranza: _sequelize["default"].STRING,
   direccioncobranza: _sequelize["default"].STRING,
+  correocobranza: _sequelize["default"].STRING,
   //nombrerepresentante:Sequelize.STRING,
   apellidopaternorepresentante: _sequelize["default"].STRING,
   apellidomaternorepresentante: _sequelize["default"].STRING,
@@ -78,12 +79,12 @@ var Asegurado = _database.sequelize.define('Asegurado', {
 });
 
 Asegurado.hasMany(_Poliza["default"], {
-  foreignKey: 'aseguradoid',
+  foreignKey: 'tomadorid',
   sourceKey: 'id'
 });
 
 _Poliza["default"].belongsTo(Asegurado, {
-  foreignKey: 'aseguradoid',
+  foreignKey: 'tomadorid',
   sourceKey: 'id'
 });
 /* 

@@ -34,6 +34,8 @@ router.put('/baja/:id', asegurados.bajaAsegurado);
 router.get('/aseguradosPorSucursal/:sucuesalid', asegurados.aseguradosPorSucursal);
 router.get('/aseguradosPorSucursalYTipo/:sucursalid/:tipoasegurado', asegurados.aseguradosPorSucursalYTipo);
 router.get('/aseguradosPorEmpresaYTipo/:empresaid/:tipoasegurado', asegurados.aseguradosPorEmpresaYTipo);
+router.get('/todoLosAseguradosPorSucursal/:sucursalid', asegurados.todoLosAseguradosPorSucursal);
+router.get('/todoLosAseguradosPorEmpresa/:empresaid', asegurados.todoLosAseguradosPorEmpresa);
 router.get('/aseguradosPorSucursals/:sucursalid', asegurados.aseguradosPorSucursals);
 router.get('/aseguradosPorEmpresas/:empresaid', asegurados.aseguradosPorEmpresas);
 var _default = router;

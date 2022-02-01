@@ -340,47 +340,47 @@ function bajaPersonal(_x11, _x12) {
 
 function _bajaPersonal() {
   _bajaPersonal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, _req$body3, usuariomodificacion, _req$body3$fechamodif, fechamodificacion, _req$body3$estado, estado, updateRowCount, personals;
-
+    var id, usuariomodificacion, updateRowCount, personals;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             id = req.params.id;
-            _req$body3 = req.body, usuariomodificacion = _req$body3.usuariomodificacion, _req$body3$fechamodif = _req$body3.fechamodificacion, fechamodificacion = _req$body3$fechamodif === void 0 ? new Date() : _req$body3$fechamodif, _req$body3$estado = _req$body3.estado, estado = _req$body3$estado === void 0 ? "BAJ" : _req$body3$estado;
-            _context6.prev = 2;
-            _context6.next = 5;
+            usuariomodificacion = req.body.usuariomodificacion;
+            console.log("bajaPersonal");
+            _context6.prev = 3;
+            _context6.next = 6;
             return _Personal["default"].update({
               usuariomodificacion: usuariomodificacion,
-              fechamodificacion: fechamodificacion,
-              estado: estado
+              fechamodificacion: new Date(),
+              estado: "BAJ"
             }, {
               where: {
                 id: id
               }
             });
 
-          case 5:
+          case 6:
             updateRowCount = _context6.sent;
-            _context6.next = 8;
+            _context6.next = 9;
             return _Personal["default"].findOne({
               where: {
                 id: id
               }
             });
 
-          case 8:
+          case 9:
             personals = _context6.sent;
             res.json({
               message: 'Personal update successfully',
               count: personals
             });
-            _context6.next = 16;
+            _context6.next = 17;
             break;
 
-          case 12:
-            _context6.prev = 12;
-            _context6.t0 = _context6["catch"](2);
+          case 13:
+            _context6.prev = 13;
+            _context6.t0 = _context6["catch"](3);
             console.log(_context6.t0);
             res.status(500).json({
               data: {
@@ -389,12 +389,12 @@ function _bajaPersonal() {
               }
             });
 
-          case 16:
+          case 17:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[2, 12]]);
+    }, _callee6, null, [[3, 13]]);
   }));
   return _bajaPersonal.apply(this, arguments);
 }
@@ -413,26 +413,24 @@ function _personalBySucursal() {
             _context7.prev = 0;
             sucursalid = req.params.sucursalid;
             _context7.next = 4;
-            return _Personal["default"].findAll({
-              /*    attributes: ['id', 'nombre', 'descripcion', 'telefono', 'actividad','fecharegistro',
-                 'fechamodificacion','estado','sucursalid'], */
-              where: {
-                sucursalid: sucursalid,
-                estado: 'ACT'
-              },
-              include: [{
-                model: _AreaTrabajo["default"],
-                attributes: ['nombre'],
-                require: true
-              }, {
-                model: _Sucursal["default"],
-                attributes: ['nombre'],
-                require: true
-              }]
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + "where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
             });
 
           case 4:
             personals = _context7.sent;
+
+            /*  const personals = await Personal.findAll({
+                 where: {
+                     sucursalid, estado: 'ACT'
+                 }, order: [
+                     ['fechamodificacion', 'DESC']
+                 ],
+                 include: [{ model: AreaTrabajo, attributes: ['nombre'], require: true },
+                 {
+                     model: Sucursal, attributes: ['nombre'], require: true
+                 }]
+             }); */
             res.json({
               personals: personals
             });
@@ -474,26 +472,25 @@ function _personalByEmpresa() {
             _context8.prev = 0;
             empresaid = req.params.empresaid;
             _context8.next = 4;
-            return _Personal["default"].findAll({
-              where: {
-                estado: 'ACT'
-              },
-              include: [{
-                model: _AreaTrabajo["default"],
-                attributes: ['nombre'],
-                require: true
-              }, {
-                model: _Sucursal["default"],
-                attributes: ['nombre'],
-                require: true,
-                where: {
-                  empresaid: empresaid
-                }
-              }]
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + "inner join empresa e on e.id=s.empresaid " + "where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
             });
 
           case 4:
             personals = _context8.sent;
+
+            /* const personals = await Personal.findAll({
+                where: { estado: 'ACT' }, order: [
+                    ['fechamodificacion', 'DESC']
+                ],
+                include: [{ model: AreaTrabajo, attributes: ['nombre'], require: true },
+                {
+                    model: Sucursal, attributes: ['nombre'], require: true,
+                    where: {
+                        empresaid
+                    }
+                }] 
+            });*/
             res.json({
               personals: personals
             });
@@ -540,7 +537,8 @@ function _personalByAreaTrabajo() {
               where: {
                 areatrabajoid: areatrabajoid,
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 4:

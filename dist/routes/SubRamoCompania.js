@@ -32,7 +32,9 @@ router["delete"]('/:id', subRamoCompanias.deleteSubRamoCompania);
 router.put('/:id', subRamoCompanias.updateSubRamoCompania);
 router.put('/baja/:id', subRamoCompanias.bajaSubRamoCompania);
 router.get('/subRamoCompaniasPorRamo/:ramoid', subRamoCompanias.subRamoCompaniaPorRamo);
-router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania);
+router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania); //nueva metodo que se aumento
+
+router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaYCompaniaPorEmpresa);
 router.get('/subRamoCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaPorEmpresa);
 var _default = router;
 exports["default"] = _default;

@@ -28,8 +28,9 @@ var PolizaDetalleAdicional = _database.sequelize.define('PolizaDetalleAdicional'
   estado: {
     type: _sequelize["default"].STRING,
     allowNull: false
-  },
-  sucursalid: _sequelize["default"].STRING
+  } //,
+  //sucursalid:Sequelize.STRING,
+
 }, {
   timestamps: false,
   tableName: 'poliza_detalle_adicional'

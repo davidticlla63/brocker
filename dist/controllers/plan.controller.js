@@ -13,50 +13,71 @@ exports.bajaPlan = bajaPlan;
 
 var _Plan = _interopRequireDefault(require("../models/Plan"));
 
+var _database = require("../database/database");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+var _require = require('sequelize'),
+    QueryTypes = _require.QueryTypes;
+
+/* export async function getPlans(req, res) {
+    try {
+        const plans = await Plan.findAll({ where: { estado: 'ACT' } });
+        res.json({
+            data: plans
+        });
+    } catch (e) {
+        console.log(e);
+    }
+} */
 function getPlans(_x, _x2) {
   return _getPlans.apply(this, arguments);
 }
 
 function _getPlans() {
   _getPlans = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var plans;
+    var string, plans;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
-            return _Plan["default"].findAll({
-              where: {
-                estado: 'ACT'
-              }
+            string = "select p.*,c.nombre as companiaSeguro" + " from plan p " + " inner join  compania_seguro c on c.id= p.companiaseguroid" + " where p.estado='ACT' order by p.fechamodificacion desc "; //console.log(string)
+
+            _context.next = 4;
+            return _database.sequelize.query(string, {
+              type: QueryTypes.SELECT
             });
 
-          case 3:
+          case 4:
             plans = _context.sent;
             res.json({
               data: plans
             });
-            _context.next = 10;
+            _context.next = 12;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context.t0.message
+              }
+            });
 
-          case 10:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 8]]);
   }));
   return _getPlans.apply(this, arguments);
 }
@@ -64,43 +85,60 @@ function _getPlans() {
 function getPlansPorCompania(_x3, _x4) {
   return _getPlansPorCompania.apply(this, arguments);
 }
+/* export async function getPlansPorCompania(req, res) {
+    const { companiaseguroid } = req.params;
+    try {
+        const plans = await Plan.findAll({ where: {companiaseguroid, estado: 'ACT' } });
+        res.json({
+            data: plans
+        });
+    } catch (e) {
+        console.log(e);
+    }
+} */
+
 
 function _getPlansPorCompania() {
   _getPlansPorCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var companiaseguroid, plans;
+    var companiaseguroid, string, plans;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            _context2.prev = 0;
             companiaseguroid = req.params.companiaseguroid;
-            _context2.prev = 1;
-            _context2.next = 4;
-            return _Plan["default"].findAll({
-              where: {
-                companiaseguroid: companiaseguroid,
-                estado: 'ACT'
-              }
+            string = "select p.*,c.nombre as companiaSeguro" + " from plan p " + " inner join  compania_seguro c on c.id= p.companiaseguroid" + " where c.id='" + companiaseguroid + "'  and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(string)
+
+            _context2.next = 5;
+            return _database.sequelize.query(string, {
+              type: QueryTypes.SELECT
             });
 
-          case 4:
+          case 5:
             plans = _context2.sent;
             res.json({
               data: plans
             });
-            _context2.next = 11;
+            _context2.next = 13;
             break;
 
-          case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](1);
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context2.t0.message
+              }
+            });
 
-          case 11:
+          case 13:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 8]]);
+    }, _callee2, null, [[0, 9]]);
   }));
   return _getPlansPorCompania.apply(this, arguments);
 }
@@ -111,13 +149,13 @@ function createPlan(_x5, _x6) {
 
 function _createPlan() {
   _createPlan = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, nombre, descripcion, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, companiaseguroid, newPlan;
+    var _req$body, nombre, descripcion, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, estado, companiaseguroid, newPlan;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado, companiaseguroid = _req$body.companiaseguroid;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, estado = _req$body.estado, companiaseguroid = _req$body.companiaseguroid;
             _context3.prev = 1;
             _context3.next = 4;
             return _Plan["default"].create({
@@ -270,14 +308,14 @@ function updatePlan(_x11, _x12) {
 
 function _updatePlan() {
   _updatePlan = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, _req$body2, nombre, descripcion, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, updateRowCount, plans;
+    var id, _req$body2, nombre, descripcion, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, companiaseguroid, updateRowCount, plans;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado, companiaseguroid = _req$body2.companiaseguroid;
             _context6.prev = 2;
             _context6.next = 5;
             return _Plan["default"].update({
@@ -287,7 +325,8 @@ function _updatePlan() {
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
               fechamodificacion: fechamodificacion,
-              estado: estado
+              estado: estado,
+              companiaseguroid: companiaseguroid
             }, {
               where: {
                 id: id

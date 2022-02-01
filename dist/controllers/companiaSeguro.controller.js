@@ -35,7 +35,8 @@ function _getCompaniaSeguros() {
             return _CompaniaSeguro["default"].findAll({
               where: {
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 3:
@@ -79,7 +80,8 @@ function _getCompaniaSegurosPorEmpresa() {
               where: {
                 estado: 'ACT',
                 empresaid: empresaid
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 4:

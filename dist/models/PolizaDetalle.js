@@ -28,6 +28,7 @@ var PolizaDetalle = _database.sequelize.define('PolizaDetalle', {
       porcentajecomision:Sequelize.DECIMAL,
       detalle:Sequelize.STRING, */
   titular: _sequelize["default"].STRING,
+  nrocertificado: _sequelize["default"].STRING,
   placa: _sequelize["default"].STRING,
   tipovehiculo: _sequelize["default"].STRING,
   marcavehiculo: _sequelize["default"].STRING,

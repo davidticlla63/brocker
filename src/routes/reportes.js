@@ -13,11 +13,12 @@ router
 
 
 var request = require("request");
+var urlReporte='http://3.99.76.226:8080/broker/rest/reporte'
 
 router.get('/memo/:id', function (req, res, next) {
   const { id } = req.params;
   //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/memo/" + id;
+  const dir =urlReporte+ "/memo/" + id;
   request.get({
     url: dir,
 
@@ -35,7 +36,7 @@ router.get('/memo/:id', function (req, res, next) {
 router.get('/pago/:id', function (req, res, next) {
   const { id } = req.params;
   //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/pago/" + id;
+  const dir = urlReporte+ "/pago/" + id;
   request.get({
     url: dir
   }, function (err, response, body) {
@@ -52,7 +53,7 @@ router.get('/pago/:id', function (req, res, next) {
 router.get('/comisionPorCobrar/:id', function (req, res, next) {
   const { id } = req.params;
   //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/comisionPorCobrar/" + id;
+  const dir = urlReporte+ "/comisionPorCobrar/" + id;
   request.get({
     url: dir
   }, function (err, response, body) {
@@ -68,7 +69,7 @@ router.get('/comisionPorCobrar/:id', function (req, res, next) {
 
 router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
   const body=JSON.stringify(req.body);
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/vencimientoPolizaPorCompania";
+  const dir = urlReporte+ "/vencimientoPolizaPorCompania";
   request.post({
     /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -87,7 +88,7 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
 
 router.post('/produccionPorSucursalCompania', function (req, res, next) {
   const body=JSON.stringify(req.body);
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/produccionPorSucursalCompania";
+  const dir =urlReporte+ "/produccionPorSucursalCompania";
   request.post({
     /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -106,7 +107,7 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
 
 router.post('/produccion', function (req, res, next) {
   const body=JSON.stringify(req.body);
-  const dir = "http://3.99.106.182:8080/broker/rest/reporte/produccion";
+  const dir = urlReporte+ "/produccion";
   request.post({
     /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
     headers: { 'Content-Type': 'application/json;charset=utf-8' },

@@ -21,7 +21,7 @@ var TipoRamo = _database.sequelize.define('TipoRamo', {
   },
   nombre: _sequelize["default"].STRING,
   descripcion: _sequelize["default"].STRING,
-  //empresaid:Sequelize.STRING,
+  spvs: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),

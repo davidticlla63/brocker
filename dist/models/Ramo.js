@@ -37,7 +37,8 @@ var Ramo = _database.sequelize.define('Ramo', {
   estado: {
     type: _sequelize["default"].STRING,
     allowNull: false
-  }
+  },
+  ramoid: _sequelize["default"].STRING
 }, {
   timestamps: false,
   tableName: 'ramo'

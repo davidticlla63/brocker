@@ -315,19 +315,18 @@ function bajaEmpresa(_x11, _x12) {
 
 function _bajaEmpresa() {
   _bajaEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, _req$body3, usuariomodificacion, _req$body3$fechamodif, fechamodificacion, updateRowCount, empresas;
-
+    var id, usuariomodificacion, updateRowCount, empresas;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             id = req.params.id;
-            _req$body3 = req.body, usuariomodificacion = _req$body3.usuariomodificacion, _req$body3$fechamodif = _req$body3.fechamodificacion, fechamodificacion = _req$body3$fechamodif === void 0 ? new Date() : _req$body3$fechamodif;
+            usuariomodificacion = req.body.usuariomodificacion;
             _context6.prev = 2;
             _context6.next = 5;
             return _Empresa["default"].update({
               usuariomodificacion: usuariomodificacion,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: "BAJ"
             }, {
               where: {

@@ -77,20 +77,23 @@ function main() {
 
 function _main() {
   _main = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var PORT;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _app["default"].listen(3000);
+            //conectar();
+            PORT = 3000;
+            _context.next = 3;
+            return _app["default"].listen(PORT);
 
-          case 2:
-            console.log('Server on port 3000');
+          case 3:
+            console.log('Server on port : ' + PORT);
             /*     let a=1;
                 let result = a==null?'true':'false';
                 console.log(result); */
 
-          case 3:
+          case 4:
           case "end":
             return _context.stop();
         }

@@ -1,0 +1,49 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _sequelize = _interopRequireDefault(require("sequelize"));
+
+var _database = require("../database/database");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var ParamProduccion = _database.sequelize.define('ParamProduccion', {
+  id: {
+    //defaultValue: Sequelize.literal('uuid_generate_v4()'),
+    type: _sequelize["default"].STRING,
+    primaryKey: true
+  },
+  tipoasegurado: {
+    type: _sequelize["default"].STRING,
+    allowNull: false
+  },
+  diaproduccion: _sequelize["default"].INTEGER,
+  sucursalid: _sequelize["default"].STRING,
+  usuarioregistro: _sequelize["default"].STRING,
+  usuariomodificacion: _sequelize["default"].STRING,
+  usuariobaja: _sequelize["default"].STRING,
+  fecharegistro: _sequelize["default"].DATE(6),
+  fechamodificacion: _sequelize["default"].DATE(6),
+  fechabaja: _sequelize["default"].DATE(6),
+  estado: {
+    type: _sequelize["default"].STRING,
+    allowNull: false
+  }
+}, {
+  timestamps: false,
+  tableName: 'param_produccion'
+});
+/* 
+Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
+PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
+
+/* ParamProduccion.hasMany(Personal, { foreignKey: 'personalid', sourceKey: 'id' });
+Personal.belongsTo(ParamProduccion, { foreignKey: 'personalid', sourceKey: 'id' }); */
+
+
+var _default = ParamProduccion;
+exports["default"] = _default;

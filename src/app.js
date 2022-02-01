@@ -2,8 +2,6 @@ import express, { json } from "express";
 import morgan from "morgan";
 
 // importing routes
-import projectRoutes from "./routes/projects";
-import taskRoutes from "./routes/tasks";
 import empresaRoutes from "./routes/empresas";
 import sucursalRoutes from "./routes/sucursals";
 import usuarioRoutes from "./routes/usuarios";
@@ -40,6 +38,7 @@ import memoRoutes from './routes/memo'
 import pagoRoutes from './routes/pago'
 import siniestroRoutes from './routes/siniestro'
 import requisitoRoutes from './routes/requisito'
+import siniestroSeguimientoRoutes from './routes/siniestroSeguimiento'
 import cobranzaMotivoRoutes from './routes/cobranzaMotivo'
 import ramoCompaniaRoutes from './routes/ramoCompania'
 import reporteRoutes from './routes/reportes'
@@ -93,8 +92,6 @@ rdlc ({ report: 'test.rdl' }, function (err, result) {
   fs.writeFileSync('test.pdf', result)
 })
  */
-app.use('/api/projects', projectRoutes);
-app.use('/api/tasks', taskRoutes);
 app.use('/api/empresas', empresaRoutes);
 app.use('/api/sucursals', sucursalRoutes);
 app.use('/api/usuarios', usuarioRoutes);
@@ -103,8 +100,8 @@ app.use('/api/perfils', perfilRoutes);
 app.use('/api/paginas', paginaRoutes);
 app.use('/api/permisos', permisoRoutes);
 app.use('/api/accions', accionRoutes);
-
 app.use('/api/tipocambios', tipoCambioRoutes);
+
 //sistema asegurado
 app.use('/api/areaTrabajos', areaTrabajoRoutes);
 app.use('/api/personals', personalRoutes);
@@ -118,7 +115,10 @@ app.use('/api/bancos', bancoRoutes);
 app.use('/api/subramos', subramoRoutes);
 app.use('/api/subRamoCompanias', subRamoCompaniaRoutes);
 app.use('/api/plans', plansRoutes);
-
+app.use('/api/tipomemos', tipomemoRoutes);
+app.use('/api/contratantes', contratanteRoutes);
+app.use('/api/vendedors', vendedorRoutes);
+//polizas
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas', polizaRoutes);
 app.use('/api/polizas/automotor', polizaDetalleRoutes);
@@ -127,23 +127,22 @@ app.use('/api/polizas/personas', polizaDetallePersonaRoutes);
 app.use('/api/polizas/dependientes', polizaDetallePersonaTitularRoutes);
 app.use('/api/polizas/adicionales', polizaDetalleAdicionalRoutes);
 
-app.use('/api/archivos', archivoRoutes);
-app.use('/api/tipomemos', tipomemoRoutes);
-app.use('/api/contratantes', contratanteRoutes);
-app.use('/api/vendedors', vendedorRoutes);
+//archivos
 app.use('/api/carpetas', carpetaRoutes);
-
+app.use('/api/archivos', archivoRoutes);
+//memos
 app.use('/api/memos', memoRoutes);
-
+//pagos
 app.use('/api/pago',pagoRoutes);
-
-app.use('/api/siniestro',siniestroRoutes);
+//cobranza
 app.use('/api/cobranzaMotivo',cobranzaMotivoRoutes);
 
-app.use('/api/requisito',requisitoRoutes);
-
-
 app.use('/api/ramoCompania',ramoCompaniaRoutes);
+//siniestro
+app.use('/api/siniestro',siniestroRoutes);
+app.use('/api/requisito',requisitoRoutes);
+app.use('/api/seguimiento',siniestroSeguimientoRoutes);
+
 
 //reportes
 app.use('/api/reporte',reporteRoutes);

@@ -43,7 +43,7 @@ function login(_x, _x2) {
 
 function _login() {
   _login = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, nick, password, usuario, token, usuarios, perfiles;
+    var _req$body, nick, password, usuarios, usuario, token, _usuarios, perfiles;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -73,16 +73,14 @@ function _login() {
 
           case 6:
             _context.next = 8;
-            return _Usuario["default"].findOne({
-              where: {
-                nick: nick
-              }
+            return _database.sequelize.query("select up.* " + " from  usuario up " + "where   up.estado !='BAJ' and up.nick= '" + nick + "' ", {
+              type: QueryTypes.SELECT
             });
 
           case 8:
-            usuario = _context.sent;
+            usuarios = _context.sent;
 
-            if (usuario) {
+            if (usuarios) {
               _context.next = 11;
               break;
             }
@@ -90,14 +88,24 @@ function _login() {
             throw new Error("no se encontró el usuario");
 
           case 11:
+            if (!(usuarios.length === 0)) {
+              _context.next = 13;
+              break;
+            }
+
+            throw new Error("no se encontró el usuario");
+
+          case 13:
+            usuario = usuarios[0]; // check account found and verify password
+
             if (!(!usuario.password || !_bcryptjs["default"].compareSync(password, usuario.password))) {
-              _context.next = 15;
+              _context.next = 18;
               break;
             }
 
             throw new Error("contraseña no valida!!");
 
-          case 15:
+          case 18:
             token = _jsonwebtoken["default"].sign({
               id: usuario.id
             }, _config["default"].SECRET, {
@@ -105,36 +113,36 @@ function _login() {
 
             }); // authentication successful
 
-            _context.next = 18;
+            _context.next = 21;
             return _database.sequelize.query("select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u " + "inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' " + "left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' " + "left join personal p on p.id=u.personalid  and p.estado='ACT' " + "LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' " + "where u.id= '" + usuario.id + "' and u.estado in ('ACT','SU','ADM') order by u.nick ", {
               type: QueryTypes.SELECT
             });
 
-          case 18:
-            usuarios = _context.sent;
-            _context.next = 21;
-            return _database.sequelize.query("select pe.id,pe.nombre,pe.sucursalid from  usuario_perfil up " + "INNER JOIN perfil pe on pe.id=up.perfilid " + "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre ", {
+          case 21:
+            _usuarios = _context.sent;
+            _context.next = 24;
+            return _database.sequelize.query("select pe.id,pe.nombre,pe.sucursalid,s.nombre as sucursal ,p.diaproduccion " + " from  usuario_perfil up " + "INNER JOIN perfil pe on pe.id=up.perfilid " + " inner join sucursal s on  s.id= pe.sucursalid " + " left join param_produccion p  on p.sucursalid=pe.sucursalid and p.estado='ACT' " + "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre ", {
               type: QueryTypes.SELECT
             });
 
-          case 21:
+          case 24:
             perfiles = _context.sent;
             res.json({
               data: {
                 "estado": true,
                 "messaje": "Ingreso exitoso!!",
-                usuarios: usuarios,
+                usuarios: _usuarios,
                 perfiles: perfiles,
                 "token": token
               }
             });
 
-          case 23:
-            _context.next = 29;
+          case 26:
+            _context.next = 32;
             break;
 
-          case 25:
-            _context.prev = 25;
+          case 28:
+            _context.prev = 28;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.json({
@@ -144,12 +152,12 @@ function _login() {
               }
             });
 
-          case 29:
+          case 32:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 25]]);
+    }, _callee, null, [[0, 28]]);
   }));
   return _login.apply(this, arguments);
 }
@@ -763,7 +771,7 @@ function _usuarioByEmpresa() {
             _context8.prev = 0;
             empresaid = req.params.empresaid;
             _context8.next = 4;
-            return _database.sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " + "inner join personal p on p.id=u.personalid and p.estado='ACT' " + "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " + "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " + "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " + "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " + "WHERE u.estado='ACT' and u.empresaid= '" + empresaid + "' order by u.id ", {
+            return _database.sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " + "inner join personal p on p.id=u.personalid and p.estado='ACT' " + "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " + "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " + "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " + "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " + "WHERE u.estado  !='BAJ' and u.empresaid= '" + empresaid + "' order by u.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -811,7 +819,7 @@ function _usuariosBySucursal() {
             _context9.prev = 0;
             sucursalid = req.params.sucursalid;
             _context9.next = 4;
-            return _database.sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " + "inner join personal p on p.id=u.personalid and p.estado='ACT' " + "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " + "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " + "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " + "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " + "WHERE u.estado='ACT' and su.sucursalid= '" + sucursalid + "' order by u.id ", {
+            return _database.sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " + "inner join personal p on p.id=u.personalid and p.estado='ACT' " + "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " + "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " + "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " + "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " + "WHERE u.estado !='BAJ' and su.sucursalid= '" + sucursalid + "' order by u.id ", {
               type: QueryTypes.SELECT
             });
 

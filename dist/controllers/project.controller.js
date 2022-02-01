@@ -65,13 +65,13 @@ function createProject(_x3, _x4) {
 
 function _createProject() {
   _createProject = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, name, priority, description, deliverydate, newProject;
+    var _req$body, name, priority, description, deliverydate, tasks, newProject;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, name = _req$body.name, priority = _req$body.priority, description = _req$body.description, deliverydate = _req$body.deliverydate;
+            _req$body = req.body, name = _req$body.name, priority = _req$body.priority, description = _req$body.description, deliverydate = _req$body.deliverydate, tasks = _req$body.tasks;
             _context2.prev = 1;
             _context2.next = 4;
             return _Project["default"].create({

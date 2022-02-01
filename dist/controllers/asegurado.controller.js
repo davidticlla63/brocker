@@ -11,6 +11,8 @@ exports.updateAsegurado = updateAsegurado;
 exports.bajaAsegurado = bajaAsegurado;
 exports.aseguradosPorSucursal = aseguradosPorSucursal;
 exports.aseguradosPorSucursalYTipo = aseguradosPorSucursalYTipo;
+exports.todoLosAseguradosPorSucursal = todoLosAseguradosPorSucursal;
+exports.todoLosAseguradosPorEmpresa = todoLosAseguradosPorEmpresa;
 exports.aseguradosPorEmpresaYTipo = aseguradosPorEmpresaYTipo;
 exports.aseguradosPorSucursals = aseguradosPorSucursals;
 exports.aseguradosPorEmpresas = aseguradosPorEmpresas;
@@ -84,13 +86,13 @@ function createAsegurado(_x3, _x4) {
 
 function _createAsegurado() {
   _createAsegurado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, tipoasegurado, apellidopaterno, apellidomaterno, nombres, nombrecompleto, ci, nit, sexo, telefonoasegurado, telefonodomicilio, telefonotrabajo, correo, fotografia, direccionasegurado, fechanacimiento, fechavencimientocarnet, fechavencimientobrevet, fechavencimientofundempresa, relacionasegurado, cargorepresentante, apellidopaternocobranza, apellidomaternocobranza, nombrescobranza, nombrecompletocobranza, telefonocobranza, direccioncobranza, apellidopaternorepresentante, apellidomaternorepresentante, nombresrepresentante, nombrecompletorepresentante, direccionrepresentante, emailrepresentante, telefonorepresentante, celularrepresentante, departamentoid, sucursalid, ejecutivoid, carteraid, usuarioregistro, usuariomodificacion, archivos, t, newAsegurado, i;
+    var _req$body, tipoasegurado, apellidopaterno, apellidomaterno, nombres, nombrecompleto, ci, nit, sexo, telefonoasegurado, telefonodomicilio, telefonotrabajo, correo, fotografia, direccionasegurado, fechanacimiento, fechavencimientocarnet, fechavencimientobrevet, fechavencimientofundempresa, relacionasegurado, cargorepresentante, apellidopaternocobranza, apellidomaternocobranza, nombrescobranza, nombrecompletocobranza, telefonocobranza, direccioncobranza, correocobranza, apellidopaternorepresentante, apellidomaternorepresentante, nombresrepresentante, nombrecompletorepresentante, direccionrepresentante, emailrepresentante, telefonorepresentante, celularrepresentante, departamentoid, sucursalid, ejecutivoid, carteraid, usuarioregistro, usuariomodificacion, archivos, t, newAsegurado, i;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, tipoasegurado = _req$body.tipoasegurado, apellidopaterno = _req$body.apellidopaterno, apellidomaterno = _req$body.apellidomaterno, nombres = _req$body.nombres, nombrecompleto = _req$body.nombrecompleto, ci = _req$body.ci, nit = _req$body.nit, sexo = _req$body.sexo, telefonoasegurado = _req$body.telefonoasegurado, telefonodomicilio = _req$body.telefonodomicilio, telefonotrabajo = _req$body.telefonotrabajo, correo = _req$body.correo, fotografia = _req$body.fotografia, direccionasegurado = _req$body.direccionasegurado, fechanacimiento = _req$body.fechanacimiento, fechavencimientocarnet = _req$body.fechavencimientocarnet, fechavencimientobrevet = _req$body.fechavencimientobrevet, fechavencimientofundempresa = _req$body.fechavencimientofundempresa, relacionasegurado = _req$body.relacionasegurado, cargorepresentante = _req$body.cargorepresentante, apellidopaternocobranza = _req$body.apellidopaternocobranza, apellidomaternocobranza = _req$body.apellidomaternocobranza, nombrescobranza = _req$body.nombrescobranza, nombrecompletocobranza = _req$body.nombrecompletocobranza, telefonocobranza = _req$body.telefonocobranza, direccioncobranza = _req$body.direccioncobranza, apellidopaternorepresentante = _req$body.apellidopaternorepresentante, apellidomaternorepresentante = _req$body.apellidomaternorepresentante, nombresrepresentante = _req$body.nombresrepresentante, nombrecompletorepresentante = _req$body.nombrecompletorepresentante, direccionrepresentante = _req$body.direccionrepresentante, emailrepresentante = _req$body.emailrepresentante, telefonorepresentante = _req$body.telefonorepresentante, celularrepresentante = _req$body.celularrepresentante, departamentoid = _req$body.departamentoid, sucursalid = _req$body.sucursalid, ejecutivoid = _req$body.ejecutivoid, carteraid = _req$body.carteraid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, archivos = _req$body.archivos;
+            _req$body = req.body, tipoasegurado = _req$body.tipoasegurado, apellidopaterno = _req$body.apellidopaterno, apellidomaterno = _req$body.apellidomaterno, nombres = _req$body.nombres, nombrecompleto = _req$body.nombrecompleto, ci = _req$body.ci, nit = _req$body.nit, sexo = _req$body.sexo, telefonoasegurado = _req$body.telefonoasegurado, telefonodomicilio = _req$body.telefonodomicilio, telefonotrabajo = _req$body.telefonotrabajo, correo = _req$body.correo, fotografia = _req$body.fotografia, direccionasegurado = _req$body.direccionasegurado, fechanacimiento = _req$body.fechanacimiento, fechavencimientocarnet = _req$body.fechavencimientocarnet, fechavencimientobrevet = _req$body.fechavencimientobrevet, fechavencimientofundempresa = _req$body.fechavencimientofundempresa, relacionasegurado = _req$body.relacionasegurado, cargorepresentante = _req$body.cargorepresentante, apellidopaternocobranza = _req$body.apellidopaternocobranza, apellidomaternocobranza = _req$body.apellidomaternocobranza, nombrescobranza = _req$body.nombrescobranza, nombrecompletocobranza = _req$body.nombrecompletocobranza, telefonocobranza = _req$body.telefonocobranza, direccioncobranza = _req$body.direccioncobranza, correocobranza = _req$body.correocobranza, apellidopaternorepresentante = _req$body.apellidopaternorepresentante, apellidomaternorepresentante = _req$body.apellidomaternorepresentante, nombresrepresentante = _req$body.nombresrepresentante, nombrecompletorepresentante = _req$body.nombrecompletorepresentante, direccionrepresentante = _req$body.direccionrepresentante, emailrepresentante = _req$body.emailrepresentante, telefonorepresentante = _req$body.telefonorepresentante, celularrepresentante = _req$body.celularrepresentante, departamentoid = _req$body.departamentoid, sucursalid = _req$body.sucursalid, ejecutivoid = _req$body.ejecutivoid, carteraid = _req$body.carteraid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, archivos = _req$body.archivos;
             _context2.next = 3;
             return _database.sequelize.transaction();
 
@@ -127,6 +129,7 @@ function _createAsegurado() {
               nombrecompletocobranza: nombrecompletocobranza,
               telefonocobranza: telefonocobranza,
               direccioncobranza: direccioncobranza,
+              correocobranza: correocobranza,
               //nombrerepresentante,
               apellidopaternorepresentante: apellidopaternorepresentante,
               apellidomaternorepresentante: apellidomaternorepresentante,
@@ -147,7 +150,7 @@ function _createAsegurado() {
               estado: 'ACT'
             }, {
               fields: ['tipoasegurado', 'apellidopaterno', 'apellidomaterno', 'nombres', 'nombrecompleto', 'ci', 'nit', 'sexo', 'telefonoasegurado', 'telefonodomicilio', 'telefonotrabajo', 'correo', 'fotografia', 'direccionasegurado', 'fechanacimiento', 'fechavencimientocarnet', 'fechavencimientobrevet', 'fechavencimientofundempresa', 'relacionasegurado', 'cargorepresentante', //personalcobranza,
-              'apellidopaternocobranza', 'apellidomaternocobranza', 'nombrescobranza', 'nombrecompletocobranza', 'telefonocobranza', 'direccioncobranza', //nombrerepresentante,
+              'apellidopaternocobranza', 'apellidomaternocobranza', 'nombrescobranza', 'nombrecompletocobranza', 'telefonocobranza', 'direccioncobranza', 'correocobranza', //nombrerepresentante,
               'apellidopaternorepresentante', 'apellidomaternorepresentante', 'nombresrepresentante', 'nombrecompletorepresentante', 'direccionrepresentante', 'emailrepresentante', 'telefonorepresentante', 'celularrepresentante', 'departamentoid', 'sucursalid', 'ejecutivoid', 'carteraid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
             }, {
               transaction: t
@@ -357,14 +360,14 @@ function updateAsegurado(_x9, _x10) {
 
 function _updateAsegurado() {
   _updateAsegurado = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, tipoasegurado, apellidopaterno, apellidomaterno, nombres, nombrecompleto, ci, nit, sexo, telefonoasegurado, telefonodomicilio, telefonotrabajo, correo, fotografia, direccionasegurado, fechanacimiento, fechavencimientocarnet, fechavencimientobrevet, fechavencimientofundempresa, relacionasegurado, cargorepresentante, apellidopaternocobranza, apellidomaternocobranza, nombrescobranza, nombrecompletocobranza, telefonocobranza, direccioncobranza, apellidopaternorepresentante, apellidomaternorepresentante, nombresrepresentante, nombrecompletorepresentante, direccionrepresentante, emailrepresentante, telefonorepresentante, celularrepresentante, departamentoid, sucursalid, ejecutivoid, carteraid, usuariomodificacion, estado, archivos, archivoseliminados, t, updateRowCount, i, _i, asegurados;
+    var id, _req$body2, tipoasegurado, apellidopaterno, apellidomaterno, nombres, nombrecompleto, ci, nit, sexo, telefonoasegurado, telefonodomicilio, telefonotrabajo, correo, fotografia, direccionasegurado, fechanacimiento, fechavencimientocarnet, fechavencimientobrevet, fechavencimientofundempresa, relacionasegurado, cargorepresentante, apellidopaternocobranza, apellidomaternocobranza, nombrescobranza, nombrecompletocobranza, telefonocobranza, direccioncobranza, correocobranza, apellidopaternorepresentante, apellidomaternorepresentante, nombresrepresentante, nombrecompletorepresentante, direccionrepresentante, emailrepresentante, telefonorepresentante, celularrepresentante, departamentoid, sucursalid, ejecutivoid, carteraid, usuariomodificacion, estado, archivos, archivoseliminados, t, updateRowCount, i, _i, asegurados;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, tipoasegurado = _req$body2.tipoasegurado, apellidopaterno = _req$body2.apellidopaterno, apellidomaterno = _req$body2.apellidomaterno, nombres = _req$body2.nombres, nombrecompleto = _req$body2.nombrecompleto, ci = _req$body2.ci, nit = _req$body2.nit, sexo = _req$body2.sexo, telefonoasegurado = _req$body2.telefonoasegurado, telefonodomicilio = _req$body2.telefonodomicilio, telefonotrabajo = _req$body2.telefonotrabajo, correo = _req$body2.correo, fotografia = _req$body2.fotografia, direccionasegurado = _req$body2.direccionasegurado, fechanacimiento = _req$body2.fechanacimiento, fechavencimientocarnet = _req$body2.fechavencimientocarnet, fechavencimientobrevet = _req$body2.fechavencimientobrevet, fechavencimientofundempresa = _req$body2.fechavencimientofundempresa, relacionasegurado = _req$body2.relacionasegurado, cargorepresentante = _req$body2.cargorepresentante, apellidopaternocobranza = _req$body2.apellidopaternocobranza, apellidomaternocobranza = _req$body2.apellidomaternocobranza, nombrescobranza = _req$body2.nombrescobranza, nombrecompletocobranza = _req$body2.nombrecompletocobranza, telefonocobranza = _req$body2.telefonocobranza, direccioncobranza = _req$body2.direccioncobranza, apellidopaternorepresentante = _req$body2.apellidopaternorepresentante, apellidomaternorepresentante = _req$body2.apellidomaternorepresentante, nombresrepresentante = _req$body2.nombresrepresentante, nombrecompletorepresentante = _req$body2.nombrecompletorepresentante, direccionrepresentante = _req$body2.direccionrepresentante, emailrepresentante = _req$body2.emailrepresentante, telefonorepresentante = _req$body2.telefonorepresentante, celularrepresentante = _req$body2.celularrepresentante, departamentoid = _req$body2.departamentoid, sucursalid = _req$body2.sucursalid, ejecutivoid = _req$body2.ejecutivoid, carteraid = _req$body2.carteraid, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado, archivos = _req$body2.archivos, archivoseliminados = _req$body2.archivoseliminados;
+            _req$body2 = req.body, tipoasegurado = _req$body2.tipoasegurado, apellidopaterno = _req$body2.apellidopaterno, apellidomaterno = _req$body2.apellidomaterno, nombres = _req$body2.nombres, nombrecompleto = _req$body2.nombrecompleto, ci = _req$body2.ci, nit = _req$body2.nit, sexo = _req$body2.sexo, telefonoasegurado = _req$body2.telefonoasegurado, telefonodomicilio = _req$body2.telefonodomicilio, telefonotrabajo = _req$body2.telefonotrabajo, correo = _req$body2.correo, fotografia = _req$body2.fotografia, direccionasegurado = _req$body2.direccionasegurado, fechanacimiento = _req$body2.fechanacimiento, fechavencimientocarnet = _req$body2.fechavencimientocarnet, fechavencimientobrevet = _req$body2.fechavencimientobrevet, fechavencimientofundempresa = _req$body2.fechavencimientofundempresa, relacionasegurado = _req$body2.relacionasegurado, cargorepresentante = _req$body2.cargorepresentante, apellidopaternocobranza = _req$body2.apellidopaternocobranza, apellidomaternocobranza = _req$body2.apellidomaternocobranza, nombrescobranza = _req$body2.nombrescobranza, nombrecompletocobranza = _req$body2.nombrecompletocobranza, telefonocobranza = _req$body2.telefonocobranza, direccioncobranza = _req$body2.direccioncobranza, correocobranza = _req$body2.correocobranza, apellidopaternorepresentante = _req$body2.apellidopaternorepresentante, apellidomaternorepresentante = _req$body2.apellidomaternorepresentante, nombresrepresentante = _req$body2.nombresrepresentante, nombrecompletorepresentante = _req$body2.nombrecompletorepresentante, direccionrepresentante = _req$body2.direccionrepresentante, emailrepresentante = _req$body2.emailrepresentante, telefonorepresentante = _req$body2.telefonorepresentante, celularrepresentante = _req$body2.celularrepresentante, departamentoid = _req$body2.departamentoid, sucursalid = _req$body2.sucursalid, ejecutivoid = _req$body2.ejecutivoid, carteraid = _req$body2.carteraid, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado, archivos = _req$body2.archivos, archivoseliminados = _req$body2.archivoseliminados;
             _context5.next = 4;
             return _database.sequelize.transaction();
 
@@ -400,6 +403,7 @@ function _updateAsegurado() {
               nombrecompletocobranza: nombrecompletocobranza,
               telefonocobranza: telefonocobranza,
               direccioncobranza: direccioncobranza,
+              correocobranza: correocobranza,
               //nombrerepresentante,
               apellidopaternorepresentante: apellidopaternorepresentante,
               apellidomaternorepresentante: apellidomaternorepresentante,
@@ -622,7 +626,8 @@ function _aseguradosPorSucursal() {
               where: {
                 estado: 'ACT',
                 sucursalid: sucursalid
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 4:
@@ -668,7 +673,7 @@ function _aseguradosPorSucursalYTipo() {
           case 0:
             _context8.prev = 0;
             _req$params = req.params, sucursalid = _req$params.sucursalid, tipoasegurado = _req$params.tipoasegurado;
-            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto "; //console.log(string)
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context8.next = 5;
             return _database.sequelize.query(string, {
@@ -702,36 +707,34 @@ function _aseguradosPorSucursalYTipo() {
   return _aseguradosPorSucursalYTipo.apply(this, arguments);
 }
 
-function aseguradosPorEmpresaYTipo(_x17, _x18) {
-  return _aseguradosPorEmpresaYTipo.apply(this, arguments);
+function todoLosAseguradosPorSucursal(_x17, _x18) {
+  return _todoLosAseguradosPorSucursal.apply(this, arguments);
 }
 
-function _aseguradosPorEmpresaYTipo() {
-  _aseguradosPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
-    var _req$params2, empresaid, tipoasegurado, query, asegurados;
-
+function _todoLosAseguradosPorSucursal() {
+  _todoLosAseguradosPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
+    var sucursalid, string, asegurados;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
-            _req$params2 = req.params, empresaid = _req$params2.empresaid, tipoasegurado = _req$params2.tipoasegurado; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
+            sucursalid = req.params.sucursalid;
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
-            query = "select a.*, ej.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.nombrecompleto ";
-            console.log(query);
-            _context9.next = 6;
-            return _database.sequelize.query(query, {
+            _context9.next = 5;
+            return _database.sequelize.query(string, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 5:
             asegurados = _context9.sent;
             res.json(asegurados);
-            _context9.next = 14;
+            _context9.next = 13;
             break;
 
-          case 10:
-            _context9.prev = 10;
+          case 9:
+            _context9.prev = 9;
             _context9.t0 = _context9["catch"](0);
             console.log(_context9.t0);
             res.status(500).json({
@@ -741,30 +744,30 @@ function _aseguradosPorEmpresaYTipo() {
               }
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[0, 10]]);
+    }, _callee9, null, [[0, 9]]);
   }));
-  return _aseguradosPorEmpresaYTipo.apply(this, arguments);
+  return _todoLosAseguradosPorSucursal.apply(this, arguments);
 }
 
-function aseguradosPorSucursals(_x19, _x20) {
-  return _aseguradosPorSucursals.apply(this, arguments);
+function todoLosAseguradosPorEmpresa(_x19, _x20) {
+  return _todoLosAseguradosPorEmpresa.apply(this, arguments);
 }
 
-function _aseguradosPorSucursals() {
-  _aseguradosPorSucursals = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
-    var sucursalid, string, asegurados;
+function _todoLosAseguradosPorEmpresa() {
+  _todoLosAseguradosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var empresaid, string, asegurados;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.prev = 0;
-            sucursalid = req.params.sucursalid;
-            string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.nombrecompleto "; //console.log(string)
+            empresaid = req.params.empresaid;
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento,s.nombre sucursal " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "inner join sucursal s on s.id=a.sucursalid " + " where s.empresaid='" + empresaid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context10.next = 5;
             return _database.sequelize.query(string, {
@@ -795,24 +798,25 @@ function _aseguradosPorSucursals() {
       }
     }, _callee10, null, [[0, 9]]);
   }));
-  return _aseguradosPorSucursals.apply(this, arguments);
+  return _todoLosAseguradosPorEmpresa.apply(this, arguments);
 }
 
-function aseguradosPorEmpresas(_x21, _x22) {
-  return _aseguradosPorEmpresas.apply(this, arguments);
+function aseguradosPorEmpresaYTipo(_x21, _x22) {
+  return _aseguradosPorEmpresaYTipo.apply(this, arguments);
 }
 
-function _aseguradosPorEmpresas() {
-  _aseguradosPorEmpresas = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
-    var empresaid, query, asegurados;
+function _aseguradosPorEmpresaYTipo() {
+  _aseguradosPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
+    var _req$params2, empresaid, tipoasegurado, query, asegurados;
+
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.prev = 0;
-            empresaid = req.params.empresaid; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
+            _req$params2 = req.params, empresaid = _req$params2.empresaid, tipoasegurado = _req$params2.tipoasegurado; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
 
-            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.estado='ACT' order by a.nombrecompleto ";
+            query = "select a.*, ej.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc ";
             console.log(query);
             _context11.next = 6;
             return _database.sequelize.query(query, {
@@ -842,6 +846,101 @@ function _aseguradosPorEmpresas() {
         }
       }
     }, _callee11, null, [[0, 10]]);
+  }));
+  return _aseguradosPorEmpresaYTipo.apply(this, arguments);
+}
+
+function aseguradosPorSucursals(_x23, _x24) {
+  return _aseguradosPorSucursals.apply(this, arguments);
+}
+
+function _aseguradosPorSucursals() {
+  _aseguradosPorSucursals = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(req, res) {
+    var sucursalid, string, asegurados;
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            sucursalid = req.params.sucursalid;
+            string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
+
+            _context12.next = 5;
+            return _database.sequelize.query(string, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            asegurados = _context12.sent;
+            res.json(asegurados);
+            _context12.next = 13;
+            break;
+
+          case 9:
+            _context12.prev = 9;
+            _context12.t0 = _context12["catch"](0);
+            console.log(_context12.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context12.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12, null, [[0, 9]]);
+  }));
+  return _aseguradosPorSucursals.apply(this, arguments);
+}
+
+function aseguradosPorEmpresas(_x25, _x26) {
+  return _aseguradosPorEmpresas.apply(this, arguments);
+}
+
+function _aseguradosPorEmpresas() {
+  _aseguradosPorEmpresas = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(req, res) {
+    var empresaid, query, asegurados;
+    return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      while (1) {
+        switch (_context13.prev = _context13.next) {
+          case 0:
+            _context13.prev = 0;
+            empresaid = req.params.empresaid; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
+
+            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.estado='ACT' order by a.fechamodificacion desc ";
+            console.log(query);
+            _context13.next = 6;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 6:
+            asegurados = _context13.sent;
+            res.json(asegurados);
+            _context13.next = 14;
+            break;
+
+          case 10:
+            _context13.prev = 10;
+            _context13.t0 = _context13["catch"](0);
+            console.log(_context13.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context13.t0.message
+              }
+            });
+
+          case 14:
+          case "end":
+            return _context13.stop();
+        }
+      }
+    }, _callee13, null, [[0, 10]]);
   }));
   return _aseguradosPorEmpresas.apply(this, arguments);
 }

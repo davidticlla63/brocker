@@ -3,13 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRamos = getRamos;
-exports.getRamosPorEmpresa = getRamosPorEmpresa;
 exports.createRamo = createRamo;
 exports.getOneRamo = getOneRamo;
 exports.deleteRamo = deleteRamo;
 exports.updateRamo = updateRamo;
+exports.getRamos = getRamos;
+exports.getSubRamos = getSubRamos;
+exports.getRamosPorEmpresa = getRamosPorEmpresa;
 exports.bajaRamo = bajaRamo;
+exports.getRamosPorEmpresas = getRamosPorEmpresas;
+exports.obtenerRamosPorEmpresa = obtenerRamosPorEmpresa;
+exports.ramoPorEmpresa = ramoPorEmpresa;
 
 var _database = require("../database/database");
 
@@ -24,36 +28,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var _require = require('sequelize'),
     QueryTypes = _require.QueryTypes;
 
-function getRamos(_x, _x2) {
-  return _getRamos.apply(this, arguments);
+function createRamo(_x, _x2) {
+  return _createRamo.apply(this, arguments);
 }
 
-function _getRamos() {
-  _getRamos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var ramos;
+function _createRamo() {
+  _createRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
+    var _req$body, nombre, descripcion, spvs, tiporamoid, empresaid, ramoid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newRamo;
+
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return _Ramo["default"].findAll({
-              where: {
-                estado: 'ACT'
-              }
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, spvs = _req$body.spvs, tiporamoid = _req$body.tiporamoid, empresaid = _req$body.empresaid, ramoid = _req$body.ramoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _context.prev = 1;
+            _context.next = 4;
+            return _Ramo["default"].create({
+              nombre: nombre,
+              descripcion: descripcion,
+              spvs: spvs,
+              tiporamoid: tiporamoid,
+              empresaid: empresaid,
+              usuarioregistro: usuarioregistro,
+              usuariomodificacion: usuariomodificacion,
+              fecharegistro: fecharegistro,
+              fechamodificacion: fechamodificacion,
+              estado: estado,
+              ramoid: ramoid
+            }, {
+              fields: ['nombre', 'descripcion', 'spvs', 'tiporamoid', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'ramoid']
             });
 
-          case 3:
-            ramos = _context.sent;
-            res.json({
-              data: ramos
-            });
-            _context.next = 11;
-            break;
+          case 4:
+            newRamo = _context.sent;
+
+            if (!newRamo) {
+              _context.next = 7;
+              break;
+            }
+
+            return _context.abrupt("return", res.json({
+              message: 'Ramo created successfully',
+              data: newRamo
+            }));
 
           case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](0);
+            _context.next = 13;
+            break;
+
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](1);
             console.log(_context.t0);
             res.status(500).json({
               data: {
@@ -62,46 +87,47 @@ function _getRamos() {
               }
             });
 
-          case 11:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[1, 9]]);
   }));
-  return _getRamos.apply(this, arguments);
+  return _createRamo.apply(this, arguments);
 }
 
-function getRamosPorEmpresa(_x3, _x4) {
-  return _getRamosPorEmpresa.apply(this, arguments);
+function getOneRamo(_x3, _x4) {
+  return _getOneRamo.apply(this, arguments);
 }
 
-function _getRamosPorEmpresa() {
-  _getRamosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var empresaid, ramos;
+function _getOneRamo() {
+  _getOneRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
+    var id, usuario;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            empresaid = req.params.empresaid;
-            _context2.prev = 1;
+            _context2.prev = 0;
+            id = req.params.id;
             _context2.next = 4;
-            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo " + "from ramo r " + "inner join tipo_ramo tr on tr.id=r.tiporamoid " + "where r.empresaid= '" + empresaid + "' and r.estado='ACT' order by r.id ", {
-              type: QueryTypes.SELECT
+            return _Ramo["default"].findOne({
+              where: {
+                id: id
+              }
             });
 
           case 4:
-            ramos = _context2.sent;
-            //const ramos = await Ramo.findAll({ where: { estado: 'ACT', empresaid } });
+            usuario = _context2.sent;
             res.json({
-              data: ramos
+              data: usuario
             });
             _context2.next = 12;
             break;
 
           case 8:
             _context2.prev = 8;
-            _context2.t0 = _context2["catch"](1);
+            _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
             res.status(500).json({
               data: {
@@ -115,61 +141,43 @@ function _getRamosPorEmpresa() {
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 8]]);
+    }, _callee2, null, [[0, 8]]);
   }));
-  return _getRamosPorEmpresa.apply(this, arguments);
+  return _getOneRamo.apply(this, arguments);
 }
 
-function createRamo(_x5, _x6) {
-  return _createRamo.apply(this, arguments);
+function deleteRamo(_x5, _x6) {
+  return _deleteRamo.apply(this, arguments);
 }
 
-function _createRamo() {
-  _createRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, nombre, descripcion, spvs, tiporamoid, empresaid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newRamo;
-
+function _deleteRamo() {
+  _deleteRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+    var id, deleteRowCount;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, spvs = _req$body.spvs, tiporamoid = _req$body.tiporamoid, empresaid = _req$body.empresaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
-            _context3.prev = 1;
+            _context3.prev = 0;
+            id = req.params.id;
             _context3.next = 4;
-            return _Ramo["default"].create({
-              nombre: nombre,
-              descripcion: descripcion,
-              spvs: spvs,
-              tiporamoid: tiporamoid,
-              empresaid: empresaid,
-              usuarioregistro: usuarioregistro,
-              usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
-              estado: estado
-            }, {
-              fields: ['nombre', 'descripcion', 'spvs', 'tiporamoid', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
+            return _Ramo["default"].destroy({
+              where: {
+                id: id
+              }
             });
 
           case 4:
-            newRamo = _context3.sent;
-
-            if (!newRamo) {
-              _context3.next = 7;
-              break;
-            }
-
-            return _context3.abrupt("return", res.json({
-              message: 'Ramo created successfully',
-              data: newRamo
-            }));
-
-          case 7:
-            _context3.next = 13;
+            deleteRowCount = _context3.sent;
+            res.json({
+              message: 'Ramo deleted successfully',
+              count: deleteRowCount
+            });
+            _context3.next = 12;
             break;
 
-          case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3["catch"](1);
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0);
             res.status(500).json({
               data: {
@@ -178,131 +186,32 @@ function _createRamo() {
               }
             });
 
-          case 13:
+          case 12:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[1, 9]]);
-  }));
-  return _createRamo.apply(this, arguments);
-}
-
-function getOneRamo(_x7, _x8) {
-  return _getOneRamo.apply(this, arguments);
-}
-
-function _getOneRamo() {
-  _getOneRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var id, usuario;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            id = req.params.id;
-            _context4.next = 4;
-            return _Ramo["default"].findOne({
-              where: {
-                id: id
-              }
-            });
-
-          case 4:
-            usuario = _context4.sent;
-            res.json({
-              data: usuario
-            });
-            _context4.next = 12;
-            break;
-
-          case 8:
-            _context4.prev = 8;
-            _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
-            res.status(500).json({
-              data: {
-                estado: false,
-                "error": _context4.t0.message
-              }
-            });
-
-          case 12:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[0, 8]]);
-  }));
-  return _getOneRamo.apply(this, arguments);
-}
-
-function deleteRamo(_x9, _x10) {
-  return _deleteRamo.apply(this, arguments);
-}
-
-function _deleteRamo() {
-  _deleteRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, deleteRowCount;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            id = req.params.id;
-            _context5.next = 4;
-            return _Ramo["default"].destroy({
-              where: {
-                id: id
-              }
-            });
-
-          case 4:
-            deleteRowCount = _context5.sent;
-            res.json({
-              message: 'Ramo deleted successfully',
-              count: deleteRowCount
-            });
-            _context5.next = 12;
-            break;
-
-          case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            console.log(_context5.t0);
-            res.status(500).json({
-              data: {
-                estado: false,
-                "error": _context5.t0.message
-              }
-            });
-
-          case 12:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 8]]);
+    }, _callee3, null, [[0, 8]]);
   }));
   return _deleteRamo.apply(this, arguments);
 }
 
-function updateRamo(_x11, _x12) {
+function updateRamo(_x7, _x8) {
   return _updateRamo.apply(this, arguments);
 }
 
 function _updateRamo() {
-  _updateRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, _req$body2, nombre, descripcion, spvs, tiporamoid, empresaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, updateRowCount, ramos;
+  _updateRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+    var id, _req$body2, nombre, descripcion, spvs, tiporamoid, empresaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, ramoid, updateRowCount, ramos;
 
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, spvs = _req$body2.spvs, tiporamoid = _req$body2.tiporamoid, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
-            _context6.prev = 2;
-            _context6.next = 5;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, spvs = _req$body2.spvs, tiporamoid = _req$body2.tiporamoid, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado, ramoid = _req$body2.ramoid;
+            _context4.prev = 2;
+            _context4.next = 5;
             return _Ramo["default"].update({
               nombre: nombre,
               descripcion: descripcion,
@@ -313,7 +222,8 @@ function _updateRamo() {
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
               fechamodificacion: fechamodificacion,
-              estado: estado
+              estado: estado,
+              ramoid: ramoid
             }, {
               where: {
                 id: id
@@ -321,8 +231,8 @@ function _updateRamo() {
             });
 
           case 5:
-            updateRowCount = _context6.sent;
-            _context6.next = 8;
+            updateRowCount = _context4.sent;
+            _context4.next = 8;
             return _Ramo["default"].findOne({
               where: {
                 id: id
@@ -330,17 +240,117 @@ function _updateRamo() {
             });
 
           case 8:
-            ramos = _context6.sent;
+            ramos = _context4.sent;
             res.json({
               message: 'Ramo update successfully',
               count: ramos
             });
-            _context6.next = 16;
+            _context4.next = 16;
             break;
 
           case 12:
-            _context6.prev = 12;
-            _context6.t0 = _context6["catch"](2);
+            _context4.prev = 12;
+            _context4.t0 = _context4["catch"](2);
+            console.log(_context4.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context4.t0.message
+              }
+            });
+
+          case 16:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[2, 12]]);
+  }));
+  return _updateRamo.apply(this, arguments);
+}
+
+function getRamos(_x9, _x10) {
+  return _getRamos.apply(this, arguments);
+}
+
+function _getRamos() {
+  _getRamos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var ramos;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return _Ramo["default"].findAll({
+              where: {
+                estado: 'ACT'
+              },
+              order: [['fechamodificacion', 'DESC']]
+            });
+
+          case 3:
+            ramos = _context5.sent;
+            res.json({
+              data: ramos
+            });
+            _context5.next = 11;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            console.log(_context5.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context5.t0.message
+              }
+            });
+
+          case 11:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[0, 7]]);
+  }));
+  return _getRamos.apply(this, arguments);
+}
+
+function getSubRamos(_x11, _x12) {
+  return _getSubRamos.apply(this, arguments);
+}
+
+function _getSubRamos() {
+  _getSubRamos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+    var ramoid, ramos;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            ramoid = req.params.ramoid;
+            _context6.prev = 1;
+            _context6.next = 4;
+            return _Ramo["default"].findAll({
+              where: {
+                ramoid: ramoid,
+                estado: 'ACT'
+              },
+              order: [['fechamodificacion', 'DESC']]
+            });
+
+          case 4:
+            ramos = _context6.sent;
+            res.json({
+              data: ramos
+            });
+            _context6.next = 12;
+            break;
+
+          case 8:
+            _context6.prev = 8;
+            _context6.t0 = _context6["catch"](1);
             console.log(_context6.t0);
             res.status(500).json({
               data: {
@@ -349,32 +359,80 @@ function _updateRamo() {
               }
             });
 
-          case 16:
+          case 12:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[2, 12]]);
+    }, _callee6, null, [[1, 8]]);
   }));
-  return _updateRamo.apply(this, arguments);
+  return _getSubRamos.apply(this, arguments);
 }
 
-function bajaRamo(_x13, _x14) {
-  return _bajaRamo.apply(this, arguments);
+function getRamosPorEmpresa(_x13, _x14) {
+  return _getRamosPorEmpresa.apply(this, arguments);
 }
 
-function _bajaRamo() {
-  _bajaRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var id, usuariomodificacion, updateRowCount, ramos;
+function _getRamosPorEmpresa() {
+  _getRamosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var empresaid, ramos;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
+            empresaid = req.params.empresaid;
+            _context7.prev = 1;
+            _context7.next = 4;
+            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo " + "from ramo r " + "inner join tipo_ramo tr on tr.id=r.tiporamoid " + "where r.empresaid= '" + empresaid + "' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            ramos = _context7.sent;
+            //const ramos = await Ramo.findAll({ where: { estado: 'ACT', empresaid } });
+            res.json({
+              data: ramos
+            });
+            _context7.next = 12;
+            break;
+
+          case 8:
+            _context7.prev = 8;
+            _context7.t0 = _context7["catch"](1);
+            console.log(_context7.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context7.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[1, 8]]);
+  }));
+  return _getRamosPorEmpresa.apply(this, arguments);
+}
+
+function bajaRamo(_x15, _x16) {
+  return _bajaRamo.apply(this, arguments);
+}
+
+function _bajaRamo() {
+  _bajaRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
+    var id, usuariomodificacion, updateRowCount, ramos;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
             id = req.params.id;
             console.log("bajaRamo");
             usuariomodificacion = req.body.usuariomodificacion;
-            _context7.prev = 3;
-            _context7.next = 6;
+            _context8.prev = 3;
+            _context8.next = 6;
             return _Ramo["default"].update({
               usuariomodificacion: usuariomodificacion,
 
@@ -388,8 +446,8 @@ function _bajaRamo() {
             });
 
           case 6:
-            updateRowCount = _context7.sent;
-            _context7.next = 9;
+            updateRowCount = _context8.sent;
+            _context8.next = 9;
             return _Ramo["default"].findOne({
               where: {
                 id: id
@@ -397,31 +455,207 @@ function _bajaRamo() {
             });
 
           case 9:
-            ramos = _context7.sent;
+            ramos = _context8.sent;
             res.json({
               message: 'Ramo baja successfully',
               count: ramos
             });
-            _context7.next = 17;
+            _context8.next = 17;
             break;
 
           case 13:
-            _context7.prev = 13;
-            _context7.t0 = _context7["catch"](3);
-            console.log(_context7.t0);
+            _context8.prev = 13;
+            _context8.t0 = _context8["catch"](3);
+            console.log(_context8.t0);
             res.status(500).json({
               data: {
                 estado: false,
-                "error": _context7.t0.message
+                "error": _context8.t0.message
               }
             });
 
           case 17:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7, null, [[3, 13]]);
+    }, _callee8, null, [[3, 13]]);
   }));
   return _bajaRamo.apply(this, arguments);
+}
+
+function getRamosPorEmpresas(_x17, _x18) {
+  return _getRamosPorEmpresas.apply(this, arguments);
+}
+
+function _getRamosPorEmpresas() {
+  _getRamosPorEmpresas = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
+    var empresaid, sql, tiporamos;
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context9.prev = 1;
+            sql = "select tr.id,tr.nombre as tipo,tr.spvs tipospvs,r.id ramoid,r.nombre as ramo,r.spvs ramospvs,sr.id subramoid,sr.nombre as subramo, case when sr.spvs is null then '00' else sr.spvs end subramospvs " + " from tipo_ramo tr " + " inner join ramo r on r.tiporamoid=tr.id and r.ramoid is null and r.estado='ACT' " + " left join ramo sr on sr.ramoid=r.id and sr.estado='ACT'  " + " where  tr.empresaid= '" + empresaid + "' and r.ramoid is null order by r.fechamodificacion desc ,sr.fechamodificacion desc ";
+            _context9.next = 5;
+            return _database.sequelize.query(sql, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            tiporamos = _context9.sent;
+
+            /*  const ramos = await sequelize.query("select r.* ,tr.nombre as tiporamo " +
+                 "from ramo r " +
+                 "inner join tipo_ramo tr on tr.id=r.tiporamoid " +
+                 "where r.empresaid= '" + empresaid + "' and r.estado='ACT' order by r.fechamodificacion desc "
+                 , {
+                     type: QueryTypes.SELECT
+                 });
+               const tiporamos = await sequelize.query("select tr.* " +
+                 "from tipo_ramo tr  " +
+                 "where tr.empresaid= '" + empresaid + "' and tr.estado='ACT' order by tr.fechamodificacion desc "
+                 , {
+                     type: QueryTypes.SELECT
+                 });
+             for (let i = 0; i < tiporamos.length; i++) {
+                  const ramos = await sequelize.query("select r.* " +
+                     "from ramo r  " +
+                     "where r.empresaid= '" + empresaid + "' and r.tiporamoid='" + tiporamos[i].id + "' and r.ramoid is null and r.estado='ACT' order by r.fechamodificacion desc "
+                     , {
+                         type: QueryTypes.SELECT
+                     });
+                 for (let j = 0; j < ramos.length; i++) {
+                      const subramos = await sequelize.query("select r.* " +
+                         "from ramo r  " +
+                         "where r.ramo='" + ramos[j].id + "' and r.estado='ACT' order by r.fechamodificacion desc "
+                         , {
+                             type: QueryTypes.SELECT
+                         });
+                          res.json({
+                              tiporamos:tiporamos[i],  tiporamos:tiporamos[i]
+                         });
+                  }
+             } */
+            res.json({
+              data: tiporamos
+            });
+            _context9.next = 13;
+            break;
+
+          case 9:
+            _context9.prev = 9;
+            _context9.t0 = _context9["catch"](1);
+            console.log(_context9.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context9.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9, null, [[1, 9]]);
+  }));
+  return _getRamosPorEmpresas.apply(this, arguments);
+}
+
+function obtenerRamosPorEmpresa(_x19, _x20) {
+  return _obtenerRamosPorEmpresa.apply(this, arguments);
+}
+
+function _obtenerRamosPorEmpresa() {
+  _obtenerRamosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var empresaid, ramos;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context10.prev = 1;
+            _context10.next = 4;
+            return _database.sequelize.query("select t.id,t.nombre tipo,t.spvs spvstipo,r.id ramoid,r.nombre ramo,r.spvs spvsramo,s.id subramoid, s.nombre subramo,case when s.spvs is null then '00' else s.spvs end spvssubramo " + " from tipo_ramo t " + "inner join ramo r on r.tiporamoid=t.id and r.ramoid is null " + " left join ramo s on s.ramoid=r.id and s.estado='ACT' " + " where  r.estado ='ACT'and r.empresaid= '" + empresaid + "' order by r.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            ramos = _context10.sent;
+            //const ramos = await Ramo.findAll({ where: { estado: 'ACT', empresaid } });
+            res.json({
+              data: ramos
+            });
+            _context10.next = 12;
+            break;
+
+          case 8:
+            _context10.prev = 8;
+            _context10.t0 = _context10["catch"](1);
+            console.log(_context10.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context10.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[1, 8]]);
+  }));
+  return _obtenerRamosPorEmpresa.apply(this, arguments);
+}
+
+function ramoPorEmpresa(_x21, _x22) {
+  return _ramoPorEmpresa.apply(this, arguments);
+}
+
+function _ramoPorEmpresa() {
+  _ramoPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
+    var empresaid, subRamoCompania;
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context11.prev = 1;
+            _context11.next = 4;
+            return _database.sequelize.query(";with consulta as ( " + "select t.id,t.spvs, t.nombre as tipo,r.id ramoid, r.spvs spvsramo ,r.nombre ramo from tipo_ramo t  " + "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid " + "where r.estado='ACT' and r.ramoid is null and t.empresaid='" + empresaid + "'  " + "    ) " + "    select c.*,sr.id subramoid,sr.nombre subramo,sr.spvs spvsubramo from consulta c " + "    left join ramo sr on sr.ramoid=c.ramoid and sr.estado='ACT' ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            subRamoCompania = _context11.sent;
+            res.json({
+              data: subRamoCompania
+            });
+            _context11.next = 12;
+            break;
+
+          case 8:
+            _context11.prev = 8;
+            _context11.t0 = _context11["catch"](1);
+            console.log(_context11.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context11.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11, null, [[1, 8]]);
+  }));
+  return _ramoPorEmpresa.apply(this, arguments);
 }

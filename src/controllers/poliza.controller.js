@@ -1726,8 +1726,6 @@ export async function deletePoliza(req, res) {
     }
 }
 
-
-
 export async function bajaPoliza(req, res) {
     const { id } = req.params;
 
@@ -1765,7 +1763,6 @@ export async function bajaPoliza(req, res) {
         });
     }
 }
-
 
 export async function getPolizaPorTipoYSucursal(req, res) {
     const { tipopolizaid, sucursalid } = req.params;
@@ -1815,7 +1812,6 @@ export async function getPolizasPorTipoYEmpresa(req, res) {
     }
 }
 
-
 export async function getPolizasPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     const { fechainicio,fechafin } = req.body;
@@ -1824,7 +1820,8 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -1856,7 +1853,8 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -1885,7 +1883,8 @@ export async function getPolizasPorEmpresaFechaVencimiento(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+             //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+             "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -1917,7 +1916,8 @@ export async function getPolizasPorSucursalVencimiento(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -1946,7 +1946,8 @@ export async function getPolizasPorTomadorYEmpresa(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+             //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+             "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -1978,7 +1979,8 @@ export async function getPolizasPorTomadorYSucursal(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -2006,7 +2008,8 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+            "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -2025,6 +2028,7 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
         });
     }
 }
+
 export async function getPolizasPorSucursalSinMemo(req, res) {
     const { sucursalid } = req.params;
     try {
@@ -2035,7 +2039,8 @@ export async function getPolizasPorSucursalSinMemo(req, res) {
             "from poliza p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -2058,36 +2063,7 @@ export async function getPolizasPorSucursalSinMemo(req, res) {
     }
 }
 
-export async function getPolizasPorEmpresa(req, res) {
-    const { empresaid } = req.params;
-    try {
-
-        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
-            ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro " +
-            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
-            "from poliza p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join contratante c on c.id=p.contratanteid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
-            "where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') order by p.fechamodificacion desc "
-            , {
-                type: QueryTypes.SELECT
-            });
-        //console.log(JSON.stringify(usuarios[0], null, 2));
-
-        res.json({ polizas });
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
+/** metodos de siniestro */
 
 export async function getPolizasPorSucursal(req, res) {
     const { sucursalid } = req.params;
@@ -2100,7 +2076,8 @@ export async function getPolizasPorSucursal(req, res) {
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join contratante c on c.id=p.contratanteid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
             "inner join ramo r on r.id=rc.ramoid " +
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
@@ -2130,3 +2107,108 @@ export async function getPolizasPorSucursal(req, res) {
     }
 }
 
+export async function getPolizasPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
+            ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join contratante c on c.id=p.contratanteid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+             //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+             "left join ramo sr on sr.id=rc.subramoid "+
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') order by p.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizasPorSucursalYTipo(req, res) {
+    const { sucursalid,tipopolizaid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
+            ",p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join contratante c on c.id=p.contratanteid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+             //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+             "left join ramo sr on sr.id=rc.subramoid "+
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+
+
+        /*            const polizas = await sequelize.query("call pa_polizas_por_sucursal(:params) ", { replacements: {params : [sucursalid]} }
+                       , {
+                           type: QueryTypes.SELECT
+                       }); */
+
+        /*   const polizas = await sequelize.query("select * from pa_polizas_por_sucursal('"+sucursalid+"') ", {
+              type: QueryTypes.SELECT
+          }); */
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizasPorEmpresaYTipo(req, res) {
+    const { empresaid,tipopolizaid } = req.params;
+    try {
+
+        const polizas = await sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion " +
+            ",p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+            "from poliza p " +
+            "inner join sucursal s on s.id=p.sucursalid  " +
+            "inner join contratante c on c.id=p.contratanteid  " +
+            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
+              //"inner join sub_ramo sr on sr.id=rc.subramoid " +
+              "left join ramo sr on sr.id=rc.subramoid "+
+            "inner join ramo r on r.id=rc.ramoid " +
+            "inner join asegurado a on a.id=p.tomadorid " +
+            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
+            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
+            "where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}

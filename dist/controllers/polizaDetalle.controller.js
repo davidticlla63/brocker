@@ -24,20 +24,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function getPolizaDetalles(_x, _x2) {
   return _getPolizaDetalles.apply(this, arguments);
 }
-/* export async function polizaDetallesPorRamo(req, res) {
-    const {
-        ramoid } = req.params;
-    try {
-        console.log(req.params)
-        const polizaDetalles = await PolizaDetalle.findAll({ where: { estado: 'ACT', ramoid } });
-        res.json({
-            data: polizaDetalles
-        });
-    } catch (e) {
-        console.log(e);
-    }
-} */
-
 
 function _getPolizaDetalles() {
   _getPolizaDetalles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {

@@ -40,6 +40,7 @@ function _getAreaTrabajos() {
               where: {
                 estado: 'ACT'
               },
+              order: [['fechamodificacion', 'DESC']],
               include: _Personal["default"]
             });
 
@@ -394,7 +395,8 @@ function _areaTrabajoByEmpresa() {
               where: {
                 empresaid: empresaid,
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 4:

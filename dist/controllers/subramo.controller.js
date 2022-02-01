@@ -49,7 +49,8 @@ function _getSubRamos() {
             return _SubRamo["default"].findAll({
               where: {
                 estado: 'ACT'
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 3:
@@ -100,7 +101,8 @@ function _subRamosPorRamo() {
               where: {
                 estado: 'ACT',
                 ramoid: ramoid
-              }
+              },
+              order: [['fechamodificacion', 'DESC']]
             });
 
           case 5:

@@ -12,6 +12,7 @@ exports.getPerfilByEmpresa = getPerfilByEmpresa;
 exports.getPerfilBySucursal = getPerfilBySucursal;
 exports.createPerfilPermisos = createPerfilPermisos;
 exports.getPermisosPorPerfil = getPermisosPorPerfil;
+exports.bajaPerfil = bajaPerfil;
 
 var _database = require("../database/database");
 
@@ -57,6 +58,7 @@ function _getPerfils() {
               where: {
                 estado: 'ACT'
               },
+              order: [['fechamodificacion', 'DESC']],
               include: _UsuarioPerfil["default"]
             }, "include", _Empresa["default"]));
 
@@ -347,6 +349,7 @@ function _getPerfilByEmpresa() {
                 empresaid: empresaid,
                 estado: 'ACT'
               },
+              order: [['fechamodificacion', 'DESC']],
               include: _Sucursal["default"]
             });
 
@@ -392,6 +395,14 @@ function _getPerfilBySucursal() {
           case 0:
             _context7.prev = 0;
             sucursalid = req.params.sucursalid;
+            /*   const perfils = await sequelize.query("select c.* " +
+              "from perfil c " +
+              "inner join sucursal s on s.id=c.sucursalid  " +
+              "where s.id= '" + sucursalid + "' and c.estado='ACT' order by c.fechamodificacion desc "
+              , {
+                  type: QueryTypes.SELECT
+              }); */
+
             _context7.next = 4;
             return _Perfil["default"].findAll({
               /* attributes: ['id', 'nombre', 'descripcion','fecharegistro',
@@ -400,6 +411,7 @@ function _getPerfilBySucursal() {
                 sucursalid: sucursalid,
                 estado: 'ACT'
               },
+              order: [['fechamodificacion', 'DESC']],
               include: _Sucursal["default"]
             });
 
@@ -567,7 +579,7 @@ function _getPermisosPorPerfil() {
             perfilid = req.params.perfilid;
             _context9.prev = 1;
             _context9.next = 4;
-            return _database.sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " + "from pagina pag " + "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " + "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " + "inner join accion a on a.id=pa.accionid " + "inner join perfil per on per.id=p.perfilid " + "where per.id= '" + perfilid + "' order by per.id ", {
+            return _database.sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " + "from pagina pag " + "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " + "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " + "inner join accion a on a.id=pa.accionid " + "inner join perfil per on per.id=p.perfilid " + "where per.id= '" + perfilid + "' order by per.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -599,4 +611,69 @@ function _getPermisosPorPerfil() {
     }, _callee9, null, [[1, 8]]);
   }));
   return _getPermisosPorPerfil.apply(this, arguments);
+}
+
+function bajaPerfil(_x19, _x20) {
+  return _bajaPerfil.apply(this, arguments);
+}
+
+function _bajaPerfil() {
+  _bajaPerfil = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var id, usuariomodificacion, updateRowCount, usuarios;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            id = req.params.id;
+            usuariomodificacion = req.body.usuariomodificacion;
+            _context10.prev = 2;
+            _context10.next = 5;
+            return _Perfil["default"].update({
+              usuariomodificacion: usuariomodificacion,
+              fechamodificacion: new Date(),
+              estado: "BAJ"
+            }, {
+              where: {
+                id: id
+              }
+            });
+
+          case 5:
+            updateRowCount = _context10.sent;
+            _context10.next = 8;
+            return _Perfil["default"].findOne({
+              where: {
+                id: id
+              }
+            } //,{ include: Sucursal } 
+            );
+
+          case 8:
+            usuarios = _context10.sent;
+            res.json({
+              message: 'Perfil baja successfully',
+              count: usuarios
+            });
+            _context10.next = 16;
+            break;
+
+          case 12:
+            _context10.prev = 12;
+            _context10.t0 = _context10["catch"](2);
+            console.log(_context10.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context10.t0.message
+              }
+            });
+
+          case 16:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[2, 12]]);
+  }));
+  return _bajaPerfil.apply(this, arguments);
 }

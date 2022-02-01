@@ -22,7 +22,7 @@ var Poliza = _database.sequelize.define('Poliza', {
   fechainicio: _sequelize["default"].DATE,
   fechafin: _sequelize["default"].DATE,
   fechaexpedicion: _sequelize["default"].DATE,
-  fechaerecepcion: _sequelize["default"].DATE,
+  fecharecepcion: _sequelize["default"].DATE,
   tipomoneda: _sequelize["default"].STRING,
   primatotal: _sequelize["default"].DECIMAL,
   formapago: _sequelize["default"].STRING,
@@ -49,29 +49,10 @@ var Poliza = _database.sequelize.define('Poliza', {
   tpoliza: _sequelize["default"].STRING,
   tipocontrato: _sequelize["default"].STRING,
   memoid: _sequelize["default"].STRING,
-  llamadoid: _sequelize["default"].STRING,
   vendedorid: _sequelize["default"].STRING,
-  nroplaca: _sequelize["default"].STRING,
   tipoemision: _sequelize["default"].STRING,
   franquicia: _sequelize["default"].DECIMAL,
   //agregar
-
-  /*  //detalle poliza
-   fechainiciovigencia:Sequelize.DATE,
-   fechafinvigencia:Sequelize.DATE,
-   fechainclusion:Sequelize.DATE,
-   prima:Sequelize.DECIMAL,
-   porcentajeprima:Sequelize.DECIMAL,
-   primaneta:Sequelize.DECIMAL,
-   porcentajecomision:Sequelize.DECIMAL,
-   detalle:Sequelize.STRING, */
-
-  /*    //automotor
-     placa:Sequelize.STRING,
-     tipovehiculo:Sequelize.STRING,
-     marca:Sequelize.STRING,
-     anio:Sequelize.STRING,
-     color:Sequelize.STRING, */
   comisionbs: _sequelize["default"].DECIMAL,
   comisionusd: _sequelize["default"].DECIMAL,
   tipocambio: _sequelize["default"].DECIMAL,
@@ -86,7 +67,9 @@ var Poliza = _database.sequelize.define('Poliza', {
     type: _sequelize["default"].STRING,
     allowNull: false
   },
-  sucursalid: _sequelize["default"].STRING
+  sucursalid: _sequelize["default"].STRING,
+  planid: _sequelize["default"].STRING,
+  polizaid: _sequelize["default"].STRING
 }, {
   timestamps: false,
   tableName: 'poliza'

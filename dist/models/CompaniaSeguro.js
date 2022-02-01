@@ -9,10 +9,9 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 
 var _database = require("../database/database");
 
-var _Poliza = _interopRequireDefault(require("./Poliza"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+//import Poliza from "./Poliza";
 var CompaniaSeguro = _database.sequelize.define('CompaniaSeguro', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -53,16 +52,9 @@ var CompaniaSeguro = _database.sequelize.define('CompaniaSeguro', {
   timestamps: false,
   tableName: 'compania_seguro'
 });
+/* CompaniaSeguro.hasMany(Poliza, { foreignKey: 'accionid', sourceKey: 'id' });
+Poliza.belongsTo(CompaniaSeguro, { foreignKey: 'accionid', sourceKey: 'id' }); */
 
-CompaniaSeguro.hasMany(_Poliza["default"], {
-  foreignKey: 'accionid',
-  sourceKey: 'id'
-});
-
-_Poliza["default"].belongsTo(CompaniaSeguro, {
-  foreignKey: 'accionid',
-  sourceKey: 'id'
-});
 
 var _default = CompaniaSeguro;
 exports["default"] = _default;

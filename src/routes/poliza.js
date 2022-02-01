@@ -42,8 +42,10 @@ router.delete('/:id', polizas.deletePoliza);
 
 router.put('/baja/:id', polizas.bajaPoliza);
 
-//siniestro
+//siniestro  tipopolizaid
 router.get('/polizasPorSucursals/:sucursalid', polizas.getPolizasPorSucursal);
 router.get('/polizasPorEmpresas/:empresaid', polizas.getPolizasPorEmpresa);
 
+router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid', polizas.getPolizasPorSucursalYTipo);
+router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid', polizas.getPolizasPorEmpresaYTipo);
 export default router;
