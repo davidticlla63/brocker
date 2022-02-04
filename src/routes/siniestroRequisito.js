@@ -12,8 +12,9 @@ router
     .use(compression());
 // /api/empresas/
 router.post('/', siniestroRequisitos.createSiniestroRequisito);
+router.post('/createSiniestroRequisitos/', siniestroRequisitos.createSiniestroRequisitos);
 router.get('/', siniestroRequisitos.getSiniestroRequisitos);
-router.get('/siniestroRequisitosPorEmpresa/:empresaid', siniestroRequisitos.getSiniestroRequisitosPorEmpresa);
+router.get('/siniestroRequisitosPorSiniestro/:siniestroid', siniestroRequisitos.getSiniestroRequisitosPorSiniestro);
 // /api/empresas/:empresaID
 router.get('/:id', siniestroRequisitos.getOneSiniestroRequisito);
 router.delete('/:id', siniestroRequisitos.deleteSiniestroRequisito);

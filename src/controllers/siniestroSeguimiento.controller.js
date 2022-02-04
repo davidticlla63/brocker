@@ -3,7 +3,28 @@ const { QueryTypes } = require('sequelize');
 import SiniestroSeguimiento from "../models/SiniestroSeguimiento";
 
 export async function getSiniestroSeguimientos(req, res) {
+
+    const { siniestroid } = req.params;
     try {
+
+        const siniestros = await sequelize.query("select s.*  " +
+            "from siniestro_seguimiento s " +
+            "where  s.siniestroid= '" + siniestroid + "'  and s.estado IN ('ACT') order by s.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+        res.json({
+            data: siniestros
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+
+  /*   try {
         const { siniestroid } = req.params;
         const siniestros = await SiniestroSeguimiento.findAll({ where: { estado: 'ACT', siniestroid } });
         res.json({
@@ -11,7 +32,7 @@ export async function getSiniestroSeguimientos(req, res) {
         });
     } catch (e) {
         console.log(e);
-    }
+    } */
 }
 
 export async function createSiniestroSeguimiento(req, res) {
@@ -20,9 +41,6 @@ export async function createSiniestroSeguimiento(req, res) {
         comentario,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
-        estado,
         siniestroid
     } = req.body;
     try {
@@ -32,7 +50,7 @@ export async function createSiniestroSeguimiento(req, res) {
             comentario,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro: fecharegistro,
+            fecharegistro:  new Date(),
             fechamodificacion: new Date(),
             estado: 'ACT',
             siniestroid

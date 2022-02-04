@@ -9,12 +9,8 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var sequelize = new _sequelize["default"]('broker_db', //'postgres',
-'broker_test_db', //testing
-'admin', {
-  /*  host: 'ec2-3-133-91-105.us-east-2.compute.amazonaws.com', */
-
-  /*  host:'ec2-3-23-95-77.us-east-2.compute.amazonaws.com',//nueva ruta */
+var sequelize = new _sequelize["default"]('broker_db', //'broker_test_db',//testing
+'postgres', 'admin', {
   host: '3.99.76.226',
   //nueva ruta
   dialect: 'postgres',

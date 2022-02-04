@@ -11,10 +11,6 @@ var _express = _interopRequireWildcard(require("express"));
 
 var _morgan = _interopRequireDefault(require("morgan"));
 
-var _projects = _interopRequireDefault(require("./routes/projects"));
-
-var _tasks = _interopRequireDefault(require("./routes/tasks"));
-
 var _empresas = _interopRequireDefault(require("./routes/empresas"));
 
 var _sucursals = _interopRequireDefault(require("./routes/sucursals"));
@@ -152,8 +148,6 @@ rdlc ({ report: 'test.rdl' }, function (err, result) {
 })
  */
 
-app.use('/api/projects', _projects["default"]);
-app.use('/api/tasks', _tasks["default"]);
 app.use('/api/empresas', _empresas["default"]);
 app.use('/api/sucursals', _sucursals["default"]);
 app.use('/api/usuarios', _usuarios["default"]);

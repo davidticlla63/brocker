@@ -13,6 +13,67 @@ export async function getSiniestroRequisitos(req, res) {
     }
 }
 
+export async function createSiniestroRequisitos(req, res) {
+    const {
+        siniestroRequisitoseliminados,
+        siniestroRequisitos } = req.body;
+        let t;
+    try {
+        t = await sequelize.transaction();
+        if (siniestroRequisitoseliminados) {
+            for (let i = 0; i < siniestroRequisitoseliminados.length; i++) {
+
+                await SiniestroRequisito.update({
+                    estado: 'BAJ',
+                    fechamodificacion: new Date()
+                }, { where: { id: siniestroRequisitoseliminados[i].id } }, { transaction: t });
+
+            }
+        }
+        if (siniestroRequisitos) {
+            for (let i = 0; i < siniestroRequisitos.length; i++) {
+                await SiniestroRequisito.create({
+                    usuarioregistro: siniestroRequisitos[i].usuarioregistro,
+                    usuariomodificacion: siniestroRequisitos[i].usuariomodificacion,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT',
+                    siniestroid: siniestroRequisitos[i].siniestroid,
+                    requisitoid: siniestroRequisitos[i].requisitoid
+                }, {
+                    fields: [
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado',
+                        'siniestroid',
+                        'requisitoid']
+                }, { transaction: t });
+
+                /*  await Archivo.update({
+                     estado: 'BAJ',
+                     fechamodificacion: new Date()
+                 }, { where: { id: archivoseliminados[i].id } }, { transaction: t }); */
+
+            }
+        }
+        await t.commit();
+
+        if (siniestroRequisitos) {
+            return res.json({
+                message: 'SiniestroRequisito created successfully',
+                data: siniestroRequisitos
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
 export async function createSiniestroRequisito(req, res) {
     const {
         usuarioregistro,
@@ -179,10 +240,10 @@ export async function bajaSiniestroRequisito(req, res) {
     }
 }
 
-export async function getSiniestroRequisitosPorEmpresa(req, res) {
-    const { empresaid } = req.params;
+export async function getSiniestroRequisitosPorSiniestro(req, res) {
+    const { siniestroid } = req.params;
     try {
-        const requisitos = await Requisito.findAll({ where: { empresaid, estado: 'ACT' } });
+        const requisitos = await Requisito.findAll({ where: { siniestroid, estado: 'ACT' } });
         res.json({
             data: requisitos
         });

@@ -63,6 +63,8 @@ export async function createRequisito(req, res) {
     }
 }
 
+
+
 export async function updateRequisito(req, res) {
     const { id } = req.params;
     const { nombre,
@@ -193,7 +195,7 @@ export async function getRequisitoPorSiniestro(req, res) {
     const { siniestroid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select case when sr.requisitoid is null then false else true end estado,r.id,r.nombre from requisito r "+
+        const siniestros = await sequelize.query("select case when sr.requisitoid is null then false else true end estado,r.id requisitoid,r.nombre,sr.id from requisito r "+
         " left join siniestro_requisito sr on sr.requisitoid=r.id and sr.estado='ACT' AND sr.siniestroid='"+siniestroid+"' "+
         " WHERE r.estado='ACT' "
             , {

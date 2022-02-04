@@ -12,7 +12,7 @@ router
     .use(compression());
 // /api/empresas/
 router.post('/', siniestroSeguimientos.createSiniestroSeguimiento);
-router.get('/:idsiniestro', siniestroSeguimientos.getSiniestroSeguimientos);
+router.get('/:siniestroid', siniestroSeguimientos.getSiniestroSeguimientos);
 
 // /api/empresas/:empresaID
 router.get('/:id', siniestroSeguimientos.getOneSiniestroSeguimiento);
