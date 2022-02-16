@@ -25,8 +25,9 @@ var router = (0, _express.Router)();
 router.use(cors()).use(bodyParser.json()).use(compression()); // /api/empresas/
 
 router.post('/', siniestroRequisitos.createSiniestroRequisito);
+router.post('/createSiniestroRequisitos/', siniestroRequisitos.createSiniestroRequisitos);
 router.get('/', siniestroRequisitos.getSiniestroRequisitos);
-router.get('/siniestroRequisitosPorEmpresa/:empresaid', siniestroRequisitos.getSiniestroRequisitosPorEmpresa); // /api/empresas/:empresaID
+router.get('/siniestroRequisitosPorSiniestro/:siniestroid', siniestroRequisitos.getSiniestroRequisitosPorSiniestro); // /api/empresas/:empresaID
 
 router.get('/:id', siniestroRequisitos.getOneSiniestroRequisito);
 router["delete"]('/:id', siniestroRequisitos.deleteSiniestroRequisito);

@@ -91,6 +91,8 @@ var _ramoCompania = _interopRequireDefault(require("./routes/ramoCompania"));
 
 var _reportes = _interopRequireDefault(require("./routes/reportes"));
 
+var _siniestroRequisito = _interopRequireDefault(require("./routes/siniestroRequisito"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -194,6 +196,7 @@ app.use('/api/ramoCompania', _ramoCompania["default"]); //siniestro
 
 app.use('/api/siniestro', _siniestro["default"]);
 app.use('/api/requisito', _requisito["default"]);
+app.use('/api/siniestroRequisito', _siniestroRequisito["default"]);
 app.use('/api/seguimiento', _siniestroSeguimiento["default"]); //reportes
 
 app.use('/api/reporte', _reportes["default"]);

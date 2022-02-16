@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-const uuid = require('uuid/v4');
+//const uuid = require('uuid/v4');
 
 const SucursalUsuario = sequelize.define('SucursalUsuario', {
     id: {

@@ -116,5 +116,45 @@ router.post('/produccion', function (req, res, next) {
     });
   });
 });
+/**REPORTE DE SINIESTRO */
+
+router.post('/siniestroPorEmpresa', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/siniestroPorEmpresa";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE SINIESTRO */
+
+router.post('/siniestroPorSucursal', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/siniestroPorSucursal";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
 var _default = router;
 exports["default"] = _default;

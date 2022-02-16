@@ -25,7 +25,7 @@ var router = (0, _express.Router)();
 router.use(cors()).use(bodyParser.json()).use(compression()); // /api/empresas/
 
 router.post('/', siniestroSeguimientos.createSiniestroSeguimiento);
-router.get('/:idsiniestro', siniestroSeguimientos.getSiniestroSeguimientos); // /api/empresas/:empresaID
+router.get('/:siniestroid', siniestroSeguimientos.getSiniestroSeguimientos); // /api/empresas/:empresaID
 
 router.get('/:id', siniestroSeguimientos.getOneSiniestroSeguimiento);
 router["delete"]('/:id', siniestroSeguimientos.deleteSiniestroSeguimiento);

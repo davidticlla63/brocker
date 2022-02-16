@@ -35,35 +35,39 @@ function _getSiniestroSeguimientos() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
             siniestroid = req.params.siniestroid;
+            _context.prev = 1;
             _context.next = 4;
-            return _SiniestroSeguimiento["default"].findAll({
-              where: {
-                estado: 'ACT',
-                siniestroid: siniestroid
-              }
+            return _database.sequelize.query("select s.*  " + "from siniestro_seguimiento s " + "where  s.siniestroid= '" + siniestroid + "'  and s.estado IN ('ACT') order by s.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
             });
 
           case 4:
             siniestros = _context.sent;
+            //console.log(JSON.stringify(usuarios[0], null, 2));
             res.json({
               data: siniestros
             });
-            _context.next = 11;
+            _context.next = 12;
             break;
 
           case 8:
             _context.prev = 8;
-            _context.t0 = _context["catch"](0);
+            _context.t0 = _context["catch"](1);
             console.log(_context.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context.t0.message
+              }
+            });
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[1, 8]]);
   }));
   return _getSiniestroSeguimientos.apply(this, arguments);
 }
@@ -74,13 +78,13 @@ function createSiniestroSeguimiento(_x3, _x4) {
 
 function _createSiniestroSeguimiento() {
   _createSiniestroSeguimiento = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, fecha, comentario, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, siniestroid, newSiniestroSeguimiento;
+    var _req$body, fecha, comentario, usuarioregistro, usuariomodificacion, siniestroid, newSiniestroSeguimiento;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, fecha = _req$body.fecha, comentario = _req$body.comentario, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, fecharegistro = _req$body.fecharegistro, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado, siniestroid = _req$body.siniestroid;
+            _req$body = req.body, fecha = _req$body.fecha, comentario = _req$body.comentario, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, siniestroid = _req$body.siniestroid;
             _context2.prev = 1;
             _context2.next = 4;
             return _SiniestroSeguimiento["default"].create({
@@ -88,7 +92,7 @@ function _createSiniestroSeguimiento() {
               comentario: comentario,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
+              fecharegistro: new Date(),
               fechamodificacion: new Date(),
               estado: 'ACT',
               siniestroid: siniestroid
