@@ -11,8 +11,7 @@ var _database = require("../database/database");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var uuid = require('uuid/v4');
-
+//const uuid = require('uuid/v4');
 var SucursalUsuario = _database.sequelize.define('SucursalUsuario', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),

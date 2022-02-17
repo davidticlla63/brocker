@@ -3,12 +3,15 @@ const { QueryTypes } = require('sequelize');
 import Archivo from "../models/Archivo";
 
 export async function getArchivos(req, res) {
+    //console.log('getArchivos');
     const { codigo } = req.params;
     try {
-        const archivos = await Archivo.findAll({ where: { estado: 'ACT' ,codigo}});
-        res.json({
-            data: archivos
-        });
+        if (codigo) {
+            const archivos = await Archivo.findAll({ where: { estado: 'ACT', codigo } });
+            res.json({
+                data: archivos
+            });
+        }
     } catch (e) {
         console.log(e);
     }
@@ -18,22 +21,23 @@ export async function getArchivos(req, res) {
 
 export async function getArchivosCodigo(req, res) {
     try {
+        //console.log('getArchivosCodigo');
         const { codigo } = req.params;
         //const archivos = await Archivo.findAll({ where: { codigo,estado: 'ACT' }});
-        //console.log(archivos);
 
-
-        let query = "select a.*" +
-        "from archivo a " +
-        "where a.codigo='" + codigo + "' and a.estado='ACT' order by a.nombre ";
-    console.log(query)
-    const archivos = await sequelize.query(query
-        , {
-            type: QueryTypes.SELECT
-        });
-        res.json({
-            data: archivos
-        });
+        if (codigo) {
+            let query = "select a.*" +
+                "from archivo a " +
+                "where a.codigo='" + codigo + "' and a.estado='ACT' order by a.nombre ";
+            console.log(query)
+            const archivos = await sequelize.query(query
+                , {
+                    type: QueryTypes.SELECT
+                });
+            res.json({
+                data: archivos
+            });
+        }
     } catch (e) {
         console.log(e);
     }
@@ -41,7 +45,7 @@ export async function getArchivosCodigo(req, res) {
 export async function getArchivosXAsegurado(req, res) {
     try {
         const { aseguradoid } = req.params;
-        const archivos = await Archivo.findAll({ where: { aseguradoid,estado: 'ACT' }});
+        const archivos = await Archivo.findAll({ where: { aseguradoid, estado: 'ACT' } });
         res.json({
             data: archivos
         });
@@ -51,7 +55,7 @@ export async function getArchivosXAsegurado(req, res) {
 }
 export async function createArchivo(req, res) {
 
-    
+
     const {
         nombre,
         descripcion,
@@ -64,9 +68,9 @@ export async function createArchivo(req, res) {
         carpetaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion= new Date(),
-        estado='ACT' } = req.body;
+        fecharegistro = new Date(),
+        fechamodificacion = new Date(),
+        estado = 'ACT' } = req.body;
 
 
     try {
@@ -88,12 +92,12 @@ export async function createArchivo(req, res) {
             estado
         }, {
             fields: ['nombre', 'descripcion', 'extension',
-            'archivo',
-            'tipo',
-            'codigo',
-            'aseguradoid',
-            'carpetaid',
-            'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'archivo',
+                'tipo',
+                'codigo',
+                'aseguradoid',
+                'carpetaid',
+                'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado']
         });
         if (newArchivo) {
@@ -132,8 +136,8 @@ export async function getOneArchivo(req, res) {
 export async function deleteArchivo(req, res) {
     try {
         const { id } = req.params;
-        const deleteRowCount = await Archivo.update({  estado:'ACT'},{
-          
+        const deleteRowCount = await Archivo.update({ estado: 'ACT' }, {
+
             where: {
                 id
             }
@@ -182,7 +186,7 @@ export async function updateArchivo(req, res) {
             fecharegistro,
             fechamodificacion,
             estado
-        },{
+        }, {
             where: {
                 id
             }
@@ -198,7 +202,7 @@ export async function updateArchivo(req, res) {
             message: 'Archivo update successfully',
             count: archivos
         });
-       
+
 
 
 
@@ -214,19 +218,19 @@ export async function updateArchivo(req, res) {
 export async function bajaArchivo(req, res) {
     const { id } = req.params;
 
-   console.log("bajaArchivo");
-    const { 
-   //    id,
+    console.log("bajaArchivo");
+    const {
+        //    id,
         usuariomodificacion
-         } = req.body;
+    } = req.body;
     try {
-       // var moment = require('moment');
-        const updateRowCount = await Archivo.update({   
+        // var moment = require('moment');
+        const updateRowCount = await Archivo.update({
             usuariomodificacion,
-           /*  fechamodificacion:moment().format(), */
-           fechamodificacion:new Date(),
-            estado:'BAJ'
-        },{
+            /*  fechamodificacion:moment().format(), */
+            fechamodificacion: new Date(),
+            estado: 'BAJ'
+        }, {
             where: {
                 id
             }
@@ -236,14 +240,14 @@ export async function bajaArchivo(req, res) {
             where: {
                 id
             }
-        } 
+        }
         );
-        
+
         res.json({
             message: 'Archivo baja successfully',
             count: archivos
         });
-       
+
 
 
 

@@ -36,9 +36,16 @@ function _getArchivos() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            //console.log('getArchivos');
             codigo = req.params.codigo;
             _context.prev = 1;
-            _context.next = 4;
+
+            if (!codigo) {
+              _context.next = 7;
+              break;
+            }
+
+            _context.next = 5;
             return _Archivo["default"].findAll({
               where: {
                 estado: 'ACT',
@@ -46,25 +53,27 @@ function _getArchivos() {
               }
             });
 
-          case 4:
+          case 5:
             archivos = _context.sent;
             res.json({
               data: archivos
             });
-            _context.next = 11;
+
+          case 7:
+            _context.next = 12;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](1);
             console.log(_context.t0);
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 8]]);
+    }, _callee, null, [[1, 9]]);
   }));
   return _getArchivos.apply(this, arguments);
 }
@@ -81,35 +90,42 @@ function _getArchivosCodigo() {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
+            //console.log('getArchivosCodigo');
             codigo = req.params.codigo; //const archivos = await Archivo.findAll({ where: { codigo,estado: 'ACT' }});
-            //console.log(archivos);
+
+            if (!codigo) {
+              _context2.next = 9;
+              break;
+            }
 
             query = "select a.*" + "from archivo a " + "where a.codigo='" + codigo + "' and a.estado='ACT' order by a.nombre ";
             console.log(query);
-            _context2.next = 6;
+            _context2.next = 7;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 7:
             archivos = _context2.sent;
             res.json({
               data: archivos
             });
-            _context2.next = 13;
+
+          case 9:
+            _context2.next = 14;
             break;
 
-          case 10:
-            _context2.prev = 10;
+          case 11:
+            _context2.prev = 11;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 10]]);
+    }, _callee2, null, [[0, 11]]);
   }));
   return _getArchivosCodigo.apply(this, arguments);
 }

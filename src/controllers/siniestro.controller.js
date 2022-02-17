@@ -4,7 +4,7 @@ import Siniestro from "../models/Siniestro";
 
 export async function getSiniestros(req, res) {
     try {
-        const siniestros = await Siniestro.findAll({ where: { estado: 'ACT' }});
+        const siniestros = await Siniestro.findAll({ where: { estado: 'ACT' } });
         res.json({
             data: siniestros
         });
@@ -38,23 +38,23 @@ export async function createSiniestro(req, res) {
             fechasiniestro,
             comentarioinicial,
             resumenejecutivo,
-            resumenfinalsiniestro:resumenfinal,
+            resumenfinalsiniestro: resumenfinal,
             montoindemnizar,
-            fecharecordatorio:fecharecordatoria,
-            notarecordatorio:notarecordatoria,
-            tipo:tpoliza,
-            estadosiniestro:status,
+            fecharecordatorio: fecharecordatoria,
+            notarecordatorio: notarecordatoria,
+            tipo: tpoliza,
+            estadosiniestro: status,
             encargadoid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
-            estado:'ACT',
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
+            estado: 'ACT',
             idpolizadetalle,
             polizaid,
             sucursalid
         }, {
-            fields: [ 'fechanotificacion',
+            fields: ['fechanotificacion',
                 'fechasiniestro',
                 'comentarioinicial',
                 'resumenejecutivo',
@@ -112,20 +112,20 @@ export async function updateSiniestro(req, res) {
             fechasiniestro,
             comentarioinicial,
             resumenejecutivo,
-            resumenfinalsiniestro:resumenfinal,
+            resumenfinalsiniestro: resumenfinal,
             montoindemnizar,
-            fecharecordatorio:fecharecordatoria,
-            notarecordatorio:notarecordatoria,
-            tipo:tpoliza,
-            estadosiniestro:status,
+            fecharecordatorio: fecharecordatoria,
+            notarecordatorio: notarecordatoria,
+            tipo: tpoliza,
+            estadosiniestro: status,
             encargadoid,
             usuarioregistro,
             usuariomodificacion,
-            fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             idpolizadetalle,
             polizaid,
             sucursalid
-        },{
+        }, {
             where: {
                 id
             }
@@ -141,7 +141,7 @@ export async function updateSiniestro(req, res) {
             message: 'Siniestro update successfully',
             count: siniestros
         });
-       
+
 
 
 
@@ -192,19 +192,19 @@ export async function deleteSiniestro(req, res) {
 export async function bajaSiniestro(req, res) {
     const { id } = req.params;
 
-   console.log("bajaSiniestro");
-    const { 
-   //    id,
+    console.log("bajaSiniestro");
+    const {
+        //    id,
         usuariomodificacion
-         } = req.body;
+    } = req.body;
     try {
-       // var moment = require('moment');
-        const updateRowCount = await Siniestro.update({   
+        // var moment = require('moment');
+        const updateRowCount = await Siniestro.update({
             usuariomodificacion,
-           /*  fechamodificacion:moment().format(), */
-           fechamodificacion:new Date(),
-            estado:'BAJ'
-        },{
+            /*  fechamodificacion:moment().format(), */
+            fechamodificacion: new Date(),
+            estado: 'BAJ'
+        }, {
             where: {
                 id
             }
@@ -214,14 +214,14 @@ export async function bajaSiniestro(req, res) {
             where: {
                 id
             }
-        } 
+        }
         );
-        
+
         res.json({
             message: 'Siniestro baja successfully',
             count: siniestros
         });
-       
+
 
 
 
@@ -237,10 +237,10 @@ export async function getSiniestroPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+        const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from siniestro ss " +
-            "inner join poliza p on p.id = ss.polizaid "+
+            "inner join poliza p on p.id = ss.polizaid " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
@@ -268,10 +268,10 @@ export async function getSiniestroPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante "+
-        " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+        const siniestros = await sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante " +
+            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from siniestro ss " +
-            "inner join poliza p on p.id = ss.polizaid "+
+            "inner join poliza p on p.id = ss.polizaid " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
             "inner join sub_ramo sr on sr.id=rc.subramoid " +
@@ -287,6 +287,54 @@ export async function getSiniestroPorEmpresa(req, res) {
         //console.log(JSON.stringify(usuarios[0], null, 2));
 
         res.json({ siniestros });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+export async function getTotalSiniestrosPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+        let query = "select count(*) cantidad from siniestro si " +
+            "inner join sucursal s on s.id =si.sucursalid  " +
+            "inner join empresa e on e.id =s.empresaid " +
+            "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({
+            data: pagos
+        }
+        );
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+export async function getTotalSiniestrosPorSucursal(req, res) {
+    const { sucursalid } = req.params;
+    try {
+        let query = "select count(*) cantidad from siniestro si  " +
+            "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+            res.json({
+                data: pagos
+            })
     } catch (e) {
         console.log(e);
         res.status(500).json({

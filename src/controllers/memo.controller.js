@@ -871,3 +871,58 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
         });
     }
 }
+
+
+
+
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+export async function getTotalProduccionMemoPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+        let query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado "+
+            "from memo m  " +
+            " inner join poliza p on p.id=m.polizaid  "
+            "inner join sucursal s on s.id =si.sucursalid  " +
+            "inner join empresa e on e.id =s.empresaid " +
+            " where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({
+            data: pagos
+        }
+        );
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+export async function getTotalProduccionMemoPorSucursal(req, res) {
+    const { sucursalid } = req.params;
+    try {
+
+            let query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado "+
+            "from memo m  " +
+            " inner join poliza p on p.id=m.polizaid  "
+            " where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+            res.json({
+                data: pagos
+            })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}

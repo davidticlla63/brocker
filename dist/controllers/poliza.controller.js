@@ -28,6 +28,12 @@ exports.getPolizasPorSucursal = getPolizasPorSucursal;
 exports.getPolizasPorEmpresa = getPolizasPorEmpresa;
 exports.getPolizasPorSucursalYTipo = getPolizasPorSucursalYTipo;
 exports.getPolizasPorEmpresaYTipo = getPolizasPorEmpresaYTipo;
+exports.getPolizasDetalleAutomotorPorSucursalYTipo = getPolizasDetalleAutomotorPorSucursalYTipo;
+exports.getPolizasDetalleAutomotorPorEmpresaYTipo = getPolizasDetalleAutomotorPorEmpresaYTipo;
+exports.getPolizasDetalleGeneralPorSucursalYTipo = getPolizasDetalleGeneralPorSucursalYTipo;
+exports.getPolizasDetalleGeneralPorEmpresaYTipo = getPolizasDetalleGeneralPorEmpresaYTipo;
+exports.getPolizasDetalleSaludPorSucursalYTipo = getPolizasDetalleSaludPorSucursalYTipo;
+exports.getPolizasDetalleSaludPorEmpresaYTipo = getPolizasDetalleSaludPorEmpresaYTipo;
 
 var _database = require("../database/database");
 
@@ -56,6 +62,8 @@ var _require = require('sequelize'),
 function getPolizas(_x, _x2) {
   return _getPolizas.apply(this, arguments);
 }
+/** automotor */
+
 
 function _getPolizas() {
   _getPolizas = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
@@ -366,6 +374,8 @@ function _createPoliza() {
 function updatePoliza(_x5, _x6) {
   return _updatePoliza.apply(this, arguments);
 }
+/** salud */
+
 
 function _updatePoliza() {
   _updatePoliza = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
@@ -894,6 +904,8 @@ function _createPolizaSalud() {
 function updatePolizaSalud(_x9, _x10) {
   return _updatePolizaSalud.apply(this, arguments);
 }
+/** automotor */
+
 
 function _updatePolizaSalud() {
   _updatePolizaSalud = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
@@ -1802,6 +1814,8 @@ function _deletePoliza() {
 function bajaPoliza(_x21, _x22) {
   return _bajaPoliza.apply(this, arguments);
 }
+/**consultas de polizas */
+
 
 function _bajaPoliza() {
   _bajaPoliza = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
@@ -2570,6 +2584,8 @@ function _getPolizasPorSucursalYTipo() {
 function getPolizasPorEmpresaYTipo(_x49, _x50) {
   return _getPolizasPorEmpresaYTipo.apply(this, arguments);
 }
+/**busquedas por detalle */
+
 
 function _getPolizasPorEmpresaYTipo() {
   _getPolizasPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee25(req, res) {
@@ -2615,4 +2631,292 @@ function _getPolizasPorEmpresaYTipo() {
     }, _callee25, null, [[1, 8]]);
   }));
   return _getPolizasPorEmpresaYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleAutomotorPorSucursalYTipo(_x51, _x52) {
+  return _getPolizasDetalleAutomotorPorSucursalYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleAutomotorPorSucursalYTipo() {
+  _getPolizasDetalleAutomotorPorSucursalYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee26(req, res) {
+    var _req$params9, dato, sucursalid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee26$(_context26) {
+      while (1) {
+        switch (_context26.prev = _context26.next) {
+          case 0:
+            _req$params9 = req.params, dato = _req$params9.dato, sucursalid = _req$params9.sucursalid, tipopolizaid = _req$params9.tipopolizaid;
+            _context26.prev = 1;
+            _context26.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%') s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context26.sent;
+            res.json({
+              data: polizas
+            });
+            _context26.next = 12;
+            break;
+
+          case 8:
+            _context26.prev = 8;
+            _context26.t0 = _context26["catch"](1);
+            console.log(_context26.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context26.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context26.stop();
+        }
+      }
+    }, _callee26, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleAutomotorPorSucursalYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleAutomotorPorEmpresaYTipo(_x53, _x54) {
+  return _getPolizasDetalleAutomotorPorEmpresaYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleAutomotorPorEmpresaYTipo() {
+  _getPolizasDetalleAutomotorPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee27(req, res) {
+    var _req$params10, dato, empresaid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee27$(_context27) {
+      while (1) {
+        switch (_context27.prev = _context27.next) {
+          case 0:
+            _req$params10 = req.params, dato = _req$params10.dato, empresaid = _req$params10.empresaid, tipopolizaid = _req$params10.tipopolizaid;
+            _context27.prev = 1;
+            _context27.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join empresa e on e.id =s.empresaid  " + "where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%') e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context27.sent;
+            res.json({
+              data: polizas
+            });
+            _context27.next = 12;
+            break;
+
+          case 8:
+            _context27.prev = 8;
+            _context27.t0 = _context27["catch"](1);
+            console.log(_context27.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context27.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context27.stop();
+        }
+      }
+    }, _callee27, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleAutomotorPorEmpresaYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleGeneralPorSucursalYTipo(_x55, _x56) {
+  return _getPolizasDetalleGeneralPorSucursalYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleGeneralPorSucursalYTipo() {
+  _getPolizasDetalleGeneralPorSucursalYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28(req, res) {
+    var _req$params11, dato, sucursalid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee28$(_context28) {
+      while (1) {
+        switch (_context28.prev = _context28.next) {
+          case 0:
+            _req$params11 = req.params, dato = _req$params11.dato, sucursalid = _req$params11.sucursalid, tipopolizaid = _req$params11.tipopolizaid;
+            _context28.prev = 1;
+            _context28.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context28.sent;
+            res.json({
+              data: polizas
+            });
+            _context28.next = 12;
+            break;
+
+          case 8:
+            _context28.prev = 8;
+            _context28.t0 = _context28["catch"](1);
+            console.log(_context28.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context28.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context28.stop();
+        }
+      }
+    }, _callee28, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleGeneralPorSucursalYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleGeneralPorEmpresaYTipo(_x57, _x58) {
+  return _getPolizasDetalleGeneralPorEmpresaYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleGeneralPorEmpresaYTipo() {
+  _getPolizasDetalleGeneralPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29(req, res) {
+    var _req$params12, dato, empresaid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee29$(_context29) {
+      while (1) {
+        switch (_context29.prev = _context29.next) {
+          case 0:
+            _req$params12 = req.params, dato = _req$params12.dato, empresaid = _req$params12.empresaid, tipopolizaid = _req$params12.tipopolizaid;
+            _context29.prev = 1;
+            _context29.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join empresa e on e.id =s.empresaid  " + "where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context29.sent;
+            res.json({
+              data: polizas
+            });
+            _context29.next = 12;
+            break;
+
+          case 8:
+            _context29.prev = 8;
+            _context29.t0 = _context29["catch"](1);
+            console.log(_context29.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context29.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context29.stop();
+        }
+      }
+    }, _callee29, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleGeneralPorEmpresaYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleSaludPorSucursalYTipo(_x59, _x60) {
+  return _getPolizasDetalleSaludPorSucursalYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleSaludPorSucursalYTipo() {
+  _getPolizasDetalleSaludPorSucursalYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30(req, res) {
+    var _req$params13, dato, sucursalid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee30$(_context30) {
+      while (1) {
+        switch (_context30.prev = _context30.next) {
+          case 0:
+            _req$params13 = req.params, dato = _req$params13.dato, sucursalid = _req$params13.sucursalid, tipopolizaid = _req$params13.tipopolizaid;
+            _context30.prev = 1;
+            _context30.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' ) s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context30.sent;
+            res.json({
+              data: polizas
+            });
+            _context30.next = 12;
+            break;
+
+          case 8:
+            _context30.prev = 8;
+            _context30.t0 = _context30["catch"](1);
+            console.log(_context30.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context30.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context30.stop();
+        }
+      }
+    }, _callee30, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleSaludPorSucursalYTipo.apply(this, arguments);
+}
+
+function getPolizasDetalleSaludPorEmpresaYTipo(_x61, _x62) {
+  return _getPolizasDetalleSaludPorEmpresaYTipo.apply(this, arguments);
+}
+
+function _getPolizasDetalleSaludPorEmpresaYTipo() {
+  _getPolizasDetalleSaludPorEmpresaYTipo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31(req, res) {
+    var _req$params14, dato, empresaid, tipopolizaid, polizas;
+
+    return regeneratorRuntime.wrap(function _callee31$(_context31) {
+      while (1) {
+        switch (_context31.prev = _context31.next) {
+          case 0:
+            _req$params14 = req.params, dato = _req$params14.dato, empresaid = _req$params14.empresaid, tipopolizaid = _req$params14.tipopolizaid;
+            _context31.prev = 1;
+            _context31.next = 4;
+            return _database.sequelize.query("select p.*" + "from poliza p " + "inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join empresa e on e.id =s.empresaid  " + "where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' ) e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            polizas = _context31.sent;
+            res.json({
+              data: polizas
+            });
+            _context31.next = 12;
+            break;
+
+          case 8:
+            _context31.prev = 8;
+            _context31.t0 = _context31["catch"](1);
+            console.log(_context31.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context31.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context31.stop();
+        }
+      }
+    }, _callee31, null, [[1, 8]]);
+  }));
+  return _getPolizasDetalleSaludPorEmpresaYTipo.apply(this, arguments);
 }

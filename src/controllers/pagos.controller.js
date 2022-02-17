@@ -72,42 +72,43 @@ export async function crearPagos(req, res) {
     const {
         pagos } = req.body;
     let t;
-    const listaPagos= []
+    const listaPagos = []
     try {
         //const transaction= sequelize.transaction;
         let newPagos
         t = await sequelize.transaction();
         for (let i = 0; i < pagos.length; i++) {
-            newPagos = await Pagos.create({
-                //titular: pagos[i].titular,
+            if (pagos[i].monto > 0) {
+                newPagos = await Pagos.create({
+                    //titular: pagos[i].titular,
+                    montobs: pagos[i].monto,
+                    montousd: pagos[i].monto,
+                    comisionbs: 0,
+                    comisionusd: 0,
+                    planpagoid: pagos[i].planpagoid,
+                    sucursalid: pagos[i].sucursalid,
+                    usuarioregistro: pagos[i].usuarioregistro,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT',
+                    tipo: pagos[i].tipo
+                }, {
+                    fields: ['montobs',
+                        'montousd',
+                        'comisionbs',
+                        'comisionusd',
+                        'planpagoid',
+                        'sucursalid',
+                        'usuarioregistro',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado',
+                        'tipo'
+                    ]
+                }, { transaction: t });
 
-                montobs: pagos[i].monto,
-                montousd: pagos[i].monto,
-                comisionbs: 0,
-                comisionusd: 0,
-                planpagoid: pagos[i].planpagoid,
-                sucursalid: pagos[i].sucursalid,
-                usuarioregistro: pagos[i].usuarioregistro,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT',
-                tipo: pagos[i].tipo
-            }, {
-                fields: ['montobs',
-                    'montousd',
-                    'comisionbs',
-                    'comisionusd',
-                    'planpagoid',
-                    'sucursalid',
-                    'usuarioregistro',
-                    'fecharegistro',
-                    'fechamodificacion',
-                    'estado',
-                    'tipo'
-                ]
-            }, { transaction: t });
-
-            listaPagos.push(newPagos);
+                listaPagos.push(newPagos);
+            }
 
         }
         await t.commit();
@@ -555,18 +556,18 @@ export async function getPagosPorEmpresayCi(req, res) {
 
 export async function getPagosPorSucursal(req, res) {
     const { sucursalid } = req.params;
-    const { fechainicio,fechafin } = req.body;
+    const { fechainicio, fechafin } = req.body;
     console.log(sucursalid);
     try {
-const query="SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
-+"      from pagos pa " 
-+"      inner join plan_pago pp on pp.id=pa.planpagoid " 
-+"      inner join memo m on m.id=pp.memoid " 
-+"      inner join poliza p on p.id=m.polizaid " 
-+"      inner join sucursal s on s.id=m.sucursalid " 
-+"      inner join asegurado a on a.id=p.tomadorid " 
-+"      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and s.id='" +sucursalid + "'  order by pa.fechamodificacion asc";
-console.log(query);
+        const query = "SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal "
+            + "      from pagos pa "
+            + "      inner join plan_pago pp on pp.id=pa.planpagoid "
+            + "      inner join memo m on m.id=pp.memoid "
+            + "      inner join poliza p on p.id=m.polizaid "
+            + "      inner join sucursal s on s.id=m.sucursalid "
+            + "      inner join asegurado a on a.id=p.tomadorid "
+            + "      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and s.id='" + sucursalid + "'  order by pa.fechamodificacion asc";
+        console.log(query);
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -581,23 +582,69 @@ console.log(query);
 }
 
 export async function getPagosPorEmpresa(req, res) {
-    const { empresaid} = req.params;
-    const { fechainicio,fechafin } = req.body;
+    const { empresaid } = req.params;
+    const { fechainicio, fechafin } = req.body;
     try {
-const query="SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal " 
-+"      from pagos pa " 
-+"      inner join plan_pago pp on pp.id=pa.planpagoid " 
-+"      inner join memo m on m.id=pp.memoid " 
-+"      inner join poliza p on p.id=m.polizaid " 
-+"      inner join sucursal s on s.id=m.sucursalid " 
-+"      inner join asegurado a on a.id=p.tomadorid " 
-+"      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and s.empresaid='" +empresaid + "'  order by pa.fechamodificacion asc";
-//console.log(query);
+        const query = "SELECT pa.montobs,pa.montousd,pa.fecharegistro,pa.fechamodificacion,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto ,case when pa.tipo='I' then 'Ingreso'  else 'Egreso' end tipo,p.tipoemision,s.nombre as sucursal "
+            + "      from pagos pa "
+            + "      inner join plan_pago pp on pp.id=pa.planpagoid "
+            + "      inner join memo m on m.id=pp.memoid "
+            + "      inner join poliza p on p.id=m.polizaid "
+            + "      inner join sucursal s on s.id=m.sucursalid "
+            + "      inner join asegurado a on a.id=p.tomadorid "
+            + "      where pa.estado='ACT' and pa.montousd>0 and to_char(pa.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(pa.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and s.empresaid='" + empresaid + "'  order by pa.fechamodificacion asc";
+        //console.log(query);
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
             });
         res.json({ pagos });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+export async function getTotalPagosPorEmpresa(req, res) {
+    const { empresaid } = req.params;
+    try {
+        let query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p "+
+        "inner join sucursal s on s.id =p.sucursalid "+
+        "inner join empresa e on e.id =s.empresaid "+
+        "where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and e.id ='" + empresaid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+            res.json({
+                data: pagos
+            });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+export async function getTotalPagosPorSucursal(req, res) {
+    const { sucursalid } = req.params;
+    try {
+        let query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p "+
+        "where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and p.sucursalid ='" + sucursalid + "'";
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+            res.json({
+                data: pagos
+            });
     } catch (e) {
         console.log(e);
         res.status(500).json({

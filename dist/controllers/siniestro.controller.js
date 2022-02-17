@@ -11,6 +11,8 @@ exports.deleteSiniestro = deleteSiniestro;
 exports.bajaSiniestro = bajaSiniestro;
 exports.getSiniestroPorSucursal = getSiniestroPorSucursal;
 exports.getSiniestroPorEmpresa = getSiniestroPorEmpresa;
+exports.getTotalSiniestrosPorEmpresa = getTotalSiniestrosPorEmpresa;
+exports.getTotalSiniestrosPorSucursal = getTotalSiniestrosPorSucursal;
 
 var _database = require("../database/database");
 
@@ -434,6 +436,8 @@ function _getSiniestroPorSucursal() {
 function getSiniestroPorEmpresa(_x15, _x16) {
   return _getSiniestroPorEmpresa.apply(this, arguments);
 }
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+
 
 function _getSiniestroPorEmpresa() {
   _getSiniestroPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
@@ -477,4 +481,102 @@ function _getSiniestroPorEmpresa() {
     }, _callee8, null, [[1, 8]]);
   }));
   return _getSiniestroPorEmpresa.apply(this, arguments);
+}
+
+function getTotalSiniestrosPorEmpresa(_x17, _x18) {
+  return _getTotalSiniestrosPorEmpresa.apply(this, arguments);
+}
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+
+
+function _getTotalSiniestrosPorEmpresa() {
+  _getTotalSiniestrosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
+    var empresaid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context9.prev = 1;
+            query = "select count(*) cantidad from siniestro si " + "inner join sucursal s on s.id =si.sucursalid  " + "inner join empresa e on e.id =s.empresaid " + "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
+            _context9.next = 5;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            pagos = _context9.sent;
+            res.json({
+              data: pagos
+            });
+            _context9.next = 13;
+            break;
+
+          case 9:
+            _context9.prev = 9;
+            _context9.t0 = _context9["catch"](1);
+            console.log(_context9.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context9.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9, null, [[1, 9]]);
+  }));
+  return _getTotalSiniestrosPorEmpresa.apply(this, arguments);
+}
+
+function getTotalSiniestrosPorSucursal(_x19, _x20) {
+  return _getTotalSiniestrosPorSucursal.apply(this, arguments);
+}
+
+function _getTotalSiniestrosPorSucursal() {
+  _getTotalSiniestrosPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var sucursalid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            sucursalid = req.params.sucursalid;
+            _context10.prev = 1;
+            query = "select count(*) cantidad from siniestro si  " + "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
+            _context10.next = 5;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            pagos = _context10.sent;
+            res.json({
+              data: pagos
+            });
+            _context10.next = 13;
+            break;
+
+          case 9:
+            _context10.prev = 9;
+            _context10.t0 = _context10["catch"](1);
+            console.log(_context10.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context10.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[1, 9]]);
+  }));
+  return _getTotalSiniestrosPorSucursal.apply(this, arguments);
 }

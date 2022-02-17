@@ -21,6 +21,8 @@ exports.getPagosPorSucursalyCi = getPagosPorSucursalyCi;
 exports.getPagosPorEmpresayCi = getPagosPorEmpresayCi;
 exports.getPagosPorSucursal = getPagosPorSucursal;
 exports.getPagosPorEmpresa = getPagosPorEmpresa;
+exports.getTotalPagosPorEmpresa = getTotalPagosPorEmpresa;
+exports.getTotalPagosPorSucursal = getTotalPagosPorSucursal;
 
 var _database = require("../database/database");
 
@@ -171,11 +173,16 @@ function _crearPagos() {
 
           case 7:
             if (!(i < pagos.length)) {
-              _context3.next = 15;
+              _context3.next = 16;
               break;
             }
 
-            _context3.next = 10;
+            if (!(pagos[i].monto > 0)) {
+              _context3.next = 13;
+              break;
+            }
+
+            _context3.next = 11;
             return _Pagos["default"].create({
               //titular: pagos[i].titular,
               montobs: pagos[i].monto,
@@ -195,22 +202,22 @@ function _crearPagos() {
               transaction: t
             });
 
-          case 10:
+          case 11:
             newPagos = _context3.sent;
             listaPagos.push(newPagos);
 
-          case 12:
+          case 13:
             i++;
             _context3.next = 7;
             break;
 
-          case 15:
-            _context3.next = 17;
+          case 16:
+            _context3.next = 18;
             return t.commit();
 
-          case 17:
+          case 18:
             if (!listaPagos) {
-              _context3.next = 19;
+              _context3.next = 20;
               break;
             }
 
@@ -219,24 +226,24 @@ function _crearPagos() {
               data: listaPagos
             }));
 
-          case 19:
-            _context3.next = 28;
+          case 20:
+            _context3.next = 29;
             break;
 
-          case 21:
-            _context3.prev = 21;
+          case 22:
+            _context3.prev = 22;
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
 
             if (!t) {
-              _context3.next = 27;
+              _context3.next = 28;
               break;
             }
 
-            _context3.next = 27;
+            _context3.next = 28;
             return t.rollback();
 
-          case 27:
+          case 28:
             res.status(500).json({
               data: {
                 estado: false,
@@ -244,12 +251,12 @@ function _crearPagos() {
               }
             });
 
-          case 28:
+          case 29:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 21]]);
+    }, _callee3, null, [[2, 22]]);
   }));
   return _crearPagos.apply(this, arguments);
 }
@@ -972,6 +979,8 @@ function _getPagosPorSucursal() {
 function getPagosPorEmpresa(_x35, _x36) {
   return _getPagosPorEmpresa.apply(this, arguments);
 }
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+
 
 function _getPagosPorEmpresa() {
   _getPagosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(req, res) {
@@ -1018,4 +1027,102 @@ function _getPagosPorEmpresa() {
     }, _callee18, null, [[2, 10]]);
   }));
   return _getPagosPorEmpresa.apply(this, arguments);
+}
+
+function getTotalPagosPorEmpresa(_x37, _x38) {
+  return _getTotalPagosPorEmpresa.apply(this, arguments);
+}
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+
+
+function _getTotalPagosPorEmpresa() {
+  _getTotalPagosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(req, res) {
+    var empresaid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee19$(_context19) {
+      while (1) {
+        switch (_context19.prev = _context19.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context19.prev = 1;
+            query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p " + "inner join sucursal s on s.id =p.sucursalid " + "inner join empresa e on e.id =s.empresaid " + "where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and e.id ='" + empresaid + "'";
+            _context19.next = 5;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            pagos = _context19.sent;
+            res.json({
+              data: pagos
+            });
+            _context19.next = 13;
+            break;
+
+          case 9:
+            _context19.prev = 9;
+            _context19.t0 = _context19["catch"](1);
+            console.log(_context19.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context19.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context19.stop();
+        }
+      }
+    }, _callee19, null, [[1, 9]]);
+  }));
+  return _getTotalPagosPorEmpresa.apply(this, arguments);
+}
+
+function getTotalPagosPorSucursal(_x39, _x40) {
+  return _getTotalPagosPorSucursal.apply(this, arguments);
+}
+
+function _getTotalPagosPorSucursal() {
+  _getTotalPagosPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(req, res) {
+    var sucursalid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee20$(_context20) {
+      while (1) {
+        switch (_context20.prev = _context20.next) {
+          case 0:
+            sucursalid = req.params.sucursalid;
+            _context20.prev = 1;
+            query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p " + "where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and p.sucursalid ='" + sucursalid + "'";
+            _context20.next = 5;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            pagos = _context20.sent;
+            res.json({
+              data: pagos
+            });
+            _context20.next = 13;
+            break;
+
+          case 9:
+            _context20.prev = 9;
+            _context20.t0 = _context20["catch"](1);
+            console.log(_context20.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context20.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context20.stop();
+        }
+      }
+    }, _callee20, null, [[1, 9]]);
+  }));
+  return _getTotalPagosPorSucursal.apply(this, arguments);
 }

@@ -15,6 +15,8 @@ exports.getMemoPorTipoYSucursal = getMemoPorTipoYSucursal;
 exports.getMemosPorTipoYEmpresa = getMemosPorTipoYEmpresa;
 exports.getMemosPorTipoRamoYEmpresa = getMemosPorTipoRamoYEmpresa;
 exports.getMemosPorTipoRamoYSucursal = getMemosPorTipoRamoYSucursal;
+exports.getTotalProduccionMemoPorEmpresa = getTotalProduccionMemoPorEmpresa;
+exports.getTotalProduccionMemoPorSucursal = getTotalProduccionMemoPorSucursal;
 
 var _database = require("../database/database");
 
@@ -1056,6 +1058,8 @@ function _getMemosPorTipoRamoYEmpresa() {
 function getMemosPorTipoRamoYSucursal(_x23, _x24) {
   return _getMemosPorTipoRamoYSucursal.apply(this, arguments);
 }
+/**MONTOS TOTALES PARA DASHBOARD  POR EMPRESA*/
+
 
 function _getMemosPorTipoRamoYSucursal() {
   _getMemosPorTipoRamoYSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(req, res) {
@@ -1103,4 +1107,104 @@ function _getMemosPorTipoRamoYSucursal() {
     }, _callee12, null, [[1, 8]]);
   }));
   return _getMemosPorTipoRamoYSucursal.apply(this, arguments);
+}
+
+function getTotalProduccionMemoPorEmpresa(_x25, _x26) {
+  return _getTotalProduccionMemoPorEmpresa.apply(this, arguments);
+}
+/** MONTOS TOTALES PARA DASHBOARD  POR SUCURSAL*/
+
+
+function _getTotalProduccionMemoPorEmpresa() {
+  _getTotalProduccionMemoPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(req, res) {
+    var empresaid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      while (1) {
+        switch (_context13.prev = _context13.next) {
+          case 0:
+            empresaid = req.params.empresaid;
+            _context13.prev = 1;
+            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado " + "from memo m  " + " inner join poliza p on p.id=m.polizaid  ";
+            "inner join sucursal s on s.id =si.sucursalid  " + "inner join empresa e on e.id =s.empresaid " + " where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
+            _context13.next = 6;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 6:
+            pagos = _context13.sent;
+            res.json({
+              data: pagos
+            });
+            _context13.next = 14;
+            break;
+
+          case 10:
+            _context13.prev = 10;
+            _context13.t0 = _context13["catch"](1);
+            console.log(_context13.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context13.t0.message
+              }
+            });
+
+          case 14:
+          case "end":
+            return _context13.stop();
+        }
+      }
+    }, _callee13, null, [[1, 10]]);
+  }));
+  return _getTotalProduccionMemoPorEmpresa.apply(this, arguments);
+}
+
+function getTotalProduccionMemoPorSucursal(_x27, _x28) {
+  return _getTotalProduccionMemoPorSucursal.apply(this, arguments);
+}
+
+function _getTotalProduccionMemoPorSucursal() {
+  _getTotalProduccionMemoPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(req, res) {
+    var sucursalid, query, pagos;
+    return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      while (1) {
+        switch (_context14.prev = _context14.next) {
+          case 0:
+            sucursalid = req.params.sucursalid;
+            _context14.prev = 1;
+            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado " + "from memo m  " + " inner join poliza p on p.id=m.polizaid  ";
+            " where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
+            _context14.next = 6;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 6:
+            pagos = _context14.sent;
+            res.json({
+              data: pagos
+            });
+            _context14.next = 14;
+            break;
+
+          case 10:
+            _context14.prev = 10;
+            _context14.t0 = _context14["catch"](1);
+            console.log(_context14.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context14.t0.message
+              }
+            });
+
+          case 14:
+          case "end":
+            return _context14.stop();
+        }
+      }
+    }, _callee14, null, [[1, 10]]);
+  }));
+  return _getTotalProduccionMemoPorSucursal.apply(this, arguments);
 }

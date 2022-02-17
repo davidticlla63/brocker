@@ -36,4 +36,9 @@ router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', pagos.getPagosPorEmpresayCi)
 router.post('/pagoPorSucursal/:sucursalid', pagos.getPagosPorSucursal);
 router.post('/pagoPorEmpresa/:empresaid', pagos.getPagosPorEmpresa);
 
+
+
+/**dashoboard */
+router.get('/totalPagosPorEmpresa/:empresaid', pagos.getTotalPagosPorEmpresa);
+router.get('/totalPagosPorSucursal/:sucursalid', pagos.getTotalPagosPorSucursal);
 export default router;

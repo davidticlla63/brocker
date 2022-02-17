@@ -21,4 +21,9 @@ router.put('/:id', memos.updateMemo);
 router.put('/baja/:id', memos.bajaMemo);
 router.post('/memosPorEmpresa/:empresaid', memos.memosPorEmpresa);
 router.post('/memosPorSucursal/:sucursalid', memos.memosPorSucursal);
+
+/**dashoboard */
+router.get('/totalProduccionPorEmpresa/:empresaid', memos.getTotalProduccionMemoPorEmpresa);
+router.get('/totalProduccionPorSucursal/:sucursalid', memos.getTotalProduccionMemoPorSucursal);
+
 export default router;

@@ -178,11 +178,12 @@ app.use('/api/vendedors', _vendedor["default"]); //polizas
 
 app.use('/api/tipoPolizas', _tipoPoliza["default"]);
 app.use('/api/polizas', _poliza["default"]);
-app.use('/api/polizas/automotor', _polizaDetalle["default"]);
-app.use('/api/polizas/generals', _polizaDetalleGeneral["default"]);
-app.use('/api/polizas/personas', _polizaDetallePersona["default"]);
-app.use('/api/polizas/dependientes', _polizaDetallePersonaTitular["default"]);
-app.use('/api/polizas/adicionales', _polizaDetalleAdicional["default"]); //archivos
+/* app.use('/api/polizas/automotor', polizaDetalleRoutes);
+app.use('/api/polizas/generals', polizaDetalleGeneralRoutes);
+app.use('/api/polizas/personas', polizaDetallePersonaRoutes);
+app.use('/api/polizas/dependientes', polizaDetallePersonaTitularRoutes);
+app.use('/api/polizas/adicionales', polizaDetalleAdicionalRoutes); */
+//archivos
 
 app.use('/api/carpetas', _carpeta["default"]);
 app.use('/api/archivos', _archivo["default"]); //memos
