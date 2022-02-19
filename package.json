@@ -33,10 +33,10 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.0",
+    "@babel/cli": "^7.12.1",
     "@babel/core": "^7.13.8",
     "@babel/node": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.15"
   }
 }
