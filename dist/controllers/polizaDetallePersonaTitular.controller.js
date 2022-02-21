@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPolizaDetallePersonaTitulars = getPolizaDetallePersonaTitulars;
-exports.createPolizaDetallePersonaTitular = createPolizaDetallePersonaTitular;
-exports.updatePolizaDetallePersonaTitular = updatePolizaDetallePersonaTitular;
 exports.bajaPolizaDetallePersonaTitular = bajaPolizaDetallePersonaTitular;
-exports.getPolizaDetallePersonaTitularPorPoliza = getPolizaDetallePersonaTitularPorPoliza;
-exports.polizaDetallePersonaTitularsPorPoliza = polizaDetallePersonaTitularsPorPoliza;
+exports.createPolizaDetallePersonaTitular = createPolizaDetallePersonaTitular;
 exports.deletePolizaDetallePersonaTitular = deletePolizaDetallePersonaTitular;
+exports.getPolizaDetallePersonaTitularPorPoliza = getPolizaDetallePersonaTitularPorPoliza;
+exports.getPolizaDetallePersonaTitulars = getPolizaDetallePersonaTitulars;
+exports.polizaDetallePersonaTitularsPorPoliza = polizaDetallePersonaTitularsPorPoliza;
+exports.updatePolizaDetallePersonaTitular = updatePolizaDetallePersonaTitular;
 
 var _PolizaDetallePersonaTitular = _interopRequireDefault(require("../models/PolizaDetallePersonaTitular"));
 

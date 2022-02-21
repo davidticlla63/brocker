@@ -630,7 +630,7 @@ export async function memosPorSucursal(req, res) {
             }
         }); */
 
-        const memos = await sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre subramo,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
+        const memos = await sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
         " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago "+
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
@@ -639,7 +639,7 @@ export async function memosPorSucursal(req, res) {
             "inner join asegurado a on a.id=po.tomadorid  " +
             "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " +
             "inner join ramo r on r.id=src.ramoid  " +
-            "left join sub_ramo sr on sr.id=src.subramoid  " +
+            "left join ramo sr on sr.id=src.ramopadreid "+
             "inner join departamento d on d.id=po.ciudadexpedicion " +
             "inner join contratante co on co.id=po.contratanteid " +
             "inner join plan pl on pl.id=po.planid " +
@@ -667,7 +667,7 @@ export async function memosPorEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const { fechainicio, fechafin } = req.body;
-        const query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre subramo,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
+        const query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
         " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago "+
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
@@ -675,7 +675,7 @@ export async function memosPorEmpresa(req, res) {
             "inner join asegurado a on a.id=po.tomadorid  " +
             "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " +
             "inner join ramo r on r.id=src.ramoid  " +
-            "left join ramo sr on a.id=src.subramoid  " +
+            "left join ramo sr on sr.id=src.ramopadreid "+
 
             "inner join departamento d on d.id=po.ciudadexpedicion " +
             "inner join contratante co on co.id=po.contratanteid " +

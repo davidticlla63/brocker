@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaTipoRamo = bajaTipoRamo;
+exports.createTipoRamo = createTipoRamo;
+exports.deleteTipoRamo = deleteTipoRamo;
+exports.getOneTipoRamo = getOneTipoRamo;
 exports.getTipoRamos = getTipoRamos;
 exports.getTipoRamosPorEmpresa = getTipoRamosPorEmpresa;
-exports.createTipoRamo = createTipoRamo;
-exports.getOneTipoRamo = getOneTipoRamo;
-exports.deleteTipoRamo = deleteTipoRamo;
 exports.updateTipoRamo = updateTipoRamo;
-exports.bajaTipoRamo = bajaTipoRamo;
 
 var _TipoRamo = _interopRequireDefault(require("../models/TipoRamo"));
 

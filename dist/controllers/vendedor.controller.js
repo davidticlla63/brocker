@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getVendedors = getVendedors;
-exports.createVendedor = createVendedor;
-exports.getOneVendedor = getOneVendedor;
-exports.deleteVendedor = deleteVendedor;
-exports.updateVendedor = updateVendedor;
 exports.bajaVendedor = bajaVendedor;
+exports.createVendedor = createVendedor;
+exports.deleteVendedor = deleteVendedor;
+exports.getOneVendedor = getOneVendedor;
+exports.getVendedors = getVendedors;
+exports.updateVendedor = updateVendedor;
 
 var _Vendedor = _interopRequireDefault(require("../models/Vendedor"));
 

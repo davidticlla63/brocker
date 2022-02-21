@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTipoCambios = getTipoCambios;
-exports.createTipoCambio = createTipoCambio;
-exports.getOneTipoCambio = getOneTipoCambio;
-exports.deleteTipoCambio = deleteTipoCambio;
-exports.updateTipoCambio = updateTipoCambio;
 exports.bajaTipoCambio = bajaTipoCambio;
+exports.createTipoCambio = createTipoCambio;
+exports.deleteTipoCambio = deleteTipoCambio;
+exports.getOneTipoCambio = getOneTipoCambio;
+exports.getTipoCambios = getTipoCambios;
 exports.tipoCambioByEmpresa = tipoCambioByEmpresa;
+exports.updateTipoCambio = updateTipoCambio;
 
 var _Empresa = _interopRequireDefault(require("../models/Empresa"));
 

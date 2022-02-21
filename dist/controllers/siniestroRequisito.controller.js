@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSiniestroRequisitos = getSiniestroRequisitos;
-exports.createSiniestroRequisitos = createSiniestroRequisitos;
-exports.createSiniestroRequisito = createSiniestroRequisito;
-exports.updateSiniestroRequisito = updateSiniestroRequisito;
-exports.getOneSiniestroRequisito = getOneSiniestroRequisito;
-exports.deleteSiniestroRequisito = deleteSiniestroRequisito;
 exports.bajaSiniestroRequisito = bajaSiniestroRequisito;
+exports.createSiniestroRequisito = createSiniestroRequisito;
+exports.createSiniestroRequisitos = createSiniestroRequisitos;
+exports.deleteSiniestroRequisito = deleteSiniestroRequisito;
+exports.getOneSiniestroRequisito = getOneSiniestroRequisito;
+exports.getSiniestroRequisitos = getSiniestroRequisitos;
 exports.getSiniestroRequisitosPorSiniestro = getSiniestroRequisitosPorSiniestro;
+exports.updateSiniestroRequisito = updateSiniestroRequisito;
 
 var _database = require("../database/database");
 

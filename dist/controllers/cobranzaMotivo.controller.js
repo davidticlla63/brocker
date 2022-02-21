@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getCobranzaMotivos = getCobranzaMotivos;
-exports.createCobranzaMotivo = createCobranzaMotivo;
-exports.getOneCobranzaMotivo = getOneCobranzaMotivo;
-exports.deleteCobranzaMotivo = deleteCobranzaMotivo;
-exports.updateCobranzaMotivo = updateCobranzaMotivo;
 exports.bajaCobranzaMotivo = bajaCobranzaMotivo;
+exports.createCobranzaMotivo = createCobranzaMotivo;
+exports.deleteCobranzaMotivo = deleteCobranzaMotivo;
+exports.getCobranzaMotivos = getCobranzaMotivos;
 exports.getCobranzaMotivosPorPlanPago = getCobranzaMotivosPorPlanPago;
+exports.getOneCobranzaMotivo = getOneCobranzaMotivo;
+exports.updateCobranzaMotivo = updateCobranzaMotivo;
 
 var _CobranzaMotivo = _interopRequireDefault(require("../models/CobranzaMotivo"));
 

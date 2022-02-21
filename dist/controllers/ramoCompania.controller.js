@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRamoCompania = getRamoCompania;
-exports.createRamoCompania = createRamoCompania;
-exports.getOneRamoCompania = getOneRamoCompania;
-exports.deleteRamoCompania = deleteRamoCompania;
-exports.updateRamoCompania = updateRamoCompania;
 exports.bajaRamoCompania = bajaRamoCompania;
+exports.createRamoCompania = createRamoCompania;
+exports.deleteRamoCompania = deleteRamoCompania;
+exports.getOneRamoCompania = getOneRamoCompania;
+exports.getRamoCompania = getRamoCompania;
+exports.ramoCompaniaPorCompania = ramoCompaniaPorCompania;
 exports.ramoCompaniaPorEmpresa = ramoCompaniaPorEmpresa;
 exports.ramoCompaniaPorRamo = ramoCompaniaPorRamo;
-exports.ramoCompaniaPorCompania = ramoCompaniaPorCompania;
+exports.updateRamoCompania = updateRamoCompania;
 
 var _database = require("../database/database");
 

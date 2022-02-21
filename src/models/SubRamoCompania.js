@@ -8,7 +8,7 @@ const SubRamoCompania = sequelize.define('SubRamoCompania', {
         primaryKey: true
     },
     ramoid:Sequelize.STRING,
-    subramoid:Sequelize.STRING,
+    ramopadreid:Sequelize.STRING,
     companiaseguroid:Sequelize.STRING,
     porcentajecomision:Sequelize.DECIMAL,
     porcentajecomisioncredito:Sequelize.DECIMAL,
@@ -18,6 +18,7 @@ const SubRamoCompania = sequelize.define('SubRamoCompania', {
     notacredito:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
+    sucursalid:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
      estado: {

@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getCarpetas = getCarpetas;
-exports.createCarpeta = createCarpeta;
-exports.getOneCarpeta = getOneCarpeta;
-exports.deleteCarpeta = deleteCarpeta;
-exports.updateCarpeta = updateCarpeta;
 exports.bajaCarpeta = bajaCarpeta;
+exports.createCarpeta = createCarpeta;
+exports.deleteCarpeta = deleteCarpeta;
+exports.getCarpetas = getCarpetas;
+exports.getOneCarpeta = getOneCarpeta;
+exports.updateCarpeta = updateCarpeta;
 
 var _Carpeta = _interopRequireDefault(require("../models/Carpeta"));
 

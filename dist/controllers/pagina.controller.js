@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPaginas = getPaginas;
 exports.createPagina = createPagina;
-exports.getOnePagina = getOnePagina;
 exports.deletePagina = deletePagina;
+exports.getOnePagina = getOnePagina;
+exports.getPaginas = getPaginas;
 exports.updatePagina = updatePagina;
 
 var _Pagina = _interopRequireDefault(require("../models/Pagina"));

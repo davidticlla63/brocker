@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaPlan = bajaPlan;
+exports.createPlan = createPlan;
+exports.deletePlan = deletePlan;
+exports.getOnePlan = getOnePlan;
 exports.getPlans = getPlans;
 exports.getPlansPorCompania = getPlansPorCompania;
-exports.createPlan = createPlan;
-exports.getOnePlan = getOnePlan;
-exports.deletePlan = deletePlan;
 exports.updatePlan = updatePlan;
-exports.bajaPlan = bajaPlan;
 
 var _Plan = _interopRequireDefault(require("../models/Plan"));
 

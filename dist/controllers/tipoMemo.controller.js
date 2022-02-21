@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTipoMemos = getTipoMemos;
-exports.createTipoMemo = createTipoMemo;
-exports.getOneTipoMemo = getOneTipoMemo;
-exports.deleteTipoMemo = deleteTipoMemo;
-exports.updateTipoMemo = updateTipoMemo;
 exports.bajaTipoMemo = bajaTipoMemo;
+exports.createTipoMemo = createTipoMemo;
+exports.deleteTipoMemo = deleteTipoMemo;
+exports.getOneTipoMemo = getOneTipoMemo;
+exports.getTipoMemos = getTipoMemos;
+exports.updateTipoMemo = updateTipoMemo;
 
 var _TipoMemo = _interopRequireDefault(require("../models/TipoMemo"));
 

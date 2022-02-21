@@ -18,7 +18,7 @@ var SubRamoCompania = _database.sequelize.define('SubRamoCompania', {
     primaryKey: true
   },
   ramoid: _sequelize["default"].STRING,
-  subramoid: _sequelize["default"].STRING,
+  ramopadreid: _sequelize["default"].STRING,
   companiaseguroid: _sequelize["default"].STRING,
   porcentajecomision: _sequelize["default"].DECIMAL,
   porcentajecomisioncredito: _sequelize["default"].DECIMAL,
@@ -28,6 +28,7 @@ var SubRamoCompania = _database.sequelize.define('SubRamoCompania', {
   notacredito: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
+  sucursalid: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),
   fechamodificacion: _sequelize["default"].DATE(6),
   estado: {

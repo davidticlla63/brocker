@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPolizaDetalleGenerals = getPolizaDetalleGenerals;
-exports.createPolizaDetalleGeneral = createPolizaDetalleGeneral;
-exports.updatePolizaDetalleGeneral = updatePolizaDetalleGeneral;
 exports.bajaPolizaDetalleGeneral = bajaPolizaDetalleGeneral;
-exports.getPolizaDetalleGeneralPorPoliza = getPolizaDetalleGeneralPorPoliza;
-exports.polizaDetalleGeneralsPorPoliza = polizaDetalleGeneralsPorPoliza;
+exports.createPolizaDetalleGeneral = createPolizaDetalleGeneral;
 exports.deletePolizaDetalleGeneral = deletePolizaDetalleGeneral;
+exports.getPolizaDetalleGeneralPorPoliza = getPolizaDetalleGeneralPorPoliza;
+exports.getPolizaDetalleGenerals = getPolizaDetalleGenerals;
+exports.polizaDetalleGeneralsPorPoliza = polizaDetalleGeneralsPorPoliza;
+exports.updatePolizaDetalleGeneral = updatePolizaDetalleGeneral;
 
 var _PolizaDetalleGeneral = _interopRequireDefault(require("../models/PolizaDetalleGeneral"));
 

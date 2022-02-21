@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSiniestroSeguimientos = getSiniestroSeguimientos;
-exports.createSiniestroSeguimiento = createSiniestroSeguimiento;
-exports.updateSiniestroSeguimiento = updateSiniestroSeguimiento;
-exports.getOneSiniestroSeguimiento = getOneSiniestroSeguimiento;
-exports.deleteSiniestroSeguimiento = deleteSiniestroSeguimiento;
 exports.bajaSiniestroSeguimiento = bajaSiniestroSeguimiento;
+exports.createSiniestroSeguimiento = createSiniestroSeguimiento;
+exports.deleteSiniestroSeguimiento = deleteSiniestroSeguimiento;
+exports.getOneSiniestroSeguimiento = getOneSiniestroSeguimiento;
 exports.getSiniestroSeguimientoPorSucursal = getSiniestroSeguimientoPorSucursal;
+exports.getSiniestroSeguimientos = getSiniestroSeguimientos;
+exports.updateSiniestroSeguimiento = updateSiniestroSeguimiento;
 
 var _database = require("../database/database");
 

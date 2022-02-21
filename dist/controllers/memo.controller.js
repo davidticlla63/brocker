@@ -3,20 +3,20 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMemos = getMemos;
-exports.createMemo = createMemo;
-exports.updateMemo = updateMemo;
-exports.getOneMemo = getOneMemo;
-exports.memosPorSucursal = memosPorSucursal;
-exports.memosPorEmpresa = memosPorEmpresa;
-exports.deleteMemo = deleteMemo;
 exports.bajaMemo = bajaMemo;
+exports.createMemo = createMemo;
+exports.deleteMemo = deleteMemo;
 exports.getMemoPorTipoYSucursal = getMemoPorTipoYSucursal;
-exports.getMemosPorTipoYEmpresa = getMemosPorTipoYEmpresa;
+exports.getMemos = getMemos;
 exports.getMemosPorTipoRamoYEmpresa = getMemosPorTipoRamoYEmpresa;
 exports.getMemosPorTipoRamoYSucursal = getMemosPorTipoRamoYSucursal;
+exports.getMemosPorTipoYEmpresa = getMemosPorTipoYEmpresa;
+exports.getOneMemo = getOneMemo;
 exports.getTotalProduccionMemoPorEmpresa = getTotalProduccionMemoPorEmpresa;
 exports.getTotalProduccionMemoPorSucursal = getTotalProduccionMemoPorSucursal;
+exports.memosPorEmpresa = memosPorEmpresa;
+exports.memosPorSucursal = memosPorSucursal;
+exports.updateMemo = updateMemo;
 
 var _database = require("../database/database");
 
@@ -179,7 +179,7 @@ function _createMemo() {
                'encargadoid',
                'bancoid',
                'ciudadexpedicion',
-                 'broker',
+                  'broker',
                'notas',
                'companiaseguroid',
                'subramocompaniaid',
@@ -199,13 +199,13 @@ function _createMemo() {
                'tipoemision',
                'franquicia',
                'valorasegurado',
-                 'comisionbs',
+                  'comisionbs',
                'comisionusd',
                'tipocambio',
                'porcentajeprima',
                'primaneta',
                'porcentajecomision',
-                 'usuarioregistro',
+                  'usuarioregistro',
                'usuariomodificacion',
                'fecharegistro',
                'fechamodificacion',
@@ -421,13 +421,13 @@ function _updateMemo() {
                tipoemision,
                franquicia,
                valorasegurado,
-                 comisionbs,
+                  comisionbs,
                comisionusd,
                tipocambio,
                porcentajeprima,
                primaneta,
                porcentajecomision,
-                 usuarioregistro,
+                  usuarioregistro,
                usuariomodificacion,
                fecharegistro,
                fechamodificacion,
@@ -701,7 +701,7 @@ function _memosPorSucursal() {
             }); */
 
             _context5.next = 5;
-            return _database.sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre subramo,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join sub_ramo sr on sr.id=src.subramoid  " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+            return _database.sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join ramo sr on sr.id=src.ramopadreid " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
             "where s.id= '" + sucursalid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
@@ -750,7 +750,7 @@ function _memosPorEmpresa() {
             _context6.prev = 0;
             _empresaid = req.params.empresaid;
             _req$body4 = req.body, fechainicio = _req$body4.fechainicio, fechafin = _req$body4.fechafin;
-            query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre subramo,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join ramo sr on a.id=src.subramoid  " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
+            query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join ramo sr on sr.id=src.ramopadreid " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
             "where s.empresaid= '" + _empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(query);
 
             _context6.next = 6;

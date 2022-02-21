@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaSubRamo = bajaSubRamo;
+exports.createSubRamo = createSubRamo;
+exports.deleteSubRamo = deleteSubRamo;
+exports.getOneSubRamo = getOneSubRamo;
 exports.getSubRamos = getSubRamos;
 exports.subRamosPorRamo = subRamosPorRamo;
-exports.createSubRamo = createSubRamo;
-exports.getOneSubRamo = getOneSubRamo;
-exports.deleteSubRamo = deleteSubRamo;
 exports.updateSubRamo = updateSubRamo;
-exports.bajaSubRamo = bajaSubRamo;
 
 var _SubRamo = _interopRequireDefault(require("../models/SubRamo"));
 

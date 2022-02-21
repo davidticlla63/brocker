@@ -3,16 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.login = login;
-exports.getUsuarios = getUsuarios;
-exports.createUsuario = createUsuario;
-exports.getOneUsuario = getOneUsuario;
-exports.deleteUsuario = deleteUsuario;
-exports.updateUsuario = updateUsuario;
-exports.usuarioBySucursal = usuarioBySucursal;
-exports.usuarioByEmpresa = usuarioByEmpresa;
-exports.usuariosBySucursal = usuariosBySucursal;
 exports.bajaUsuario = bajaUsuario;
+exports.createUsuario = createUsuario;
+exports.deleteUsuario = deleteUsuario;
+exports.getOneUsuario = getOneUsuario;
+exports.getUsuarios = getUsuarios;
+exports.login = login;
+exports.updateUsuario = updateUsuario;
+exports.usuarioByEmpresa = usuarioByEmpresa;
+exports.usuarioBySucursal = usuarioBySucursal;
+exports.usuariosBySucursal = usuariosBySucursal;
 
 var _Usuario = _interopRequireDefault(require("../models/Usuario"));
 

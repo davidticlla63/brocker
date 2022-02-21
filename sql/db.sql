@@ -1772,9 +1772,11 @@ values
         fecharegistro timestamp not null,
         fechamodificacion timestamp,
         estado character varying not null,
+        ramopadreid character varying REFERENCES ramo(id),
         ramoid character varying REFERENCES ramo(id),
-        subramoid character varying REFERENCES sub_ramo(id),
-        companiaseguroid character varying REFERENCES compania_seguro(id)
+        --subramoid character varying REFERENCES sub_ramo(id),
+        companiaseguroid character varying REFERENCES compania_seguro(id),
+        sucursalid character varying REFERENCES sucursal(id)
     );
 
 

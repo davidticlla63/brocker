@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getEmpresas = getEmpresas;
-exports.createEmpresa = createEmpresa;
-exports.getOneEmpresa = getOneEmpresa;
-exports.deleteEmpresa = deleteEmpresa;
-exports.updateEmpresa = updateEmpresa;
 exports.bajaEmpresa = bajaEmpresa;
+exports.createEmpresa = createEmpresa;
+exports.deleteEmpresa = deleteEmpresa;
+exports.getEmpresas = getEmpresas;
+exports.getOneEmpresa = getOneEmpresa;
+exports.updateEmpresa = updateEmpresa;
 
 var _Empresa = _interopRequireDefault(require("../models/Empresa"));
 

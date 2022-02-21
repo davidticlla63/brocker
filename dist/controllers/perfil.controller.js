@@ -3,16 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPerfils = getPerfils;
+exports.bajaPerfil = bajaPerfil;
 exports.createPerfil = createPerfil;
-exports.getOnePerfil = getOnePerfil;
+exports.createPerfilPermisos = createPerfilPermisos;
 exports.deletePerfil = deletePerfil;
-exports.updatePerfil = updatePerfil;
+exports.getOnePerfil = getOnePerfil;
 exports.getPerfilByEmpresa = getPerfilByEmpresa;
 exports.getPerfilBySucursal = getPerfilBySucursal;
-exports.createPerfilPermisos = createPerfilPermisos;
+exports.getPerfils = getPerfils;
 exports.getPermisosPorPerfil = getPermisosPorPerfil;
-exports.bajaPerfil = bajaPerfil;
+exports.updatePerfil = updatePerfil;
 
 var _database = require("../database/database");
 

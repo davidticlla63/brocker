@@ -281,7 +281,7 @@ export async function getPagosGeneralesPorSucursal(req, res) {
             " inner join sucursal s on s.id=m.sucursalid " +
             " inner join plan_pago pp on pp.memoid=m.id " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
             " --and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -312,7 +312,7 @@ export async function getPagosActualesPorSucursal(req, res) {
             " inner join sucursal s on s.id=m.sucursalid " +
             " inner join plan_pago pp on pp.memoid=m.id " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -343,7 +343,7 @@ export async function getPagosPendientesPorSucursal(req, res) {
             " inner join sucursal s on s.id=m.sucursalid " +
             " inner join plan_pago pp on pp.memoid=m.id " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and p.sucursalid='" + sucursalid + "' " +
+            " where  P.estado in ('ACT','CER')  and p.sucursalid='" + sucursalid + "' " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -371,7 +371,7 @@ export async function getPagosMoraPorSucursal(req, res) {
             " inner join sucursal s on s.id=m.sucursalid " +
             " inner join plan_pago pp on pp.memoid=m.id " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -398,13 +398,14 @@ export async function getPagosActualesPorEmpresa(req, res) {
             " when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) " +
             "from cobranza_motivo " +
             "where estado='ACT' AND planpagoid=pp.id " +
-            "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal  from poliza p " +
+            "group by planpagoid) as Motivos,case when p.tipoemision='Anexo Conclusión' then 'E' when p.tipoemision='Anexo Exclusión' then 'E' else 'I' end tipo,p.tipoemision,s.nombre as sucursal "+
+            "  from poliza p " +
             " inner join memo m on m.polizaid=p.id " +
             " inner join plan_pago pp on pp.memoid=m.id " +
             " inner join sucursal s on s.id= p.sucursalid " +
             " inner join empresa e on e.id= s.empresaid " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -436,7 +437,7 @@ export async function getPagosPendientesPorEmpresa(req, res) {
             " inner join sucursal s on s.id= p.sucursalid " +
             " inner join empresa e on e.id= s.empresaid " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -468,7 +469,7 @@ export async function getPagosMoraPorEmpresa(req, res) {
             " inner join sucursal s on s.id= p.sucursalid " +
             " inner join empresa e on e.id= s.empresaid " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            " where p.estado='ACT' and e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
+            " where  e.id='" + empresaid + "'  AND  P.estado in ('ACT','CER') " +
             " and to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER " +
             " and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc"
             , {
@@ -499,7 +500,7 @@ export async function getPagosPorSucursalyCi(req, res) {
             " inner join sucursal s on s.id=m.sucursalid " +
             "inner join plan_pago pp on pp.memoid=m.id " +
             "inner join asegurado a on a.id=p.tomadorid " +
-            "where p.estado='ACT' and p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
+            "where p.sucursalid='" + sucursalid + "'  AND  P.estado in ('ACT','CER') " +
             // "--and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER "+
             "and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) " +
             " and  case when a.tipoasegurado='corporativo' then a.nit ='" + cinit + "' else a.ci ='" + cinit + "' end " +
@@ -532,7 +533,7 @@ export async function getPagosPorEmpresayCi(req, res) {
             "inner join asegurado a on a.id=p.tomadorid " +
             " inner join sucursal s on s.id= p.sucursalid " +
             " inner join empresa e on e.id= s.empresaid " +
-            "where p.estado='ACT' and e.id='" + empresaid + "' AND  P.estado in ('ACT','CER') " +
+            "where e.id='" + empresaid + "' AND  P.estado in ('ACT','CER') " +
             //"--and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER "+
             " and  case when a.tipoasegurado='corporativo' then a.nit ='" + cinit + "' else a.ci ='" + cinit + "' end " +
             "and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) " +

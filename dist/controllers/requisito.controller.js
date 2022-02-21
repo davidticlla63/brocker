@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaRequisito = bajaRequisito;
+exports.createRequisito = createRequisito;
+exports.deleteRequisito = deleteRequisito;
+exports.getOneRequisito = getOneRequisito;
+exports.getRequisitoPorSiniestro = getRequisitoPorSiniestro;
 exports.getRequisitos = getRequisitos;
 exports.getRequisitosPorEmpresa = getRequisitosPorEmpresa;
-exports.createRequisito = createRequisito;
 exports.updateRequisito = updateRequisito;
-exports.getOneRequisito = getOneRequisito;
-exports.deleteRequisito = deleteRequisito;
-exports.bajaRequisito = bajaRequisito;
-exports.getRequisitoPorSiniestro = getRequisitoPorSiniestro;
 
 var _database = require("../database/database");
 

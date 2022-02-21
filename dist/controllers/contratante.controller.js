@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getContratantes = getContratantes;
+exports.bajaContratante = bajaContratante;
 exports.createContratante = createContratante;
+exports.deleteContratante = deleteContratante;
+exports.getContratantes = getContratantes;
+exports.getContratantesPorEmpresa = getContratantesPorEmpresa;
 exports.getOneContratante = getOneContratante;
 exports.getOneContratantePorSucursal = getOneContratantePorSucursal;
-exports.deleteContratante = deleteContratante;
 exports.updateContratante = updateContratante;
-exports.bajaContratante = bajaContratante;
-exports.getContratantesPorEmpresa = getContratantesPorEmpresa;
 
 var _database = require("../database/database");
 

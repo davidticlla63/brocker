@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaCompaniaSeguro = bajaCompaniaSeguro;
+exports.createCompaniaSeguro = createCompaniaSeguro;
+exports.deleteCompaniaSeguro = deleteCompaniaSeguro;
 exports.getCompaniaSeguros = getCompaniaSeguros;
 exports.getCompaniaSegurosPorEmpresa = getCompaniaSegurosPorEmpresa;
-exports.createCompaniaSeguro = createCompaniaSeguro;
 exports.getOneCompaniaSeguro = getOneCompaniaSeguro;
-exports.deleteCompaniaSeguro = deleteCompaniaSeguro;
 exports.updateCompaniaSeguro = updateCompaniaSeguro;
-exports.bajaCompaniaSeguro = bajaCompaniaSeguro;
 
 var _CompaniaSeguro = _interopRequireDefault(require("../models/CompaniaSeguro"));
 

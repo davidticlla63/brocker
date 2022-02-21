@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createRamo = createRamo;
-exports.getOneRamo = getOneRamo;
-exports.deleteRamo = deleteRamo;
-exports.updateRamo = updateRamo;
-exports.getRamos = getRamos;
-exports.getSubRamos = getSubRamos;
-exports.getRamosPorEmpresa = getRamosPorEmpresa;
 exports.bajaRamo = bajaRamo;
+exports.createRamo = createRamo;
+exports.deleteRamo = deleteRamo;
+exports.getOneRamo = getOneRamo;
+exports.getRamos = getRamos;
+exports.getRamosPorEmpresa = getRamosPorEmpresa;
 exports.getRamosPorEmpresas = getRamosPorEmpresas;
+exports.getSubRamos = getSubRamos;
 exports.obtenerRamosPorEmpresa = obtenerRamosPorEmpresa;
 exports.ramoPorEmpresa = ramoPorEmpresa;
+exports.updateRamo = updateRamo;
 
 var _database = require("../database/database");
 
@@ -513,30 +513,30 @@ function _getRamosPorEmpresas() {
                  , {
                      type: QueryTypes.SELECT
                  });
-               const tiporamos = await sequelize.query("select tr.* " +
+                 const tiporamos = await sequelize.query("select tr.* " +
                  "from tipo_ramo tr  " +
                  "where tr.empresaid= '" + empresaid + "' and tr.estado='ACT' order by tr.fechamodificacion desc "
                  , {
                      type: QueryTypes.SELECT
                  });
              for (let i = 0; i < tiporamos.length; i++) {
-                  const ramos = await sequelize.query("select r.* " +
+                   const ramos = await sequelize.query("select r.* " +
                      "from ramo r  " +
                      "where r.empresaid= '" + empresaid + "' and r.tiporamoid='" + tiporamos[i].id + "' and r.ramoid is null and r.estado='ACT' order by r.fechamodificacion desc "
                      , {
                          type: QueryTypes.SELECT
                      });
                  for (let j = 0; j < ramos.length; i++) {
-                      const subramos = await sequelize.query("select r.* " +
+                       const subramos = await sequelize.query("select r.* " +
                          "from ramo r  " +
                          "where r.ramo='" + ramos[j].id + "' and r.estado='ACT' order by r.fechamodificacion desc "
                          , {
                              type: QueryTypes.SELECT
                          });
-                          res.json({
+                           res.json({
                               tiporamos:tiporamos[i],  tiporamos:tiporamos[i]
                          });
-                  }
+                   }
              } */
             res.json({
               data: tiporamos

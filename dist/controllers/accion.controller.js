@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAccions = getAccions;
-exports.createAccion = createAccion;
-exports.getOneAccion = getOneAccion;
-exports.deleteAccion = deleteAccion;
-exports.updateAccion = updateAccion;
 exports.bajaAccion = bajaAccion;
+exports.createAccion = createAccion;
+exports.deleteAccion = deleteAccion;
+exports.getAccions = getAccions;
+exports.getOneAccion = getOneAccion;
+exports.updateAccion = updateAccion;
 
 var _Accion = _interopRequireDefault(require("../models/Accion"));
 

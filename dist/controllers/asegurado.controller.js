@@ -3,19 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAsegurados = getAsegurados;
-exports.createAsegurado = createAsegurado;
-exports.getOneAsegurado = getOneAsegurado;
-exports.deleteAsegurado = deleteAsegurado;
-exports.updateAsegurado = updateAsegurado;
-exports.bajaAsegurado = bajaAsegurado;
+exports.aseguradosPorEmpresaYTipo = aseguradosPorEmpresaYTipo;
+exports.aseguradosPorEmpresas = aseguradosPorEmpresas;
 exports.aseguradosPorSucursal = aseguradosPorSucursal;
 exports.aseguradosPorSucursalYTipo = aseguradosPorSucursalYTipo;
-exports.todoLosAseguradosPorSucursal = todoLosAseguradosPorSucursal;
-exports.todoLosAseguradosPorEmpresa = todoLosAseguradosPorEmpresa;
-exports.aseguradosPorEmpresaYTipo = aseguradosPorEmpresaYTipo;
 exports.aseguradosPorSucursals = aseguradosPorSucursals;
-exports.aseguradosPorEmpresas = aseguradosPorEmpresas;
+exports.bajaAsegurado = bajaAsegurado;
+exports.createAsegurado = createAsegurado;
+exports.deleteAsegurado = deleteAsegurado;
+exports.getAsegurados = getAsegurados;
+exports.getOneAsegurado = getOneAsegurado;
+exports.todoLosAseguradosPorEmpresa = todoLosAseguradosPorEmpresa;
+exports.todoLosAseguradosPorSucursal = todoLosAseguradosPorSucursal;
+exports.updateAsegurado = updateAsegurado;
 
 var _database = require("../database/database");
 

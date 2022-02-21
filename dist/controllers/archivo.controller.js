@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.bajaArchivo = bajaArchivo;
+exports.createArchivo = createArchivo;
+exports.deleteArchivo = deleteArchivo;
 exports.getArchivos = getArchivos;
 exports.getArchivosCodigo = getArchivosCodigo;
 exports.getArchivosXAsegurado = getArchivosXAsegurado;
-exports.createArchivo = createArchivo;
 exports.getOneArchivo = getOneArchivo;
-exports.deleteArchivo = deleteArchivo;
 exports.updateArchivo = updateArchivo;
-exports.bajaArchivo = bajaArchivo;
 
 var _database = require("../database/database");
 

@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPermisos = getPermisos;
 exports.createPermiso = createPermiso;
-exports.getOnePermiso = getOnePermiso;
 exports.deletePermiso = deletePermiso;
+exports.getOnePermiso = getOnePermiso;
+exports.getPermisos = getPermisos;
 exports.updatePermiso = updatePermiso;
 
 var _Accion = _interopRequireDefault(require("../models/Accion"));

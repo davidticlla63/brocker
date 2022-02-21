@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPersonals = getPersonals;
-exports.createPersonal = createPersonal;
-exports.getOnePersonal = getOnePersonal;
-exports.deletePersonal = deletePersonal;
-exports.updatePersonal = updatePersonal;
 exports.bajaPersonal = bajaPersonal;
-exports.personalBySucursal = personalBySucursal;
-exports.personalByEmpresa = personalByEmpresa;
+exports.createPersonal = createPersonal;
+exports.deletePersonal = deletePersonal;
+exports.getOnePersonal = getOnePersonal;
+exports.getPersonals = getPersonals;
 exports.personalByAreaTrabajo = personalByAreaTrabajo;
-exports.personalByAreaTrabajoYSucursal = personalByAreaTrabajoYSucursal;
 exports.personalByAreaTrabajoYEmpresa = personalByAreaTrabajoYEmpresa;
+exports.personalByAreaTrabajoYSucursal = personalByAreaTrabajoYSucursal;
+exports.personalByEmpresa = personalByEmpresa;
+exports.personalBySucursal = personalBySucursal;
+exports.updatePersonal = updatePersonal;
 
 var _database = require("../database/database");
 

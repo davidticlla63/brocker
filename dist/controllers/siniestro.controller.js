@@ -3,16 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSiniestros = getSiniestros;
-exports.createSiniestro = createSiniestro;
-exports.updateSiniestro = updateSiniestro;
-exports.getOneSiniestro = getOneSiniestro;
-exports.deleteSiniestro = deleteSiniestro;
 exports.bajaSiniestro = bajaSiniestro;
-exports.getSiniestroPorSucursal = getSiniestroPorSucursal;
+exports.createSiniestro = createSiniestro;
+exports.deleteSiniestro = deleteSiniestro;
+exports.getOneSiniestro = getOneSiniestro;
 exports.getSiniestroPorEmpresa = getSiniestroPorEmpresa;
+exports.getSiniestroPorSucursal = getSiniestroPorSucursal;
+exports.getSiniestros = getSiniestros;
 exports.getTotalSiniestrosPorEmpresa = getTotalSiniestrosPorEmpresa;
 exports.getTotalSiniestrosPorSucursal = getTotalSiniestrosPorSucursal;
+exports.updateSiniestro = updateSiniestro;
 
 var _database = require("../database/database");
 

@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTipoPolizas = getTipoPolizas;
-exports.createTipoPoliza = createTipoPoliza;
-exports.getOneTipoPoliza = getOneTipoPoliza;
-exports.deleteTipoPoliza = deleteTipoPoliza;
-exports.updateTipoPoliza = updateTipoPoliza;
 exports.bajaTipoPoliza = bajaTipoPoliza;
+exports.createTipoPoliza = createTipoPoliza;
+exports.deleteTipoPoliza = deleteTipoPoliza;
+exports.getOneTipoPoliza = getOneTipoPoliza;
+exports.getTipoPolizas = getTipoPolizas;
+exports.updateTipoPoliza = updateTipoPoliza;
 
 var _TipoPoliza = _interopRequireDefault(require("../models/TipoPoliza"));
 

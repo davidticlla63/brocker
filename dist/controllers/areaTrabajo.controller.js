@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAreaTrabajos = getAreaTrabajos;
-exports.createAreaTrabajo = createAreaTrabajo;
-exports.getOneAreaTrabajo = getOneAreaTrabajo;
-exports.deleteAreaTrabajo = deleteAreaTrabajo;
-exports.updateAreaTrabajo = updateAreaTrabajo;
-exports.bajaAreaTrabajo = bajaAreaTrabajo;
 exports.areaTrabajoByEmpresa = areaTrabajoByEmpresa;
+exports.bajaAreaTrabajo = bajaAreaTrabajo;
+exports.createAreaTrabajo = createAreaTrabajo;
+exports.deleteAreaTrabajo = deleteAreaTrabajo;
+exports.getAreaTrabajos = getAreaTrabajos;
+exports.getOneAreaTrabajo = getOneAreaTrabajo;
+exports.updateAreaTrabajo = updateAreaTrabajo;
 
 var _Empresa = _interopRequireDefault(require("../models/Empresa"));
 

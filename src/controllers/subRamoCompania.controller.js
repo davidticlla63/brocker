@@ -17,18 +17,19 @@ export async function createSubRamoCompania(req, res) {
         fechamodificacion,
         estado,
         ramoid,
-        subramoid,
-        companiaseguroid } = req.body;
+        ramopadreid,
+        companiaseguroid,
+    sucursalid } = req.body;
     try {
         //const transaction= sequelize.transaction;
-        if  (subramoid !=null){
-            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { subramoid, companiaseguroid, estado: 'ACT' } });
+        if  (ramopadreid !=null){
+            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramopadreid, companiaseguroid, estado: 'ACT' } });
             console.log(regSubRamoCompanias);
             if (regSubRamoCompanias.length > 0) {
                 // authentication failed
                 throw new Error("Ya existe Ramo asignado a la Compania!!");
             }
-        }else if(subramoid!=null){
+        }else if(ramopadreid!=null){
             const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramoid, companiaseguroid, estado: 'ACT' } });
             console.log(regSubRamoCompanias);
             if (regSubRamoCompanias.length > 0) {
@@ -53,8 +54,9 @@ export async function createSubRamoCompania(req, res) {
             fechamodificacion:new Date(),
             estado,
             ramoid,
-            subramoid,
+            ramopadreid,
             companiaseguroid
+            ,sucursalid
         }, {
             fields: ['porcentajecomision',
                 'porcentajecomisioncredito',
@@ -63,7 +65,7 @@ export async function createSubRamoCompania(req, res) {
                 'nota',
                 'notacredito', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                 'fechamodificacion', 'estado', 'ramoid',
-                'subramoid', 'companiaseguroid']
+                'ramopadreid', 'companiaseguroid','sucursalid']
         });
         if (newSubRamoCompania) {
             return res.json({
@@ -93,10 +95,10 @@ export async function updateSubRamoCompania(req, res) {
         fechamodificacion,
         estado,
         ramoid,
-        subramoid,
+        ramopadreid,
         companiaseguroid } = req.body;
     try {
-        /*      const regSubRamoCompanias=await SubRamoCompania.findAll({ where :{subramoid,companiaseguroid,estado:'ACT'}});
+        /*      const regSubRamoCompanias=await SubRamoCompania.findAll({ where :{ramopadreid,companiaseguroid,estado:'ACT'}});
              console.log(regSubRamoCompanias);
              if (regSubRamoCompanias.length > 0) {
                  // authentication failed
@@ -115,7 +117,7 @@ export async function updateSubRamoCompania(req, res) {
             fechamodificacion,
             estado,
             ramoid,
-            subramoid,
+            ramopadreid,
             companiaseguroid
         }, {
             where: {
@@ -165,7 +167,7 @@ export async function subRamoCompaniaPorEmpresa(req, res) {
         empresaid } = req.params;
     try {
         console.log(req.params)
-        //const subRamoCompania = await SubRamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
+        //const subRamoCompania = await SubRamoCompania.findAll({ where: { estado: 'ACT', ramopadreid } });
 
         const subRamoCompania = await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
             "inner join ramo r on r.id=rc.ramoid " +
@@ -184,15 +186,17 @@ export async function subRamoCompaniaPorEmpresa(req, res) {
     }
 }
 
+
 export async function subRamoCompaniaPorRamo(req, res) {
     const {
-        subramoid } = req.params;
+        ramoid } = req.params;
     try {
         console.log(req.params)
 
-        const subRamoCompania = await sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " +
+        const subRamoCompania = await sequelize.query("select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc " +
             "inner join ramo r on r.id=rc.ramoid " +
-            "where r.id= '" + subramoid + "' and rc.estado ='ACT' order by rc.id "
+            "left join ramo p on rc.ramopadreid=r.id " +
+            "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT
             });
@@ -237,10 +241,10 @@ export async function subRamoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when s.spvs is null then '00' else  s.spvs end  spvsubramo,t.spvs spvstiporamo " +
+        const subRamoCompania = await sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,p.spvs spvsramopadre, t.spvs spvstiporamo  " +
             "from sub_ramo_compania  rc  " +
             "inner join ramo r on r.id=rc.ramoid  " +
-            "left join ramo s on s.ramoid=r.id  and  s.id=rc.subramoid  " +
+            "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.fechamodificacion desc "
             , {
@@ -261,13 +265,39 @@ export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
     const {
         empresaid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when s.spvs is null then '00' else  s.spvs end  spvsubramo,t.spvs spvstiporamo " +
+        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " +
             "from sub_ramo_compania  rc  " +
             "inner join ramo r on r.id=rc.ramoid  " +
-            "left join ramo s on s.ramoid=r.id  and  s.id=rc.subramoid  " +
+            "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
             "inner join compania_seguro c on c.id=rc.companiaseguroid  " +
             "where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({
+            data: subRamoCompania
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+
+}
+
+export async function subRamoCompaniaYCompaniaPorSucursal(req, res) {
+    const {
+        sucursalid } = req.params;
+    try {
+        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " +
+            "from sub_ramo_compania  rc  " +
+            "inner join ramo r on r.id=rc.ramoid  " +
+            "left join ramo p on rc.ramopadreid=r.id " +
+            "inner join tipo_ramo t on t.id=r.tiporamoid  " +
+            "inner join compania_seguro c on c.id=rc.companiaseguroid  " +
+            "where c.sucursalid= '" + sucursalid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });

@@ -23,6 +23,7 @@ router.get('/subRamoCompaniasPorRamo/:ramoid', subRamoCompanias.subRamoCompaniaP
 router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania);
 //nueva metodo que se aumento
 router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaYCompaniaPorEmpresa);
+router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid', subRamoCompanias.subRamoCompaniaYCompaniaPorSucursal);
 router.get('/subRamoCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaPorEmpresa);
 
 export default router;

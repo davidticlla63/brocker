@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBancos = getBancos;
+exports.bajaBanco = bajaBanco;
 exports.bancosPorEmpresa = bancosPorEmpresa;
 exports.createBanco = createBanco;
-exports.getOneBanco = getOneBanco;
 exports.deleteBanco = deleteBanco;
+exports.getBancos = getBancos;
+exports.getOneBanco = getOneBanco;
 exports.updateBanco = updateBanco;
-exports.bajaBanco = bajaBanco;
 
 var _Banco = _interopRequireDefault(require("../models/Banco"));
 

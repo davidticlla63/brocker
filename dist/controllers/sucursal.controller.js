@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSucursals = getSucursals;
-exports.createSucursal = createSucursal;
-exports.getOneSucursal = getOneSucursal;
-exports.deleteSucursal = deleteSucursal;
-exports.updateSucursal = updateSucursal;
-exports.getSucursalByEmpresa = getSucursalByEmpresa;
 exports.bajaSucursal = bajaSucursal;
+exports.createSucursal = createSucursal;
+exports.deleteSucursal = deleteSucursal;
+exports.getOneSucursal = getOneSucursal;
+exports.getSucursalByEmpresa = getSucursalByEmpresa;
+exports.getSucursals = getSucursals;
+exports.updateSucursal = updateSucursal;
 
 var _Empresa = _interopRequireDefault(require("../models/Empresa"));
 

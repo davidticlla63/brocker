@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getDepartamentos = getDepartamentos;
-exports.createDepartamento = createDepartamento;
-exports.getOneDepartamento = getOneDepartamento;
-exports.deleteDepartamento = deleteDepartamento;
-exports.updateDepartamento = updateDepartamento;
 exports.bajaDepartamento = bajaDepartamento;
+exports.createDepartamento = createDepartamento;
+exports.deleteDepartamento = deleteDepartamento;
 exports.departamentoByEmpresa = departamentoByEmpresa;
+exports.getDepartamentos = getDepartamentos;
+exports.getOneDepartamento = getOneDepartamento;
+exports.updateDepartamento = updateDepartamento;
 
 var _Departamento = _interopRequireDefault(require("../models/Departamento"));
 
