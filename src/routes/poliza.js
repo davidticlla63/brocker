@@ -25,8 +25,8 @@ router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
 router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);
 router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPolizasPorTipoYEmpresa);
-router.post('/polizasPorTipoRamoYEmpresa/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
-router.post('/polizasPorTipoRamoYSucursal/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
+router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
+router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
 
 router.post('/polizasPorEmpresaYVencimiento/:empresaid', polizas.getPolizasPorEmpresaFechaVencimiento);
 router.post('/polizasPorSucursalYVencimiento/:sucursalid', polizas.getPolizasPorSucursalVencimiento);
@@ -46,8 +46,8 @@ router.put('/baja/:id', polizas.bajaPoliza);
 router.get('/polizasPorSucursals/:sucursalid', polizas.getPolizasPorSucursal);
 router.get('/polizasPorEmpresas/:empresaid', polizas.getPolizasPorEmpresa);
 
-router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid', polizas.getPolizasPorSucursalYTipo);
-router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid', polizas.getPolizasPorEmpresaYTipo);
+router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorSucursalYTipo);
+router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorEmpresaYTipo);
 /**busquedas por detalle  */
 router.get('/polizasDetalleAutomotorPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorEmpresaYTipo);
 router.get('/polizasDetalleAutomotorPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorSucursalYTipo);
@@ -57,4 +57,5 @@ router.get('/polizasDetalleGeneralPorSucursalYTipo/:dato/:sucursalid/:tipopoliza
 
 router.get('/polizasDetalleSaludPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleSaludPorEmpresaYTipo);
 router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleSaludPorSucursalYTipo);
+
 export default router;

@@ -122,11 +122,11 @@ app.use('/api/vendedors', vendedorRoutes);
 //polizas
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas', polizaRoutes);
-/* app.use('/api/polizas/automotor', polizaDetalleRoutes);
+app.use('/api/polizas/automotor', polizaDetalleRoutes);
 app.use('/api/polizas/generals', polizaDetalleGeneralRoutes);
 app.use('/api/polizas/personas', polizaDetallePersonaRoutes);
 app.use('/api/polizas/dependientes', polizaDetallePersonaTitularRoutes);
-app.use('/api/polizas/adicionales', polizaDetalleAdicionalRoutes); */
+app.use('/api/polizas/adicionales', polizaDetalleAdicionalRoutes);
 
 //archivos
 app.use('/api/carpetas', carpetaRoutes);

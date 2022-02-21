@@ -246,6 +246,7 @@ export async function subRamoCompaniaPorCompania(req, res) {
             "inner join ramo r on r.id=rc.ramoid  " +
             "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
+            "inner join compania_seguro c on c.id =rc.companiaseguroid   " +
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
@@ -352,8 +353,6 @@ export async function deleteSubRamoCompania(req, res) {
         });
     }
 }
-
-
 
 export async function bajaSubRamoCompania(req, res) {
     const { id } = req.params;
