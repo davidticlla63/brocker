@@ -1816,7 +1816,7 @@ export async function getPolizasPorTipoYEmpresa(req, res) {
     }
 }
 
-export async function getPolizasPorTipoRamoYEmpresa(req, res) {
+export async function getPolizasPorTipoRamoYEmpresa(req, res) { 
     const { tipopoliza,tiporamoid, empresaid } = req.params;
     const { fechainicio,fechafin } = req.body;
     try {
@@ -1829,9 +1829,9 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             "left join ramo sr on sr.id=rc.ramopadreid "+
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            " inner join tipo_ramo t on t.id=p.tiporamoid  "
+            " inner join tipo_ramo t on t.id=p.tiporamoid  "+
             //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tipopoliza + "' and tiporamoid='"+tiporamoid+"'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc ";
+            "where s.empresaid= '" + empresaid + "' and p.tpoliza='" + tipopoliza + "' and p.tiporamoid='"+tiporamoid+"'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc ";
         console.log(query);
         const polizas = await sequelize.query(query
             , {
@@ -1863,8 +1863,8 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
               "left join ramo sr on sr.id=rc.ramopadreid "+
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            " inner join tipo_ramo t on t.id=p.tiporamoid  "
-            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tipopoliza + "' and tiporamoid='"+tiporamoid+"'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc ";
+            " inner join tipo_ramo t on t.id=p.tiporamoid  "+
+            "where s.id='" + sucursalid + "'  and p.tpoliza='" + tipopoliza + "' and p.tiporamoid='"+tiporamoid+"'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= "+fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= "+fechafin+" and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc ";
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -2170,7 +2170,7 @@ export async function getPolizasPorSucursalYTipo(req, res) {
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
             " inner join tipo_ramo t on t.id=p.tiporamoid  "+
-            "where  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='"+tiporamoid+"'  order by p.fechamodificacion desc "
+            "where  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "' and p.p.tiporamoid='"+tiporamoid+"'  order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });
@@ -2213,7 +2213,7 @@ export async function getPolizasPorEmpresaYTipo(req, res) {
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
             " inner join tipo_ramo t on t.id=p.tiporamoid  "+
-            "where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='"+tiporamoid+"' order by p.fechamodificacion desc "
+            "where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') and  p.tpoliza='" + tipopolizaid + "' and p.p.tiporamoid='"+tiporamoid+"' order by p.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
             });

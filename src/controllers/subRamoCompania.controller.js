@@ -241,12 +241,13 @@ export async function subRamoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,p.spvs spvsramopadre, t.spvs spvstiporamo  " +
+        const subRamoCompania = await sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,p.spvs spvsramopadre, t.spvs spvstiporamo , s.nombre sucursal " +
             "from sub_ramo_compania  rc  " +
             "inner join ramo r on r.id=rc.ramoid  " +
             "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
             "inner join compania_seguro c on c.id =rc.companiaseguroid   " +
+            "inner join sucursal s on s.id=rc.sucursalid "+
             "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
@@ -266,12 +267,13 @@ export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
     const {
         empresaid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " +
+        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal " +
             "from sub_ramo_compania  rc  " +
             "inner join ramo r on r.id=rc.ramoid  " +
             "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
             "inner join compania_seguro c on c.id=rc.companiaseguroid  " +
+            "inner join sucursal s on s.id=rc.sucursalid "+
             "where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
@@ -292,12 +294,13 @@ export async function subRamoCompaniaYCompaniaPorSucursal(req, res) {
     const {
         sucursalid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " +
+        const subRamoCompania = await sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal " +
             "from sub_ramo_compania  rc  " +
             "inner join ramo r on r.id=rc.ramoid  " +
             "left join ramo p on rc.ramopadreid=r.id " +
             "inner join tipo_ramo t on t.id=r.tiporamoid  " +
             "inner join compania_seguro c on c.id=rc.companiaseguroid  " +
+            "inner join sucursal s on s.id=rc.sucursalid "+
             "where c.sucursalid= '" + sucursalid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc "
             , {
                 type: QueryTypes.SELECT
