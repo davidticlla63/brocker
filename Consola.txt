@@ -5,3 +5,12 @@ npm run build
 npm start
 npm install nodemon -D
 npm install @babel/node -D
+
+npm i uuid
+npm i request
+npm i multer
+npm i jsonwebtoken
+npm i cors
+npm i compression
+npm i body-parser
+npm i bcryptjs

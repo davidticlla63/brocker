@@ -4,23 +4,32 @@ import PaginaAccion from "../models/PaginaAccion";
 export async function getPaginas(req, res) {
     try {
 
-     
+
         const paginas = await Pagina.findAll({
-            where: { estado: 'ACT', paginaid: null },require:true ,order:[['orden','ASC']]
+            where: { estado: 'ACT', paginaid: null }, require: true, order: [['orden', 'ASC']]
             , include: [{
-                model: Pagina,require:true, estado: 'ACT'
-                  , 
-                  include: [{ model: PaginaAccion ,attributes:['id','accionid','paginaid'],require:true, estado: 'ACT',
-                  // include:{ model: Accion,atributes:['id','nombre'],require:true, estado: 'ACT' }
+                model: Pagina, require: true, estado: 'ACT', 
+                include: [{
+                    model:Pagina,require:true,estado:'ACT'
+                    ,
+                    include: [{
+                        model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
+                    },
+                    ] 
+                },{ model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT' }]   ,
+                            
+               /*  ,
+                include: [{
+                    model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
                 },
-                  //{ model: Accion,atributes:['id','nombre'], estado: 'ACT', require: true }
-                  
-                 ]
-            },{ model: PaginaAccion ,attributes:['id','accionid','paginaid'],require:true, estado: 'ACT'}
-        ]
+                ] */
+            }, { model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT' }
+
+
+            ]
         });
 
-        const lista=paginas.filter(item => item.estado ='ACT' );
+        const lista = paginas.filter(item => item.estado = 'ACT');
         console.log(lista);
         res.json({
             data: lista

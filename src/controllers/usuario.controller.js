@@ -7,6 +7,7 @@ const { QueryTypes } = require('sequelize');
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '../config'
+//const { v4: uuidv4 } = require('uuid');
 
 
 export async function login(req, res) {
@@ -117,7 +118,8 @@ export async function createUsuario(req, res) {
         usuarioregistro,
         usuariomodificacion,
         estado } = req.body;
-
+//let guid= uuidv4();
+//console.log(guid);
     let t = await sequelize.transaction();
     let newUsuario;
     try {

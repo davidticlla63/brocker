@@ -255,7 +255,7 @@ export async function getRamosPorEmpresas(req, res) {
     try {
         const sql ="select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo " +
         ",case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo " +
-        ",case when r2.id is null then NULL else r.spvs end  spvsubramo " +
+        ",case when r2.id is null then '00' else r.spvs end  spvsubramo " +
         " from tipo_ramo t  "+
         "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  "+
         "left join ramo r2 on r2.id =r.ramoid  "+
@@ -330,7 +330,7 @@ export async function obtenerRamosPorEmpresa(req, res) {
 
         const sql ="select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo " +
         ",case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo " +
-        ",case when r2.id is null then NULL else r.spvs end  spvsubramo " +
+        ",case when r2.id is null then '00'  else r.spvs end  spvsubramo " +
         " from tipo_ramo t  "+
         "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  "+
         "left join ramo r2 on r2.id =r.ramoid  "+
@@ -382,7 +382,7 @@ export async function ramoPorEmpresa(req, res) {
 
             const sql ="select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo " +
             ",case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo " +
-            ",case when r2.id is null then NULL else r.spvs end  spvsubramo " +
+            ",case when r2.id is null then '00'  else r.spvs end  spvsubramo " +
             " from tipo_ramo t  "+
             "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  "+
             "left join ramo r2 on r2.id =r.ramoid  "+

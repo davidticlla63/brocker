@@ -43,6 +43,7 @@ import cobranzaMotivoRoutes from './routes/cobranzaMotivo'
 import ramoCompaniaRoutes from './routes/ramoCompania'
 import reporteRoutes from './routes/reportes'
 import siniestroRequisitoRoutes from './routes/siniestroRequisito'
+import paramProduccionRoutes from './routes/paramProduccion'
 
 const compression = require("compression");
 
@@ -133,6 +134,7 @@ app.use('/api/carpetas', carpetaRoutes);
 app.use('/api/archivos', archivoRoutes);
 //memos
 app.use('/api/memos', memoRoutes);
+app.use('/api/paramProduccion',paramProduccionRoutes)
 //pagos
 app.use('/api/pago',pagoRoutes);
 //cobranza

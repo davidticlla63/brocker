@@ -820,12 +820,13 @@ export async function getMemosPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
+        const memos = await sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
             "from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
+            "left join ramo r2 on r2.id =r.ramoid  "+
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
@@ -847,14 +848,15 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
+        const memos = await sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
             /*       "from memo p " +
                   "inner join sucursal s on s.id=p.sucursalid  " + */
             "from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
+            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
             "inner join ramo r on r.id=rc.ramoid " +
+            "left join ramo r2 on r2.id =r.ramoid  "+
             "inner join asegurado a on a.id=p.tomadorid " +
             "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
             "where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.fechamodificacion desc "
@@ -926,3 +928,5 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
         });
     }
 }
+
+
