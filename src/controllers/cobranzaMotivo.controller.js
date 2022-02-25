@@ -180,10 +180,10 @@ export async function getCobranzaMotivosPorPlanPago(req, res) {
     const { planpagoid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select planpagoid, string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) " +
-            "from cobranza_motivo " +
-            "where estado='ACT' AND planpagoid='" + planpagoid + "' " +
-            " group by planpagoid  "
+        const siniestros = await sequelize.query(`select planpagoid, string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) 
+            from cobranza_motivo 
+            where estado='ACT' AND planpagoid='` + planpagoid +`' 
+             group by planpagoid  `
             , {
                 type: QueryTypes.SELECT
             });

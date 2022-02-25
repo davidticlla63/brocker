@@ -16,11 +16,6 @@ export async function getRamoCompania(req, res) {
     }
 }
 
-
-
-
-
-
 export async function createRamoCompania(req, res) {
     const {
         porcentajecomision,
@@ -193,7 +188,6 @@ export async function updateRamoCompania(req, res) {
     }
 }
 
-
 export async function bajaRamoCompania(req, res) {
     const { id } = req.params;
 
@@ -245,9 +239,10 @@ export async function ramoCompaniaPorEmpresa(req, res) {
         console.log(req.params)
         //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
-        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.ramoid " +
-        "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id "
+        const ramoCompania= await sequelize.query(`	select rc.*,r.nombre nombreramo 
+        from ramo_compania  rc 
+        inner join ramo r on r.id=rc.ramoid 
+        where r.empresaid= '` + empresaid + `' and rc.estado ='ACT' order by  r.nombre `	
         , {
             type: QueryTypes.SELECT
         });
@@ -268,9 +263,10 @@ export async function ramoCompaniaPorRamo(req, res) {
     try {
         console.log(req.params)
 
-        const ramoCompania= await sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " +
-        "inner join ramo r on r.id=rc.ramoid " +
-        "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id "
+        const ramoCompania= await sequelize.query(`	select rc.*,r.nombre nombreramo 
+        from ramo_compania  rc 
+        inner join ramo r on r.id=rc.ramoid 
+        where r.id= '` + ramoid + `' and rc.estado ='ACT' order by r.nombre `	
         , {
             type: QueryTypes.SELECT
         });
@@ -289,11 +285,12 @@ export async function ramoCompaniaPorCompania(req, res) {
     const {
         companiaseguroid } = req.params;
     try {
-        const ramoCompania= await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo from ramo_compania  rc  " +
-        "inner join ramo r on r.id=s.ramoid " +
-        "left join ramo s on s.ramoid=r.id  " +
-            "inner join tipo_ramo t on t.id=r.tiporamoid " +
-            "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
+        const ramoCompania= await sequelize.query(`	select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo 
+        from ramo_compania  rc  
+        inner join ramo r on r.id=s.ramoid 
+        left join ramo s on s.ramoid=r.id  
+        inner join tipo_ramo t on t.id=r.tiporamoid 
+        where rc.companiaseguroid= '` + companiaseguroid + `' and rc.estado ='ACT' order by t.nombre,r.nombre `	
             , {
                 type: QueryTypes.SELECT
             });

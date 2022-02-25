@@ -306,13 +306,13 @@ export async function getPermisosPorPerfil(req, res) {
                   type: QueryTypes.SELECT
               }); */
 
-        const permisos = await sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " +
-            "from pagina pag " +
-            "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " +
-            "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " +
-            "inner join accion a on a.id=pa.accionid " +
-            "inner join perfil per on per.id=p.perfilid " +
-            "where per.id= '" + perfilid + "' order by per.fechamodificacion desc "
+        const permisos = await sequelize.query(`select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion 
+            from pagina pag 
+            inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT'
+            inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' 
+            inner join accion a on a.id=pa.accionid 
+            inner join perfil per on per.id=p.perfilid 
+            where per.id= '` + perfilid + `' order by per.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });

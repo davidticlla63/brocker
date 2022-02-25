@@ -7,9 +7,9 @@ export async function getSiniestroSeguimientos(req, res) {
     const { siniestroid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select s.*  " +
-            "from siniestro_seguimiento s " +
-            "where  s.siniestroid= '" + siniestroid + "'  and s.estado IN ('ACT') order by s.fechamodificacion desc "
+        const siniestros = await sequelize.query(`select s.*  
+            from siniestro_seguimiento s 
+            where  s.siniestroid= '` + siniestroid + `'  and s.estado IN ('ACT') order by s.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -24,15 +24,15 @@ export async function getSiniestroSeguimientos(req, res) {
         });
     }
 
-  /*   try {
-        const { siniestroid } = req.params;
-        const siniestros = await SiniestroSeguimiento.findAll({ where: { estado: 'ACT', siniestroid } });
-        res.json({
-            data: siniestros
-        });
-    } catch (e) {
-        console.log(e);
-    } */
+    /*   try {
+          const { siniestroid } = req.params;
+          const siniestros = await SiniestroSeguimiento.findAll({ where: { estado: 'ACT', siniestroid } });
+          res.json({
+              data: siniestros
+          });
+      } catch (e) {
+          console.log(e);
+      } */
 }
 
 export async function createSiniestroSeguimiento(req, res) {
@@ -50,7 +50,7 @@ export async function createSiniestroSeguimiento(req, res) {
             comentario,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:  new Date(),
+            fecharegistro: new Date(),
             fechamodificacion: new Date(),
             estado: 'ACT',
             siniestroid
@@ -211,19 +211,20 @@ export async function getSiniestroSeguimientoPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante " +
-            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
-            "from siniestro ss " +
-            "inner join poliza p on p.id = ss.polizaid " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join contratante c on c.id=p.contratanteid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
-            "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc "
+        const siniestros = await sequelize.query(`select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante 
+             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            from siniestro ss 
+            inner join poliza p on p.id = ss.polizaid 
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+            inner join sub_ramo sr on sr.id=rc.subramoid 
+            inner join ramo r on r.id=rc.ramoid 
+            left join ramo rp on r.ramoid=rp.id 
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join contratante c on c.id=p.contratanteid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            inner join memo m on m.polizaid=p.id --and m.estado='ACT' 
+            where  s.id= '` + sucursalid + `'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });

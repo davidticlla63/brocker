@@ -229,12 +229,12 @@ export async function personalBySucursal(req, res) {
     try {
         const { sucursalid } = req.params;
 
-        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
-        ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " +
-        "from personal p " +
-        "inner join area_trabajo a on a.id=p.areatrabajoid " +
-        "inner join sucursal s on s.id=p.sucursalid " +
-        "where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal 
+        from personal p 
+        inner join area_trabajo a on a.id=p.areatrabajoid 
+        inner join sucursal s on s.id=p.sucursalid 
+        where s.id='` + sucursalid + `' and p.estado='ACT' order by p.fechamodificacion desc `
         , {
             type: QueryTypes.SELECT
         });
@@ -265,13 +265,13 @@ export async function personalByEmpresa(req, res) {
         const { empresaid } = req.params;
 
 
-        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
-        ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " +
-        "from personal p " +
-        "inner join area_trabajo a on a.id=p.areatrabajoid " +
-        "inner join sucursal s on s.id=p.sucursalid " +
-        "inner join empresa e on e.id=s.empresaid " +
-        "where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc "
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal 
+        from personal p 
+        inner join area_trabajo a on a.id=p.areatrabajoid 
+        inner join sucursal s on s.id=p.sucursalid 
+        inner join empresa e on e.id=s.empresaid 
+        where e.id='` + empresaid + `' and p.estado='ACT' order by p.fechamodificacion desc `
         , {
             type: QueryTypes.SELECT
         });
@@ -332,13 +332,12 @@ export async function personalByAreaTrabajoYSucursal(req, res) {
         res.json({personals }); */
       
 
-        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
-        ",p.fecharegistro,p.fechamodificacion,p.estado " +
-        "from personal p " +
-        "inner join area_trabajo a on a.id=p.areatrabajoid " +
-        "inner join sucursal s on s.id=p.sucursalid " +
-        //"inner join empresa e on e.id=s.empresaid " +
-        "where a.id in ('" + areatrabajoid + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto "
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+        ,p.fecharegistro,p.fechamodificacion,p.estado 
+        from personal p 
+        inner join area_trabajo a on a.id=p.areatrabajoid 
+        inner join sucursal s on s.id=p.sucursalid 
+        where a.id in ('` + areatrabajoid + `') and s.id='` + sucursalid + `' and p.estado='ACT' order by p.nombrecompleto `
         , {
             type: QueryTypes.SELECT
         });
@@ -359,13 +358,13 @@ export async function personalByAreaTrabajoYEmpresa(req, res) {
         const { areatrabajoid, empresaid } = req.params;
 
 
-        const personals = await sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " +
-            ",p.fecharegistro,p.fechamodificacion,p.estado " +
-            "from personal p " +
-            "inner join area_trabajo a on a.id=p.areatrabajoid " +
-            "inner join sucursal s on s.id=p.sucursalid " +
-            "inner join empresa e on e.id=s.empresaid " +
-            "where a.id in ('" + areatrabajoid + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto "
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+            ,p.fecharegistro,p.fechamodificacion,p.estado 
+            from personal p 
+            inner join area_trabajo a on a.id=p.areatrabajoid 
+            inner join sucursal s on s.id=p.sucursalid 
+            inner join empresa e on e.id=s.empresaid 
+            where a.id in ('` + areatrabajoid + `') and e.id='` + empresaid + `' and p.estado='ACT' order by p.nombrecompleto `
             , {
                 type: QueryTypes.SELECT
             });

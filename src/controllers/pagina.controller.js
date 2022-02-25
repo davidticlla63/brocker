@@ -1,6 +1,7 @@
 
 import Pagina from "../models/Pagina";
 import PaginaAccion from "../models/PaginaAccion";
+
 export async function getPaginas(req, res) {
     try {
 

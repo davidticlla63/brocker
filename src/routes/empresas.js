@@ -4,28 +4,113 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createEmpresa, getEmpresas, getOneEmpresa, deleteEmpresa, updateEmpresa,bajaEmpresa } from "../controllers/empresa.controller";
+const swaggerUI = require('swagger-ui-express')
+const swaggerJSDoc = require('swagger-jsdoc')
+
+import * as empresa from "../controllers/empresa.controller";
 
 router
-    .use(cors())
-    .use(bodyParser.json())
+  .use(cors())
+  .use(bodyParser.json())
   /*   .use(bodyParser.json({ limit: '500mb' }))
     .use(bodyParser.urlencoded({
         limit: '500mb',
         extended: true,
         parameterLimit: 50000
     })) */
-    //.use(bodyParser.json({limit: '50mb'}))
-    //.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
-    //.use(limit(100000000))
-    .use(compression());
+  //.use(bodyParser.json({limit: '50mb'}))
+  //.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+  //.use(limit(100000000))
+  .use(compression());
+
+const options = {
+  definition: {
+    info: {
+      title: 'Swagger api broker',
+      version: '1.0.0',
+      description: '06/23/2021 demo'
+    }
+  },
+  apis: ['src/routes/empresas.js']
+}
+
+const swaggerSpec = swaggerJSDoc(options)
+// console.log(swaggerSpec)
+
+router.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+var corsOptions = {
+  origin: 'http://localhost.com',
+  optionSuccessStatus: 200
+}
+
+
+/**
+   * @swagger
+   * definitions:
+   *   empresa:
+   *     required:
+   *       - id
+   *       - razonsocial
+   *       - descripcion
+   *       - telefono
+   *       - nit
+   *       - representante
+   *     properties:
+   *       id:
+   *         type: string
+   *       razonsocial:
+   *         type: string
+   *       descripcion:
+   *         type: string
+   *       telefono:
+   *         type: string
+   *       nit:
+   *         type: string
+   *       representante:
+   *         type: string
+   */
+
 // /api/empresas/
-router.post('/', createEmpresa);
-router.get('/', getEmpresas);
+/**
+  * @swagger
+  * /api/empresas:
+  *  post:
+  *   summary: create empresa
+  *   description: create empresa for the organisation
+  *   responses:
+  *    200:
+  *     description: empresa created succesfully
+  *    500:
+  *     description: failure in creating empresa
+  *     content:
+  *       application/json:
+  *        schema:
+  *             $ref: '#/definitions/empresa' 
+  */
+router.post('/', empresa.createEmpresa);
+
+// /api/empresas/
+/**
+  * @swagger
+  * /api/empresas:
+  *  get:
+  *   summary: obtener
+  *   description: create empresa for the organisation
+  *   responses:
+  *    200:
+  *     description: empresa created succesfully
+  *    500:
+  *     description: failure in creating empresa
+  *     content:
+  *       application/json:
+  *        schema:
+  *             $ref: '#/definitions/empresa' 
+  */
+router.get('/', empresa.getEmpresas);
 
 // /api/empresas/:empresaID
-router.get('/:id', getOneEmpresa);
-router.delete('/:id', deleteEmpresa);
-router.put('/:id', updateEmpresa);
-router.put('/baja/:id', bajaEmpresa);
+router.get('/:id', empresa.getOneEmpresa);
+router.delete('/:id', empresa.deleteEmpresa);
+router.put('/:id', empresa.updateEmpresa);
+router.put('/baja/:id', empresa.bajaEmpresa);
 export default router;

@@ -237,19 +237,19 @@ export async function getSiniestroPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante " +
-            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
-            "from siniestro ss " +
-            "inner join poliza p on p.id = ss.polizaid " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join contratante c on c.id=p.contratanteid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
-            "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc "
+        const siniestros = await sequelize.query(`select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante 
+             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            from siniestro ss 
+            inner join poliza p on p.id = ss.polizaid 
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+            inner join sub_ramo sr on sr.id=rc.subramoid 
+            inner join ramo r on r.id=rc.ramoid 
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join contratante c on c.id=p.contratanteid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            inner join memo m on m.polizaid=p.id and m.estado='ACT' 
+            where  s.id= '` + sucursalid + `'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -268,19 +268,19 @@ export async function getSiniestroPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const siniestros = await sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante " +
-            " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
-            "from siniestro ss " +
-            "inner join poliza p on p.id = ss.polizaid " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            "inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join contratante c on c.id=p.contratanteid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "inner join memo m on m.polizaid=p.id and m.estado='ACT' " +
-            "where  s.empresaid= '" + empresaid + "'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc "
+        const siniestros = await sequelize.query(`select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante 
+             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            from siniestro ss 
+            inner join poliza p on p.id = ss.polizaid 
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+            inner join sub_ramo sr on sr.id=rc.subramoid 
+            inner join ramo r on r.id=rc.ramoid 
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join contratante c on c.id=p.contratanteid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            inner join memo m on m.polizaid=p.id and m.estado='ACT' 
+            where  s.empresaid= '` + empresaid + `'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -300,10 +300,10 @@ export async function getSiniestroPorEmpresa(req, res) {
 export async function getTotalSiniestrosPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
-        let query = "select count(*) cantidad from siniestro si " +
-            "inner join sucursal s on s.id =si.sucursalid  " +
-            "inner join empresa e on e.id =s.empresaid " +
-            "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
+        let query = `select count(*) cantidad from siniestro si 
+            inner join sucursal s on s.id =si.sucursalid  
+            inner join empresa e on e.id =s.empresaid 
+            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '` + empresaid + `'`;
 
         const pagos = await sequelize.query(query
             , {
@@ -325,8 +325,8 @@ export async function getTotalSiniestrosPorEmpresa(req, res) {
 export async function getTotalSiniestrosPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
-        let query = "select count(*) cantidad from siniestro si  " +
-            "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
+        let query = `select count(*) cantidad from siniestro si  
+            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='` + sucursalid + `'`;
 
         const pagos = await sequelize.query(query
             , {

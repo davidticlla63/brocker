@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import morgan from "morgan";
 
+
 // importing routes
 import empresaRoutes from "./routes/empresas";
 import sucursalRoutes from "./routes/sucursals";
@@ -45,7 +46,6 @@ import reporteRoutes from './routes/reportes'
 import siniestroRequisitoRoutes from './routes/siniestroRequisito'
 import paramProduccionRoutes from './routes/paramProduccion'
 
-const compression = require("compression");
 
 const bodyParser = require("body-parser");
 var jsonParser = bodyParser.json({ limit: 1024 * 1024 * 50, type: 'application/json' });
@@ -94,6 +94,10 @@ rdlc ({ report: 'test.rdl' }, function (err, result) {
   fs.writeFileSync('test.pdf', result)
 })
  */
+
+
+
+
 app.use('/api/empresas', empresaRoutes);
 app.use('/api/sucursals', sucursalRoutes);
 app.use('/api/usuarios', usuarioRoutes);

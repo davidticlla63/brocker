@@ -31,9 +31,9 @@ export async function login(req, res) {
             }
         }); */
 
-        const usuarios = await sequelize.query("select up.* " +
-                " from  usuario up " +
-                "where   up.estado !='BAJ' and up.nick= '" + nick + "' "
+        const usuarios = await sequelize.query(`select up.* 
+                 from  usuario up 
+                where   up.estado !='BAJ' and up.nick= '` + nick + `' `
                 , {
                     type: QueryTypes.SELECT
                 });
@@ -57,22 +57,22 @@ export async function login(req, res) {
             // authentication successful
 
 
-            const usuarios = await sequelize.query("select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u " +
-                "inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' " +
-                "left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' " +
-                "left join personal p on p.id=u.personalid  and p.estado='ACT' " +
-                "LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' " +
-                "where u.id= '" + usuario.id + "' and u.estado in ('ACT','SU','ADM') order by u.nick "
+            const usuarios = await sequelize.query(`select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u 
+                inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' 
+                left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' 
+                left join personal p on p.id=u.personalid  and p.estado='ACT' 
+                LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' 
+                where u.id= '` + usuario.id + `' and u.estado in ('ACT','SU','ADM') order by u.nick `
                 , {
                     type: QueryTypes.SELECT
                 });
 
-            const perfiles = await sequelize.query("select pe.id,pe.nombre,pe.sucursalid,s.nombre as sucursal ,p.diaproduccion " +
-                " from  usuario_perfil up " +
-                "INNER JOIN perfil pe on pe.id=up.perfilid " +
-                " inner join sucursal s on  s.id= pe.sucursalid "+
-                " left join param_produccion p  on p.sucursalid=pe.sucursalid and p.estado='ACT' " +
-                "where   up.estado='ACT' and up.usuarioid= '" + usuario.id + "' order by pe.nombre "
+            const perfiles = await sequelize.query(`select pe.id,pe.nombre,pe.sucursalid,s.nombre as sucursal ,p.diaproduccion 
+                 from  usuario_perfil up 
+                INNER JOIN perfil pe on pe.id=up.perfilid 
+                inner join sucursal s on  s.id= pe.sucursalid "+
+                left join param_produccion p  on p.sucursalid=pe.sucursalid and p.estado='ACT' 
+                where   up.estado='ACT' and up.usuarioid= '` + usuario.id + `' order by pe.nombre `
                 , {
                     type: QueryTypes.SELECT
                 });
@@ -492,13 +492,13 @@ export async function usuarioByEmpresa(req, res) {
         const { empresaid } = req.params;
 
 
-        const usuarios = await sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " +
-            "inner join personal p on p.id=u.personalid and p.estado='ACT' " +
-            "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " +
-            "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
-            "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
-            "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
-            "WHERE u.estado  !='BAJ' and u.empresaid= '" + empresaid + "' order by u.fechamodificacion desc "
+        const usuarios = await sequelize.query(`SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
+            inner join personal p on p.id=u.personalid and p.estado='ACT' 
+            inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
+            INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 
+            inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' 
+            INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' 
+            WHERE u.estado  !='BAJ' and u.empresaid= '` + empresaid + `' order by u.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -518,13 +518,13 @@ export async function usuariosBySucursal(req, res) {
         const { sucursalid } = req.params;
 
 
-        const usuarios = await sequelize.query("SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u " +
-            "inner join personal p on p.id=u.personalid and p.estado='ACT' " +
-            "inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' " +
-            "INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' " +
-            "inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' " +
-            "INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' " +
-            "WHERE u.estado !='BAJ' and su.sucursalid= '" + sucursalid + "' order by u.id "
+        const usuarios = await sequelize.query(`SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
+            inner join personal p on p.id=u.personalid and p.estado='ACT' 
+            inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
+            INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 
+            inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' 
+            INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' 
+            WHERE u.estado !='BAJ' and su.sucursalid= '` + sucursalid + `' order by u.id `
             , {
                 type: QueryTypes.SELECT
             });

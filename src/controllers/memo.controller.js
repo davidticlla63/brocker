@@ -445,7 +445,7 @@ export async function updateMemo(req, res) {
              fechamodificacion,
              estado,
              sucursalid */
-             fechamodificacion:new Date(),
+            fechamodificacion: new Date(),
             fechamemo,
             fechapago,
             nrocuotas,
@@ -524,8 +524,8 @@ export async function updateMemo(req, res) {
         await PlanPago.update({
             estado: 'BAJ',
             fechamodificacion: new Date()
-        }, { where: { memoid: id} }, { transaction: t });
-        
+        }, { where: { memoid: id } }, { transaction: t });
+
         for (let i = 0; i < planpago.length; i++) {
             let newPlanPago = await PlanPago.create({
 
@@ -631,7 +631,7 @@ export async function memosPorSucursal(req, res) {
         }); */
 
         const memos = await sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
-        " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago "+
+            " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " +
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join poliza po on po.id=p.polizaid  " +
@@ -639,7 +639,7 @@ export async function memosPorSucursal(req, res) {
             "inner join asegurado a on a.id=po.tomadorid  " +
             "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " +
             "inner join ramo r on r.id=src.ramoid  " +
-            "left join ramo sr on sr.id=src.ramopadreid "+
+            "left join ramo sr on sr.id=src.ramopadreid " +
             "inner join departamento d on d.id=po.ciudadexpedicion " +
             "inner join contratante co on co.id=po.contratanteid " +
             "inner join plan pl on pl.id=po.planid " +
@@ -668,14 +668,14 @@ export async function memosPorEmpresa(req, res) {
         const { empresaid } = req.params;
         const { fechainicio, fechafin } = req.body;
         const query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " +
-        " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago "+
+            " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " +
             " from memo p " +
             "inner join sucursal s on s.id=p.sucursalid  " +
             "inner join poliza po on po.id=p.polizaid  " +
             "inner join asegurado a on a.id=po.tomadorid  " +
             "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " +
             "inner join ramo r on r.id=src.ramoid  " +
-            "left join ramo sr on sr.id=src.ramopadreid "+
+            "left join ramo sr on sr.id=src.ramopadreid " +
 
             "inner join departamento d on d.id=po.ciudadexpedicion " +
             "inner join contratante co on co.id=po.contratanteid " +
@@ -774,11 +774,10 @@ export async function getMemoPorTipoYSucursal(req, res) {
     const { tipomemoid, sucursalid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.*,s.nombre as sucursal " +
-            "from memo p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.id= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc "
+        const memos = await sequelize.query(`select p.*,s.nombre as sucursal 
+            from memo p 
+            inner join sucursal s on s.id=p.sucursalid  
+            where s.id= '` + empresaid + `' and p.tmemo='` + tipomemoid + `' order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -798,11 +797,10 @@ export async function getMemosPorTipoYEmpresa(req, res) {
     const { tipomemoid, empresaid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.*,s.nombre as sucursal " +
-            "from memo p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc "
+        const memos = await sequelize.query(`select p.*,s.nombre as sucursal 
+            from memo p 
+            inner join sucursal s on s.id=p.sucursalid             
+            where s.empresaid= '` + empresaid + `' and p.tmemo='` + tipomemoid + `' order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -820,17 +818,15 @@ export async function getMemosPorTipoRamoYEmpresa(req, res) {
     const { tiporamoid, empresaid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " +
-            "from memo p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "left join ramo r2 on r2.id =r.ramoid  "+
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tiporamoid + "' order by p.fechamodificacion desc "
+        const memos = await sequelize.query(`select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            from memo p
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid            
+            inner join ramo r on r.id=rc.ramoid 
+            left join ramo r2 on r2.id =r.ramoid  
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            where s.empresaid= '` + empresaid + `' and p.tmemo='` + tiporamoid + `' order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -848,18 +844,16 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
     const { tiporamoid, sucursalid } = req.params;
     try {
 
-        const memos = await sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
-            /*       "from memo p " +
-                  "inner join sucursal s on s.id=p.sucursalid  " + */
-            "from memo p " +
-            "inner join sucursal s on s.id=p.sucursalid  " +
-            "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " +
-            //"inner join sub_ramo sr on sr.id=rc.subramoid " +
-            "inner join ramo r on r.id=rc.ramoid " +
-            "left join ramo r2 on r2.id =r.ramoid  "+
-            "inner join asegurado a on a.id=p.tomadorid " +
-            "inner join compania_seguro cs on cs.id=p.companiaseguroid " +
-            "where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.fechamodificacion desc "
+        const memos = await sequelize.query(`select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal 
+     
+            from memo p 
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+            inner join ramo r on r.id=rc.ramoid 
+            left join ramo r2 on r2.id =r.ramoid  
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            where s.id='` + sucursalid + `'  and p.tmemo='` + tiporamoid + `'  order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -881,12 +875,11 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
 export async function getTotalProduccionMemoPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
-        let query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado "+
-            "from memo m  " +
-            " inner join poliza p on p.id=m.polizaid  "
-            "inner join sucursal s on s.id =si.sucursalid  " +
-            "inner join empresa e on e.id =s.empresaid " +
-            " where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
+        let query = `select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado 
+        from memo m  
+        inner join poliza p on p.id=m.polizaid  
+        inner join sucursal s on s.id =p.sucursalid  
+        inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`;
 
         const pagos = await sequelize.query(query
             , {
@@ -909,18 +902,18 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-            let query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado "+
-            "from memo m  " +
-            " inner join poliza p on p.id=m.polizaid  "
-            " where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
+        let query = `select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado 
+            from memo m  
+            inner join poliza p on p.id=m.polizaid  
+            where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`;
 
         const pagos = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
             });
-            res.json({
-                data: pagos
-            })
+        res.json({
+            data: pagos
+        })
     } catch (e) {
         console.log(e);
         res.status(500).json({
