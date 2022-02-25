@@ -77,16 +77,18 @@ var corsOptions = {
   *  post:
   *   summary: create empresa
   *   description: create empresa for the organisation
+  *   requestBody:
+  *     required: true
+  *     content:
+  *       application/json:
+  *         schema:
+  *             $ref: '#/definitions/empresa' 
   *   responses:
   *    200:
   *     description: empresa created succesfully
   *    500:
   *     description: failure in creating empresa
-  *     content:
-  *       application/json:
-  *        schema:
-  *             $ref: '#/definitions/empresa' 
-  */
+ */
 router.post('/', empresa.createEmpresa);
 
 // /api/empresas/
