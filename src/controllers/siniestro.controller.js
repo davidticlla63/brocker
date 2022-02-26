@@ -52,7 +52,8 @@ export async function createSiniestro(req, res) {
             estado: 'ACT',
             idpolizadetalle,
             polizaid,
-            sucursalid
+            sucursalid,
+            estadosiniestro
         }, {
             fields: ['fechanotificacion',
                 'fechasiniestro',

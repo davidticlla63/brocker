@@ -57,10 +57,12 @@ export async function login(req, res) {
             // authentication successful
 
 
-            const usuarios = await sequelize.query(`select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa from usuario u 
+            const usuarios = await sequelize.query(`select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa,a.nombre areatrabajo
+             from usuario u 
                 inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' 
                 left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' 
-                left join personal p on p.id=u.personalid  and p.estado='ACT' 
+                left join personal p on p.id=u.personalid  and p.estado='ACT'
+                left join area_trabajo a on a.id =p.areatrabajoid
                 LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' 
                 where u.id= '` + usuario.id + `' and u.estado in ('ACT','SU','ADM') order by u.nick `
                 , {
@@ -70,7 +72,7 @@ export async function login(req, res) {
             const perfiles = await sequelize.query(`select pe.id,pe.nombre,pe.sucursalid,s.nombre as sucursal ,p.diaproduccion 
                  from  usuario_perfil up 
                 INNER JOIN perfil pe on pe.id=up.perfilid 
-                inner join sucursal s on  s.id= pe.sucursalid "+
+                inner join sucursal s on  s.id= pe.sucursalid 
                 left join param_produccion p  on p.sucursalid=pe.sucursalid and p.estado='ACT' 
                 where   up.estado='ACT' and up.usuarioid= '` + usuario.id + `' order by pe.nombre `
                 , {

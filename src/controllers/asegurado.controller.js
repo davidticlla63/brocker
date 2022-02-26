@@ -567,7 +567,7 @@ export async function todoLosAseguradosPorEmpresa(req, res) {
             inner join personal e on e.id=a.ejecutivoid 
             inner join personal c on c.id = a.carteraid 
             inner join departamento d on d.id = a.departamentoid 
-            inner join sucursal s on s.id=a.sucursalid "+
+            inner join sucursal s on s.id=a.sucursalid 
              where s.empresaid='` + empresaid + `'  and a.estado='ACT' order by a.fechamodificacion desc `
         //console.log(string)
         const asegurados = await sequelize.query(string

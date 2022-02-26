@@ -24,7 +24,7 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
     marcavehiculo: Sequelize.STRING,
     colorvehiculo: Sequelize.STRING,
     aniovehiculo: Sequelize.STRING,
-
+    modelo: Sequelize.STRING,
     primaindividual: Sequelize.DECIMAL,
     primanetaindividualbs: Sequelize.DECIMAL,
     primanetaindividualusd: Sequelize.DECIMAL,
@@ -34,15 +34,15 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
     estado: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
+    type: Sequelize.STRING,
+    allowNull: false,
+},
     //sucursalid:Sequelize.STRING,
     polizaid: Sequelize.STRING
 }, {
     timestamps: false,
-    //tableName: 'poliza_detalle'
-    tableName: 'poliza_detalle_automotor'
+        //tableName: 'poliza_detalle'
+        tableName: 'poliza_detalle_automotor'
 });
 /* PolizaDetalle.hasMany(PaginaPolizaDetalle, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaPolizaDetalle.belongsTo(PolizaDetalle, { foreignKey: 'accionid', sourceKey: 'id' }); */

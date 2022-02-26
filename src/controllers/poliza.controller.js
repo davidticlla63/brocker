@@ -245,7 +245,7 @@ export async function createPoliza(req, res) {
                 marcavehiculo: automotores[i].marcavehiculo,
                 colorvehiculo: automotores[i].colorvehiculo,
                 aniovehiculo: automotores[i].aniovehiculo,
-
+                modelo: automotores[i].modelo,
                 primaindividual: automotores[i].primaindividual,
                 primanetaindividualbs: automotores[i].primanetaindividualbs,
                 primanetaindividualusd: automotores[i].primanetaindividualusd,
@@ -265,7 +265,7 @@ export async function createPoliza(req, res) {
                     'marcavehiculo',
                     'colorvehiculo',
                     'aniovehiculo',
-
+                    'modelo',
                     'primaindividual',
                     'primanetaindividualbs',
                     'primanetaindividualusd',
@@ -515,7 +515,7 @@ export async function updatePoliza(req, res) {
                     marcavehiculo: automotores[i].marcavehiculo,
                     colorvehiculo: automotores[i].colorvehiculo,
                     aniovehiculo: automotores[i].aniovehiculo,
-
+                    modelo: automotores[i].modelo,
                     primaindividual: automotores[i].primaindividual,
                     primanetaindividualbs: automotores[i].primanetaindividualbs,
                     primanetaindividualusd: automotores[i].primanetaindividualusd,
@@ -535,7 +535,7 @@ export async function updatePoliza(req, res) {
                         'marcavehiculo',
                         'colorvehiculo',
                         'aniovehiculo',
-
+                        'modelo',
                         'primaindividual',
                         'primanetaindividualbs',
                         'primanetaindividualusd',
@@ -1396,6 +1396,7 @@ export async function createPolizaGeneral(req, res) {
         for (let i = 0; i < generales.length; i++) {
             let newPolizaDetalle = await PolizaDetalleGeneral.create({
                 //titular: generales[i].titular,
+                objetoasegurado: generales[i].objetoasegurado,
                 nrocertificado: generales[i].nrocertificado,
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
@@ -1412,6 +1413,7 @@ export async function createPolizaGeneral(req, res) {
                 polizaid: newPoliza.id
             }, {
                 fields: [
+                'objetoasegurado',
                     'nrocertificado',
                     'tipopolizageneral',
                     'direccion',
@@ -1610,6 +1612,7 @@ export async function updatePolizaGeneral(req, res) {
             for (let i = 0; i < generales.length; i++) {
                 let newPolizaDetalle = await PolizaDetalleGeneral.create({
                     //titular: generales[i].titular,
+                    objetoasegurado: generales[i].objetoasegurado,
                     nrocertificado: generales[i].nrocertificado,
                     tipopolizageneral: generales[i].tipopolizageneral,
                     direccion: generales[i].direccion,
@@ -1625,6 +1628,7 @@ export async function updatePolizaGeneral(req, res) {
                     polizaid: id
                 }, {
                     fields: [
+                        'objetoasegurado',
                         'nrocertificado',
                         'tipopolizageneral',
                         'direccion',
@@ -1828,8 +1832,10 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
-            where s.empresaid= '` + empresaid + `' and p.tpoliza='` + tipopoliza + `' and p.tiporamoid='`+tiporamoid+`'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= fechafin+" and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc `;
-        console.log(query);
+            where s.empresaid= '` + empresaid + `' and p.tpoliza='` + 
+            tipopoliza + `' and p.tiporamoid='`+tiporamoid+`'  
+            and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= `+fechainicio+` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= `+fechafin+` and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc `;
+     //   console.log(query);
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -1857,7 +1863,7 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
-            where s.id='` + sucursalid + `'  and p.tpoliza='` + tipopoliza + `' and p.tiporamoid='`+tiporamoid+`'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= fechainicio+" and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= fechafin+" and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+            where s.id='` + sucursalid + `'  and p.tpoliza='` + tipopoliza + `' and p.tiporamoid='`+tiporamoid+`'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= `+fechainicio+` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= `+fechafin+` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -1887,7 +1893,7 @@ export async function getPolizasPorEmpresaFechaVencimiento(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
              inner join tipo_ramo t on t.id=p.tiporamoid              
-            where s.empresaid= '` + empresaid + `'   and to_char(p.fechafin, 'YYYYMMDD')::integer>= fechainicio+" and to_char(p.fechafin, 'YYYYMMDD')::integer<= fechafin+" and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+            where s.empresaid= '` + empresaid + `'   and to_char(p.fechafin, 'YYYYMMDD')::integer>= `+fechainicio+` and to_char(p.fechafin, 'YYYYMMDD')::integer<= `+fechafin+` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         console.log(query);
         const polizas = await sequelize.query(query
             , {
@@ -1918,7 +1924,7 @@ export async function getPolizasPorSucursalVencimiento(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  "
-            where s.id='` + sucursalid + `'    and to_char(p.fechafin, 'YYYYMMDD')::integer>= fechainicio+" and to_char(p.fechafin, 'YYYYMMDD')::integer<= fechafin+" and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+            where s.id='` + sucursalid + `'    and to_char(p.fechafin, 'YYYYMMDD')::integer>= `+fechainicio+` and to_char(p.fechafin, 'YYYYMMDD')::integer<= `+fechafin+` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
