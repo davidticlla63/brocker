@@ -494,7 +494,8 @@ export async function usuarioByEmpresa(req, res) {
         const { empresaid } = req.params;
 
 
-        const usuarios = await sequelize.query(`SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
+        const usuarios = await sequelize.query(`SELECT u.id,u.nick,u.usuarioregistro,u.usuariomodificacion,u.fecharegistro,u.fechamodificacion,u.empresaid,u.personalid,u.estado
+            ,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
             inner join personal p on p.id=u.personalid and p.estado='ACT' 
             inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
             INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 
@@ -520,7 +521,8 @@ export async function usuariosBySucursal(req, res) {
         const { sucursalid } = req.params;
 
 
-        const usuarios = await sequelize.query(`SELECT u.*,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
+        const usuarios = await sequelize.query(`SELECT  u.id,u.nick,u.usuarioregistro,u.usuariomodificacion,u.fecharegistro,u.fechamodificacion,u.empresaid,u.personalid,u.estado
+            ,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,pe.id as perfilid,pe.nombre as nombreperfil FROM usuario u 
             inner join personal p on p.id=u.personalid and p.estado='ACT' 
             inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
             INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 

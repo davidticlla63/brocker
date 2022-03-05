@@ -67,8 +67,8 @@ router.get('/polizasPorEmpresas/:empresaid', polizas.getPolizasPorEmpresa);
 router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorSucursalYTipo);
 router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorEmpresaYTipo);
 /**busquedas por detalle  */
-router.get('/buscarPolizasDetallePorSucursal/:dato/:sucursalid', polizas.getBuscarPolizasDetallePorSucursal); //GENRAL SOLO UNA CONSULTA
-router.get('/buscarPolizasDetallePorEmpresa/:dato/:empresaid', polizas.getBuscarPolizasDetallePorEmpresa); //GENRAL SOLO UNA CONSULTA
+router.post('/buscarPolizasDetallePorSucursal/:sucursalid', polizas.getBuscarPolizasDetallePorSucursal); //GENRAL SOLO UNA CONSULTA
+router.post('/buscarPolizasDetallePorEmpresa/:empresaid', polizas.getBuscarPolizasDetallePorEmpresa); //GENRAL SOLO UNA CONSULTA
 /**busquedas por detalle   no sera usado*/
 router.get('/polizasDetalleAutomotorPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorEmpresaYTipo);
 router.get('/polizasDetalleAutomotorPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorSucursalYTipo);

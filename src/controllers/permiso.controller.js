@@ -26,8 +26,7 @@ export async function getPermisos(req, res) {
 
 export async function createPermiso(req, res) {
     const {
-        accionid,
-        paginaid,
+        paginaaccionid,
         perfilid,
         usuarioregistro,
         estado } = req.body;
