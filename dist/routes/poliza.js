@@ -22,7 +22,27 @@ var cors = require("cors");
 var compression = require("compression");
 
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression()); // /api/empresas/
+
+var shouldCompress = function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) {
+    // No comprimira las respuestas, si este encabezado 
+    // está presente.
+    return false;
+  } // Recurrir a la compresión estándar
+
+
+  return compression.filter(req, res);
+};
+
+router.use(cors()).use(bodyParser.json()).use(compression({
+  // filter: Decide si la respuesta debe comprimirse o no,
+  // en función de la función 'shouldCompress' anterior
+  filter: shouldCompress,
+  // threshold: Es el umbral de bytes para el tamaño del cuerpo
+  // de la respuesta antes de considerar la compresión,
+  // el valor predeterminado es 1 kB
+  threshold: 0
+})); // /api/empresas/
 //polizas de automotor
 
 router.post('/', polizas.createPoliza);
@@ -37,8 +57,8 @@ router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
 router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);
 router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPolizasPorTipoYEmpresa);
-router.post('/polizasPorTipoRamoYEmpresa/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
-router.post('/polizasPorTipoRamoYSucursal/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
+router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
+router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
 router.post('/polizasPorEmpresaYVencimiento/:empresaid', polizas.getPolizasPorEmpresaFechaVencimiento);
 router.post('/polizasPorSucursalYVencimiento/:sucursalid', polizas.getPolizasPorSucursalVencimiento);
 router.get('/polizasPorTomadorYEmpresa/:tomadorid/:empresaid', polizas.getPolizasPorTomadorYEmpresa);
@@ -52,9 +72,15 @@ router.put('/baja/:id', polizas.bajaPoliza); //siniestro  tipopolizaid
 
 router.get('/polizasPorSucursals/:sucursalid', polizas.getPolizasPorSucursal);
 router.get('/polizasPorEmpresas/:empresaid', polizas.getPolizasPorEmpresa);
-router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid', polizas.getPolizasPorSucursalYTipo);
-router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid', polizas.getPolizasPorEmpresaYTipo);
+router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorSucursalYTipo);
+router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid/:tiporamoid', polizas.getPolizasPorEmpresaYTipo);
 /**busquedas por detalle  */
+
+router.post('/buscarPolizasDetallePorSucursal/:sucursalid', polizas.getBuscarPolizasDetallePorSucursal); //GENRAL SOLO UNA CONSULTA
+
+router.post('/buscarPolizasDetallePorEmpresa/:empresaid', polizas.getBuscarPolizasDetallePorEmpresa); //GENRAL SOLO UNA CONSULTA
+
+/**busquedas por detalle   no sera usado*/
 
 router.get('/polizasDetalleAutomotorPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorEmpresaYTipo);
 router.get('/polizasDetalleAutomotorPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleAutomotorPorSucursalYTipo);

@@ -420,7 +420,7 @@ function _getRequisitoPorSiniestro() {
             siniestroid = req.params.siniestroid;
             _context8.prev = 1;
             _context8.next = 4;
-            return _database.sequelize.query("select case when sr.requisitoid is null then false else true end estado,r.id requisitoid,r.nombre,sr.id from requisito r " + " left join siniestro_requisito sr on sr.requisitoid=r.id and sr.estado='ACT' AND sr.siniestroid='" + siniestroid + "' " + " WHERE r.estado='ACT' ", {
+            return _database.sequelize.query("select case when sr.requisitoid is null then false else true end estado,r.id requisitoid,r.nombre,sr.id from requisito r \n         left join siniestro_requisito sr on sr.requisitoid=r.id and sr.estado='ACT' AND sr.siniestroid='" + siniestroid + "' \n         WHERE r.estado='ACT' ", {
               type: QueryTypes.SELECT
             });
 

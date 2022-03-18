@@ -579,7 +579,7 @@ function _getPermisosPorPerfil() {
             perfilid = req.params.perfilid;
             _context9.prev = 1;
             _context9.next = 4;
-            return _database.sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion " + "from pagina pag " + "inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT' " + "inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' " + "inner join accion a on a.id=pa.accionid " + "inner join perfil per on per.id=p.perfilid " + "where per.id= '" + perfilid + "' order by per.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.id as permisoid,pa.id as paginaaccionid, per.id perfilid,per.nombre as nombreperfil,pag.id paginaid,pag.nombre as nombrepagina,a.id accionid , a.nombre as nombreaccion \n            from pagina pag \n            inner join pagina_accion pa on pa.paginaid=pag.id and pa.estado='ACT'\n            inner join permiso p on P.paginaaccionid=pa.id and  p.estado='ACT' \n            inner join accion a on a.id=pa.accionid \n            inner join perfil per on per.id=p.perfilid \n            where per.id= '" + perfilid + "' order by per.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 

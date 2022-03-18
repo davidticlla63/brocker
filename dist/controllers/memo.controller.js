@@ -701,8 +701,7 @@ function _memosPorSucursal() {
             }); */
 
             _context5.next = 5;
-            return _database.sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join ramo sr on sr.id=src.ramopadreid " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.id= '" + sucursalid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,\n             d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago\n             from memo p\n            inner join sucursal s on s.id=p.sucursalid\n            inner join poliza po on po.id=p.polizaid\n            inner join asegurado a on a.id=po.tomadorid\n            inner join sub_ramo_compania src on src.id=po.subramocompaniaid\n            inner join ramo r on r.id=src.ramoid\n            left join ramo sr on sr.id=src.ramopadreid\n            inner join departamento d on d.id=po.ciudadexpedicion\n            inner join contratante co on co.id=po.contratanteid\n            left join plan pl on pl.id=po.planid\n            inner join banco b on b.id=po.bancoid\n            inner join personal e on e.id=po.encargadoid\n            inner join personal ej on ej.id=po.ejecutivoid\n            inner join compania_seguro c on c.id=po.companiaseguroid            \n            where s.id= '" + sucursalid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>=  " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -741,17 +740,16 @@ function memosPorEmpresa(_x11, _x12) {
 
 function _memosPorEmpresa() {
   _memosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var _empresaid, _req$body4, fechainicio, fechafin, query, memos;
+    var empresaid, _req$body4, fechainicio, fechafin, query, memos;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.prev = 0;
-            _empresaid = req.params.empresaid;
+            empresaid = req.params.empresaid;
             _req$body4 = req.body, fechainicio = _req$body4.fechainicio, fechafin = _req$body4.fechafin;
-            query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  " + " d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago " + " from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join poliza po on po.id=p.polizaid  " + "inner join asegurado a on a.id=po.tomadorid  " + "inner join sub_ramo_compania src on src.id=po.subramocompaniaid  " + "inner join ramo r on r.id=src.ramoid  " + "left join ramo sr on sr.id=src.ramopadreid " + "inner join departamento d on d.id=po.ciudadexpedicion " + "inner join contratante co on co.id=po.contratanteid " + "inner join plan pl on pl.id=po.planid " + "inner join banco b on b.id=po.bancoid " + "inner join personal e on e.id=po.encargadoid " + "inner join personal ej on ej.id=po.ejecutivoid " + "inner join compania_seguro c on c.id=po.companiaseguroid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + _empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(query);
+            query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  \n        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago \n             from memo p \n            inner join sucursal s on s.id=p.sucursalid\n            inner join poliza po on po.id=p.polizaid\n            inner join asegurado a on a.id=po.tomadorid\n            inner join sub_ramo_compania src on src.id=po.subramocompaniaid\n            inner join ramo r on r.id=src.ramoid\n            left join ramo sr on sr.id=src.ramopadreid\n            inner join departamento d on d.id=po.ciudadexpedicion\n            inner join contratante co on co.id=po.contratanteid\n            left  join plan pl on pl.id=po.planid\n            inner join banco b on b.id=po.bancoid\n            inner join personal e on e.id=po.encargadoid\n            inner join personal ej on ej.id=po.ejecutivoid\n            inner join compania_seguro c on c.id=po.companiaseguroid\n            where s.empresaid= '" + empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(query);
 
             _context6.next = 6;
             return _database.sequelize.query(query, {
@@ -920,8 +918,7 @@ function _getMemoPorTipoYSucursal() {
             _req$params = req.params, tipomemoid = _req$params.tipomemoid, sucursalid = _req$params.sucursalid;
             _context9.prev = 1;
             _context9.next = 4;
-            return _database.sequelize.query("select p.*,s.nombre as sucursal " + "from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.id= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*,s.nombre as sucursal \n            from memo p \n            inner join sucursal s on s.id=p.sucursalid  \n            where s.id= '" + sucursalid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -971,8 +968,7 @@ function _getMemosPorTipoYEmpresa() {
             _req$params2 = req.params, tipomemoid = _req$params2.tipomemoid, empresaid = _req$params2.empresaid;
             _context10.prev = 1;
             _context10.next = 4;
-            return _database.sequelize.query("select p.*,s.nombre as sucursal " + "from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + //"where s.empresaid= '" + empresaid + "' and p.tipomemoid='" + tipomemoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*,s.nombre as sucursal \n            from memo p \n            inner join sucursal s on s.id=p.sucursalid             \n            where s.empresaid= '" + empresaid + "' and p.tmemo='" + tipomemoid + "' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -1020,8 +1016,7 @@ function _getMemosPorTipoRamoYEmpresa() {
             _req$params3 = req.params, tiporamoid = _req$params3.tiporamoid, empresaid = _req$params3.empresaid;
             _context11.prev = 1;
             _context11.next = 4;
-            return _database.sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " + "from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " + "inner join sub_ramo sr on sr.id=rc.subramoid " + "inner join ramo r on r.id=rc.ramoid " + "inner join asegurado a on a.id=p.tomadorid " + "inner join compania_seguro cs on cs.id=p.companiaseguroid " + //"where s.empresaid= '" + empresaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.id "
-            "where s.empresaid= '" + empresaid + "' and p.tmemo='" + tiporamoid + "' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal \n            from memo p\n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid            \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo r2 on r2.id =r.ramoid  \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            where s.empresaid= '" + empresaid + "' and p.tmemo='" + tiporamoid + "' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -1072,10 +1067,7 @@ function _getMemosPorTipoRamoYSucursal() {
             _req$params4 = req.params, tiporamoid = _req$params4.tiporamoid, sucursalid = _req$params4.sucursalid;
             _context12.prev = 1;
             _context12.next = 4;
-            return _database.sequelize.query("select p.* ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal " +
-            /*       "from memo p " +
-                  "inner join sucursal s on s.id=p.sucursalid  " + */
-            "from memo p " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " + "inner join sub_ramo sr on sr.id=rc.subramoid " + "inner join ramo r on r.id=rc.ramoid " + "inner join asegurado a on a.id=p.tomadorid " + "inner join compania_seguro cs on cs.id=p.companiaseguroid " + "where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.* ,r2.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal \n     \n            from memo p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo r2 on r2.id =r.ramoid  \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            where s.id='" + sucursalid + "'  and p.tmemo='" + tiporamoid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -1124,23 +1116,22 @@ function _getTotalProduccionMemoPorEmpresa() {
           case 0:
             empresaid = req.params.empresaid;
             _context13.prev = 1;
-            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado " + "from memo m  " + " inner join poliza p on p.id=m.polizaid  ";
-            "inner join sucursal s on s.id =si.sucursalid  " + "inner join empresa e on e.id =s.empresaid " + " where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
-            _context13.next = 6;
+            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado \n        from memo m  \n        inner join poliza p on p.id=m.polizaid  \n        inner join sucursal s on s.id =p.sucursalid  \n        inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
+            _context13.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 5:
             pagos = _context13.sent;
             res.json({
               data: pagos
             });
-            _context13.next = 14;
+            _context13.next = 13;
             break;
 
-          case 10:
-            _context13.prev = 10;
+          case 9:
+            _context13.prev = 9;
             _context13.t0 = _context13["catch"](1);
             console.log(_context13.t0);
             res.status(500).json({
@@ -1150,12 +1141,12 @@ function _getTotalProduccionMemoPorEmpresa() {
               }
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context13.stop();
         }
       }
-    }, _callee13, null, [[1, 10]]);
+    }, _callee13, null, [[1, 9]]);
   }));
   return _getTotalProduccionMemoPorEmpresa.apply(this, arguments);
 }
@@ -1173,23 +1164,22 @@ function _getTotalProduccionMemoPorSucursal() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context14.prev = 1;
-            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado " + "from memo m  " + " inner join poliza p on p.id=m.polizaid  ";
-            " where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
-            _context14.next = 6;
+            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid  \n            where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
+            _context14.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 5:
             pagos = _context14.sent;
             res.json({
               data: pagos
             });
-            _context14.next = 14;
+            _context14.next = 13;
             break;
 
-          case 10:
-            _context14.prev = 10;
+          case 9:
+            _context14.prev = 9;
             _context14.t0 = _context14["catch"](1);
             console.log(_context14.t0);
             res.status(500).json({
@@ -1199,12 +1189,12 @@ function _getTotalProduccionMemoPorSucursal() {
               }
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context14.stop();
         }
       }
-    }, _callee14, null, [[1, 10]]);
+    }, _callee14, null, [[1, 9]]);
   }));
   return _getTotalProduccionMemoPorSucursal.apply(this, arguments);
 }

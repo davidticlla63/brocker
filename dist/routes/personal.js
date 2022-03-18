@@ -25,17 +25,26 @@ var router = (0, _express.Router)();
 /* import { createPersonal, getPersonals, getOnePersonal, deletePersonal, updatePersonal,bajaPersonal,personalByAreaTrabajo ,personalBySucursal,
 personalByEmpresa} from "../controllers/personal.controller"; */
 
-router.use(cors()).use(bodyParser.json())
-/*   .use(bodyParser.json({ limit: '500mb' }))
-  .use(bodyParser.urlencoded({
-      limit: '500mb',
-      extended: true,
-      parameterLimit: 50000
-  })) */
-//.use(bodyParser.json({limit: '50mb'}))
-//.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
-//.use(limit(100000000))
-.use(compression()); // /api/empresas/
+var shouldCompress = function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) {
+    // No comprimira las respuestas, si este encabezado 
+    // está presente.
+    return false;
+  } // Recurrir a la compresión estándar
+
+
+  return compression.filter(req, res);
+};
+
+router.use(cors()).use(bodyParser.json()).use(compression({
+  // filter: Decide si la respuesta debe comprimirse o no,
+  // en función de la función 'shouldCompress' anterior
+  filter: shouldCompress,
+  // threshold: Es el umbral de bytes para el tamaño del cuerpo
+  // de la respuesta antes de considerar la compresión,
+  // el valor predeterminado es 1 kB
+  threshold: 0
+})); // /api/empresas/
 
 router.post('/', personal.createPersonal);
 router.get('/', personal.getPersonals); // /api/empresas/:empresaID

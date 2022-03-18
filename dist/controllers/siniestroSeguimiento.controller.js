@@ -38,7 +38,7 @@ function _getSiniestroSeguimientos() {
             siniestroid = req.params.siniestroid;
             _context.prev = 1;
             _context.next = 4;
-            return _database.sequelize.query("select s.*  " + "from siniestro_seguimiento s " + "where  s.siniestroid= '" + siniestroid + "'  and s.estado IN ('ACT') order by s.fechamodificacion desc ", {
+            return _database.sequelize.query("select s.*  \n            from siniestro_seguimiento s \n            where  s.siniestroid= '" + siniestroid + "'  and s.estado IN ('ACT') order by s.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -382,7 +382,7 @@ function _getSiniestroSeguimientoPorSucursal() {
             sucursalid = req.params.sucursalid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante " + " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " + "from siniestro ss " + "inner join poliza p on p.id = ss.polizaid " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " + "inner join sub_ramo sr on sr.id=rc.subramoid " + "inner join ramo r on r.id=rc.ramoid " + "inner join asegurado a on a.id=p.tomadorid " + "inner join contratante c on c.id=p.contratanteid " + "inner join compania_seguro cs on cs.id=p.companiaseguroid " + "inner join memo m on m.polizaid=p.id and m.estado='ACT' " + "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc ", {
+            return _database.sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante \n             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal \n            from siniestro ss \n            inner join poliza p on p.id = ss.polizaid \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join sub_ramo sr on sr.id=rc.subramoid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo rp on r.ramoid=rp.id \n            inner join asegurado a on a.id=p.tomadorid \n            inner join contratante c on c.id=p.contratanteid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id --and m.estado='ACT' \n            where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 

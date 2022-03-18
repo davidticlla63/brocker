@@ -44,13 +44,27 @@ function _getPaginas() {
                 require: true,
                 estado: 'ACT',
                 include: [{
+                  model: _Pagina["default"],
+                  require: true,
+                  estado: 'ACT',
+                  include: [{
+                    model: _PaginaAccion["default"],
+                    attributes: ['id', 'accionid', 'paginaid'],
+                    require: true,
+                    estado: 'ACT'
+                  }]
+                }, {
                   model: _PaginaAccion["default"],
                   attributes: ['id', 'accionid', 'paginaid'],
                   require: true,
-                  estado: 'ACT' // include:{ model: Accion,atributes:['id','nombre'],require:true, estado: 'ACT' }
+                  estado: 'ACT'
+                }]
+                /*  ,
+                 include: [{
+                     model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
+                 },
+                 ] */
 
-                } //{ model: Accion,atributes:['id','nombre'], estado: 'ACT', require: true }
-                ]
               }, {
                 model: _PaginaAccion["default"],
                 attributes: ['id', 'accionid', 'paginaid'],

@@ -18,6 +18,7 @@ var PolizaDetalleGeneral = _database.sequelize.define('PolizaDetalleGeneral', {
     primaryKey: true
   },
   //titular:Sequelize.STRING,
+  objetoasegurado: _sequelize["default"].STRING,
   nrocertificado: _sequelize["default"].STRING,
   tipopolizageneral: _sequelize["default"].STRING,
   direccion: _sequelize["default"].STRING,

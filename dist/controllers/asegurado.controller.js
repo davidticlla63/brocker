@@ -673,7 +673,7 @@ function _aseguradosPorSucursalYTipo() {
           case 0:
             _context8.prev = 0;
             _req$params = req.params, sucursalid = _req$params.sucursalid, tipoasegurado = _req$params.tipoasegurado;
-            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento \n             from asegurado a \n            inner join personal e on e.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n             where a.sucursalid='" + sucursalid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context8.next = 5;
             return _database.sequelize.query(string, {
@@ -720,7 +720,7 @@ function _todoLosAseguradosPorSucursal() {
           case 0:
             _context9.prev = 0;
             sucursalid = req.params.sucursalid;
-            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento \n             from asegurado a \n            inner join personal e on e.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n             where a.sucursalid='" + sucursalid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context9.next = 5;
             return _database.sequelize.query(string, {
@@ -767,7 +767,7 @@ function _todoLosAseguradosPorEmpresa() {
           case 0:
             _context10.prev = 0;
             empresaid = req.params.empresaid;
-            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento,s.nombre sucursal " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "inner join sucursal s on s.id=a.sucursalid " + " where s.empresaid='" + empresaid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
+            string = "select a.*, e.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento,s.nombre sucursal \n             from asegurado a \n            inner join personal e on e.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            inner join sucursal s on s.id=a.sucursalid \n             where s.empresaid='" + empresaid + "'  and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context10.next = 5;
             return _database.sequelize.query(string, {
@@ -816,21 +816,21 @@ function _aseguradosPorEmpresaYTipo() {
             _context11.prev = 0;
             _req$params2 = req.params, empresaid = _req$params2.empresaid, tipoasegurado = _req$params2.tipoasegurado; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
 
-            query = "select a.*, ej.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc ";
-            console.log(query);
-            _context11.next = 6;
+            query = "select a.*, ej.nombrecompleto as ejecutivo, c.nombrecompleto as cartera, d.nombre departamento \n            from asegurado a \n            inner join sucursal s on s.id=a.sucursalid \n             inner join empresa e on e.id=s.empresaid \n            inner join personal ej on ej.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            where e.id='" + empresaid + "' and a.tipoasegurado='" + tipoasegurado + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(query)
+
+            _context11.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 5:
             asegurados = _context11.sent;
             res.json(asegurados);
-            _context11.next = 14;
+            _context11.next = 13;
             break;
 
-          case 10:
-            _context11.prev = 10;
+          case 9:
+            _context11.prev = 9;
             _context11.t0 = _context11["catch"](0);
             console.log(_context11.t0);
             res.status(500).json({
@@ -840,12 +840,12 @@ function _aseguradosPorEmpresaYTipo() {
               }
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context11.stop();
         }
       }
-    }, _callee11, null, [[0, 10]]);
+    }, _callee11, null, [[0, 9]]);
   }));
   return _aseguradosPorEmpresaYTipo.apply(this, arguments);
 }
@@ -863,7 +863,7 @@ function _aseguradosPorSucursals() {
           case 0:
             _context12.prev = 0;
             sucursalid = req.params.sucursalid;
-            string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit " + " from asegurado a " + "inner join personal e on e.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + " where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
+            string = "select a.id,a.nombrecompleto,a.tipoasegurado,e.id as ejecutivoid, e.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit \n             from asegurado a \n            inner join personal e on e.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            where a.sucursalid='" + sucursalid + "' and a.estado='ACT' order by a.fechamodificacion desc "; //console.log(string)
 
             _context12.next = 5;
             return _database.sequelize.query(string, {
@@ -911,7 +911,7 @@ function _aseguradosPorEmpresas() {
             _context13.prev = 0;
             empresaid = req.params.empresaid; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
 
-            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  " + "from asegurado a " + "inner join sucursal s on s.id=a.sucursalid " + " inner join empresa e on e.id=s.empresaid " + "inner join personal ej on ej.id=a.ejecutivoid " + "inner join personal c on c.id = a.carteraid " + "inner join departamento d on d.id = a.departamentoid " + "where e.id='" + empresaid + "' and a.estado='ACT' order by a.fechamodificacion desc ";
+            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  \n            from asegurado a \n            inner join sucursal s on s.id=a.sucursalid \n             inner join empresa e on e.id=s.empresaid \n            inner join personal ej on ej.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            where e.id='" + empresaid + "' and a.estado='ACT' order by a.fechamodificacion desc ";
             console.log(query);
             _context13.next = 6;
             return _database.sequelize.query(query, {

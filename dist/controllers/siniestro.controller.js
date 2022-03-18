@@ -20,6 +20,8 @@ var _Siniestro = _interopRequireDefault(require("../models/Siniestro"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -84,7 +86,7 @@ function _createSiniestro() {
             _req$body = req.body, fechanotificacion = _req$body.fechanotificacion, fechasiniestro = _req$body.fechasiniestro, comentarioinicial = _req$body.comentarioinicial, resumenejecutivo = _req$body.resumenejecutivo, resumenfinal = _req$body.resumenfinal, montoindemnizar = _req$body.montoindemnizar, fecharecordatoria = _req$body.fecharecordatoria, notarecordatoria = _req$body.notarecordatoria, tpoliza = _req$body.tpoliza, status = _req$body.status, encargadoid = _req$body.encargadoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, idpolizadetalle = _req$body.idpolizadetalle, polizaid = _req$body.polizaid, sucursalid = _req$body.sucursalid;
             _context2.prev = 1;
             _context2.next = 4;
-            return _Siniestro["default"].create({
+            return _Siniestro["default"].create(_defineProperty({
               fechanotificacion: fechanotificacion,
               fechasiniestro: fechasiniestro,
               comentarioinicial: comentarioinicial,
@@ -104,7 +106,7 @@ function _createSiniestro() {
               idpolizadetalle: idpolizadetalle,
               polizaid: polizaid,
               sucursalid: sucursalid
-            }, {
+            }, "estadosiniestro", estadosiniestro), {
               fields: ['fechanotificacion', 'fechasiniestro', 'comentarioinicial', 'resumenejecutivo', 'resumenfinalsiniestro', 'montoindemnizar', 'fecharecordatorio', 'notarecordatorio', 'tipo', 'estadosiniestro', 'encargadoid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'idpolizadetalle', 'polizaid', 'sucursalid']
             });
 
@@ -399,7 +401,7 @@ function _getSiniestroPorSucursal() {
             sucursalid = req.params.sucursalid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante " + " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " + "from siniestro ss " + "inner join poliza p on p.id = ss.polizaid " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " + "inner join sub_ramo sr on sr.id=rc.subramoid " + "inner join ramo r on r.id=rc.ramoid " + "inner join asegurado a on a.id=p.tomadorid " + "inner join contratante c on c.id=p.contratanteid " + "inner join compania_seguro cs on cs.id=p.companiaseguroid " + "inner join memo m on m.polizaid=p.id and m.estado='ACT' " + "where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc ", {
+            return _database.sequelize.query("select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante \n             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal \n            from siniestro ss \n            inner join poliza p on p.id = ss.polizaid \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join sub_ramo sr on sr.id=rc.subramoid \n            inner join ramo r on r.id=rc.ramoid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join contratante c on c.id=p.contratanteid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n            where  s.id= '" + sucursalid + "'  and ss.estado IN ('ACT') order by ss.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -449,7 +451,7 @@ function _getSiniestroPorEmpresa() {
             empresaid = req.params.empresaid;
             _context8.prev = 1;
             _context8.next = 4;
-            return _database.sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante " + " ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal " + "from siniestro ss " + "inner join poliza p on p.id = ss.polizaid " + "inner join sucursal s on s.id=p.sucursalid  " + "inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid " + "inner join sub_ramo sr on sr.id=rc.subramoid " + "inner join ramo r on r.id=rc.ramoid " + "inner join asegurado a on a.id=p.tomadorid " + "inner join contratante c on c.id=p.contratanteid " + "inner join compania_seguro cs on cs.id=p.companiaseguroid " + "inner join memo m on m.polizaid=p.id and m.estado='ACT' " + "where  s.empresaid= '" + empresaid + "'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc ", {
+            return _database.sequelize.query("select ss.*,p.nropoliza,p.valorasegurado,c.nombre contratante \n             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal \n            from siniestro ss \n            inner join poliza p on p.id = ss.polizaid \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join sub_ramo sr on sr.id=rc.subramoid \n            inner join ramo r on r.id=rc.ramoid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join contratante c on c.id=p.contratanteid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n            where  s.empresaid= '" + empresaid + "'  and ss.estado IN ('ACT','CER') order by ss.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -498,7 +500,7 @@ function _getTotalSiniestrosPorEmpresa() {
           case 0:
             empresaid = req.params.empresaid;
             _context9.prev = 1;
-            query = "select count(*) cantidad from siniestro si " + "inner join sucursal s on s.id =si.sucursalid  " + "inner join empresa e on e.id =s.empresaid " + "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
+            query = "select count(*) cantidad from siniestro si \n            inner join sucursal s on s.id =si.sucursalid  \n            inner join empresa e on e.id =s.empresaid \n            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
             _context9.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -546,7 +548,7 @@ function _getTotalSiniestrosPorSucursal() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context10.prev = 1;
-            query = "select count(*) cantidad from siniestro si  " + "where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
+            query = "select count(*) cantidad from siniestro si  \n            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
             _context10.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT

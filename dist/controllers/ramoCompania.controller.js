@@ -425,7 +425,7 @@ function _ramoCompaniaPorEmpresa() {
             console.log(req.params); //const ramoCompania = await RamoCompania.findAll({ where: { estado: 'ACT', subramoid } });
 
             _context7.next = 5;
-            return _database.sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " + "inner join ramo r on r.id=rc.ramoid " + "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id ", {
+            return _database.sequelize.query("\tselect rc.*,r.nombre nombreramo \n        from ramo_compania  rc \n        inner join ramo r on r.id=rc.ramoid \n        where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by  r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -473,7 +473,7 @@ function _ramoCompaniaPorRamo() {
             _context8.prev = 1;
             console.log(req.params);
             _context8.next = 5;
-            return _database.sequelize.query("select rc.*,r.nombre nombreramo from ramo_compania  rc " + "inner join ramo r on r.id=rc.ramoid " + "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id ", {
+            return _database.sequelize.query("\tselect rc.*,r.nombre nombreramo \n        from ramo_compania  rc \n        inner join ramo r on r.id=rc.ramoid \n        where r.id= '" + ramoid + "' and rc.estado ='ACT' order by r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -520,7 +520,7 @@ function _ramoCompaniaPorCompania() {
             companiaseguroid = req.params.companiaseguroid;
             _context9.prev = 1;
             _context9.next = 4;
-            return _database.sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo from ramo_compania  rc  " + "inner join ramo r on r.id=s.ramoid " + "left join ramo s on s.ramoid=r.id  " + "inner join tipo_ramo t on t.id=r.tiporamoid " + "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id ", {
+            return _database.sequelize.query("\tselect rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo \n        from ramo_compania  rc  \n        inner join ramo r on r.id=s.ramoid \n        left join ramo s on s.ramoid=r.id  \n        inner join tipo_ramo t on t.id=r.tiporamoid \n        where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by t.nombre,r.nombre ", {
               type: QueryTypes.SELECT
             });
 

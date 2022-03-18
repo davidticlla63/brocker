@@ -34,6 +34,7 @@ var PolizaDetalle = _database.sequelize.define('PolizaDetalle', {
   marcavehiculo: _sequelize["default"].STRING,
   colorvehiculo: _sequelize["default"].STRING,
   aniovehiculo: _sequelize["default"].STRING,
+  modelo: _sequelize["default"].STRING,
   primaindividual: _sequelize["default"].DECIMAL,
   primanetaindividualbs: _sequelize["default"].DECIMAL,
   primanetaindividualusd: _sequelize["default"].DECIMAL,

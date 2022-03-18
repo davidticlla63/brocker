@@ -93,6 +93,8 @@ var _reportes = _interopRequireDefault(require("./routes/reportes"));
 
 var _siniestroRequisito = _interopRequireDefault(require("./routes/siniestroRequisito"));
 
+var _paramProduccion = _interopRequireDefault(require("./routes/paramProduccion"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -100,8 +102,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // importing routes
-var compression = require("compression");
-
 var bodyParser = require("body-parser");
 
 var jsonParser = bodyParser.json({
@@ -178,17 +178,17 @@ app.use('/api/vendedors', _vendedor["default"]); //polizas
 
 app.use('/api/tipoPolizas', _tipoPoliza["default"]);
 app.use('/api/polizas', _poliza["default"]);
-/* app.use('/api/polizas/automotor', polizaDetalleRoutes);
-app.use('/api/polizas/generals', polizaDetalleGeneralRoutes);
-app.use('/api/polizas/personas', polizaDetallePersonaRoutes);
-app.use('/api/polizas/dependientes', polizaDetallePersonaTitularRoutes);
-app.use('/api/polizas/adicionales', polizaDetalleAdicionalRoutes); */
-//archivos
+app.use('/api/polizas/automotor', _polizaDetalle["default"]);
+app.use('/api/polizas/generals', _polizaDetalleGeneral["default"]);
+app.use('/api/polizas/personas', _polizaDetallePersona["default"]);
+app.use('/api/polizas/dependientes', _polizaDetallePersonaTitular["default"]);
+app.use('/api/polizas/adicionales', _polizaDetalleAdicional["default"]); //archivos
 
 app.use('/api/carpetas', _carpeta["default"]);
 app.use('/api/archivos', _archivo["default"]); //memos
 
-app.use('/api/memos', _memo["default"]); //pagos
+app.use('/api/memos', _memo["default"]);
+app.use('/api/paramProduccion', _paramProduccion["default"]); //pagos
 
 app.use('/api/pago', _pago["default"]); //cobranza
 

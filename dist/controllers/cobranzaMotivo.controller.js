@@ -369,7 +369,7 @@ function _getCobranzaMotivosPorPlanPago() {
             planpagoid = req.params.planpagoid;
             _context7.prev = 1;
             _context7.next = 4;
-            return sequelize.query("select planpagoid, string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) " + "from cobranza_motivo " + "where estado='ACT' AND planpagoid='" + planpagoid + "' " + " group by planpagoid  ", {
+            return sequelize.query("select planpagoid, string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) \n            from cobranza_motivo \n            where estado='ACT' AND planpagoid='" + planpagoid + "' \n             group by planpagoid  ", {
               type: QueryTypes.SELECT
             });
 

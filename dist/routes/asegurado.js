@@ -22,7 +22,27 @@ var cors = require("cors");
 var compression = require("compression");
 
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression()); // /api/empresas/
+
+var shouldCompress = function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) {
+    // No comprimira las respuestas, si este encabezado 
+    // está presente.
+    return false;
+  } // Recurrir a la compresión estándar
+
+
+  return compression.filter(req, res);
+};
+
+router.use(cors()).use(bodyParser.json()).use(compression({
+  // filter: Decide si la respuesta debe comprimirse o no,
+  // en función de la función 'shouldCompress' anterior
+  filter: shouldCompress,
+  // threshold: Es el umbral de bytes para el tamaño del cuerpo
+  // de la respuesta antes de considerar la compresión,
+  // el valor predeterminado es 1 kB
+  threshold: 0
+})); // /api/empresas/
 
 router.post('/', asegurados.createAsegurado);
 router.get('/', asegurados.getAsegurados); // /api/empresas/:empresaID

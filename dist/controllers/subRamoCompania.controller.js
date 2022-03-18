@@ -34,13 +34,13 @@ function createSubRamoCompania(_x, _x2) {
 
 function _createSubRamoCompania() {
   _createSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, porcentajecomision, porcentajecomisioncredito, porcentajeprima, porcentajeprimacredito, nota, notacredito, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, ramoid, ramopadreid, companiaseguroid, sucursalid, regSubRamoCompanias, _regSubRamoCompanias, newSubRamoCompania;
+    var _req$body, porcentajecomision, porcentajecomisioncredito, porcentajeprima, porcentajeprimacredito, nota, notacredito, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, estado, ramoid, ramopadreid, companiaseguroid, sucursalid, regSubRamoCompanias, _regSubRamoCompanias, newSubRamoCompania;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _req$body = req.body, porcentajecomision = _req$body.porcentajecomision, porcentajecomisioncredito = _req$body.porcentajecomisioncredito, porcentajeprima = _req$body.porcentajeprima, porcentajeprimacredito = _req$body.porcentajeprimacredito, nota = _req$body.nota, notacredito = _req$body.notacredito, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado, ramoid = _req$body.ramoid, ramopadreid = _req$body.ramopadreid, companiaseguroid = _req$body.companiaseguroid, sucursalid = _req$body.sucursalid;
+            _req$body = req.body, porcentajecomision = _req$body.porcentajecomision, porcentajecomisioncredito = _req$body.porcentajecomisioncredito, porcentajeprima = _req$body.porcentajeprima, porcentajeprimacredito = _req$body.porcentajeprimacredito, nota = _req$body.nota, notacredito = _req$body.notacredito, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, estado = _req$body.estado, ramoid = _req$body.ramoid, ramopadreid = _req$body.ramopadreid, companiaseguroid = _req$body.companiaseguroid, sucursalid = _req$body.sucursalid;
             _context.prev = 1;
 
             if (!(ramopadreid != null)) {
@@ -298,7 +298,7 @@ function _subRamoCompaniaPorEmpresa() {
             console.log(req.params); //const subRamoCompania = await SubRamoCompania.findAll({ where: { estado: 'ACT', ramopadreid } });
 
             _context4.next = 5;
-            return _database.sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc " + "inner join ramo r on r.id=rc.ramoid " + "where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by rc.id ", {
+            return _database.sequelize.query("select rc.*,r.nombre nombreramo from sub_ramo_compania  rc \n            inner join ramo r on r.id=rc.ramoid \n            where r.empresaid= '" + empresaid + "' and rc.estado ='ACT' order by r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -338,11 +338,11 @@ function subRamoCompaniaPorRamo(_x9, _x10) {
     const {
         companiaseguroid } = req.params;
     try {
-        const subRamoCompania = await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo from sub_ramo_compania  rc  " +
-            "inner join ramo r on r.id=s.ramoid " +
-            "left join ramo s on s.ramoid=r.id " +
-            "inner join tipo_ramo t on t.id=r.tiporamoid " +
-            "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.id "
+        const subRamoCompania = await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo from sub_ramo_compania  rc  
+            "inner join ramo r on r.id=s.ramoid 
+            "left join ramo s on s.ramoid=r.id 
+            "inner join tipo_ramo t on t.id=r.tiporamoid 
+            "where rc.companiaseguroid= '` + companiaseguroid + `' and rc.estado ='ACT' order by rc.id "
             , {
                 type: QueryTypes.SELECT
             });
@@ -370,7 +370,7 @@ function _subRamoCompaniaPorRamo() {
             _context5.prev = 1;
             console.log(req.params);
             _context5.next = 5;
-            return _database.sequelize.query("select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc " + "inner join ramo r on r.id=rc.ramoid " + "left join ramo p on rc.ramopadreid=r.id " + "where r.id= '" + ramoid + "' and rc.estado ='ACT' order by rc.id ", {
+            return _database.sequelize.query("select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo p on rc.ramopadreid=r.id \n            where r.id= '" + ramoid + "' and rc.estado ='ACT' order by r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -417,7 +417,7 @@ function _subRamoCompaniaPorCompania() {
             companiaseguroid = req.params.companiaseguroid;
             _context6.prev = 1;
             _context6.next = 4;
-            return _database.sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,p.spvs spvsramopadre, t.spvs spvstiporamo  " + "from sub_ramo_compania  rc  " + "inner join ramo r on r.id=rc.ramoid  " + "left join ramo p on rc.ramopadreid=r.id " + "inner join tipo_ramo t on t.id=r.tiporamoid  " + "where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by rc.fechamodificacion desc ", {
+            return _database.sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else p.spvs end spvsramopadre, t.spvs spvstiporamo , s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id =rc.companiaseguroid   \n            inner join sucursal s on s.id=rc.sucursalid \n            where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by c.nombre,r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -464,7 +464,7 @@ function _subRamoCompaniaYCompaniaPorEmpresa() {
             empresaid = req.params.empresaid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " + "from sub_ramo_compania  rc  " + "inner join ramo r on r.id=rc.ramoid  " + "left join ramo p on rc.ramopadreid=r.id " + "inner join tipo_ramo t on t.id=r.tiporamoid  " + "inner join compania_seguro c on c.id=rc.companiaseguroid  " + "where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  \n            inner join sucursal s on s.id=rc.sucursalid \n            where c.empresaid= '" + empresaid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -511,7 +511,7 @@ function _subRamoCompaniaYCompaniaPorSucursal() {
             sucursalid = req.params.sucursalid;
             _context8.prev = 1;
             _context8.next = 4;
-            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo " + "from sub_ramo_compania  rc  " + "inner join ramo r on r.id=rc.ramoid  " + "left join ramo p on rc.ramopadreid=r.id " + "inner join tipo_ramo t on t.id=r.tiporamoid  " + "inner join compania_seguro c on c.id=rc.companiaseguroid  " + "where c.sucursalid= '" + sucursalid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  \n            inner join sucursal s on s.id=rc.sucursalid \n            where c.sucursalid= '" + sucursalid + "' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 

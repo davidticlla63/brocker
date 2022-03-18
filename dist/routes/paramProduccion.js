@@ -9,7 +9,7 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
-var ramoCompanias = _interopRequireWildcard(require("../controllers/ramoCompania.controller"));
+var ParamProduccion = _interopRequireWildcard(require("../controllers/paramProduccion.controller"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -21,38 +21,17 @@ var cors = require("cors");
 
 var compression = require("compression");
 
-var router = (0, _express.Router)();
+var router = (0, _express.Router)(); //import { createParamProduccions, getParamProduccionss, getOneParamProduccions, deleteParamProduccions, updateParamProduccions,bajaParamProduccions,ParamProduccionsByEmpresa } from "../controllers/ParamProduccions.controller";
 
-var shouldCompress = function shouldCompress(req, res) {
-  if (req.headers['x-no-compression']) {
-    // No comprimira las respuestas, si este encabezado 
-    // está presente.
-    return false;
-  } // Recurrir a la compresión estándar
+router.use(cors()).use(bodyParser.json()).use(compression()); // /api/empresas/
 
+router.post('/', ParamProduccion.createParamProduccion);
+router.get('/', ParamProduccion.getParamProduccions); // /api/empresas/:empresaID
 
-  return compression.filter(req, res);
-};
-
-router.use(cors()).use(bodyParser.json()).use(compression({
-  // filter: Decide si la respuesta debe comprimirse o no,
-  // en función de la función 'shouldCompress' anterior
-  filter: shouldCompress,
-  // threshold: Es el umbral de bytes para el tamaño del cuerpo
-  // de la respuesta antes de considerar la compresión,
-  // el valor predeterminado es 1 kB
-  threshold: 0
-})); // /api/empresas/
-
-router.post('/', ramoCompanias.createRamoCompania); //router.get('/', ramoCompanias.getRamoCompanias);
-// /api/empresas/:empresaID
-
-router.get('/:id', ramoCompanias.getOneRamoCompania);
-router["delete"]('/:id', ramoCompanias.deleteRamoCompania);
-router.put('/:id', ramoCompanias.updateRamoCompania);
-router.put('/baja/:id', ramoCompanias.bajaRamoCompania);
-router.get('/ramoCompaniasPorRamo/:ramoid', ramoCompanias.ramoCompaniaPorRamo);
-router.get('/ramoCompaniasPorCompania/:companiaseguroid', ramoCompanias.ramoCompaniaPorCompania);
-router.get('/ramoCompaniaPorEmpresa/:empresaid', ramoCompanias.ramoCompaniaPorEmpresa);
+router.get('/:id', ParamProduccion.getOneParamProduccion);
+router["delete"]('/:id', ParamProduccion.deleteParamProduccion);
+router.put('/:id', ParamProduccion.updateParamProduccion);
+router.get('/ParamProduccionsPorSucursal/:sucursalid', ParamProduccion.ParamProduccionBySucursal);
+router.put('/baja/:id', ParamProduccion.bajaParamProduccion);
 var _default = router;
 exports["default"] = _default;

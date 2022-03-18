@@ -11,12 +11,14 @@ var _database = require("../database/database");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-//const uuid = require('uuid/v4');
+var _require = require('uuid'),
+    uuidv4 = _require.v4;
+
 var SucursalUsuario = _database.sequelize.define('SucursalUsuario', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
-    primaryKey: true,
-    type: _sequelize["default"].UUID
+    type: _sequelize["default"].STRING,
+    primaryKey: true
   },
   usuarioid: {
     type: _sequelize["default"].STRING,
@@ -40,7 +42,7 @@ var SucursalUsuario = _database.sequelize.define('SucursalUsuario', {
 });
 
 SucursalUsuario.beforeCreate(function (sucursalUsuario) {
-  return sucursalUsuario.id = uuid();
+  return sucursalUsuario.id = uuidv4();
 });
 var _default = SucursalUsuario;
 exports["default"] = _default;

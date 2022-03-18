@@ -88,13 +88,13 @@ function createPermiso(_x3, _x4) {
 
 function _createPermiso() {
   _createPermiso = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, accionid, paginaid, perfilid, usuarioregistro, estado, newPermiso;
+    var _req$body, paginaaccionid, perfilid, usuarioregistro, estado, newPermiso;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, accionid = _req$body.accionid, paginaid = _req$body.paginaid, perfilid = _req$body.perfilid, usuarioregistro = _req$body.usuarioregistro, estado = _req$body.estado;
+            _req$body = req.body, paginaaccionid = _req$body.paginaaccionid, perfilid = _req$body.perfilid, usuarioregistro = _req$body.usuarioregistro, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Permiso["default"].create({

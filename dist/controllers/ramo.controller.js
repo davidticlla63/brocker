@@ -383,7 +383,7 @@ function _getRamosPorEmpresa() {
             empresaid = req.params.empresaid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo " + "from ramo r " + "inner join tipo_ramo tr on tr.id=r.tiporamoid " + "where r.empresaid= '" + empresaid + "' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc ", {
+            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo \n            from ramo r \n            inner join tipo_ramo tr on tr.id=r.tiporamoid \n            where r.empresaid= '" + empresaid + "' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -497,55 +497,63 @@ function _getRamosPorEmpresas() {
           case 0:
             empresaid = req.params.empresaid;
             _context9.prev = 1;
-            sql = "select tr.id,tr.nombre as tipo,tr.spvs tipospvs,r.id ramoid,r.nombre as ramo,r.spvs ramospvs,sr.id subramoid,sr.nombre as subramo, case when sr.spvs is null then '00' else sr.spvs end subramospvs " + " from tipo_ramo tr " + " inner join ramo r on r.tiporamoid=tr.id and r.ramoid is null and r.estado='ACT' " + " left join ramo sr on sr.ramoid=r.id and sr.estado='ACT'  " + " where  tr.empresaid= '" + empresaid + "' and r.ramoid is null order by r.fechamodificacion desc ,sr.fechamodificacion desc ";
-            _context9.next = 5;
+            sql = "select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo \n        ,case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo \n        ,case when r2.id is null then '00' else r.spvs end  spvsubramo \n         from tipo_ramo t  \n        inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  \n        left join ramo r2 on r2.id =r.ramoid  \n        where r.estado='ACT' and t.empresaid='" + empresaid + "' order by r.fechamodificacion desc";
+            /*   const sql = "select tr.id,tr.nombre as tipo,tr.spvs tipospvs,r.id ramoid,r.nombre as ramo,r.spvs ramospvs,sr.id subramoid,sr.nombre as subramo, case when sr.spvs is null then '00' else sr.spvs end subramospvs 
+                  " from tipo_ramo tr 
+                  " inner join ramo r on r.tiporamoid=tr.id and r.ramoid is null and r.estado='ACT' 
+                  " left join ramo sr on sr.ramoid=r.id and sr.estado='ACT'  
+                  " where  tr.empresaid= '` + empresaid + `' and r.ramoid is null order by r.fechamodificacion desc ,sr.fechamodificacion desc ";
+            */
+
+            console.log(sql);
+            _context9.next = 6;
             return _database.sequelize.query(sql, {
               type: QueryTypes.SELECT
             });
 
-          case 5:
+          case 6:
             tiporamos = _context9.sent;
 
-            /*  const ramos = await sequelize.query("select r.* ,tr.nombre as tiporamo " +
-                 "from ramo r " +
-                 "inner join tipo_ramo tr on tr.id=r.tiporamoid " +
-                 "where r.empresaid= '" + empresaid + "' and r.estado='ACT' order by r.fechamodificacion desc "
+            /*  const ramos = await sequelize.query("select r.* ,tr.nombre as tiporamo 
+                 "from ramo r 
+                 "inner join tipo_ramo tr on tr.id=r.tiporamoid 
+                 "where r.empresaid= '` + empresaid + `' and r.estado='ACT' order by r.fechamodificacion desc "
                  , {
                      type: QueryTypes.SELECT
                  });
-                 const tiporamos = await sequelize.query("select tr.* " +
-                 "from tipo_ramo tr  " +
-                 "where tr.empresaid= '" + empresaid + "' and tr.estado='ACT' order by tr.fechamodificacion desc "
+                   const tiporamos = await sequelize.query("select tr.* 
+                 "from tipo_ramo tr  
+                 "where tr.empresaid= '` + empresaid + `' and tr.estado='ACT' order by tr.fechamodificacion desc "
                  , {
                      type: QueryTypes.SELECT
                  });
              for (let i = 0; i < tiporamos.length; i++) {
-                   const ramos = await sequelize.query("select r.* " +
-                     "from ramo r  " +
-                     "where r.empresaid= '" + empresaid + "' and r.tiporamoid='" + tiporamos[i].id + "' and r.ramoid is null and r.estado='ACT' order by r.fechamodificacion desc "
+                    const ramos = await sequelize.query("select r.* 
+                     "from ramo r  
+                     "where r.empresaid= '` + empresaid + `' and r.tiporamoid='` + tiporamos[i].id + `' and r.ramoid is null and r.estado='ACT' order by r.fechamodificacion desc "
                      , {
                          type: QueryTypes.SELECT
                      });
                  for (let j = 0; j < ramos.length; i++) {
-                       const subramos = await sequelize.query("select r.* " +
-                         "from ramo r  " +
-                         "where r.ramo='" + ramos[j].id + "' and r.estado='ACT' order by r.fechamodificacion desc "
+                        const subramos = await sequelize.query("select r.* 
+                         "from ramo r  
+                         "where r.ramo='` + ramos[j].id + `' and r.estado='ACT' order by r.fechamodificacion desc "
                          , {
                              type: QueryTypes.SELECT
                          });
-                           res.json({
+                            res.json({
                               tiporamos:tiporamos[i],  tiporamos:tiporamos[i]
                          });
-                   }
+                    }
              } */
             res.json({
               data: tiporamos
             });
-            _context9.next = 13;
+            _context9.next = 14;
             break;
 
-          case 9:
-            _context9.prev = 9;
+          case 10:
+            _context9.prev = 10;
             _context9.t0 = _context9["catch"](1);
             console.log(_context9.t0);
             res.status(500).json({
@@ -555,12 +563,12 @@ function _getRamosPorEmpresas() {
               }
             });
 
-          case 13:
+          case 14:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[1, 9]]);
+    }, _callee9, null, [[1, 10]]);
   }));
   return _getRamosPorEmpresas.apply(this, arguments);
 }
@@ -571,29 +579,39 @@ function obtenerRamosPorEmpresa(_x19, _x20) {
 
 function _obtenerRamosPorEmpresa() {
   _obtenerRamosPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
-    var empresaid, ramos;
+    var empresaid, sql, ramos;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             empresaid = req.params.empresaid;
             _context10.prev = 1;
-            _context10.next = 4;
-            return _database.sequelize.query("select t.id,t.nombre tipo,t.spvs spvstipo,r.id ramoid,r.nombre ramo,r.spvs spvsramo,s.id subramoid, s.nombre subramo,case when s.spvs is null then '00' else s.spvs end spvssubramo " + " from tipo_ramo t " + "inner join ramo r on r.tiporamoid=t.id and r.ramoid is null " + " left join ramo s on s.ramoid=r.id and s.estado='ACT' " + " where  r.estado ='ACT'and r.empresaid= '" + empresaid + "' order by r.fechamodificacion desc ", {
+            sql = "select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo \n        ,case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo \n        ,case when r2.id is null then '00'  else r.spvs end  spvsubramo \n         from tipo_ramo t  \n        inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  \n        left join ramo r2 on r2.id =r.ramoid  \n        where r.estado='ACT' and t.empresaid='" + empresaid + "' order by r.fechamodificacion desc";
+            /*   const ramos = await sequelize.query("select t.id,t.nombre tipo,t.spvs spvstipo,r.id ramoid,r.nombre ramo,r.spvs spvsramo,s.id subramoid, s.nombre subramo,case when s.spvs is null then '00' else s.spvs end spvssubramo 
+                  " from tipo_ramo t 
+                  "inner join ramo r on r.tiporamoid=t.id and r.ramoid is null 
+                  " left join ramo s on s.ramoid=r.id and s.estado='ACT' 
+                  " where  r.estado ='ACT'and r.empresaid= '` + empresaid + `' order by r.fechamodificacion desc "
+                  , {
+                      type: QueryTypes.SELECT
+                  }); */
+
+            _context10.next = 5;
+            return _database.sequelize.query(sql, {
               type: QueryTypes.SELECT
             });
 
-          case 4:
+          case 5:
             ramos = _context10.sent;
             //const ramos = await Ramo.findAll({ where: { estado: 'ACT', empresaid } });
             res.json({
               data: ramos
             });
-            _context10.next = 12;
+            _context10.next = 13;
             break;
 
-          case 8:
-            _context10.prev = 8;
+          case 9:
+            _context10.prev = 9;
             _context10.t0 = _context10["catch"](1);
             console.log(_context10.t0);
             res.status(500).json({
@@ -603,12 +621,12 @@ function _obtenerRamosPorEmpresa() {
               }
             });
 
-          case 12:
+          case 13:
           case "end":
             return _context10.stop();
         }
       }
-    }, _callee10, null, [[1, 8]]);
+    }, _callee10, null, [[1, 9]]);
   }));
   return _obtenerRamosPorEmpresa.apply(this, arguments);
 }
@@ -619,28 +637,49 @@ function ramoPorEmpresa(_x21, _x22) {
 
 function _ramoPorEmpresa() {
   _ramoPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
-    var empresaid, subRamoCompania;
+    var empresaid, sql, subRamoCompania;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
             empresaid = req.params.empresaid;
             _context11.prev = 1;
-            _context11.next = 4;
-            return _database.sequelize.query(";with consulta as ( " + "select t.id,t.spvs, t.nombre as tipo,r.id ramoid, r.spvs spvsramo ,r.nombre ramo from tipo_ramo t  " + "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid " + "where r.estado='ACT' and r.ramoid is null and t.empresaid='" + empresaid + "'  " + "    ) " + "    select c.*,sr.id subramoid,sr.nombre subramo,sr.spvs spvsubramo from consulta c " + "    left join ramo sr on sr.ramoid=c.ramoid and sr.estado='ACT' ", {
+
+            /*  const subRamoCompania = await sequelize.query(";with consulta as ( 
+                 "select t.id,t.spvs, t.nombre as tipo,r.id ramoid, r.spvs spvsramo ,r.nombre ramo from tipo_ramo t  
+                 "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid 
+                 "where r.estado='ACT' and r.ramoid is null and t.empresaid='` + empresaid + `'  
+                 "    ) 
+                 "    select c.*,sr.id subramoid,sr.nombre subramo,sr.spvs spvsubramo from consulta c 
+                 "    left join ramo sr on sr.ramoid=c.ramoid and sr.estado='ACT' "
+                 , {
+                     type: QueryTypes.SELECT
+                 }); */
+            sql = "select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo \n            ,case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo \n            ,case when r2.id is null then '00'  else r.spvs end  spvsubramo \n             from tipo_ramo t  \n            inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  \n            left join ramo r2 on r2.id =r.ramoid  \n            where r.estado='ACT' and t.empresaid='" + empresaid + "' order by r.fechamodificacion desc";
+            /* const subRamoCompania = await sequelize.query(" select t.id,t.spvs, t.nombre as tipo,r2.id ramoid, r2.spvs spvsramo ,r2.nombre ramo ,r.id subramoid,r.nombre subramo,r.spvs spvsubramo 
+            " from tipo_ramo t  
+            "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid 
+            "left join ramo r2 on r2.id =r.ramoid 
+            "where r.estado='ACT' and t.empresaid='` + empresaid + `'  "
+            , {
+                type: QueryTypes.SELECT
+            }); */
+
+            _context11.next = 5;
+            return _database.sequelize.query(sql, {
               type: QueryTypes.SELECT
             });
 
-          case 4:
+          case 5:
             subRamoCompania = _context11.sent;
             res.json({
               data: subRamoCompania
             });
-            _context11.next = 12;
+            _context11.next = 13;
             break;
 
-          case 8:
-            _context11.prev = 8;
+          case 9:
+            _context11.prev = 9;
             _context11.t0 = _context11["catch"](1);
             console.log(_context11.t0);
             res.status(500).json({
@@ -650,12 +689,12 @@ function _ramoPorEmpresa() {
               }
             });
 
-          case 12:
+          case 13:
           case "end":
             return _context11.stop();
         }
       }
-    }, _callee11, null, [[1, 8]]);
+    }, _callee11, null, [[1, 9]]);
   }));
   return _ramoPorEmpresa.apply(this, arguments);
 }

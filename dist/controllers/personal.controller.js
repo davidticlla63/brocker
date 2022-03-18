@@ -413,7 +413,7 @@ function _personalBySucursal() {
             _context7.prev = 0;
             sucursalid = req.params.sucursalid;
             _context7.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + "where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -472,7 +472,7 @@ function _personalByEmpresa() {
             _context8.prev = 0;
             empresaid = req.params.empresaid;
             _context8.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + "inner join empresa e on e.id=s.empresaid " + "where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        inner join empresa e on e.id=s.empresaid \n        where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -594,8 +594,7 @@ function _personalByAreaTrabajoYSucursal() {
                res.json({personals }); */
 
             _context10.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + //"inner join empresa e on e.id=s.empresaid " +
-            "where a.id in ('" + areatrabajoid + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where a.id in ('" + areatrabajoid + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto ", {
               type: QueryTypes.SELECT
             });
 
@@ -643,7 +642,7 @@ function _personalByAreaTrabajoYEmpresa() {
             _context11.prev = 0;
             _req$params2 = req.params, areatrabajoid = _req$params2.areatrabajoid, empresaid = _req$params2.empresaid;
             _context11.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid " + ",p.fecharegistro,p.fechamodificacion,p.estado " + "from personal p " + "inner join area_trabajo a on a.id=p.areatrabajoid " + "inner join sucursal s on s.id=p.sucursalid " + "inner join empresa e on e.id=s.empresaid " + "where a.id in ('" + areatrabajoid + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n            ,p.fecharegistro,p.fechamodificacion,p.estado \n            from personal p \n            inner join area_trabajo a on a.id=p.areatrabajoid \n            inner join sucursal s on s.id=p.sucursalid \n            inner join empresa e on e.id=s.empresaid \n            where a.id in ('" + areatrabajoid + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto ", {
               type: QueryTypes.SELECT
             });
 
