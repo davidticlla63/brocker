@@ -42,20 +42,26 @@ function _getPaginas() {
               include: [{
                 model: _Pagina["default"],
                 require: true,
-                estado: 'ACT',
+                where: {
+                  estado: 'ACT'
+                },
                 include: [{
                   model: _Pagina["default"],
                   require: true,
-                  estado: 'ACT',
+                  where: {
+                    estado: 'ACT'
+                  },
                   include: [{
                     model: _PaginaAccion["default"],
-                    attributes: ['id', 'accionid', 'paginaid'],
+                    attributes: ['id', 'accionid', 'paginaid', 'estado'],
                     require: true,
-                    estado: 'ACT'
+                    where: {
+                      estado: 'ACT'
+                    }
                   }]
                 }, {
                   model: _PaginaAccion["default"],
-                  attributes: ['id', 'accionid', 'paginaid'],
+                  attributes: ['id', 'accionid', 'paginaid', 'estado'],
                   require: true,
                   estado: 'ACT'
                 }]
@@ -67,7 +73,7 @@ function _getPaginas() {
 
               }, {
                 model: _PaginaAccion["default"],
-                attributes: ['id', 'accionid', 'paginaid'],
+                attributes: ['id', 'accionid', 'paginaid', 'estado'],
                 require: true,
                 estado: 'ACT'
               }]
@@ -77,16 +83,17 @@ function _getPaginas() {
             paginas = _context.sent;
             lista = paginas.filter(function (item) {
               return item.estado = 'ACT';
-            });
-            console.log(lista);
+            }); //lista = paginas.filter(item => item.Paginas.estado = 'ACT');
+            // console.log(lista);
+
             res.json({
               data: lista
             });
-            _context.next = 13;
+            _context.next = 12;
             break;
 
-          case 9:
-            _context.prev = 9;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             res.status(500).json({
@@ -96,12 +103,12 @@ function _getPaginas() {
               }
             });
 
-          case 13:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 8]]);
   }));
   return _getPaginas.apply(this, arguments);
 }

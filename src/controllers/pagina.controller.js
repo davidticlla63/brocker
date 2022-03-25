@@ -9,29 +9,34 @@ export async function getPaginas(req, res) {
         const paginas = await Pagina.findAll({
             where: { estado: 'ACT', paginaid: null }, require: true, order: [['orden', 'ASC']]
             , include: [{
-                model: Pagina, require: true, estado: 'ACT', 
+                model: Pagina, require: true, where: {
+                    estado: 'ACT'
+                },
                 include: [{
-                    model:Pagina,require:true,estado:'ACT'
+                    model: Pagina, require: true, where: {
+                        estado: 'ACT'
+                    }
                     ,
                     include: [{
-                        model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
+                        model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid', 'estado'], require: true, where: {
+                            estado: 'ACT'
+                        }
                     },
-                    ] 
-                },{ model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT' }]   ,
-                            
-               /*  ,
-                include: [{
-                    model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
-                },
-                ] */
-            }, { model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT' }
+                    ]
+                }, { model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid', 'estado'], require: true, estado: 'ACT' }],
 
-
+                /*  ,
+                 include: [{
+                     model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid'], require: true, estado: 'ACT'
+                 },
+                 ] */
+            }, { model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid', 'estado'], require: true, estado: 'ACT' }
             ]
         });
 
         const lista = paginas.filter(item => item.estado = 'ACT');
-        console.log(lista);
+        //lista = paginas.filter(item => item.Paginas.estado = 'ACT');
+        // console.log(lista);
         res.json({
             data: lista
         });
