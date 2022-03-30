@@ -48,7 +48,7 @@ const Poliza = sequelize.define('Poliza', {
     porcentajeprima: Sequelize.DECIMAL,
     primaneta: Sequelize.DECIMAL,
     porcentajecomision: Sequelize.DECIMAL,
-
+    ingresoegreso: Sequelize.STRING,
     usuarioregistro: Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),

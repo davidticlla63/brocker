@@ -42,15 +42,11 @@ function _getPaginas() {
               include: [{
                 model: _Pagina["default"],
                 require: true,
-                where: {
-                  estado: 'ACT'
-                },
+                estado: 'ACT',
                 include: [{
                   model: _Pagina["default"],
                   require: true,
-                  where: {
-                    estado: 'ACT'
-                  },
+                  estado: 'ACT',
                   include: [{
                     model: _PaginaAccion["default"],
                     attributes: ['id', 'accionid', 'paginaid', 'estado'],

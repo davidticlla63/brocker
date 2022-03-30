@@ -156,5 +156,125 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
     });
   });
 });
+/**REPORTE DE PRODUCCION COMISIONES */
+
+router.post('/produccionComisionGeneral', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionComisionGeneral";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE PRODUCCION COMISIONES EGRESO */
+
+router.post('/produccionComisionEgreso', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionComisionEgreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE PRODUCCION COMISIONES INGRESO */
+
+router.post('/produccionComisionIngreso', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionComisionIngreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE PRODUCCION PRIMA NETA GENERAL */
+
+router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionPrimaNetaGeneral";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE PRODUCCION PRIMA NETA EGRESO */
+
+router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionPrimaNetaEgreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
+/**REPORTE DE PRODUCCION PRIMA NETA INGRESO */
+
+router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+  var dir = urlReporte + "/produccionPrimaNetaIngreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    url: dir,
+    body: body
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+    var data = response.body;
+    res.json({
+      data: data
+    });
+  });
+});
 var _default = router;
 exports["default"] = _default;

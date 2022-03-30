@@ -14,3 +14,4 @@ npm i cors
 npm i compression
 npm i body-parser
 npm i bcryptjs
+ npm install nodemailer

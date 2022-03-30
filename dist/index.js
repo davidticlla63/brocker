@@ -4,6 +4,8 @@ var _app = _interopRequireDefault(require("./app"));
 
 require("@babel/polyfill");
 
+var _mailers = require("./mailers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -43,34 +45,30 @@ async function conectar() {
         console.error('error:', error);
     }
 } */
-//var rdlc = require('node-rdlc/index')
+var mensaje = "Hola desde nodejs...";
+var mailOptions = {
+  from: 'gamsc@gmsantacruz.gob.bo',
+  to: 'dticlla@gmsantacruz.gob.bo',
+  subject: 'Asunto Del Correo',
+  text: mensaje
+  /*  html:`<h1>Esta es una etiqueta H1. Utilízala en el título.</h1>
+   <h2>Esta es una etiqueta H2. Utilízala en los encabezados de secciones.</h2>
+   <h3>Esta es una etiqueta H3. Utilízala en sub-secciones.</h3>
+   <h4>Esta es una etiqueta H4. No se usan muy a menudo.</h4>
+   <h5>Esta es una etiqueta H5.</h5>
+   <h6>Esta es una etiqueta H6.</h6>` */
 
-/* rdlc ({ 
+}; //envio de correos
 
-	report: './test.rdl', 
+/* transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+        console.log('mensaje: '+error);
+    } else {
+        console.log('Email enviado: ' + info.response);
+    }
+    transporter.close(); 
+}); */
 
-	parameters: {
-		param1: 1,
-		param2: 2,
-		param3: 'Hello World!'
-	},
-
-	data: {
-
-		DataSet1: [
-			{ name: 'Barry Allen', id: 1 },
-			{ name: 'Oliver Queen', id: 2 },
-			{ name: 'Clark Kent', id: 3 }
-		]
-
-	}
-
-}, function (err, result) {
-	if (!!err) throw err;
-	var fs = require('fs')
-	fs.writeFileSync('test.pdf', result)
-})
- */
 function main() {
   return _main.apply(this, arguments);
 }
@@ -89,9 +87,6 @@ function _main() {
 
           case 3:
             console.log('Server on port : ' + PORT);
-            /*     let a=1;
-                let result = a==null?'true':'false';
-                console.log(result); */
 
           case 4:
           case "end":

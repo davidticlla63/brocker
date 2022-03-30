@@ -59,6 +59,7 @@ var Poliza = _database.sequelize.define('Poliza', {
   porcentajeprima: _sequelize["default"].DECIMAL,
   primaneta: _sequelize["default"].DECIMAL,
   porcentajecomision: _sequelize["default"].DECIMAL,
+  ingresoegreso: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),

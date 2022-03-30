@@ -9,13 +9,12 @@ export async function getPaginas(req, res) {
         const paginas = await Pagina.findAll({
             where: { estado: 'ACT', paginaid: null }, require: true, order: [['orden', 'ASC']]
             , include: [{
-                model: Pagina, require: true, where: {
+                model: Pagina, require: true,
                     estado: 'ACT'
-                },
+                ,
                 include: [{
-                    model: Pagina, require: true, where: {
+                    model: Pagina, require: true,
                         estado: 'ACT'
-                    }
                     ,
                     include: [{
                         model: PaginaAccion, attributes: ['id', 'accionid', 'paginaid', 'estado'], require: true, where: {

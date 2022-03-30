@@ -163,4 +163,125 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
   });
 
 });
+
+/**REPORTE DE PRODUCCION COMISIONES */
+router.post('/produccionComisionGeneral', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionComisionGeneral";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
+/**REPORTE DE PRODUCCION COMISIONES EGRESO */
+router.post('/produccionComisionEgreso', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionComisionEgreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
+/**REPORTE DE PRODUCCION COMISIONES INGRESO */
+router.post('/produccionComisionIngreso', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionComisionIngreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
+/**REPORTE DE PRODUCCION PRIMA NETA GENERAL */
+router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionPrimaNetaGeneral";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
+/**REPORTE DE PRODUCCION PRIMA NETA EGRESO */
+router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionPrimaNetaEgreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
+/**REPORTE DE PRODUCCION PRIMA NETA INGRESO */
+router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
+  const body=JSON.stringify(req.body);
+  const dir = urlReporte+ "/produccionPrimaNetaIngreso";
+  request.post({
+    /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    url: dir,
+    body 
+  }, function (err, response, body) {
+    //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+    const data = response.body;
+    res.json({
+      data: data
+    });
+  });
+
+});
+
 export default router;

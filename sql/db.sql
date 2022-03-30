@@ -1887,6 +1887,7 @@ CREATE TABLE IF NOT EXISTS poliza(
     porcentajeprima decimal,
     primaneta decimal,
     porcentajecomision decimal,
+    ingresoegreso character varying,
     usuarioregistro character varying,
     usuariomodificacion character varying,
     fecharegistro timestamp,

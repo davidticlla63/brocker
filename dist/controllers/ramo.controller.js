@@ -655,7 +655,13 @@ function _ramoPorEmpresa() {
                  , {
                      type: QueryTypes.SELECT
                  }); */
-            sql = "select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo \n            ,case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo \n            ,case when r2.id is null then '00'  else r.spvs end  spvsubramo \n             from tipo_ramo t  \n            inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  \n            left join ramo r2 on r2.id =r.ramoid  \n            where r.estado='ACT' and t.empresaid='" + empresaid + "' order by r.fechamodificacion desc";
+
+            /*    
+              select t.id,t.spvs, t.nombre as tipo,case when r2.id is null then  r.id else r2.id end ramoid,case when r2.id is null then  r.spvs else  r2.spvs end  spvsramo 
+              ,case when r2.id is null then  r.nombre else r2.nombre end ramo ,case when r2.id is null then NULL else r.id end  subramoid,case when r2.id is null then NULL else r.nombre end  subramo 
+              ,case when r2.id is null then '00'  else r.spvs end  spvsubramo 
+                 */
+            sql = "select t.id ,t.spvs,t.spvs||' '|| t.nombre as tipo,r.id ramoid,r.spvs spvsramo,case when r.ramoid is null then  r.spvs||' '||r.nombre else r2.spvs||'-'||r.spvs ||' '||r.nombre  end ramo\n,r2.spvs spvsramopadre,r2.spvs ||' ' ||r2.nombre ramopadre,r.nombre ramos ,r2.id ramopadreid,r2.nombre ramopadres\n             from tipo_ramo t  \n            inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid  \n            left join ramo r2 on r2.id =r.ramoid  \n            where r.estado='ACT' and t.empresaid='" + empresaid + "' order by tipo, ramo -- order by t.nombre, r.nombre";
             /* const subRamoCompania = await sequelize.query(" select t.id,t.spvs, t.nombre as tipo,r2.id ramoid, r2.spvs spvsramo ,r2.nombre ramo ,r.id subramoid,r.nombre subramo,r.spvs spvsubramo 
             " from tipo_ramo t  
             "inner join ramo r on r.tiporamoid=t.id and r.empresaid=t.empresaid 
@@ -664,6 +670,7 @@ function _ramoPorEmpresa() {
             , {
                 type: QueryTypes.SELECT
             }); */
+            //console.log(sql);
 
             _context11.next = 5;
             return _database.sequelize.query(sql, {

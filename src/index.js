@@ -1,5 +1,6 @@
 import app from "./app";
-import "@babel/polyfill";
+import "@babel/polyfill"; 
+import {transporter} from './mailers'
 
 
 //const db=require("./models")
@@ -40,48 +41,38 @@ async function conectar() {
 
 
 
+var mensaje = "Hola desde nodejs...";
 
-//var rdlc = require('node-rdlc/index')
-
-/* rdlc ({ 
-
-	report: './test.rdl', 
-
-	parameters: {
-		param1: 1,
-		param2: 2,
-		param3: 'Hello World!'
-	},
-
-	data: {
-
-		DataSet1: [
-			{ name: 'Barry Allen', id: 1 },
-			{ name: 'Oliver Queen', id: 2 },
-			{ name: 'Clark Kent', id: 3 }
-		]
-
-	}
-
-}, function (err, result) {
-	if (!!err) throw err;
-	var fs = require('fs')
-	fs.writeFileSync('test.pdf', result)
-})
- */
-
+var mailOptions = {
+    from: 'gamsc@gmsantacruz.gob.bo',
+    to: 'dticlla@gmsantacruz.gob.bo',
+    subject: 'Asunto Del Correo',
+    text: mensaje,
+   /*  html:`<h1>Esta es una etiqueta H1. Utilízala en el título.</h1>
+    <h2>Esta es una etiqueta H2. Utilízala en los encabezados de secciones.</h2>
+    <h3>Esta es una etiqueta H3. Utilízala en sub-secciones.</h3>
+    <h4>Esta es una etiqueta H4. No se usan muy a menudo.</h4>
+    <h5>Esta es una etiqueta H5.</h5>
+    <h6>Esta es una etiqueta H6.</h6>` */
+};
+//envio de correos
+/* transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+        console.log('mensaje: '+error);
+    } else {
+        console.log('Email enviado: ' + info.response);
+    }
+    transporter.close(); 
+}); */
 
 
 
 async function main() {
     //conectar();
 
-    const PORT=3000
+    const PORT = 3000
     await app.listen(PORT);
-    console.log('Server on port : '+PORT);
-/*     let a=1;
-    let result = a==null?'true':'false';
-    console.log(result); */
+    console.log('Server on port : ' + PORT);
 }
 
 
