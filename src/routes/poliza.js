@@ -46,6 +46,9 @@ router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPoliza
 router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
 router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
 
+router.post('/polizasPorEmpresaGeneral/:empresaid', polizas.polizasPorEmpresaGeneral);
+router.post('/polizasPorSucursalGeneral/:sucursalid', polizas.polizasPorSucursalGeneral);
+
 router.post('/polizasPorEmpresaYVencimiento/:empresaid', polizas.getPolizasPorEmpresaFechaVencimiento);
 router.post('/polizasPorSucursalYVencimiento/:sucursalid', polizas.getPolizasPorSucursalVencimiento);
 
@@ -78,5 +81,9 @@ router.get('/polizasDetalleGeneralPorSucursalYTipo/:dato/:sucursalid/:tipopoliza
 
 router.get('/polizasDetalleSaludPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleSaludPorEmpresaYTipo);
 router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleSaludPorSucursalYTipo);
+
+
+/** envio de correo */
+router.get('/vencimientoPoliza/:id', polizas.vencimientoPoliza);
 
 export default router;

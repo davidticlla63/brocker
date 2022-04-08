@@ -22,7 +22,7 @@ const Personal = sequelize.define('Personal', {
     areatrabajoid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
-
+    tipocartera:Sequelize.STRING,
 
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),

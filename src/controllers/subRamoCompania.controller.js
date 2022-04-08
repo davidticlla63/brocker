@@ -270,9 +270,9 @@ export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
             inner join ramo r on r.id=rc.ramoid  
             left join ramo p on rc.ramopadreid=r.id 
             inner join tipo_ramo t on t.id=r.tiporamoid  
-            inner join compania_seguro c on c.id=rc.companiaseguroid  
+            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'
             inner join sucursal s on s.id=rc.sucursalid 
-            where c.empresaid= '` + empresaid + `' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc `
+            where c.empresaid= '` + empresaid + `'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });
@@ -297,9 +297,9 @@ export async function subRamoCompaniaYCompaniaPorSucursal(req, res) {
             inner join ramo r on r.id=rc.ramoid  
             left join ramo p on rc.ramopadreid=r.id 
             inner join tipo_ramo t on t.id=r.tiporamoid  
-            inner join compania_seguro c on c.id=rc.companiaseguroid  
+            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'
             inner join sucursal s on s.id=rc.sucursalid 
-            where c.sucursalid= '` + sucursalid + `' and c.estado='ACT' and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc `
+            where c.sucursalid= '` + sucursalid + `'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
             });

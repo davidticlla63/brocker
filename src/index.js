@@ -1,6 +1,6 @@
 import app from "./app";
 import "@babel/polyfill"; 
-import {transporter} from './mailers'
+//import {transporter} from './mailers'
 
 
 //const db=require("./models")

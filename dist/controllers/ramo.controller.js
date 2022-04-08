@@ -383,7 +383,7 @@ function _getRamosPorEmpresa() {
             empresaid = req.params.empresaid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo \n            from ramo r \n            inner join tipo_ramo tr on tr.id=r.tiporamoid \n            where r.empresaid= '" + empresaid + "' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc ", {
+            return _database.sequelize.query("select r.* ,tr.nombre as tiporamo ,tr.spvs spvstipo\n            from ramo r \n            inner join tipo_ramo tr on tr.id=r.tiporamoid \n            where r.empresaid= '" + empresaid + "' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 

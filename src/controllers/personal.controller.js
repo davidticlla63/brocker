@@ -36,6 +36,7 @@ export async function createPersonal(req, res) {
         usuariomodificacion,
         fecharegistro = new Date(),
         fechamodificacion,
+        tipocartera,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -55,6 +56,7 @@ export async function createPersonal(req, res) {
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
+            tipocartera,
             estado
         }, {
             fields: ['nombrecompleto',
@@ -67,7 +69,7 @@ export async function createPersonal(req, res) {
                 'correo2',
                 'fotoperfil',
                 'areatrabajoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                'fechamodificacion', 'estado']
+                'fechamodificacion','tipocartera', 'estado']
         });
         if (newPersonal) {
             return res.json({
@@ -139,6 +141,7 @@ export async function updatePersonal(req, res) {
         usuariomodificacion,
         fecharegistro,
         fechamodificacion = new Date(),
+        tipocartera,
         estado } = req.body;
     try {
         const updateRowCount = await Personal.update({
@@ -157,6 +160,7 @@ export async function updatePersonal(req, res) {
             usuariomodificacion,
             fecharegistro,
             fechamodificacion,
+            tipocartera,
             estado
         }, {
             where: {
@@ -230,7 +234,7 @@ export async function personalBySucursal(req, res) {
         const { sucursalid } = req.params;
 
         const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
-        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal 
+        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado,a.nombre as areatrabajo,s.nombre as sucursal 
         from personal p 
         inner join area_trabajo a on a.id=p.areatrabajoid 
         inner join sucursal s on s.id=p.sucursalid 
@@ -266,7 +270,7 @@ export async function personalByEmpresa(req, res) {
 
 
         const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
-        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal 
+        ,p.fecharegistro,p.fechamodificacion,p.estado,p.tipocartera,a.nombre as areatrabajo,s.nombre as sucursal 
         from personal p 
         inner join area_trabajo a on a.id=p.areatrabajoid 
         inner join sucursal s on s.id=p.sucursalid 
@@ -302,7 +306,7 @@ export async function personalByAreaTrabajo(req, res) {
         const { areatrabajoid } = req.params;
         const personals = await Personal.findAll({
             attributes: ['id', 'nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'sucursalid', 'areatrabajoid'
-            , 'fecharegistro', 'fechamodificacion', 'estado'],
+            , 'fecharegistro', 'fechamodificacion','tipocartera', 'estado'],
             where: {
                 areatrabajoid, estado: 'ACT'
             }, order: [
@@ -333,7 +337,7 @@ export async function personalByAreaTrabajoYSucursal(req, res) {
       
 
         const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
-        ,p.fecharegistro,p.fechamodificacion,p.estado 
+        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado 
         from personal p 
         inner join area_trabajo a on a.id=p.areatrabajoid 
         inner join sucursal s on s.id=p.sucursalid 
@@ -359,12 +363,73 @@ export async function personalByAreaTrabajoYEmpresa(req, res) {
 
 
         const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
-            ,p.fecharegistro,p.fechamodificacion,p.estado 
+            ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado 
             from personal p 
             inner join area_trabajo a on a.id=p.areatrabajoid 
             inner join sucursal s on s.id=p.sucursalid 
             inner join empresa e on e.id=s.empresaid 
             where a.id in ('` + areatrabajoid + `') and e.id='` + empresaid + `' and p.estado='ACT' order by p.nombrecompleto `
+            , {
+                type: QueryTypes.SELECT
+            });
+
+       
+        res.json({ personals });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function personalByTipoCarteraYSucursal(req, res) {
+    try {
+        const { tipocartera, sucursalid } = req.params;
+     /*    const personals = await Personal.findAll({
+            attributes: ['id', 'nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'sucursalid', 'areatrabajoid'
+                , 'fecharegistro', 'fechamodificacion', 'estado'],
+            where: {
+                areatrabajoid, sucursalid, estado: 'ACT'
+            }
+        });
+        res.json({personals }); */
+      
+
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado 
+        from personal p 
+        inner join area_trabajo a on a.id=p.areatrabajoid 
+        inner join sucursal s on s.id=p.sucursalid 
+        where p.tipocartera in ('` + tipocartera + `') and s.id='` + sucursalid + `' and p.estado='ACT' order by p.nombrecompleto `
+        , {
+            type: QueryTypes.SELECT
+        });
+
+   
+    res.json({ personals });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function personalByTipoCarteraYEmpresa(req, res) {
+    try {
+        const { tipocartera, empresaid } = req.params;
+
+
+        const personals = await sequelize.query(` select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid 
+            ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado 
+            from personal p 
+            inner join area_trabajo a on a.id=p.areatrabajoid 
+            inner join sucursal s on s.id=p.sucursalid 
+            inner join empresa e on e.id=s.empresaid 
+            where p.tipocartera in ('` + tipocartera + `') and e.id='` + empresaid + `' and p.estado='ACT' order by p.nombrecompleto `
             , {
                 type: QueryTypes.SELECT
             });

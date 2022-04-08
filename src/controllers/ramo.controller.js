@@ -186,7 +186,7 @@ export async function getRamosPorEmpresa(req, res) {
     try {
 
 
-        const ramos = await sequelize.query(`select r.* ,tr.nombre as tiporamo 
+        const ramos = await sequelize.query(`select r.* ,tr.nombre as tiporamo ,tr.spvs spvstipo
             from ramo r 
             inner join tipo_ramo tr on tr.id=r.tiporamoid 
             where r.empresaid= '` + empresaid + `' and r.estado='ACT' and r.ramoid is null order by r.fechamodificacion desc `

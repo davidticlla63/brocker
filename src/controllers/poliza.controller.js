@@ -7,6 +7,8 @@ import PolizaDetalle from '../models/PolizaDetalle'
 import PolizaDetallePersona from "../models/PolizaDetallePersona";
 //import PolizaDetallePersonaTitular from "../models/PolizaDetallePersonaTitular";
 import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
+import { transporter } from '../mailers'
+var request = require("request");
 
 export async function getPolizas(req, res) {
     try {
@@ -642,7 +644,7 @@ export async function createPolizaSalud(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
-        let ingresoegreso ;
+        let ingresoegreso;
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -1232,7 +1234,7 @@ export async function createPolizaGeneral(req, res) {
     try {
         t = await sequelize.transaction();
 
-        let ingresoegreso ;
+        let ingresoegreso;
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -1830,8 +1832,7 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
-            where s.empresaid= '` + empresaid + `' and p.tpoliza='` +
-            tipopoliza + `' and p.tiporamoid='` + tiporamoid + `'  
+            where s.empresaid= '` + empresaid + `' and p.tpoliza='` + tipopoliza + `' and p.tiporamoid='` + tiporamoid + `'  
             and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= `+ fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc `;
         //   console.log(query);
         const polizas = await sequelize.query(query
@@ -1877,6 +1878,67 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
         });
     }
 }
+
+export async function polizasPorEmpresaGeneral(req, res) {
+    const { empresaid } = req.params;
+    const { fechainicio, fechafin } = req.body;
+    try {
+        let query = `select p.* ,t.nombre tiporamo,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            from poliza p 
+            inner join sucursal s on s.id=p.sucursalid  
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+            inner join ramo r on r.id=rc.ramoid 
+            left join ramo sr on sr.id=rc.ramopadreid 
+            inner join asegurado a on a.id=p.tomadorid 
+            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            inner join tipo_ramo t on t.id=p.tiporamoid  
+            where s.empresaid= '` + empresaid + `' 
+            and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= `+ fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado  NOT IN ('BAJ') order by p.fechamodificacion desc `;
+        //   console.log(query);
+        const polizas = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function polizasPorSucursalGeneral(req, res) {
+    const { tipopoliza, tiporamoid, sucursalid } = req.params;
+    const { fechainicio, fechafin } = req.body;
+    try {
+        let query = `select p.* ,t.nombre tiporamo,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        where s.id='` + sucursalid + `'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+        const polizas = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+        //console.log(query);
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
 
 
 export async function getPolizasPorEmpresaFechaVencimiento(req, res) {
@@ -2452,6 +2514,72 @@ export async function getPolizasDetalleSaludPorEmpresaYTipo(req, res) {
 
 
         res.json({ data: polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function vencimientoPoliza(req, res) {
+    const { id } = req.params;
+    try {
+
+        const personals = await sequelize.query(`  select cs.nombre nombrecompania,a.correocobranza,a.direccionasegurado,a.nombrecompleto as nombreasegurado,a.telefonoasegurado,a.telefonodomicilio,r.nombre nombreramo,s.nombre as sucursal,p.nropoliza ,p.valorasegurado ,p.fechafin 
+        from poliza p 
+        inner join sucursal s on s.id=p.sucursalid 
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
+        inner join ramo r on r.id=rc.ramoid
+        inner join asegurado a on a.id=p.tomadorid 
+        inner join compania_seguro cs on cs.id=p.companiaseguroid 
+        where 
+        p.id= '`+ id + `'
+        order by cs.nombre,a.nombrecompleto,p.fechamodificacion desc `
+            , {
+                type: QueryTypes.SELECT
+            });
+
+        const dir = "http://3.99.76.226:8080/broker/rest/reporte/vencimientoPoliza/" + id;
+        request.get({
+            url: dir
+        }, function (err, response, body) {
+            const data = response.body;
+            var mensaje = "Poliza vencida por favor apersonarse a las oficinas de su Broker...";
+
+            var mailOptions = {
+                from: 'gamsc@gmsantacruz.gob.bo',
+                //to: 'dticlla@gmsantacruz.gob.bo',
+                to: personals[0].correocobranza,
+                subject: 'Vencimiento de Poliza nro.-' +personals[0].nropoliza+' - '+personals[0].nombrecompleto,
+                //subject: 'Vencimiento de Poliza',
+                text: mensaje,
+                html: '',
+                attachments: [{
+                    filename: 'poliza-'+personals[0].nombrecompleto+'-'+personals[0].nropoliza+'.pdf',
+                    path: 'data:application/pdf;base64,' + data
+                }
+
+                ],
+            };
+            //envio de correo
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    res.json({
+                        data: 'Error al enviar: ' + error
+                    });
+                    console.log('mensaje: ' + error);
+                } else {
+                    res.json({
+                        data: 'Email enviado: ' + info.response
+                    });
+                    console.log('Email enviado: ' + info.response);
+                }
+                transporter.close();
+            });
+        });
+        //res.json({ data: personals });
     } catch (e) {
         console.log(e);
         res.status(500).json({

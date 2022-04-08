@@ -46,4 +46,7 @@ router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
 router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid', personal.personalByAreaTrabajoYSucursal);
 router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid', personal.personalByAreaTrabajoYEmpresa);
 
+router.get('/personalByTipoCarteraYSucursal/:tipocartera/:sucursalid', personal.personalByTipoCarteraYSucursal);
+router.get('/personalByTipoCarteraYEmpresa/:tipocartera/:empresaid', personal.personalByTipoCarteraYEmpresa);
+
 export default router;

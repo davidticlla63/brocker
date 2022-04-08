@@ -647,7 +647,7 @@ export async function aseguradosPorEmpresas(req, res) {
             inner join personal c on c.id = a.carteraid 
             inner join departamento d on d.id = a.departamentoid 
             where e.id='` + empresaid + `' and a.estado='ACT' order by a.fechamodificacion desc `;
-        console.log(query)
+       // console.log(query)
         const asegurados = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT

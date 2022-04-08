@@ -456,6 +456,7 @@ CREATE TABLE IF NOT EXISTS personal(
     fecharegistro timestamp not null,
     fechamodificacion timestamp,
     estado character varying not null,
+    tipocartera character varying not null,
     areatrabajoid character varying REFERENCES area_trabajo(id),
     sucursalid character varying REFERENCES sucursal(id)
 );
