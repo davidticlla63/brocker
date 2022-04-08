@@ -38,6 +38,7 @@ exports.polizasPorSucursalGeneral = polizasPorSucursalGeneral;
 exports.updatePoliza = updatePoliza;
 exports.updatePolizaGeneral = updatePolizaGeneral;
 exports.updatePolizaSalud = updatePolizaSalud;
+exports.vencimientoPoliza = vencimientoPoliza;
 
 var _database = require("../database/database");
 
@@ -53,6 +54,8 @@ var _PolizaDetallePersona = _interopRequireDefault(require("../models/PolizaDeta
 
 var _PolizaDetalleGeneral = _interopRequireDefault(require("../models/PolizaDetalleGeneral"));
 
+var _mailers = require("../mailers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -62,6 +65,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var _require = require('sequelize'),
     QueryTypes = _require.QueryTypes,
     _Promise = _require.Promise;
+
+var request = require("request");
 
 function getPolizas(_x, _x2) {
   return _getPolizas.apply(this, arguments);
@@ -3128,4 +3133,85 @@ function _getPolizasDetalleSaludPorEmpresaYTipo() {
     }, _callee35, null, [[1, 8]]);
   }));
   return _getPolizasDetalleSaludPorEmpresaYTipo.apply(this, arguments);
+}
+
+function vencimientoPoliza(_x71, _x72) {
+  return _vencimientoPoliza.apply(this, arguments);
+}
+
+function _vencimientoPoliza() {
+  _vencimientoPoliza = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee36(req, res) {
+    var id, personals, dir;
+    return regeneratorRuntime.wrap(function _callee36$(_context36) {
+      while (1) {
+        switch (_context36.prev = _context36.next) {
+          case 0:
+            id = req.params.id;
+            _context36.prev = 1;
+            _context36.next = 4;
+            return _database.sequelize.query("  select cs.nombre nombrecompania,a.correocobranza,a.direccionasegurado,a.nombrecompleto as nombreasegurado,a.telefonoasegurado,a.telefonodomicilio,r.nombre nombreramo,s.nombre as sucursal,p.nropoliza ,p.valorasegurado ,p.fechafin \n        from poliza p \n        inner join sucursal s on s.id=p.sucursalid \n        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n        inner join ramo r on r.id=rc.ramoid\n        inner join asegurado a on a.id=p.tomadorid \n        inner join compania_seguro cs on cs.id=p.companiaseguroid \n        where \n        p.id= '" + id + "'\n        order by cs.nombre,a.nombrecompleto,p.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            personals = _context36.sent;
+            dir = "http://3.99.76.226:8080/broker/rest/reporte/vencimientoPoliza/" + id;
+            request.get({
+              url: dir
+            }, function (err, response, body) {
+              var data = response.body;
+              var mensaje = "Poliza vencida por favor apersonarse a las oficinas de su Broker...";
+              var mailOptions = {
+                from: 'gamsc@gmsantacruz.gob.bo',
+                //to: 'dticlla@gmsantacruz.gob.bo',
+                to: personals[0].correocobranza,
+                subject: 'Vencimiento de Poliza nro.-' + personals[0].nropoliza + ' - ' + personals[0].nombreasegurado,
+                //subject: 'Vencimiento de Poliza',
+                text: mensaje,
+                html: '',
+                attachments: [{
+                  filename: 'poliza-' + personals[0].nombreasegurado + '-' + personals[0].nropoliza + '.pdf',
+                  path: 'data:application/pdf;base64,' + data
+                }]
+              }; //envio de correo
+
+              _mailers.transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  res.json({
+                    data: 'Error al enviar: ' + error
+                  });
+                  console.log('mensaje: ' + error);
+                } else {
+                  res.json({
+                    data: 'Email enviado: ' + info.response
+                  });
+                  console.log('Email enviado: ' + info.response);
+                }
+
+                _mailers.transporter.close();
+              });
+            }); //res.json({ data: personals });
+
+            _context36.next = 13;
+            break;
+
+          case 9:
+            _context36.prev = 9;
+            _context36.t0 = _context36["catch"](1);
+            console.log(_context36.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context36.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context36.stop();
+        }
+      }
+    }, _callee36, null, [[1, 9]]);
+  }));
+  return _vencimientoPoliza.apply(this, arguments);
 }

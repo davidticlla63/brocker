@@ -911,21 +911,21 @@ function _aseguradosPorEmpresas() {
             _context13.prev = 0;
             empresaid = req.params.empresaid; //const asegurados = await Asegurado.findAll({ where: { estado: 'ACT',sucursalid,tipoasegurado }});
 
-            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  \n            from asegurado a \n            inner join sucursal s on s.id=a.sucursalid \n             inner join empresa e on e.id=s.empresaid \n            inner join personal ej on ej.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            where e.id='" + empresaid + "' and a.estado='ACT' order by a.fechamodificacion desc ";
-            console.log(query);
-            _context13.next = 6;
+            query = "select a.id,a.nombrecompleto,a.tipoasegurado,ej.id as ejecutivoid, ej.nombrecompleto as ejecutivo,c.id as carteraid, c.nombrecompleto as cartera,d.id as departamentoid, d.nombre departamento,case when a.tipoasegurado='individual' then a.ci else a.nit end ci_nit  \n            from asegurado a \n            inner join sucursal s on s.id=a.sucursalid \n             inner join empresa e on e.id=s.empresaid \n            inner join personal ej on ej.id=a.ejecutivoid \n            inner join personal c on c.id = a.carteraid \n            inner join departamento d on d.id = a.departamentoid \n            where e.id='" + empresaid + "' and a.estado='ACT' order by a.fechamodificacion desc "; // console.log(query)
+
+            _context13.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
             });
 
-          case 6:
+          case 5:
             asegurados = _context13.sent;
             res.json(asegurados);
-            _context13.next = 14;
+            _context13.next = 13;
             break;
 
-          case 10:
-            _context13.prev = 10;
+          case 9:
+            _context13.prev = 9;
             _context13.t0 = _context13["catch"](0);
             console.log(_context13.t0);
             res.status(500).json({
@@ -935,12 +935,12 @@ function _aseguradosPorEmpresas() {
               }
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context13.stop();
         }
       }
-    }, _callee13, null, [[0, 10]]);
+    }, _callee13, null, [[0, 9]]);
   }));
   return _aseguradosPorEmpresas.apply(this, arguments);
 }

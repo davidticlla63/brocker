@@ -2552,15 +2552,14 @@ export async function vencimientoPoliza(req, res) {
                 from: 'gamsc@gmsantacruz.gob.bo',
                 //to: 'dticlla@gmsantacruz.gob.bo',
                 to: personals[0].correocobranza,
-                subject: 'Vencimiento de Poliza nro.-' +personals[0].nropoliza+' - '+personals[0].nombrecompleto,
+                subject: 'Vencimiento de Poliza nro.-' + personals[0].nropoliza + ' - ' + personals[0].nombreasegurado,
                 //subject: 'Vencimiento de Poliza',
                 text: mensaje,
                 html: '',
                 attachments: [{
-                    filename: 'poliza-'+personals[0].nombrecompleto+'-'+personals[0].nropoliza+'.pdf',
+                    filename: 'poliza-' + personals[0].nombreasegurado + '-' + personals[0].nropoliza + '.pdf',
                     path: 'data:application/pdf;base64,' + data
                 }
-
                 ],
             };
             //envio de correo

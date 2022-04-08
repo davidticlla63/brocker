@@ -34,6 +34,7 @@ var Personal = _database.sequelize.define('Personal', {
   areatrabajoid: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
+  tipocartera: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),
   fechamodificacion: _sequelize["default"].DATE(6),
   estado: {

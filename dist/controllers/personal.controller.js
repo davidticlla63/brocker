@@ -13,6 +13,8 @@ exports.personalByAreaTrabajoYEmpresa = personalByAreaTrabajoYEmpresa;
 exports.personalByAreaTrabajoYSucursal = personalByAreaTrabajoYSucursal;
 exports.personalByEmpresa = personalByEmpresa;
 exports.personalBySucursal = personalBySucursal;
+exports.personalByTipoCarteraYEmpresa = personalByTipoCarteraYEmpresa;
+exports.personalByTipoCarteraYSucursal = personalByTipoCarteraYSucursal;
 exports.updatePersonal = updatePersonal;
 
 var _database = require("../database/database");
@@ -89,13 +91,13 @@ function createPersonal(_x3, _x4) {
 
 function _createPersonal() {
   _createPersonal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newPersonal;
+    var _req$body, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, tipocartera, estado, newPersonal;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, nombrecompleto = _req$body.nombrecompleto, sexo = _req$body.sexo, fechanacimiento = _req$body.fechanacimiento, ci = _req$body.ci, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, correo1 = _req$body.correo1, correo2 = _req$body.correo2, fotoperfil = _req$body.fotoperfil, areatrabajoid = _req$body.areatrabajoid, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _req$body = req.body, nombrecompleto = _req$body.nombrecompleto, sexo = _req$body.sexo, fechanacimiento = _req$body.fechanacimiento, ci = _req$body.ci, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, correo1 = _req$body.correo1, correo2 = _req$body.correo2, fotoperfil = _req$body.fotoperfil, areatrabajoid = _req$body.areatrabajoid, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, tipocartera = _req$body.tipocartera, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Personal["default"].create({
@@ -114,9 +116,10 @@ function _createPersonal() {
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
               fechamodificacion: fechamodificacion,
+              tipocartera: tipocartera,
               estado: estado
             }, {
-              fields: ['nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'fotoperfil', 'areatrabajoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
+              fields: ['nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'fotoperfil', 'areatrabajoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'tipocartera', 'estado']
             });
 
           case 4:
@@ -262,14 +265,14 @@ function updatePersonal(_x9, _x10) {
 
 function _updatePersonal() {
   _updatePersonal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, _req$body2$fechamodif, fechamodificacion, estado, updateRowCount, personals;
+    var id, _req$body2, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, _req$body2$fechamodif, fechamodificacion, tipocartera, estado, updateRowCount, personals;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombrecompleto = _req$body2.nombrecompleto, sexo = _req$body2.sexo, fechanacimiento = _req$body2.fechanacimiento, ci = _req$body2.ci, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, correo1 = _req$body2.correo1, correo2 = _req$body2.correo2, fotoperfil = _req$body2.fotoperfil, areatrabajoid = _req$body2.areatrabajoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, _req$body2$fechamodif = _req$body2.fechamodificacion, fechamodificacion = _req$body2$fechamodif === void 0 ? new Date() : _req$body2$fechamodif, estado = _req$body2.estado;
+            _req$body2 = req.body, nombrecompleto = _req$body2.nombrecompleto, sexo = _req$body2.sexo, fechanacimiento = _req$body2.fechanacimiento, ci = _req$body2.ci, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, correo1 = _req$body2.correo1, correo2 = _req$body2.correo2, fotoperfil = _req$body2.fotoperfil, areatrabajoid = _req$body2.areatrabajoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, _req$body2$fechamodif = _req$body2.fechamodificacion, fechamodificacion = _req$body2$fechamodif === void 0 ? new Date() : _req$body2$fechamodif, tipocartera = _req$body2.tipocartera, estado = _req$body2.estado;
             _context5.prev = 2;
             _context5.next = 5;
             return _Personal["default"].update({
@@ -288,6 +291,7 @@ function _updatePersonal() {
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
               fechamodificacion: fechamodificacion,
+              tipocartera: tipocartera,
               estado: estado
             }, {
               where: {
@@ -413,7 +417,7 @@ function _personalBySucursal() {
             _context7.prev = 0;
             sucursalid = req.params.sucursalid;
             _context7.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where s.id='" + sucursalid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -472,7 +476,7 @@ function _personalByEmpresa() {
             _context8.prev = 0;
             empresaid = req.params.empresaid;
             _context8.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        inner join empresa e on e.id=s.empresaid \n        where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado,p.tipocartera,a.nombre as areatrabajo,s.nombre as sucursal \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        inner join empresa e on e.id=s.empresaid \n        where e.id='" + empresaid + "' and p.estado='ACT' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -533,7 +537,7 @@ function _personalByAreaTrabajo() {
             areatrabajoid = req.params.areatrabajoid;
             _context9.next = 4;
             return _Personal["default"].findAll({
-              attributes: ['id', 'nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'sucursalid', 'areatrabajoid', 'fecharegistro', 'fechamodificacion', 'estado'],
+              attributes: ['id', 'nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'sucursalid', 'areatrabajoid', 'fecharegistro', 'fechamodificacion', 'tipocartera', 'estado'],
               where: {
                 areatrabajoid: areatrabajoid,
                 estado: 'ACT'
@@ -594,7 +598,7 @@ function _personalByAreaTrabajoYSucursal() {
                res.json({personals }); */
 
             _context10.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.estado \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where a.id in ('" + areatrabajoid + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where a.id in ('" + areatrabajoid + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto ", {
               type: QueryTypes.SELECT
             });
 
@@ -642,7 +646,7 @@ function _personalByAreaTrabajoYEmpresa() {
             _context11.prev = 0;
             _req$params2 = req.params, areatrabajoid = _req$params2.areatrabajoid, empresaid = _req$params2.empresaid;
             _context11.next = 4;
-            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n            ,p.fecharegistro,p.fechamodificacion,p.estado \n            from personal p \n            inner join area_trabajo a on a.id=p.areatrabajoid \n            inner join sucursal s on s.id=p.sucursalid \n            inner join empresa e on e.id=s.empresaid \n            where a.id in ('" + areatrabajoid + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n            ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado \n            from personal p \n            inner join area_trabajo a on a.id=p.areatrabajoid \n            inner join sucursal s on s.id=p.sucursalid \n            inner join empresa e on e.id=s.empresaid \n            where a.id in ('" + areatrabajoid + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto ", {
               type: QueryTypes.SELECT
             });
 
@@ -673,4 +677,109 @@ function _personalByAreaTrabajoYEmpresa() {
     }, _callee11, null, [[0, 8]]);
   }));
   return _personalByAreaTrabajoYEmpresa.apply(this, arguments);
+}
+
+function personalByTipoCarteraYSucursal(_x23, _x24) {
+  return _personalByTipoCarteraYSucursal.apply(this, arguments);
+}
+
+function _personalByTipoCarteraYSucursal() {
+  _personalByTipoCarteraYSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(req, res) {
+    var _req$params3, tipocartera, sucursalid, personals;
+
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            _req$params3 = req.params, tipocartera = _req$params3.tipocartera, sucursalid = _req$params3.sucursalid;
+            /*    const personals = await Personal.findAll({
+                   attributes: ['id', 'nombrecompleto', 'sexo', 'fechanacimiento', 'ci', 'telefono1', 'telefono2', 'correo1', 'correo2', 'sucursalid', 'areatrabajoid'
+                       , 'fecharegistro', 'fechamodificacion', 'estado'],
+                   where: {
+                       areatrabajoid, sucursalid, estado: 'ACT'
+                   }
+               });
+               res.json({personals }); */
+
+            _context12.next = 4;
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n        ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado \n        from personal p \n        inner join area_trabajo a on a.id=p.areatrabajoid \n        inner join sucursal s on s.id=p.sucursalid \n        where p.tipocartera in ('" + tipocartera + "') and s.id='" + sucursalid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            personals = _context12.sent;
+            res.json({
+              personals: personals
+            });
+            _context12.next = 12;
+            break;
+
+          case 8:
+            _context12.prev = 8;
+            _context12.t0 = _context12["catch"](0);
+            console.log(_context12.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context12.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12, null, [[0, 8]]);
+  }));
+  return _personalByTipoCarteraYSucursal.apply(this, arguments);
+}
+
+function personalByTipoCarteraYEmpresa(_x25, _x26) {
+  return _personalByTipoCarteraYEmpresa.apply(this, arguments);
+}
+
+function _personalByTipoCarteraYEmpresa() {
+  _personalByTipoCarteraYEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(req, res) {
+    var _req$params4, tipocartera, empresaid, personals;
+
+    return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      while (1) {
+        switch (_context13.prev = _context13.next) {
+          case 0:
+            _context13.prev = 0;
+            _req$params4 = req.params, tipocartera = _req$params4.tipocartera, empresaid = _req$params4.empresaid;
+            _context13.next = 4;
+            return _database.sequelize.query(" select p.id, p.nombrecompleto,p.sexo, p.fechanacimiento, p.ci,p.telefono1,p.telefono2,p.correo1,p.correo2, p.sucursalid,p.areatrabajoid \n            ,p.fecharegistro,p.fechamodificacion,p.tipocartera,p.estado \n            from personal p \n            inner join area_trabajo a on a.id=p.areatrabajoid \n            inner join sucursal s on s.id=p.sucursalid \n            inner join empresa e on e.id=s.empresaid \n            where p.tipocartera in ('" + tipocartera + "') and e.id='" + empresaid + "' and p.estado='ACT' order by p.nombrecompleto ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            personals = _context13.sent;
+            res.json({
+              personals: personals
+            });
+            _context13.next = 12;
+            break;
+
+          case 8:
+            _context13.prev = 8;
+            _context13.t0 = _context13["catch"](0);
+            console.log(_context13.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context13.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context13.stop();
+        }
+      }
+    }, _callee13, null, [[0, 8]]);
+  }));
+  return _personalByTipoCarteraYEmpresa.apply(this, arguments);
 }

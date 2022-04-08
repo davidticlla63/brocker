@@ -90,5 +90,8 @@ router.get('/polizasDetalleGeneralPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid
 router.get('/polizasDetalleGeneralPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleGeneralPorSucursalYTipo);
 router.get('/polizasDetalleSaludPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', polizas.getPolizasDetalleSaludPorEmpresaYTipo);
 router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', polizas.getPolizasDetalleSaludPorSucursalYTipo);
+/** envio de correo */
+
+router.get('/vencimientoPoliza/:id', polizas.vencimientoPoliza);
 var _default = router;
 exports["default"] = _default;
