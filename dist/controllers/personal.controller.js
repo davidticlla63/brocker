@@ -91,13 +91,13 @@ function createPersonal(_x3, _x4) {
 
 function _createPersonal() {
   _createPersonal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, tipocartera, estado, newPersonal;
+    var _req$body, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, tipocartera, estado, newPersonal;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, nombrecompleto = _req$body.nombrecompleto, sexo = _req$body.sexo, fechanacimiento = _req$body.fechanacimiento, ci = _req$body.ci, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, correo1 = _req$body.correo1, correo2 = _req$body.correo2, fotoperfil = _req$body.fotoperfil, areatrabajoid = _req$body.areatrabajoid, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, tipocartera = _req$body.tipocartera, estado = _req$body.estado;
+            _req$body = req.body, nombrecompleto = _req$body.nombrecompleto, sexo = _req$body.sexo, fechanacimiento = _req$body.fechanacimiento, ci = _req$body.ci, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, correo1 = _req$body.correo1, correo2 = _req$body.correo2, fotoperfil = _req$body.fotoperfil, areatrabajoid = _req$body.areatrabajoid, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, tipocartera = _req$body.tipocartera, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Personal["default"].create({
@@ -265,14 +265,14 @@ function updatePersonal(_x9, _x10) {
 
 function _updatePersonal() {
   _updatePersonal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, _req$body2$fechamodif, fechamodificacion, tipocartera, estado, updateRowCount, personals;
+    var id, _req$body2, nombrecompleto, sexo, fechanacimiento, ci, telefono1, telefono2, correo1, correo2, fotoperfil, areatrabajoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, tipocartera, estado, updateRowCount, personals;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombrecompleto = _req$body2.nombrecompleto, sexo = _req$body2.sexo, fechanacimiento = _req$body2.fechanacimiento, ci = _req$body2.ci, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, correo1 = _req$body2.correo1, correo2 = _req$body2.correo2, fotoperfil = _req$body2.fotoperfil, areatrabajoid = _req$body2.areatrabajoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, _req$body2$fechamodif = _req$body2.fechamodificacion, fechamodificacion = _req$body2$fechamodif === void 0 ? new Date() : _req$body2$fechamodif, tipocartera = _req$body2.tipocartera, estado = _req$body2.estado;
+            _req$body2 = req.body, nombrecompleto = _req$body2.nombrecompleto, sexo = _req$body2.sexo, fechanacimiento = _req$body2.fechanacimiento, ci = _req$body2.ci, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, correo1 = _req$body2.correo1, correo2 = _req$body2.correo2, fotoperfil = _req$body2.fotoperfil, areatrabajoid = _req$body2.areatrabajoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, tipocartera = _req$body2.tipocartera, estado = _req$body2.estado;
             _context5.prev = 2;
             _context5.next = 5;
             return _Personal["default"].update({
@@ -290,7 +290,7 @@ function _updatePersonal() {
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               tipocartera: tipocartera,
               estado: estado
             }, {

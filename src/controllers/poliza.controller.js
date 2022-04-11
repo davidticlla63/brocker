@@ -5,8 +5,8 @@ import Poliza from "../models/Poliza";
 import PolizaDetalleAdicional from "../models/PolizaDetalleAdicionales";
 import PolizaDetalle from '../models/PolizaDetalle'
 import PolizaDetallePersona from "../models/PolizaDetallePersona";
-//import PolizaDetallePersonaTitular from "../models/PolizaDetallePersonaTitular";
 import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
+import EnvioCorreo from "../models/EnvioCorreo";
 import { transporter } from '../mailers'
 var request = require("request");
 
@@ -86,7 +86,7 @@ export async function createPoliza(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
-        let ingresoegreso
+        let ingresoegreso='I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -199,7 +199,7 @@ export async function createPoliza(req, res) {
                 'porcentajeprima',
                 'primaneta',
                 'porcentajecomision',
-
+                'ingresoegreso',
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -644,7 +644,7 @@ export async function createPolizaSalud(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
-        let ingresoegreso;
+        let ingresoegreso='I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -757,7 +757,7 @@ export async function createPolizaSalud(req, res) {
                 'porcentajeprima',
                 'primaneta',
                 'porcentajecomision',
-
+                'ingresoegreso',
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -1234,7 +1234,7 @@ export async function createPolizaGeneral(req, res) {
     try {
         t = await sequelize.transaction();
 
-        let ingresoegreso;
+        let ingresoegreso='I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -1347,7 +1347,7 @@ export async function createPolizaGeneral(req, res) {
                 'porcentajeprima',
                 'primaneta',
                 'porcentajecomision',
-
+                'ingresoegreso',
                 'usuarioregistro',
                 'usuariomodificacion',
                 'fecharegistro',
@@ -1864,6 +1864,34 @@ export async function getPolizasPorTipoRamoYSucursal(req, res) {
         inner join compania_seguro cs on cs.id=p.companiaseguroid
         inner join tipo_ramo t on t.id=p.tiporamoid
         where s.id='` + sucursalid + `'  and p.tpoliza='` + tipopoliza + `' and p.tiporamoid='` + tiporamoid + `'  and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+        const polizas = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        //console.log(JSON.stringify(usuarios[0], null, 2));
+        //console.log(query);
+        res.json({ polizas });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function getPolizaHijo(req, res) {
+    const { polizaid } = req.params;
+    try {
+        let query = `select p.* ,t.nombre tiporamo,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        where p.polizaid='` + polizaid+ `'   and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -2541,6 +2569,21 @@ export async function vencimientoPoliza(req, res) {
                 type: QueryTypes.SELECT
             });
 
+
+            let NewEnvioCorreo = await EnvioCorreo.create({
+                nombre:'poliza vencimiento',
+                descripcion:'envio de certificados de vencimiento',
+                usuarioregistro:'system',
+                usuariomodificacion:'system',
+                fecharegistro:new Date(),
+                fechamodificacion:new Date(),
+                estado:'ACT',
+                polizaid:id
+            }, {
+                fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                    'fechamodificacion', 'estado','polizaid']
+            });
+
         const dir = "http://3.99.76.226:8080/broker/rest/reporte/vencimientoPoliza/" + id;
         request.get({
             url: dir
@@ -2550,7 +2593,7 @@ export async function vencimientoPoliza(req, res) {
 
             var mailOptions = {
                 from: 'gamsc@gmsantacruz.gob.bo',
-                //to: 'dticlla@gmsantacruz.gob.bo',
+               // to: 'david.ticlla@gmail.com',
                 to: personals[0].correocobranza,
                 subject: 'Vencimiento de Poliza nro.-' + personals[0].nropoliza + ' - ' + personals[0].nombreasegurado,
                 //subject: 'Vencimiento de Poliza',
@@ -2570,10 +2613,14 @@ export async function vencimientoPoliza(req, res) {
                     });
                     console.log('mensaje: ' + error);
                 } else {
+
+                 
+
                     res.json({
                         data: 'Email enviado: ' + info.response
                     });
                     console.log('Email enviado: ' + info.response);
+
                 }
                 transporter.close();
             });

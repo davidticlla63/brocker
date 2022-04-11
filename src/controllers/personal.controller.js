@@ -35,7 +35,7 @@ export async function createPersonal(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro = new Date(),
-        fechamodificacion,
+        fechamodificacion=new Date(),
         tipocartera,
         estado } = req.body;
     try {
@@ -140,7 +140,6 @@ export async function updatePersonal(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
-        fechamodificacion = new Date(),
         tipocartera,
         estado } = req.body;
     try {
@@ -159,7 +158,7 @@ export async function updatePersonal(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             tipocartera,
             estado
         }, {

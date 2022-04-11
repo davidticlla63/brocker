@@ -46,6 +46,8 @@ router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', polizas.getPoliza
 router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid', polizas.getPolizasPorTipoRamoYEmpresa);
 router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid', polizas.getPolizasPorTipoRamoYSucursal);
 
+router.get('/polizasHijo/:polizaid', polizas.getPolizaHijo);
+
 router.post('/polizasPorEmpresaGeneral/:empresaid', polizas.polizasPorEmpresaGeneral);
 router.post('/polizasPorSucursalGeneral/:sucursalid', polizas.polizasPorSucursalGeneral);
 
