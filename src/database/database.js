@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
 
 export const sequelize = new Sequelize(
-    'broker_db', //'broker_test_db',//testing
+    //'broker_db', //produccion
+    'broker_test_db',//testing
     'postgres',   
     'admin',
     {

@@ -20,7 +20,7 @@ export async function createSubRamoCompania(req, res) {
         companiaseguroid,
     sucursalid } = req.body;
     try {
-        //const transaction= sequelize.transaction;
+       /*  //const transaction= sequelize.transaction;
         if  (ramopadreid !=null){
             const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramopadreid, companiaseguroid, estado: 'ACT' } });
             console.log(regSubRamoCompanias);
@@ -28,14 +28,14 @@ export async function createSubRamoCompania(req, res) {
                 // authentication failed
                 throw new Error("Ya existe Ramo asignado a la Compania!!");
             }
-        }else if(ramopadreid!=null){
+        }else if(ramopadreid!=null){ */
             const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramoid, companiaseguroid, estado: 'ACT' } });
             console.log(regSubRamoCompanias);
             if (regSubRamoCompanias.length > 0) {
                 // authentication failed
-                throw new Error("Ya existe Ramo asignado a la Compania!!");
+                throw new Error("Ya existe Ramo asignado a la Compañia!!");
             }
-        }
+       /*  } */
         
 
 
