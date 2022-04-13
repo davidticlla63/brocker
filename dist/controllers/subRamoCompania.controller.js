@@ -34,7 +34,7 @@ function createSubRamoCompania(_x, _x2) {
 
 function _createSubRamoCompania() {
   _createSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, porcentajecomision, porcentajecomisioncredito, porcentajeprima, porcentajeprimacredito, nota, notacredito, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, estado, ramoid, ramopadreid, companiaseguroid, sucursalid, regSubRamoCompanias, _regSubRamoCompanias, newSubRamoCompania;
+    var _req$body, porcentajecomision, porcentajecomisioncredito, porcentajeprima, porcentajeprimacredito, nota, notacredito, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, estado, ramoid, ramopadreid, companiaseguroid, sucursalid, regSubRamoCompanias, newSubRamoCompania;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -42,43 +42,7 @@ function _createSubRamoCompania() {
           case 0:
             _req$body = req.body, porcentajecomision = _req$body.porcentajecomision, porcentajecomisioncredito = _req$body.porcentajecomisioncredito, porcentajeprima = _req$body.porcentajeprima, porcentajeprimacredito = _req$body.porcentajeprimacredito, nota = _req$body.nota, notacredito = _req$body.notacredito, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, estado = _req$body.estado, ramoid = _req$body.ramoid, ramopadreid = _req$body.ramopadreid, companiaseguroid = _req$body.companiaseguroid, sucursalid = _req$body.sucursalid;
             _context.prev = 1;
-
-            if (!(ramopadreid != null)) {
-              _context.next = 11;
-              break;
-            }
-
-            _context.next = 5;
-            return _SubRamoCompania["default"].findAll({
-              where: {
-                ramopadreid: ramopadreid,
-                companiaseguroid: companiaseguroid,
-                estado: 'ACT'
-              }
-            });
-
-          case 5:
-            regSubRamoCompanias = _context.sent;
-            console.log(regSubRamoCompanias);
-
-            if (!(regSubRamoCompanias.length > 0)) {
-              _context.next = 9;
-              break;
-            }
-
-            throw new Error("Ya existe Ramo asignado a la Compania!!");
-
-          case 9:
-            _context.next = 18;
-            break;
-
-          case 11:
-            if (!(ramopadreid != null)) {
-              _context.next = 18;
-              break;
-            }
-
-            _context.next = 14;
+            _context.next = 4;
             return _SubRamoCompania["default"].findAll({
               where: {
                 ramoid: ramoid,
@@ -87,19 +51,19 @@ function _createSubRamoCompania() {
               }
             });
 
-          case 14:
-            _regSubRamoCompanias = _context.sent;
-            console.log(_regSubRamoCompanias);
+          case 4:
+            regSubRamoCompanias = _context.sent;
+            console.log(regSubRamoCompanias);
 
-            if (!(_regSubRamoCompanias.length > 0)) {
-              _context.next = 18;
+            if (!(regSubRamoCompanias.length > 0)) {
+              _context.next = 8;
               break;
             }
 
-            throw new Error("Ya existe Ramo asignado a la Compania!!");
+            throw new Error("Ya existe Ramo asignado a la Compañia!!");
 
-          case 18:
-            _context.next = 20;
+          case 8:
+            _context.next = 10;
             return _SubRamoCompania["default"].create({
               porcentajecomision: porcentajecomision,
               porcentajecomisioncredito: porcentajecomisioncredito,
@@ -120,11 +84,11 @@ function _createSubRamoCompania() {
               fields: ['porcentajecomision', 'porcentajecomisioncredito', 'porcentajeprima', 'porcentajeprimacredito', 'nota', 'notacredito', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'ramoid', 'ramopadreid', 'companiaseguroid', 'sucursalid']
             });
 
-          case 20:
+          case 10:
             newSubRamoCompania = _context.sent;
 
             if (!newSubRamoCompania) {
-              _context.next = 23;
+              _context.next = 13;
               break;
             }
 
@@ -133,12 +97,12 @@ function _createSubRamoCompania() {
               data: newSubRamoCompania
             }));
 
-          case 23:
-            _context.next = 29;
+          case 13:
+            _context.next = 19;
             break;
 
-          case 25:
-            _context.prev = 25;
+          case 15:
+            _context.prev = 15;
             _context.t0 = _context["catch"](1);
             console.log(_context.t0);
             res.json({
@@ -148,12 +112,12 @@ function _createSubRamoCompania() {
               }
             });
 
-          case 29:
+          case 19:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 25]]);
+    }, _callee, null, [[1, 15]]);
   }));
   return _createSubRamoCompania.apply(this, arguments);
 }

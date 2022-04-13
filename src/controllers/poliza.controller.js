@@ -2633,3 +2633,23 @@ export async function vencimientoPoliza(req, res) {
         });
     }
 }
+
+export async function obtenerPoliza(req, res) {
+    const { id } = req.params;
+    try {
+
+        const personals = await sequelize.query(` select * from obtenerPoliza('`+ id + `')  `
+            , {
+                type: QueryTypes.SELECT
+            });       
+      
+            res.json({
+                data: personals
+            });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}

@@ -88,4 +88,6 @@ router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid
 /** envio de correo */
 router.get('/vencimientoPoliza/:id', polizas.vencimientoPoliza);
 
+
+router.get('/obtenerPoliza/:id', polizas.obtenerPoliza);
 export default router;
