@@ -33,6 +33,7 @@ exports.getPolizasPorTipoRamoYSucursal = getPolizasPorTipoRamoYSucursal;
 exports.getPolizasPorTipoYEmpresa = getPolizasPorTipoYEmpresa;
 exports.getPolizasPorTomadorYEmpresa = getPolizasPorTomadorYEmpresa;
 exports.getPolizasPorTomadorYSucursal = getPolizasPorTomadorYSucursal;
+exports.obtenerPoliza = obtenerPoliza;
 exports.polizasPorEmpresaGeneral = polizasPorEmpresaGeneral;
 exports.polizasPorSucursal = polizasPorSucursal;
 exports.polizasPorSucursalGeneral = polizasPorSucursalGeneral;
@@ -3286,4 +3287,51 @@ function _vencimientoPoliza() {
     }, _callee37, null, [[1, 12]]);
   }));
   return _vencimientoPoliza.apply(this, arguments);
+}
+
+function obtenerPoliza(_x75, _x76) {
+  return _obtenerPoliza.apply(this, arguments);
+}
+
+function _obtenerPoliza() {
+  _obtenerPoliza = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee38(req, res) {
+    var id, personals;
+    return regeneratorRuntime.wrap(function _callee38$(_context38) {
+      while (1) {
+        switch (_context38.prev = _context38.next) {
+          case 0:
+            id = req.params.id;
+            _context38.prev = 1;
+            _context38.next = 4;
+            return _database.sequelize.query(" select * from obtenerPoliza('" + id + "')  ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 4:
+            personals = _context38.sent;
+            res.json({
+              data: personals
+            });
+            _context38.next = 12;
+            break;
+
+          case 8:
+            _context38.prev = 8;
+            _context38.t0 = _context38["catch"](1);
+            console.log(_context38.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context38.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context38.stop();
+        }
+      }
+    }, _callee38, null, [[1, 8]]);
+  }));
+  return _obtenerPoliza.apply(this, arguments);
 }

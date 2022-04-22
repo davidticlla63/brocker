@@ -115,7 +115,7 @@ function _login() {
             }); // authentication successful
 
             _context.next = 21;
-            return _database.sequelize.query("select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa,a.nombre areatrabajo\n             from usuario u \n                inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' \n                left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' \n                left join personal p on p.id=u.personalid  and p.estado='ACT'\n                left join area_trabajo a on a.id =p.areatrabajoid\n                LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' \n                where u.id= '" + usuario.id + "' and u.estado in ('ACT','SU','ADM') order by u.nick ", {
+            return _database.sequelize.query("select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,p.tipocartera,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa,a.nombre areatrabajo\n             from usuario u \n                inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' \n                left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' \n                left join personal p on p.id=u.personalid  and p.estado='ACT'\n                left join area_trabajo a on a.id =p.areatrabajoid\n                LEFT join empresa e on e.id=s.empresaid and e.estado='ACT' \n                where u.id= '" + usuario.id + "' and u.estado in ('ACT','SU','ADM') order by u.nick ", {
               type: QueryTypes.SELECT
             });
 

@@ -77,13 +77,13 @@ function createParamProduccion(_x3, _x4) {
 
 function _createParamProduccion() {
   _createParamProduccion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, diaproduccion, sucursalid, usuarioregistro, usuariomodificacion, usuariobaja, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, fechabaja, estado, newParamProduccion;
+    var _req$body, diaproduccion, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, estado, newParamProduccion;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, diaproduccion = _req$body.diaproduccion, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, usuariobaja = _req$body.usuariobaja, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, fechabaja = _req$body.fechabaja, estado = _req$body.estado;
+            _req$body = req.body, diaproduccion = _req$body.diaproduccion, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _ParamProduccion["default"].create({
@@ -91,13 +91,11 @@ function _createParamProduccion() {
               sucursalid: sucursalid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              usuariobaja: usuariobaja,
               fecharegistro: fecharegistro,
               fechamodificacion: fechamodificacion,
-              fechabaja: fechabaja,
               estado: estado
             }, {
-              fields: ['diaproduccion', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'usuariobaja', 'fecharegistro', 'fechamodificacion', 'fechabaja', 'estado']
+              fields: ['diaproduccion', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
             });
 
           case 4:
@@ -245,26 +243,20 @@ function updateParamProduccion(_x9, _x10) {
 
 function _updateParamProduccion() {
   _updateParamProduccion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, diaproduccion, sucursalid, usuarioregistro, usuariomodificacion, usuariobaja, fecharegistro, fechamodificacion, fechabaja, estado, updateRowCount, ParamProduccions;
+    var id, _req$body2, diaproduccion, usuariomodificacion, estado, updateRowCount, ParamProduccions;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, diaproduccion = _req$body2.diaproduccion, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, usuariobaja = _req$body2.usuariobaja, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, fechabaja = _req$body2.fechabaja, estado = _req$body2.estado;
+            _req$body2 = req.body, diaproduccion = _req$body2.diaproduccion, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado;
             _context5.prev = 2;
             _context5.next = 5;
             return _ParamProduccion["default"].update({
               diaproduccion: diaproduccion,
-              sucursalid: sucursalid,
-              usuariobaja: usuariobaja,
-              empresaid: empresaid,
-              usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
               fechamodificacion: new Date(),
-              fechabaja: fechabaja,
               estado: estado
             }, {
               where: {

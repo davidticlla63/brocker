@@ -25,10 +25,8 @@ export async function createParamProduccion(req, res) {
         sucursalid,
         usuarioregistro,
         usuariomodificacion,
-        usuariobaja,
         fecharegistro = new Date(),
         fechamodificacion=new Date(),
-        fechabaja,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -37,20 +35,16 @@ export async function createParamProduccion(req, res) {
             sucursalid,
             usuarioregistro,
             usuariomodificacion,
-            usuariobaja,
             fecharegistro ,
             fechamodificacion,
-            fechabaja,
             estado
         }, {
             fields: ['diaproduccion',
             'sucursalid',
             'usuarioregistro',
             'usuariomodificacion',
-            'usuariobaja',
             'fecharegistro' ,
             'fechamodificacion',
-            'fechabaja',
             'estado']
         });
         if (newParamProduccion) {
@@ -109,25 +103,13 @@ export async function deleteParamProduccion(req, res) {
 export async function updateParamProduccion(req, res) {
     const { id } = req.params;
     const { diaproduccion,
-        sucursalid,
-        usuarioregistro,
         usuariomodificacion,
-        usuariobaja,
-        fecharegistro ,
-        fechamodificacion,
-        fechabaja,
         estado} = req.body;
     try {
         const updateRowCount = await ParamProduccion.update({
             diaproduccion,
-            sucursalid,
-            usuariobaja,
-            empresaid,
-            usuarioregistro,
             usuariomodificacion,
-            fecharegistro ,
             fechamodificacion:new Date(),
-            fechabaja,
             estado
         }, {
             where: {
@@ -156,7 +138,6 @@ export async function updateParamProduccion(req, res) {
         });
     }
 }
-
 
 export async function bajaParamProduccion(req, res) {
     const { id } = req.params;

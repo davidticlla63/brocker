@@ -57,7 +57,7 @@ export async function login(req, res) {
             // authentication successful
 
 
-            const usuarios = await sequelize.query(`select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa,a.nombre areatrabajo
+            const usuarios = await sequelize.query(`select u.id, u.nick,u.estado,p.ci,p.nombrecompleto,p.fotoperfil,p.tipocartera,s.id sucursalid, s.nombre nombresucursal,e.id empresaid,e.razonsocial nombreempresa,a.nombre areatrabajo
              from usuario u 
                 inner join sucursal_usuario su on su.usuarioid=u.id and su.estado='ACT' 
                 left JOIN sucursal s on s.id=su.sucursalid and s.estado='ACT' 

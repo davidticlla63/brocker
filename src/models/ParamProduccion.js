@@ -7,18 +7,12 @@ const ParamProduccion = sequelize.define('ParamProduccion', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    tipoasegurado:{
-        type:Sequelize.STRING,
-        allowNull: false
-    },
     diaproduccion:Sequelize.INTEGER,
     sucursalid:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
-    usuariobaja:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
     fechamodificacion: Sequelize.DATE(6),
-    fechabaja: Sequelize.DATE(6),
      estado: {
         type: Sequelize.STRING,
         allowNull: false,

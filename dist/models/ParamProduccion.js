@@ -17,18 +17,12 @@ var ParamProduccion = _database.sequelize.define('ParamProduccion', {
     type: _sequelize["default"].STRING,
     primaryKey: true
   },
-  tipoasegurado: {
-    type: _sequelize["default"].STRING,
-    allowNull: false
-  },
   diaproduccion: _sequelize["default"].INTEGER,
   sucursalid: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
-  usuariobaja: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),
   fechamodificacion: _sequelize["default"].DATE(6),
-  fechabaja: _sequelize["default"].DATE(6),
   estado: {
     type: _sequelize["default"].STRING,
     allowNull: false
