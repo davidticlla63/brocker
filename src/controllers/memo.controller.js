@@ -871,11 +871,22 @@ export async function getMemosPorTipoRamoYSucursal(req, res) {
 export async function getTotalProduccionMemoPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
-        let query = `select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado 
+       /*  let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
         from memo m  
         inner join poliza p on p.id=m.polizaid  
         inner join sucursal s on s.id =p.sucursalid  
-        inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`;
+        inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`; */
+
+        let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado 
+        from memo m  
+        inner join poliza p on p.id=m.polizaid  
+        inner join sucursal s on s.id =p.sucursalid  
+        inner join empresa e on e.id =s.empresaid
+        where m.estado  in ('ACT') and and e.id  ='` + empresaid + `'
+        group by p.ingresoegreso 
+        )
+        
+        select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta `;
 
         const pagos = await sequelize.query(query
             , {
@@ -898,10 +909,19 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        let query = `select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado 
+        /* let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
             from memo m  
             inner join poliza p on p.id=m.polizaid  
-            where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`;
+            where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
+
+            let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado 
+            from memo m  
+            inner join poliza p on p.id=m.polizaid  
+            where m.estado  in ('ACT') and m.sucursalid ='` + sucursalid + `'
+            group by p.ingresoegreso 
+            )
+            
+            select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta `;
 
         const pagos = await sequelize.query(query
             , {
