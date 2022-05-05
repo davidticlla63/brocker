@@ -91,13 +91,13 @@ function createMemo(_x3, _x4) {
 
 function _createMemo() {
   _createMemo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, fechamemo, fechapago, nrocuotas, cuotainicial, pagocada, diapago, impuesto, fechaproduccion, mesproduccion, anioproduccion, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, _req$body$estado, estado, sucursalid, polizaid, archivos, planpago, t, newMemo, i, _i, newPlanPago;
+    var _req$body, fechamemo, fechapago, nrocuotas, cuotainicial, pagocada, diapago, impuesto, fechaproduccion, mesproduccion, anioproduccion, usuarioregistro, usuariomodificacion, _req$body$estado, estado, sucursalid, polizaid, archivos, planpago, t, newMemo, i, _i, newPlanPago;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, fechamemo = _req$body.fechamemo, fechapago = _req$body.fechapago, nrocuotas = _req$body.nrocuotas, cuotainicial = _req$body.cuotainicial, pagocada = _req$body.pagocada, diapago = _req$body.diapago, impuesto = _req$body.impuesto, fechaproduccion = _req$body.fechaproduccion, mesproduccion = _req$body.mesproduccion, anioproduccion = _req$body.anioproduccion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, _req$body$estado = _req$body.estado, estado = _req$body$estado === void 0 ? 'ACT' : _req$body$estado, sucursalid = _req$body.sucursalid, polizaid = _req$body.polizaid, archivos = _req$body.archivos, planpago = _req$body.planpago;
+            _req$body = req.body, fechamemo = _req$body.fechamemo, fechapago = _req$body.fechapago, nrocuotas = _req$body.nrocuotas, cuotainicial = _req$body.cuotainicial, pagocada = _req$body.pagocada, diapago = _req$body.diapago, impuesto = _req$body.impuesto, fechaproduccion = _req$body.fechaproduccion, mesproduccion = _req$body.mesproduccion, anioproduccion = _req$body.anioproduccion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$estado = _req$body.estado, estado = _req$body$estado === void 0 ? 'ACT' : _req$body$estado, sucursalid = _req$body.sucursalid, polizaid = _req$body.polizaid, archivos = _req$body.archivos, planpago = _req$body.planpago;
             _context2.next = 3;
             return _database.sequelize.transaction();
 
@@ -106,48 +106,6 @@ function _createMemo() {
             _context2.prev = 4;
             _context2.next = 7;
             return _Memo["default"].create({
-              /*  nromemo,
-               nrocertificado,
-               fechainicio,
-               fechafin,
-               fechaexpedicion,
-               fecharecepcion,
-               tipomoneda,
-               primatotal,
-               formapago,
-               encargadoid,
-               bancoid,
-               ciudadexpedicion,
-               notas,
-               companiaseguroid,
-               subramocompaniaid,
-               tiporamoid,
-               contratanteid,
-               tomadorid,
-               ejecutivoid,
-               colocacionid,
-               ciaspvs,
-               tipomemoid,
-               tmemo,
-               tipocontrato,
-               menoid,
-               llamadoid,
-               vendedorid,
-               nroplaca,
-               tipoemision,
-               franquicia,
-               valorasegurado,
-               comisionbs,
-               comisionusd,
-               tipocambio,
-               porcentajeprima,
-               primaneta,
-               porcentajecomision,
-               usuarioregistro,
-               usuariomodificacion,
-               fecharegistro,
-               fechamodificacion,
-               estado, */
               fechamemo: fechamemo,
               fechapago: fechapago,
               nrocuotas: nrocuotas,
@@ -160,8 +118,8 @@ function _createMemo() {
               anioproduccion: anioproduccion,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado,
               sucursalid: sucursalid,
               polizaid: polizaid
@@ -390,49 +348,6 @@ function _updateMemo() {
             _context3.prev = 5;
             _context3.next = 8;
             return _Memo["default"].update((_Memo$update = {
-              /*  nromemo,
-               nrocertificado,
-               fechainicio,
-               fechafin,
-               fechaexpedicion,
-               fecharecepcion,
-               tipomoneda,
-               primatotal,
-               formapago,
-               encargadoid,
-               bancoid,
-               ciudadexpedicion,
-               notas,
-               companiaseguroid,
-               subramocompaniaid,
-               tiporamoid,
-               contratanteid,
-               tomadorid,
-               ejecutivoid,
-               colocacionid,
-               ciaspvs,
-               tipomemoid,
-               tmemo,
-               tipocontrato,
-               menoid,
-               llamadoid,
-               vendedorid,
-               nroplaca,
-               tipoemision,
-               franquicia,
-               valorasegurado,
-                  comisionbs,
-               comisionusd,
-               tipocambio,
-               porcentajeprima,
-               primaneta,
-               porcentajecomision,
-                  usuarioregistro,
-               usuariomodificacion,
-               fecharegistro,
-               fechamodificacion,
-               estado,
-               sucursalid */
               fechamodificacion: new Date(),
               fechamemo: fechamemo,
               fechapago: fechapago,
@@ -1116,7 +1031,13 @@ function _getTotalProduccionMemoPorEmpresa() {
           case 0:
             empresaid = req.params.empresaid;
             _context13.prev = 1;
-            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado \n        from memo m  \n        inner join poliza p on p.id=m.polizaid  \n        inner join sucursal s on s.id =p.sucursalid  \n        inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '" + empresaid + "'";
+
+            /*  let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
+             from memo m  
+             inner join poliza p on p.id=m.polizaid  
+             inner join sucursal s on s.id =p.sucursalid  
+             inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`; */
+            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado \n        from memo m  \n        inner join poliza p on p.id=m.polizaid  \n        inner join sucursal s on s.id =p.sucursalid  \n        inner join empresa e on e.id =s.empresaid\n        where m.estado  in ('ACT') and  e.id  ='" + empresaid + "'\n        group by p.ingresoegreso \n        )\n        \n        select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta ";
             _context13.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -1164,7 +1085,12 @@ function _getTotalProduccionMemoPorSucursal() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context14.prev = 1;
-            query = "select count(*) cantidad,SUM(p.valorasegurado) totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid  \n            where m.estado  in ('ACT') and m.sucursalid = '" + sucursalid + "'";
+
+            /* let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
+                from memo m  
+                inner join poliza p on p.id=m.polizaid  
+                where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
+            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid  \n            where m.estado  in ('ACT') and m.sucursalid ='" + sucursalid + "'\n            group by p.ingresoegreso \n            )\n            \n            select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta ";
             _context14.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT

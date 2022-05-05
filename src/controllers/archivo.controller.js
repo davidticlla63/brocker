@@ -68,8 +68,6 @@ export async function createArchivo(req, res) {
         carpetaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion = new Date(),
         estado = 'ACT' } = req.body;
 
 
@@ -87,8 +85,8 @@ export async function createArchivo(req, res) {
             carpetaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion', 'extension',
@@ -167,8 +165,6 @@ export async function updateArchivo(req, res) {
         carpetaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await Archivo.update({
@@ -183,8 +179,7 @@ export async function updateArchivo(req, res) {
             carpetaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

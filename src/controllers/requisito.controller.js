@@ -31,8 +31,6 @@ export async function createRequisito(req, res) {
         descripcion,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion,
         estado,
         empresaid } = req.body;
     try {
@@ -42,8 +40,8 @@ export async function createRequisito(req, res) {
             descripcion,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado, empresaid
         }, {
             fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
@@ -81,7 +79,7 @@ export async function updateRequisito(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

@@ -34,13 +34,13 @@ function createRamo(_x, _x2) {
 
 function _createRamo() {
   _createRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-    var _req$body, nombre, descripcion, spvs, tiporamoid, empresaid, ramoid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newRamo;
+    var _req$body, nombre, descripcion, spvs, tiporamoid, empresaid, ramoid, usuarioregistro, usuariomodificacion, estado, newRamo;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, spvs = _req$body.spvs, tiporamoid = _req$body.tiporamoid, empresaid = _req$body.empresaid, ramoid = _req$body.ramoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, spvs = _req$body.spvs, tiporamoid = _req$body.tiporamoid, empresaid = _req$body.empresaid, ramoid = _req$body.ramoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
             _context.prev = 1;
             _context.next = 4;
             return _Ramo["default"].create({
@@ -51,8 +51,8 @@ function _createRamo() {
               empresaid: empresaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado,
               ramoid: ramoid
             }, {
@@ -202,14 +202,14 @@ function updateRamo(_x7, _x8) {
 
 function _updateRamo() {
   _updateRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var id, _req$body2, nombre, descripcion, spvs, tiporamoid, empresaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, ramoid, updateRowCount, ramos;
+    var id, _req$body2, nombre, descripcion, spvs, tiporamoid, empresaid, usuarioregistro, usuariomodificacion, fecharegistro, estado, ramoid, updateRowCount, ramos;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, spvs = _req$body2.spvs, tiporamoid = _req$body2.tiporamoid, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado, ramoid = _req$body2.ramoid;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, spvs = _req$body2.spvs, tiporamoid = _req$body2.tiporamoid, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, estado = _req$body2.estado, ramoid = _req$body2.ramoid;
             _context4.prev = 2;
             _context4.next = 5;
             return _Ramo["default"].update({
@@ -221,7 +221,7 @@ function _updateRamo() {
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado,
               ramoid: ramoid
             }, {

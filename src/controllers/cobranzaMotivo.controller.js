@@ -18,8 +18,6 @@ export async function createCobranzaMotivo(req, res) {
         descripcion,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -28,8 +26,8 @@ export async function createCobranzaMotivo(req, res) {
             descripcion,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
@@ -91,8 +89,6 @@ export async function updateCobranzaMotivo(req, res) {
         descripcion,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await CobranzaMotivo.update({
@@ -100,8 +96,7 @@ export async function updateCobranzaMotivo(req, res) {
             descripcion,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

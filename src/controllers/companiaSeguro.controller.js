@@ -49,8 +49,6 @@ export async function createCompaniaSeguro(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -73,8 +71,8 @@ export async function createCompaniaSeguro(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion', 'nit',
@@ -161,8 +159,6 @@ export async function updateCompaniaSeguro(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await CompaniaSeguro.update({
@@ -184,8 +180,7 @@ export async function updateCompaniaSeguro(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

@@ -25,8 +25,6 @@ export async function createParamProduccion(req, res) {
         sucursalid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion=new Date(),
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -35,8 +33,8 @@ export async function createParamProduccion(req, res) {
             sucursalid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro ,
-            fechamodificacion,
+            fecharegistro :new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['diaproduccion',

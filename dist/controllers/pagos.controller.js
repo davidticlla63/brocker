@@ -267,14 +267,14 @@ function updatePagos(_x7, _x8) {
 
 function _updatePagos() {
   _updatePagos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var id, _req$body2, montobs, montousd, comisionbs, comisionusd, planpagoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, _req$body2$fechamodif, fechamodificacion, estado, updateRowCount, pagoss;
+    var id, _req$body2, montobs, montousd, comisionbs, comisionusd, planpagoid, sucursalid, usuarioregistro, usuariomodificacion, fecharegistro, estado, updateRowCount, pagoss;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, montobs = _req$body2.montobs, montousd = _req$body2.montousd, comisionbs = _req$body2.comisionbs, comisionusd = _req$body2.comisionusd, planpagoid = _req$body2.planpagoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, _req$body2$fechamodif = _req$body2.fechamodificacion, fechamodificacion = _req$body2$fechamodif === void 0 ? new Date() : _req$body2$fechamodif, estado = _req$body2.estado;
+            _req$body2 = req.body, montobs = _req$body2.montobs, montousd = _req$body2.montousd, comisionbs = _req$body2.comisionbs, comisionusd = _req$body2.comisionusd, planpagoid = _req$body2.planpagoid, sucursalid = _req$body2.sucursalid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, estado = _req$body2.estado;
             _context4.prev = 2;
             _context4.next = 5;
             return _Pagos["default"].update({
@@ -287,7 +287,7 @@ function _updatePagos() {
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

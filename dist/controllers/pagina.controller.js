@@ -115,13 +115,13 @@ function createPagina(_x3, _x4) {
 
 function _createPagina() {
   _createPagina = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, nombre, descripcion, url, paginaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, newPagina;
+    var _req$body, nombre, descripcion, url, paginaid, usuarioregistro, usuariomodificacion, estado, newPagina;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, url = _req$body.url, paginaid = _req$body.paginaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, fecharegistro = _req$body.fecharegistro, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, url = _req$body.url, paginaid = _req$body.paginaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Pagina["default"].create({
@@ -131,8 +131,8 @@ function _createPagina() {
               paginaid: paginaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               fields: ['nombre', 'descripcion', 'url', 'paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
@@ -281,14 +281,14 @@ function updatePagina(_x9, _x10) {
 
 function _updatePagina() {
   _updatePagina = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, nombre, descripcion, url, paginaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, cant, usuarios;
+    var id, _req$body2, nombre, descripcion, url, paginaid, usuarioregistro, usuariomodificacion, estado, cant, usuarios;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, url = _req$body2.url, paginaid = _req$body2.paginaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, url = _req$body2.url, paginaid = _req$body2.paginaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado;
             _context5.prev = 2;
             _context5.next = 5;
             return _Pagina["default"].update({
@@ -298,8 +298,7 @@ function _updatePagina() {
               paginaid: paginaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

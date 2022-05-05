@@ -74,13 +74,13 @@ function createEmpresa(_x3, _x4) {
 
 function _createEmpresa() {
   _createEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, razonsocial, descripcion, telefono, nit, representante, logo, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newEmpresa;
+    var _req$body, razonsocial, descripcion, telefono, nit, representante, logo, estado, newEmpresa;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, razonsocial = _req$body.razonsocial, descripcion = _req$body.descripcion, telefono = _req$body.telefono, nit = _req$body.nit, representante = _req$body.representante, logo = _req$body.logo, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _req$body = req.body, razonsocial = _req$body.razonsocial, descripcion = _req$body.descripcion, telefono = _req$body.telefono, nit = _req$body.nit, representante = _req$body.representante, logo = _req$body.logo, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Empresa["default"].create({
@@ -90,8 +90,8 @@ function _createEmpresa() {
               nit: nit,
               representante: representante,
               logo: logo,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               fields: ['razonsocial', 'descripcion', 'telefono', 'nit', 'representante', 'logo', 'fecharegistro', 'fechamodificacion', 'estado']
@@ -244,14 +244,14 @@ function updateEmpresa(_x9, _x10) {
 
 function _updateEmpresa() {
   _updateEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, razonsocial, descripcion, telefono, nit, representante, logo, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, cant, empresas;
+    var id, _req$body2, razonsocial, descripcion, telefono, nit, representante, logo, usuarioregistro, usuariomodificacion, cant, empresas;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, razonsocial = _req$body2.razonsocial, descripcion = _req$body2.descripcion, telefono = _req$body2.telefono, nit = _req$body2.nit, representante = _req$body2.representante, logo = _req$body2.logo, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion;
+            _req$body2 = req.body, razonsocial = _req$body2.razonsocial, descripcion = _req$body2.descripcion, telefono = _req$body2.telefono, nit = _req$body2.nit, representante = _req$body2.representante, logo = _req$body2.logo, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion;
             _context5.prev = 2;
             _context5.next = 5;
             return _Empresa["default"].update({
@@ -263,8 +263,7 @@ function _updateEmpresa() {
               logo: logo,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion
+              fechamodificacion: new Date()
             }, {
               where: {
                 id: id

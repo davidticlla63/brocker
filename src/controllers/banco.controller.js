@@ -42,8 +42,6 @@ export async function createBanco(req, res) {
         descripcion,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion,
         estado,
         empresaid} = req.body;
     try {
@@ -53,8 +51,8 @@ export async function createBanco(req, res) {
             descripcion,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado,
             empresaid
         }, {
@@ -121,8 +119,6 @@ export async function updateBanco(req, res) {
         descripcion,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await Banco.update({
@@ -130,8 +126,7 @@ export async function updateBanco(req, res) {
             descripcion,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         },{
             where: {

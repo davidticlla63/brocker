@@ -33,8 +33,6 @@ export async function createPerfil(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -45,8 +43,8 @@ export async function createPerfil(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion','sucursalid', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
@@ -113,8 +111,6 @@ export async function updatePerfil(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await Perfil.update({
@@ -124,8 +120,7 @@ export async function updatePerfil(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

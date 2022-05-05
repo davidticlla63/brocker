@@ -251,14 +251,14 @@ function updatePermiso(_x9, _x10) {
 
 function _updatePermiso() {
   _updatePermiso = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var id, _req$body2, paginaaccionid, perfilid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, cant, permisos;
+    var id, _req$body2, paginaaccionid, perfilid, usuarioregistro, usuariomodificacion, estado, cant, permisos;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, paginaaccionid = _req$body2.paginaaccionid, perfilid = _req$body2.perfilid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
+            _req$body2 = req.body, paginaaccionid = _req$body2.paginaaccionid, perfilid = _req$body2.perfilid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado;
             _context5.prev = 2;
             _context5.next = 5;
             return _Permiso["default"].update({
@@ -266,8 +266,7 @@ function _updatePermiso() {
               perfilid: perfilid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

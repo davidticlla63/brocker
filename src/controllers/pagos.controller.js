@@ -141,7 +141,6 @@ export async function updatePagos(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
-        fechamodificacion = new Date(),
         estado } = req.body;
     try {
         const updateRowCount = await Pagos.update({
@@ -154,7 +153,7 @@ export async function updatePagos(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, {
             where: {

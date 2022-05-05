@@ -77,13 +77,13 @@ function createParamProduccion(_x3, _x4) {
 
 function _createParamProduccion() {
   _createParamProduccion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, diaproduccion, sucursalid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, estado, newParamProduccion;
+    var _req$body, diaproduccion, sucursalid, usuarioregistro, usuariomodificacion, estado, newParamProduccion;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, diaproduccion = _req$body.diaproduccion, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, estado = _req$body.estado;
+            _req$body = req.body, diaproduccion = _req$body.diaproduccion, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _ParamProduccion["default"].create({
@@ -91,8 +91,8 @@ function _createParamProduccion() {
               sucursalid: sucursalid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               fields: ['diaproduccion', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']

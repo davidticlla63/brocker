@@ -26,8 +26,7 @@ export async function createEmpresa(req, res) {
         nit,
         representante,
         logo,
-        fecharegistro = new Date(),
-        fechamodificacion, estado } = req.body;
+         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newEmpresa = await Empresa.create({
@@ -37,8 +36,8 @@ export async function createEmpresa(req, res) {
             nit,
             representante,
             logo,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['razonsocial',
@@ -112,9 +111,7 @@ export async function updateEmpresa(req, res) {
         representante,
         logo,
         usuarioregistro,
-        usuariomodificacion,
-        fecharegistro,
-        fechamodificacion } = req.body;
+        usuariomodificacion} = req.body;
     try {
 
 
@@ -127,8 +124,7 @@ export async function updateEmpresa(req, res) {
             logo,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion
+            fechamodificacion:new Date()
         }, { where: { id } });
 
 

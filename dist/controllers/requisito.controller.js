@@ -117,13 +117,13 @@ function createRequisito(_x5, _x6) {
 
 function _createRequisito() {
   _createRequisito = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, nombre, descripcion, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, empresaid, newRequisito;
+    var _req$body, nombre, descripcion, usuarioregistro, usuariomodificacion, estado, empresaid, newRequisito;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado, empresaid = _req$body.empresaid;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado, empresaid = _req$body.empresaid;
             _context3.prev = 1;
             _context3.next = 4;
             return _Requesito["default"].create({
@@ -131,8 +131,8 @@ function _createRequisito() {
               descripcion: descripcion,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado,
               empresaid: empresaid
             }, {
@@ -199,7 +199,7 @@ function _updateRequisito() {
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

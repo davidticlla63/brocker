@@ -180,13 +180,13 @@ function createArchivo(_x7, _x8) {
 
 function _createArchivo() {
   _createArchivo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var _req$body, nombre, descripcion, extension, archivo, tipo, codigo, aseguradoid, sucursalid, carpetaid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, _req$body$fechamodifi, fechamodificacion, _req$body$estado, estado, newArchivo;
+    var _req$body, nombre, descripcion, extension, archivo, tipo, codigo, aseguradoid, sucursalid, carpetaid, usuarioregistro, usuariomodificacion, _req$body$estado, estado, newArchivo;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, extension = _req$body.extension, archivo = _req$body.archivo, tipo = _req$body.tipo, codigo = _req$body.codigo, aseguradoid = _req$body.aseguradoid, sucursalid = _req$body.sucursalid, carpetaid = _req$body.carpetaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, _req$body$fechamodifi = _req$body.fechamodificacion, fechamodificacion = _req$body$fechamodifi === void 0 ? new Date() : _req$body$fechamodifi, _req$body$estado = _req$body.estado, estado = _req$body$estado === void 0 ? 'ACT' : _req$body$estado;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, extension = _req$body.extension, archivo = _req$body.archivo, tipo = _req$body.tipo, codigo = _req$body.codigo, aseguradoid = _req$body.aseguradoid, sucursalid = _req$body.sucursalid, carpetaid = _req$body.carpetaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$estado = _req$body.estado, estado = _req$body$estado === void 0 ? 'ACT' : _req$body$estado;
             _context4.prev = 1;
             _context4.next = 4;
             return _Archivo["default"].create({
@@ -201,8 +201,8 @@ function _createArchivo() {
               carpetaid: carpetaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               fields: ['nombre', 'descripcion', 'extension', 'archivo', 'tipo', 'codigo', 'aseguradoid', 'carpetaid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
@@ -353,14 +353,14 @@ function updateArchivo(_x13, _x14) {
 
 function _updateArchivo() {
   _updateArchivo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var id, _req$body2, nombre, descripcion, extension, archivo, tipo, codigo, aseguradoid, sucursalid, carpetaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, updateRowCount, archivos;
+    var id, _req$body2, nombre, descripcion, extension, archivo, tipo, codigo, aseguradoid, sucursalid, carpetaid, usuarioregistro, usuariomodificacion, estado, updateRowCount, archivos;
 
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, extension = _req$body2.extension, archivo = _req$body2.archivo, tipo = _req$body2.tipo, codigo = _req$body2.codigo, aseguradoid = _req$body2.aseguradoid, sucursalid = _req$body2.sucursalid, carpetaid = _req$body2.carpetaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, extension = _req$body2.extension, archivo = _req$body2.archivo, tipo = _req$body2.tipo, codigo = _req$body2.codigo, aseguradoid = _req$body2.aseguradoid, sucursalid = _req$body2.sucursalid, carpetaid = _req$body2.carpetaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado;
             _context7.prev = 2;
             _context7.next = 5;
             return _Archivo["default"].update({
@@ -375,8 +375,7 @@ function _updateArchivo() {
               carpetaid: carpetaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

@@ -113,13 +113,13 @@ function createCompaniaSeguro(_x5, _x6) {
 
 function _createCompaniaSeguro() {
   _createCompaniaSeguro = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var _req$body, nombre, descripcion, nit, representanteLegal, direccion, telefono1, telefono2, web, ciaSpvs, nrocuenta, banco1, tipomoneda1, nrocuenta2, banco2, tipomoneda2, empresaid, usuarioregistro, usuariomodificacion, _req$body$fecharegist, fecharegistro, fechamodificacion, estado, newCompaniaSeguro;
+    var _req$body, nombre, descripcion, nit, representanteLegal, direccion, telefono1, telefono2, web, ciaSpvs, nrocuenta, banco1, tipomoneda1, nrocuenta2, banco2, tipomoneda2, empresaid, usuarioregistro, usuariomodificacion, estado, newCompaniaSeguro;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, nit = _req$body.nit, representanteLegal = _req$body.representanteLegal, direccion = _req$body.direccion, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, web = _req$body.web, ciaSpvs = _req$body.ciaSpvs, nrocuenta = _req$body.nrocuenta, banco1 = _req$body.banco1, tipomoneda1 = _req$body.tipomoneda1, nrocuenta2 = _req$body.nrocuenta2, banco2 = _req$body.banco2, tipomoneda2 = _req$body.tipomoneda2, empresaid = _req$body.empresaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, _req$body$fecharegist = _req$body.fecharegistro, fecharegistro = _req$body$fecharegist === void 0 ? new Date() : _req$body$fecharegist, fechamodificacion = _req$body.fechamodificacion, estado = _req$body.estado;
+            _req$body = req.body, nombre = _req$body.nombre, descripcion = _req$body.descripcion, nit = _req$body.nit, representanteLegal = _req$body.representanteLegal, direccion = _req$body.direccion, telefono1 = _req$body.telefono1, telefono2 = _req$body.telefono2, web = _req$body.web, ciaSpvs = _req$body.ciaSpvs, nrocuenta = _req$body.nrocuenta, banco1 = _req$body.banco1, tipomoneda1 = _req$body.tipomoneda1, nrocuenta2 = _req$body.nrocuenta2, banco2 = _req$body.banco2, tipomoneda2 = _req$body.tipomoneda2, empresaid = _req$body.empresaid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
             _context3.prev = 1;
             _context3.next = 4;
             return _CompaniaSeguro["default"].create({
@@ -141,8 +141,8 @@ function _createCompaniaSeguro() {
               empresaid: empresaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               fields: ['nombre', 'descripcion', 'nit', 'representanteLegal', 'direccion', 'telefono1', 'telefono2', 'web', 'ciaSpvs', 'nrocuenta', 'banco1', 'tipomoneda1', 'nrocuenta2', 'banco2', 'tipomoneda2', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
@@ -277,14 +277,14 @@ function updateCompaniaSeguro(_x11, _x12) {
 
 function _updateCompaniaSeguro() {
   _updateCompaniaSeguro = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
-    var id, _req$body2, nombre, descripcion, nit, representanteLegal, direccion, telefono1, telefono2, web, ciaSpvs, nrocuenta, banco1, tipomoneda1, nrocuenta2, banco2, tipomoneda2, empresaid, usuarioregistro, usuariomodificacion, fecharegistro, fechamodificacion, estado, updateRowCount, companiaSeguros;
+    var id, _req$body2, nombre, descripcion, nit, representanteLegal, direccion, telefono1, telefono2, web, ciaSpvs, nrocuenta, banco1, tipomoneda1, nrocuenta2, banco2, tipomoneda2, empresaid, usuarioregistro, usuariomodificacion, estado, updateRowCount, companiaSeguros;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, nit = _req$body2.nit, representanteLegal = _req$body2.representanteLegal, direccion = _req$body2.direccion, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, web = _req$body2.web, ciaSpvs = _req$body2.ciaSpvs, nrocuenta = _req$body2.nrocuenta, banco1 = _req$body2.banco1, tipomoneda1 = _req$body2.tipomoneda1, nrocuenta2 = _req$body2.nrocuenta2, banco2 = _req$body2.banco2, tipomoneda2 = _req$body2.tipomoneda2, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, fecharegistro = _req$body2.fecharegistro, fechamodificacion = _req$body2.fechamodificacion, estado = _req$body2.estado;
+            _req$body2 = req.body, nombre = _req$body2.nombre, descripcion = _req$body2.descripcion, nit = _req$body2.nit, representanteLegal = _req$body2.representanteLegal, direccion = _req$body2.direccion, telefono1 = _req$body2.telefono1, telefono2 = _req$body2.telefono2, web = _req$body2.web, ciaSpvs = _req$body2.ciaSpvs, nrocuenta = _req$body2.nrocuenta, banco1 = _req$body2.banco1, tipomoneda1 = _req$body2.tipomoneda1, nrocuenta2 = _req$body2.nrocuenta2, banco2 = _req$body2.banco2, tipomoneda2 = _req$body2.tipomoneda2, empresaid = _req$body2.empresaid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, estado = _req$body2.estado;
             _context6.prev = 2;
             _context6.next = 5;
             return _CompaniaSeguro["default"].update({
@@ -306,8 +306,7 @@ function _updateCompaniaSeguro() {
               empresaid: empresaid,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: fecharegistro,
-              fechamodificacion: fechamodificacion,
+              fechamodificacion: new Date(),
               estado: estado
             }, {
               where: {

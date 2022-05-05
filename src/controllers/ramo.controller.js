@@ -14,8 +14,6 @@ export async function createRamo(req, res) {
         ramoid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro = new Date(),
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -27,8 +25,8 @@ export async function createRamo(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado,
             ramoid
         }, {
@@ -100,7 +98,6 @@ export async function updateRamo(req, res) {
         usuarioregistro,
         usuariomodificacion,
         fecharegistro,
-        fechamodificacion,
         estado, ramoid } = req.body;
     try {
         const updateRowCount = await Ramo.update({
@@ -112,7 +109,7 @@ export async function updateRamo(req, res) {
             usuarioregistro,
             usuariomodificacion,
             fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado,
             ramoid
         }, {

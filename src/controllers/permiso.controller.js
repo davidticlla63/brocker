@@ -104,8 +104,6 @@ export async function updatePermiso(req, res) {
         perfilid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
 
@@ -114,8 +112,7 @@ export async function updatePermiso(req, res) {
             perfilid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         },{where:{id}});
 

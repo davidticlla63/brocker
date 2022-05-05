@@ -55,8 +55,6 @@ export async function createPagina(req, res) {
         paginaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -67,8 +65,8 @@ export async function createPagina(req, res) {
             paginaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion', 'url', 'paginaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
@@ -135,8 +133,6 @@ export async function updatePagina(req, res) {
         paginaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
 
@@ -147,8 +143,7 @@ export async function updatePagina(req, res) {
             paginaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         }, { where: { id } });
 

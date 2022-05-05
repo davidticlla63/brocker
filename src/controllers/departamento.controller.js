@@ -25,8 +25,6 @@ export async function createDepartamento(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro= new Date(),
-        fechamodificacion,
         estado } = req.body;
     try {
         //const transaction= sequelize.transaction;
@@ -36,8 +34,8 @@ export async function createDepartamento(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado
         }, {
             fields: ['nombre', 'descripcion', 'empresaid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
@@ -103,8 +101,6 @@ export async function updateDepartamento(req, res) {
         empresaid,
         usuarioregistro,
         usuariomodificacion,
-        fecharegistro,
-        fechamodificacion,
         estado } = req.body;
     try {
         const updateRowCount = await Departamento.update({
@@ -113,8 +109,7 @@ export async function updateDepartamento(req, res) {
             empresaid,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fechamodificacion:new Date(),
             estado
         },{
             where: {
