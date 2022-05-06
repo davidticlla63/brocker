@@ -41,10 +41,17 @@ export async function createMemo(req, res) {
     let t = await sequelize.transaction();
     let newMemo;
     try {
+     /*    console.log(new Date(fechamemo))
+        console.log(new Date(fechapago))
+        var normalizedfechapago = new Date(new Date(fechapago)).toISOString();
+        console.log(normalizedfechapago) */
         newMemo = await Memo.create({
           
+         /*    fechamemo:new Date(fechamemo),
+            fechapago :normalizedfechapago, */
+
             fechamemo,
-            fechapago,
+            fechapago ,
             nrocuotas,
             cuotainicial,
             pagocada,
@@ -62,54 +69,7 @@ export async function createMemo(req, res) {
             sucursalid,
             polizaid
         }, {
-            fields: [
-                /*  'nromemo',
-                 'nrocertificado',
-                 'fechainicio',
-                 'fechafin',
-                 'fechaexpedicion',
-                 'fecharecepcion',
-                 'tipomoneda',
-                 'primatotal',
-                 'formapago',
-                 'encargadoid',
-                 'bancoid',
-                 'ciudadexpedicion',
- 
-                 'broker',
-                 'notas',
-                 'companiaseguroid',
-                 'subramocompaniaid',
-                 'tiporamoid',
-                 'contratanteid',
-                 'tomadorid',
-                 'ejecutivoid',
-                 'colocacionid',
-                 'ciaspvs',
-                 'tipomemoid',
-                 'tmemo',
-                 'tipocontrato',
-                 'menoid',
-                 'llamadoid',
-                 'vendedorid',
-                 'nroplaca',
-                 'tipoemision',
-                 'franquicia',
-                 'valorasegurado',
- 
-                 'comisionbs',
-                 'comisionusd',
-                 'tipocambio',
-                 'porcentajeprima',
-                 'primaneta',
-                 'porcentajecomision',
- 
-                 'usuarioregistro',
-                 'usuariomodificacion',
-                 'fecharegistro',
-                 'fechamodificacion',
-                 'estado',
-                 'sucursalid' */
+            fields: [           
 
                 'fechamemo',
                 'fechapago',
@@ -700,16 +660,14 @@ export async function getTotalProduccionMemoPorEmpresa(req, res) {
         inner join sucursal s on s.id =p.sucursalid  
         inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`; */
 
-        let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado 
-        from memo m  
-        inner join poliza p on p.id=m.polizaid  
-        inner join sucursal s on s.id =p.sucursalid  
+        let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
+        from memo m
+        inner join poliza p on p.id=m.polizaid
+        inner join sucursal s on s.id =p.sucursalid
         inner join empresa e on e.id =s.empresaid
-        where m.estado  in ('ACT') and  e.id  ='` + empresaid + `'
-        group by p.ingresoegreso 
-        )
+        where m.estado  in ('ACT') and  e.id  ='` + empresaid + `' group by p.ingresoegreso)
         
-        select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta `;
+        select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
 
         const pagos = await sequelize.query(query
             , {
@@ -737,14 +695,46 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
             inner join poliza p on p.id=m.polizaid  
             where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
 
-            let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado 
+            let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
             from memo m  
             inner join poliza p on p.id=m.polizaid  
             where m.estado  in ('ACT') and m.sucursalid ='` + sucursalid + `'
             group by p.ingresoegreso 
             )
             
-            select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta `;
+            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
+
+        const pagos = await sequelize.query(query
+            , {
+                type: QueryTypes.SELECT
+            });
+        res.json({
+            data: pagos
+        })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function listarProduccionMesualTXT(req, res) {   
+    try {
+            const body = JSON.stringify(req.body);
+
+            //console.log(body);
+
+           /*  let query = ` select * from  pa_listar_produccion_mensual_txt(
+                '{
+                "sucursalid" : "deaec8c4-8bba-49a5-9b1c-4e5ec120a28f",
+                "mesproduccion" :"4",
+                "anioproduccion" : "2022"
+                }'
+                );`; */
+
+                let query = ` select * from  pa_listar_produccion_mensual_txt('`+body+`');`;
 
         const pagos = await sequelize.query(query
             , {

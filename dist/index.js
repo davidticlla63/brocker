@@ -4,6 +4,8 @@ var _app = _interopRequireDefault(require("./app"));
 
 require("@babel/polyfill");
 
+var _config = _interopRequireDefault(require("./config"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -80,14 +82,24 @@ function _main() {
         switch (_context.prev = _context.next) {
           case 0:
             //conectar();
-            PORT = 3000;
-            _context.next = 3;
+            console.log("NODE_ENV=".concat(_config["default"].NODE_ENV));
+            console.log("PORT=".concat(_config["default"].PORT));
+            PORT = _config["default"].PORT;
+            _context.next = 5;
             return _app["default"].listen(PORT);
 
-          case 3:
+          case 5:
+            /*     let fecha='2022-05-05 13:17'; */
+
+            /* let fecha='2022/05/05 13:17';
+                console.log(fecha);
+                let fechadateConvert=  new Date(fecha); 
+                console.log(fechadateConvert);
+                let fechadate=  new Date(); 
+                console.log(fechadate); */
             console.log('Server on port : ' + PORT);
 
-          case 4:
+          case 6:
           case "end":
             return _context.stop();
         }

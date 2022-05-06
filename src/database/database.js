@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import config from '../config'
 
 export const sequelize = new Sequelize(
-    'broker_db', //produccion
+    config.NODE_ENV=='production'?'broker_db':'broker_test_db', //produccion
     //'broker_test_db',//testing
     'postgres',   
     'admin',

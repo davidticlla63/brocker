@@ -14,6 +14,7 @@ exports.getMemosPorTipoYEmpresa = getMemosPorTipoYEmpresa;
 exports.getOneMemo = getOneMemo;
 exports.getTotalProduccionMemoPorEmpresa = getTotalProduccionMemoPorEmpresa;
 exports.getTotalProduccionMemoPorSucursal = getTotalProduccionMemoPorSucursal;
+exports.listarProduccionMesualTXT = listarProduccionMesualTXT;
 exports.memosPorEmpresa = memosPorEmpresa;
 exports.memosPorSucursal = memosPorSucursal;
 exports.updateMemo = updateMemo;
@@ -106,6 +107,8 @@ function _createMemo() {
             _context2.prev = 4;
             _context2.next = 7;
             return _Memo["default"].create({
+              /*    fechamemo:new Date(fechamemo),
+                 fechapago :normalizedfechapago, */
               fechamemo: fechamemo,
               fechapago: fechapago,
               nrocuotas: nrocuotas,
@@ -124,52 +127,7 @@ function _createMemo() {
               sucursalid: sucursalid,
               polizaid: polizaid
             }, {
-              fields: [
-              /*  'nromemo',
-               'nrocertificado',
-               'fechainicio',
-               'fechafin',
-               'fechaexpedicion',
-               'fecharecepcion',
-               'tipomoneda',
-               'primatotal',
-               'formapago',
-               'encargadoid',
-               'bancoid',
-               'ciudadexpedicion',
-                  'broker',
-               'notas',
-               'companiaseguroid',
-               'subramocompaniaid',
-               'tiporamoid',
-               'contratanteid',
-               'tomadorid',
-               'ejecutivoid',
-               'colocacionid',
-               'ciaspvs',
-               'tipomemoid',
-               'tmemo',
-               'tipocontrato',
-               'menoid',
-               'llamadoid',
-               'vendedorid',
-               'nroplaca',
-               'tipoemision',
-               'franquicia',
-               'valorasegurado',
-                  'comisionbs',
-               'comisionusd',
-               'tipocambio',
-               'porcentajeprima',
-               'primaneta',
-               'porcentajecomision',
-                  'usuarioregistro',
-               'usuariomodificacion',
-               'fecharegistro',
-               'fechamodificacion',
-               'estado',
-               'sucursalid' */
-              'fechamemo', 'fechapago', 'nrocuotas', 'cuotainicial', 'pagocada', 'diapago', 'impuesto', 'fechaproduccion', 'mesproduccion', 'anioproduccion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'sucursalid', 'polizaid']
+              fields: ['fechamemo', 'fechapago', 'nrocuotas', 'cuotainicial', 'pagocada', 'diapago', 'impuesto', 'fechaproduccion', 'mesproduccion', 'anioproduccion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'sucursalid', 'polizaid']
             }, {
               transaction: t
             });
@@ -1037,7 +995,7 @@ function _getTotalProduccionMemoPorEmpresa() {
              inner join poliza p on p.id=m.polizaid  
              inner join sucursal s on s.id =p.sucursalid  
              inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`; */
-            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado \n        from memo m  \n        inner join poliza p on p.id=m.polizaid  \n        inner join sucursal s on s.id =p.sucursalid  \n        inner join empresa e on e.id =s.empresaid\n        where m.estado  in ('ACT') and  e.id  ='" + empresaid + "'\n        group by p.ingresoegreso \n        )\n        \n        select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta ";
+            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado \n        from memo m\n        inner join poliza p on p.id=m.polizaid\n        inner join sucursal s on s.id =p.sucursalid\n        inner join empresa e on e.id =s.empresaid\n        where m.estado  in ('ACT') and  e.id  ='" + empresaid + "' group by p.ingresoegreso)\n        \n        select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  ";
             _context13.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -1090,7 +1048,7 @@ function _getTotalProduccionMemoPorSucursal() {
                 from memo m  
                 inner join poliza p on p.id=m.polizaid  
                 where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
-            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primatotal) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primatotal) else 0 end)  totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid  \n            where m.estado  in ('ACT') and m.sucursalid ='" + sucursalid + "'\n            group by p.ingresoegreso \n            )\n            \n            select sum(cantidad),sum(totalvalorasegurado) totalvalorasegurado from consulta ";
+            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid  \n            where m.estado  in ('ACT') and m.sucursalid ='" + sucursalid + "'\n            group by p.ingresoegreso \n            )\n            \n            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  ";
             _context14.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -1123,4 +1081,61 @@ function _getTotalProduccionMemoPorSucursal() {
     }, _callee14, null, [[1, 9]]);
   }));
   return _getTotalProduccionMemoPorSucursal.apply(this, arguments);
+}
+
+function listarProduccionMesualTXT(_x29, _x30) {
+  return _listarProduccionMesualTXT.apply(this, arguments);
+}
+
+function _listarProduccionMesualTXT() {
+  _listarProduccionMesualTXT = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(req, res) {
+    var body, query, pagos;
+    return regeneratorRuntime.wrap(function _callee15$(_context15) {
+      while (1) {
+        switch (_context15.prev = _context15.next) {
+          case 0:
+            _context15.prev = 0;
+            body = JSON.stringify(req.body); //console.log(body);
+
+            /*  let query = ` select * from  pa_listar_produccion_mensual_txt(
+                 '{
+                 "sucursalid" : "deaec8c4-8bba-49a5-9b1c-4e5ec120a28f",
+                 "mesproduccion" :"4",
+                 "anioproduccion" : "2022"
+                 }'
+                 );`; */
+
+            query = " select * from  pa_listar_produccion_mensual_txt('" + body + "');";
+            _context15.next = 5;
+            return _database.sequelize.query(query, {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            pagos = _context15.sent;
+            res.json({
+              data: pagos
+            });
+            _context15.next = 13;
+            break;
+
+          case 9:
+            _context15.prev = 9;
+            _context15.t0 = _context15["catch"](0);
+            console.log(_context15.t0);
+            res.status(500).json({
+              data: {
+                estado: false,
+                "error": _context15.t0.message
+              }
+            });
+
+          case 13:
+          case "end":
+            return _context15.stop();
+        }
+      }
+    }, _callee15, null, [[0, 9]]);
+  }));
+  return _listarProduccionMesualTXT.apply(this, arguments);
 }

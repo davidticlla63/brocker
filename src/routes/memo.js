@@ -44,4 +44,7 @@ router.post('/memosPorSucursal/:sucursalid', memos.memosPorSucursal);
 router.get('/totalProduccionPorEmpresa/:empresaid', memos.getTotalProduccionMemoPorEmpresa);
 router.get('/totalProduccionPorSucursal/:sucursalid', memos.getTotalProduccionMemoPorSucursal);
 
+/**dashoboard */
+router.post('/produccionMensualTxt/', memos.listarProduccionMesualTXT);
+
 export default router;

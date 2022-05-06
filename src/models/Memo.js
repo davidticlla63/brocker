@@ -69,14 +69,16 @@ const Memo = sequelize.define('Memo', {
     carteraid:Sequelize.STRING,
     nroplaca:Sequelize.STRING, */
 
-    fechamemo: Sequelize.DATE(6),
-    fechapago: Sequelize.DATE(6),
+  /*   fechamemo: Sequelize.DATE(6),
+    fechapago: Sequelize.DATE(6), */
+    fechamemo: Sequelize.STRING,
+    fechapago: Sequelize.STRING,
     nrocuotas: Sequelize.DECIMAL,
     cuotainicial: Sequelize.DECIMAL,
     pagocada: Sequelize.DECIMAL,
     diapago: Sequelize.DECIMAL,
     impuesto: Sequelize.STRING,
-    fechaproduccion: Sequelize.DATE(6),
+    fechaproduccion: Sequelize.STRING,
     mesproduccion: Sequelize.DECIMAL,
     anioproduccion: Sequelize.DECIMAL,
 

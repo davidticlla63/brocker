@@ -605,7 +605,7 @@ export async function getPagosPorEmpresa(req, res) {
 export async function getTotalPagosPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
-        let query = `select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p
+        let query = `select  COUNT(*) cantidad,coalesce(SUM(p.montobs),0) montobs from pagos p
         inner join sucursal s on s.id =p.sucursalid
         inner join empresa e on e.id =s.empresaid
         where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and e.id ='` + empresaid + `'`;
@@ -629,7 +629,7 @@ export async function getTotalPagosPorEmpresa(req, res) {
 export async function getTotalPagosPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
-        let query = `select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p
+        let query = `select  COUNT(*) cantidad,coalesce(SUM(p.montobs),0)montobs from pagos p
         where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and p.sucursalid ='` + sucursalid + `'`;
 
         const pagos = await sequelize.query(query

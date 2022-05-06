@@ -15,3 +15,4 @@ npm i compression
 npm i body-parser
 npm i bcryptjs
  npm install nodemailer
+ npm i dotenv --save

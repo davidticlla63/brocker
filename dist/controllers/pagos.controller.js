@@ -1040,7 +1040,7 @@ function _getTotalPagosPorEmpresa() {
           case 0:
             empresaid = req.params.empresaid;
             _context19.prev = 1;
-            query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p\n        inner join sucursal s on s.id =p.sucursalid\n        inner join empresa e on e.id =s.empresaid\n        where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and e.id ='" + empresaid + "'";
+            query = "select  COUNT(*) cantidad,coalesce(SUM(p.montobs),0) montobs from pagos p\n        inner join sucursal s on s.id =p.sucursalid\n        inner join empresa e on e.id =s.empresaid\n        where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and e.id ='" + empresaid + "'";
             _context19.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -1088,7 +1088,7 @@ function _getTotalPagosPorSucursal() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context20.prev = 1;
-            query = "select  COUNT(*) cantidad,SUM(p.montobs) montobs from pagos p\n        where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and p.sucursalid ='" + sucursalid + "'";
+            query = "select  COUNT(*) cantidad,coalesce(SUM(p.montobs),0)montobs from pagos p\n        where to_char(p.fecharegistro, 'YYYY-MM')= to_char(now(), 'YYYY-MM') and p.estado ='ACT' and p.sucursalid ='" + sucursalid + "'";
             _context20.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT

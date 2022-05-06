@@ -1,5 +1,6 @@
 import app from "./app";
 import "@babel/polyfill"; 
+import config from './config'
 //import {transporter} from './mailers'
 
 
@@ -69,9 +70,19 @@ var mailOptions = {
 
 async function main() {
     //conectar();
+    console.log(`NODE_ENV=${config.NODE_ENV}`);
+    console.log(`PORT=${config.PORT}`);
 
-    const PORT = 3000
+    const PORT = config.PORT;
     await app.listen(PORT);
+
+/*     let fecha='2022-05-05 13:17'; */
+/* let fecha='2022/05/05 13:17';
+    console.log(fecha);
+    let fechadateConvert=  new Date(fecha); 
+    console.log(fechadateConvert);
+    let fechadate=  new Date(); 
+    console.log(fechadate); */
     console.log('Server on port : ' + PORT);
 }
 

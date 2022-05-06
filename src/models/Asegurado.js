@@ -25,11 +25,11 @@ const Asegurado = sequelize.define('Asegurado', {
     correo: Sequelize.STRING,
     fotografia:Sequelize.BLOB,
     direccionasegurado:Sequelize.STRING,
-    fechanacimiento:Sequelize.DATE,
+    fechanacimiento:Sequelize.STRING,
 
-    fechavencimientocarnet:Sequelize.DATE,
-    fechavencimientobrevet:Sequelize.DATE,
-    fechavencimientofundempresa:Sequelize.DATE,
+    fechavencimientocarnet:Sequelize.STRING,
+    fechavencimientobrevet:Sequelize.STRING,
+    fechavencimientofundempresa:Sequelize.STRING,
     relacionasegurado:Sequelize.STRING,
     cargorepresentante:Sequelize.STRING,
 

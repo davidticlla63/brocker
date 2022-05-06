@@ -79,14 +79,17 @@ var Memo = _database.sequelize.define('Memo', {
   comisionvendedor:Sequelize.DECIMAL,
   carteraid:Sequelize.STRING,
   nroplaca:Sequelize.STRING, */
-  fechamemo: _sequelize["default"].DATE(6),
-  fechapago: _sequelize["default"].DATE(6),
+
+  /*   fechamemo: Sequelize.DATE(6),
+    fechapago: Sequelize.DATE(6), */
+  fechamemo: _sequelize["default"].STRING,
+  fechapago: _sequelize["default"].STRING,
   nrocuotas: _sequelize["default"].DECIMAL,
   cuotainicial: _sequelize["default"].DECIMAL,
   pagocada: _sequelize["default"].DECIMAL,
   diapago: _sequelize["default"].DECIMAL,
   impuesto: _sequelize["default"].STRING,
-  fechaproduccion: _sequelize["default"].DATE(6),
+  fechaproduccion: _sequelize["default"].STRING,
   mesproduccion: _sequelize["default"].DECIMAL,
   anioproduccion: _sequelize["default"].DECIMAL,
   usuarioregistro: _sequelize["default"].STRING,

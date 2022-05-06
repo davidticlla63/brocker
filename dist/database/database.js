@@ -7,9 +7,11 @@ exports.sequelize = void 0;
 
 var _sequelize = _interopRequireDefault(require("sequelize"));
 
+var _config = _interopRequireDefault(require("../config"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var sequelize = new _sequelize["default"]('broker_db', //produccion
+var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_test_db', //produccion
 //'broker_test_db',//testing
 'postgres', 'admin', {
   host: '3.99.76.226',
