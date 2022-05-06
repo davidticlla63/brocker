@@ -1,7 +1,10 @@
 //import { Sequelize } from "sequelize/types";
 //import { sequelize } from "../database/database";
 import Empresa from "../models/Empresa";
+import ParamProduccion from "../models/ParamProduccion";
 import Sucursal from "../models/Sucursal";
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 
 export async function getSucursals(req, res) {
     try {
@@ -33,32 +36,69 @@ export async function createSucursal(req, res) {
         fechamodificacion,
         estado,
         empresaid} = req.body;
+        const transaction = await sequelize.transaction();
     try {
-        //const transaction= sequelize.transaction;
-        let newSucursal = await Sucursal.create({
-            nombre,
-            descripcion,
-            telefono,
-            actividad,
-            representante,
-            departamentoid,
-            direccion,
-            usuarioregistro,
-            fecharegistro,
-            fechamodificacion,
-            estado,
-            empresaid
-        }, {
-            fields: ['nombre', 'descripcion', 'telefono', 'actividad',  'representante',
-            'departamentoid','direccion','usuarioregistro','fecharegistro',
-            'fechamodificacion','estado','empresaid']
+
+        let result = await sequelize.transaction( async (t) => {
+            // step 1
+
+            let newSucursal = await Sucursal.create({
+                nombre,
+                descripcion,
+                telefono,
+                actividad,
+                representante,
+                departamentoid,
+                direccion,
+                usuarioregistro,
+                fecharegistro,
+                fechamodificacion,
+                estado,
+                empresaid
+            }, {
+                fields: ['nombre', 'descripcion', 'telefono', 'actividad',  'representante',
+                'departamentoid','direccion','usuarioregistro','fecharegistro',
+                'fechamodificacion','estado','empresaid']
+            }, {t});
+    
+            //await Model.destroy({where: {id:id}, transaction: t});
+    
+            // Cause rollback
+            if( false ){
+                throw new Error('Rollback initiated');
+            }
+    
+
+            let newParamProducion = await ParamProduccion.create({
+                diaproduccion:1,
+                sucursalid:newSucursal.id,
+                usuarioregistro,
+                fecharegistro:new Date(),
+                fechamodificacion:new Date(),
+                estado:'ACT'
+            }, {
+                fields: ['diaproduccion', 'sucursalid','usuarioregistro','fecharegistro',
+                'fechamodificacion','estado']
+            }, {t});
+            // step 2
+            //return await Model.create({}, {transaction: t});
+
+            if (newSucursal) {
+                return res.json({
+                    message: 'Sucursal created successfully',
+                    data: newSucursal
+                });
+            }
         });
-        if (newSucursal) {
+        //const transaction= sequelize.transaction;
+        
+      
+ /*        if (newSucursal) {
             return res.json({
                 message: 'Sucursal created successfully',
                 data: newSucursal
             });
-        }
+        } */
     } catch (e) {
         console.log(e);
         res.status(500).json({

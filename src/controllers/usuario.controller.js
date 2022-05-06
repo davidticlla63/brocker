@@ -181,6 +181,7 @@ export async function createUsuario(req, res) {
             });
         }
     } catch (err) {
+      
         // Rollback transaction only if the transaction object is defined
         if (t) {
             await t.rollback();
@@ -191,7 +192,7 @@ export async function createUsuario(req, res) {
         }
         console.log(err);
         res.status(500).json({
-            data: { estado: false, "error": e.message }
+            data: { estado: false, "error": err.message }
         });
         // throw new Error(err);
     }
@@ -423,7 +424,7 @@ export async function updateUsuario(req, res) {
         }
         console.log(err);
         res.status(500).json({
-            data: { estado: false, "error": e.message }
+            data: { estado: false, "error": err.message }
         });
         // throw new Error(err);
     }
