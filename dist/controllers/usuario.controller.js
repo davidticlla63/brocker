@@ -423,7 +423,7 @@ function _createUsuario() {
             res.status(500).json({
               data: {
                 estado: false,
-                "error": e.message
+                "error": _context3.t0.message
               }
             }); // throw new Error(err);
 
@@ -687,7 +687,7 @@ function _updateUsuario() {
             res.status(500).json({
               data: {
                 estado: false,
-                "error": e.message
+                "error": _context6.t0.message
               }
             }); // throw new Error(err);
 
