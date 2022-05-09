@@ -16,7 +16,7 @@ const PlanPago = sequelize.define('PlanPago', {
       primaneta:Sequelize.DECIMAL, */
 
     nro: Sequelize.DECIMAL,
-    fechapago: Sequelize.DATE,
+    fechapago: Sequelize.STRING,
     montocuota: Sequelize.DECIMAL,
     primaneta: Sequelize.DECIMAL,
     comision: Sequelize.DECIMAL,

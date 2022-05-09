@@ -26,7 +26,7 @@ var PlanPago = _database.sequelize.define('PlanPago', {
     comisionusd:Sequelize.DECIMAL,
     primaneta:Sequelize.DECIMAL, */
   nro: _sequelize["default"].DECIMAL,
-  fechapago: _sequelize["default"].DATE,
+  fechapago: _sequelize["default"].STRING,
   montocuota: _sequelize["default"].DECIMAL,
   primaneta: _sequelize["default"].DECIMAL,
   comision: _sequelize["default"].DECIMAL,
