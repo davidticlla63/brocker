@@ -330,6 +330,25 @@ export async function bajaPerfil(req, res) {
         usuariomodificacion
     } = req.body;
     try {
+
+        const permisos = await sequelize.query(`SELECT u.id,u.nick,u.usuarioregistro,u.usuariomodificacion,u.fecharegistro,u.fechamodificacion,u.empresaid,u.personalid,u.estado
+        ,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,per.id as perfilid,per.nombre as nombreperfil
+        FROM usuario u 
+        inner join personal p on p.id=u.personalid and p.estado='ACT' 
+        inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
+        INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 
+        inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' 
+        inner join perfil per on per.id=up.perfilid
+            where per.id= '` + id + `' order by per.fechamodificacion desc `
+            , {
+                type: QueryTypes.SELECT
+            });
+
+            if (permisos.length>0) {
+                
+                throw new Error("No se puede dar de baja. Hay varios usuarios que estan asisgnados a este perfil : "+permisos);
+            }
+
         const updateRowCount = await Perfil.update({
             usuariomodificacion,
             fechamodificacion: new Date(),

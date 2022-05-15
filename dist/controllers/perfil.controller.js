@@ -618,7 +618,7 @@ function bajaPerfil(_x19, _x20) {
 
 function _bajaPerfil() {
   _bajaPerfil = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
-    var id, usuariomodificacion, updateRowCount, usuarios;
+    var id, usuariomodificacion, permisos, updateRowCount, usuarios;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
@@ -627,6 +627,22 @@ function _bajaPerfil() {
             usuariomodificacion = req.body.usuariomodificacion;
             _context10.prev = 2;
             _context10.next = 5;
+            return _database.sequelize.query("SELECT u.id,u.nick,u.usuarioregistro,u.usuariomodificacion,u.fecharegistro,u.fechamodificacion,u.empresaid,u.personalid,u.estado\n        ,p.nombrecompleto,s.id as sucursalid,s.nombre as nombresucursal,per.id as perfilid,per.nombre as nombreperfil\n        FROM usuario u \n        inner join personal p on p.id=u.personalid and p.estado='ACT' \n        inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' \n        INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' \n        inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' \n        inner join perfil per on per.id=up.perfilid\n            where per.id= '" + id + "' order by per.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
+            });
+
+          case 5:
+            permisos = _context10.sent;
+
+            if (!(permisos.length > 0)) {
+              _context10.next = 8;
+              break;
+            }
+
+            throw new Error("No se puede dar de baja. Hay varios usuarios que estan asisgnados a este perfil : " + permisos);
+
+          case 8:
+            _context10.next = 10;
             return _Perfil["default"].update({
               usuariomodificacion: usuariomodificacion,
               fechamodificacion: new Date(),
@@ -637,9 +653,9 @@ function _bajaPerfil() {
               }
             });
 
-          case 5:
+          case 10:
             updateRowCount = _context10.sent;
-            _context10.next = 8;
+            _context10.next = 13;
             return _Perfil["default"].findOne({
               where: {
                 id: id
@@ -647,17 +663,17 @@ function _bajaPerfil() {
             } //,{ include: Sucursal } 
             );
 
-          case 8:
+          case 13:
             usuarios = _context10.sent;
             res.json({
               message: 'Perfil baja successfully',
               count: usuarios
             });
-            _context10.next = 16;
+            _context10.next = 21;
             break;
 
-          case 12:
-            _context10.prev = 12;
+          case 17:
+            _context10.prev = 17;
             _context10.t0 = _context10["catch"](2);
             console.log(_context10.t0);
             res.status(500).json({
@@ -667,12 +683,12 @@ function _bajaPerfil() {
               }
             });
 
-          case 16:
+          case 21:
           case "end":
             return _context10.stop();
         }
       }
-    }, _callee10, null, [[2, 12]]);
+    }, _callee10, null, [[2, 17]]);
   }));
   return _bajaPerfil.apply(this, arguments);
 }

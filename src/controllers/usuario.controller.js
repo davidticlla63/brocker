@@ -501,7 +501,7 @@ export async function usuarioByEmpresa(req, res) {
             inner join sucursal_usuario su on  su.usuarioid=u.id and su.estado='ACT' 
             INNER JOIN sucursal s on s.id= su.sucursalid  and s.estado='ACT' 
             inner join  usuario_perfil up on up.usuarioid=u.id and up. estado='ACT' 
-            INNER JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' 
+            inner JOIN perfil pe on pe.id=up.perfilid  and pe.estado='ACT' 
             WHERE u.estado  !='BAJ' and u.empresaid= '` + empresaid + `' order by u.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
