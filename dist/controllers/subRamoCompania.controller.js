@@ -9,6 +9,7 @@ exports.deleteSubRamoCompania = deleteSubRamoCompania;
 exports.getOneSubRamoCompania = getOneSubRamoCompania;
 exports.getSubRamoCompania = getSubRamoCompania;
 exports.subRamoCompaniaPorCompania = subRamoCompaniaPorCompania;
+exports.subRamoCompaniaPorCompaniaYSucursal = subRamoCompaniaPorCompaniaYSucursal;
 exports.subRamoCompaniaPorEmpresa = subRamoCompaniaPorEmpresa;
 exports.subRamoCompaniaPorRamo = subRamoCompaniaPorRamo;
 exports.subRamoCompaniaYCompaniaPorEmpresa = subRamoCompaniaYCompaniaPorEmpresa;
@@ -47,6 +48,7 @@ function _createSubRamoCompania() {
               where: {
                 ramoid: ramoid,
                 companiaseguroid: companiaseguroid,
+                sucursalid: sucursalid,
                 estado: 'ACT'
               }
             });
@@ -414,21 +416,22 @@ function _subRamoCompaniaPorCompania() {
   return _subRamoCompaniaPorCompania.apply(this, arguments);
 }
 
-function subRamoCompaniaYCompaniaPorEmpresa(_x13, _x14) {
-  return _subRamoCompaniaYCompaniaPorEmpresa.apply(this, arguments);
+function subRamoCompaniaPorCompaniaYSucursal(_x13, _x14) {
+  return _subRamoCompaniaPorCompaniaYSucursal.apply(this, arguments);
 }
 
-function _subRamoCompaniaYCompaniaPorEmpresa() {
-  _subRamoCompaniaYCompaniaPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var empresaid, subRamoCompania;
+function _subRamoCompaniaPorCompaniaYSucursal() {
+  _subRamoCompaniaPorCompaniaYSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var _req$params, companiaseguroid, sucursalid, subRamoCompania;
+
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            empresaid = req.params.empresaid;
+            _req$params = req.params, companiaseguroid = _req$params.companiaseguroid, sucursalid = _req$params.sucursalid;
             _context7.prev = 1;
             _context7.next = 4;
-            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.empresaid= '" + empresaid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+            return _database.sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else p.spvs end spvsramopadre, t.spvs spvstiporamo , s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id =rc.companiaseguroid   \n            inner join sucursal s on s.id=rc.sucursalid \n            where rc.companiaseguroid= '" + companiaseguroid + "' and rc.sucursalid='" + sucursalid + "' and rc.estado ='ACT' order by c.nombre,r.nombre ", {
               type: QueryTypes.SELECT
             });
 
@@ -458,24 +461,24 @@ function _subRamoCompaniaYCompaniaPorEmpresa() {
       }
     }, _callee7, null, [[1, 8]]);
   }));
+  return _subRamoCompaniaPorCompaniaYSucursal.apply(this, arguments);
+}
+
+function subRamoCompaniaYCompaniaPorEmpresa(_x15, _x16) {
   return _subRamoCompaniaYCompaniaPorEmpresa.apply(this, arguments);
 }
 
-function subRamoCompaniaYCompaniaPorSucursal(_x15, _x16) {
-  return _subRamoCompaniaYCompaniaPorSucursal.apply(this, arguments);
-}
-
-function _subRamoCompaniaYCompaniaPorSucursal() {
-  _subRamoCompaniaYCompaniaPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
-    var sucursalid, subRamoCompania;
+function _subRamoCompaniaYCompaniaPorEmpresa() {
+  _subRamoCompaniaYCompaniaPorEmpresa = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res) {
+    var empresaid, subRamoCompania;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            sucursalid = req.params.sucursalid;
+            empresaid = req.params.empresaid;
             _context8.prev = 1;
             _context8.next = 4;
-            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.sucursalid= '" + sucursalid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.empresaid= '" + empresaid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -505,40 +508,38 @@ function _subRamoCompaniaYCompaniaPorSucursal() {
       }
     }, _callee8, null, [[1, 8]]);
   }));
+  return _subRamoCompaniaYCompaniaPorEmpresa.apply(this, arguments);
+}
+
+function subRamoCompaniaYCompaniaPorSucursal(_x17, _x18) {
   return _subRamoCompaniaYCompaniaPorSucursal.apply(this, arguments);
 }
 
-function getOneSubRamoCompania(_x17, _x18) {
-  return _getOneSubRamoCompania.apply(this, arguments);
-}
-
-function _getOneSubRamoCompania() {
-  _getOneSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
-    var id, usuario;
+function _subRamoCompaniaYCompaniaPorSucursal() {
+  _subRamoCompaniaYCompaniaPorSucursal = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(req, res) {
+    var sucursalid, subRamoCompania;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.prev = 0;
-            id = req.params.id;
+            sucursalid = req.params.sucursalid;
+            _context9.prev = 1;
             _context9.next = 4;
-            return _SubRamoCompania["default"].findOne({
-              where: {
-                id: id
-              }
+            return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.sucursalid= '" + sucursalid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+              type: QueryTypes.SELECT
             });
 
           case 4:
-            usuario = _context9.sent;
+            subRamoCompania = _context9.sent;
             res.json({
-              data: usuario
+              data: subRamoCompania
             });
             _context9.next = 12;
             break;
 
           case 8:
             _context9.prev = 8;
-            _context9.t0 = _context9["catch"](0);
+            _context9.t0 = _context9["catch"](1);
             console.log(_context9.t0);
             res.status(500).json({
               data: {
@@ -552,18 +553,18 @@ function _getOneSubRamoCompania() {
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[0, 8]]);
+    }, _callee9, null, [[1, 8]]);
   }));
+  return _subRamoCompaniaYCompaniaPorSucursal.apply(this, arguments);
+}
+
+function getOneSubRamoCompania(_x19, _x20) {
   return _getOneSubRamoCompania.apply(this, arguments);
 }
 
-function deleteSubRamoCompania(_x19, _x20) {
-  return _deleteSubRamoCompania.apply(this, arguments);
-}
-
-function _deleteSubRamoCompania() {
-  _deleteSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
-    var id, deleteRowCount;
+function _getOneSubRamoCompania() {
+  _getOneSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var id, usuario;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
@@ -571,17 +572,16 @@ function _deleteSubRamoCompania() {
             _context10.prev = 0;
             id = req.params.id;
             _context10.next = 4;
-            return _SubRamoCompania["default"].destroy({
+            return _SubRamoCompania["default"].findOne({
               where: {
                 id: id
               }
             });
 
           case 4:
-            deleteRowCount = _context10.sent;
+            usuario = _context10.sent;
             res.json({
-              message: 'SubRamoCompania deleted successfully',
-              count: deleteRowCount
+              data: usuario
             });
             _context10.next = 12;
             break;
@@ -590,7 +590,7 @@ function _deleteSubRamoCompania() {
             _context10.prev = 8;
             _context10.t0 = _context10["catch"](0);
             console.log(_context10.t0);
-            res.json({
+            res.status(500).json({
               data: {
                 estado: false,
                 "error": _context10.t0.message
@@ -604,25 +604,75 @@ function _deleteSubRamoCompania() {
       }
     }, _callee10, null, [[0, 8]]);
   }));
+  return _getOneSubRamoCompania.apply(this, arguments);
+}
+
+function deleteSubRamoCompania(_x21, _x22) {
   return _deleteSubRamoCompania.apply(this, arguments);
 }
 
-function bajaSubRamoCompania(_x21, _x22) {
-  return _bajaSubRamoCompania.apply(this, arguments);
-}
-
-function _bajaSubRamoCompania() {
-  _bajaSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
-    var id, usuariomodificacion, updateRowCount, subRamoCompania;
+function _deleteSubRamoCompania() {
+  _deleteSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(req, res) {
+    var id, deleteRowCount;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
+            _context11.prev = 0;
+            id = req.params.id;
+            _context11.next = 4;
+            return _SubRamoCompania["default"].destroy({
+              where: {
+                id: id
+              }
+            });
+
+          case 4:
+            deleteRowCount = _context11.sent;
+            res.json({
+              message: 'SubRamoCompania deleted successfully',
+              count: deleteRowCount
+            });
+            _context11.next = 12;
+            break;
+
+          case 8:
+            _context11.prev = 8;
+            _context11.t0 = _context11["catch"](0);
+            console.log(_context11.t0);
+            res.json({
+              data: {
+                estado: false,
+                "error": _context11.t0.message
+              }
+            });
+
+          case 12:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11, null, [[0, 8]]);
+  }));
+  return _deleteSubRamoCompania.apply(this, arguments);
+}
+
+function bajaSubRamoCompania(_x23, _x24) {
+  return _bajaSubRamoCompania.apply(this, arguments);
+}
+
+function _bajaSubRamoCompania() {
+  _bajaSubRamoCompania = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(req, res) {
+    var id, usuariomodificacion, updateRowCount, subRamoCompania;
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
             id = req.params.id;
             console.log("bajaSubRamoCompania");
             usuariomodificacion = req.body.usuariomodificacion;
-            _context11.prev = 3;
-            _context11.next = 6;
+            _context12.prev = 3;
+            _context12.next = 6;
             return _SubRamoCompania["default"].update({
               usuariomodificacion: usuariomodificacion,
 
@@ -636,8 +686,8 @@ function _bajaSubRamoCompania() {
             });
 
           case 6:
-            updateRowCount = _context11.sent;
-            _context11.next = 9;
+            updateRowCount = _context12.sent;
+            _context12.next = 9;
             return _SubRamoCompania["default"].findOne({
               where: {
                 id: id
@@ -645,31 +695,31 @@ function _bajaSubRamoCompania() {
             });
 
           case 9:
-            subRamoCompania = _context11.sent;
+            subRamoCompania = _context12.sent;
             res.json({
               message: 'SubRamoCompania baja successfully',
               count: subRamoCompania
             });
-            _context11.next = 17;
+            _context12.next = 17;
             break;
 
           case 13:
-            _context11.prev = 13;
-            _context11.t0 = _context11["catch"](3);
-            console.log(_context11.t0);
+            _context12.prev = 13;
+            _context12.t0 = _context12["catch"](3);
+            console.log(_context12.t0);
             res.status(500).json({
               data: {
                 estado: false,
-                "error": _context11.t0.message
+                "error": _context12.t0.message
               }
             });
 
           case 17:
           case "end":
-            return _context11.stop();
+            return _context12.stop();
         }
       }
-    }, _callee11, null, [[3, 13]]);
+    }, _callee12, null, [[3, 13]]);
   }));
   return _bajaSubRamoCompania.apply(this, arguments);
 }

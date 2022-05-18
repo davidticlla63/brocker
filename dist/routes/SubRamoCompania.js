@@ -32,7 +32,8 @@ router["delete"]('/:id', subRamoCompanias.deleteSubRamoCompania);
 router.put('/:id', subRamoCompanias.updateSubRamoCompania);
 router.put('/baja/:id', subRamoCompanias.bajaSubRamoCompania);
 router.get('/subRamoCompaniasPorRamo/:ramoid', subRamoCompanias.subRamoCompaniaPorRamo);
-router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania); //nueva metodo que se aumento
+router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania);
+router.get('/subRamoCompaniaPorCompaniaYSucursal/:companiaseguroid/:sucursalid', subRamoCompanias.subRamoCompaniaPorCompaniaYSucursal); //nueva metodo que se aumento
 
 router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaYCompaniaPorEmpresa);
 router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid', subRamoCompanias.subRamoCompaniaYCompaniaPorSucursal);
