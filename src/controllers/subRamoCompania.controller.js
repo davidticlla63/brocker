@@ -29,7 +29,7 @@ export async function createSubRamoCompania(req, res) {
                 throw new Error("Ya existe Ramo asignado a la Compania!!");
             }
         }else if(ramopadreid!=null){ */
-            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramoid, companiaseguroid, estado: 'ACT' } });
+            const regSubRamoCompanias = await SubRamoCompania.findAll({ where: { ramoid, companiaseguroid,sucursalid, estado: 'ACT' } });
             console.log(regSubRamoCompanias);
             if (regSubRamoCompanias.length > 0) {
                 // authentication failed
