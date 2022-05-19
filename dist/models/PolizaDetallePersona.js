@@ -29,6 +29,8 @@ var PolizaDetallePersona = _database.sequelize.define('PolizaDetallePersona', {
   primaindividual: _sequelize["default"].DECIMAL,
   primanetaindividualbs: _sequelize["default"].DECIMAL,
   primanetaindividualusd: _sequelize["default"].DECIMAL,
+  franquicia: _sequelize["default"].DECIMAL,
+  valorasegurado: _sequelize["default"].DECIMAL,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),

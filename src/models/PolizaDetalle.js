@@ -29,6 +29,8 @@ const PolizaDetalle = sequelize.define('PolizaDetalle', {
     primanetaindividualbs: Sequelize.DECIMAL,
     primanetaindividualusd: Sequelize.DECIMAL,
 
+    franquicia: Sequelize.DECIMAL,
+    valorasegurado: Sequelize.DECIMAL,
     usuarioregistro: Sequelize.STRING,
     usuariomodificacion: Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),

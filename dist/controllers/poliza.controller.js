@@ -283,6 +283,8 @@ function _createPoliza() {
               primaindividual: automotores[_i].primaindividual,
               primanetaindividualbs: automotores[_i].primanetaindividualbs,
               primanetaindividualusd: automotores[_i].primanetaindividualusd,
+              franquicia: automotores[_i].franquicia,
+              valorasegurado: automotores[_i].valorasegurado,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: new Date(),
@@ -290,7 +292,7 @@ function _createPoliza() {
               estado: 'ACT',
               polizaid: newPoliza.id
             }, {
-              fields: ['nrocertificado', 'placa', 'tipovehiculo', 'marcavehiculo', 'colorvehiculo', 'aniovehiculo', 'modelo', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
+              fields: ['nrocertificado', 'placa', 'tipovehiculo', 'marcavehiculo', 'colorvehiculo', 'aniovehiculo', 'modelo', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'franquicia', 'valorasegurado', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
             }, {
               transaction: t
             });
@@ -591,6 +593,8 @@ function _updatePoliza() {
               primaindividual: automotores[_i4].primaindividual,
               primanetaindividualbs: automotores[_i4].primanetaindividualbs,
               primanetaindividualusd: automotores[_i4].primanetaindividualusd,
+              franquicia: automotores[_i4].franquicia,
+              valorasegurado: automotores[_i4].valorasegurado,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: new Date(),
@@ -853,6 +857,8 @@ function _createPolizaSalud() {
               primaindividual: personas[_i5].primaindividual,
               primanetaindividualbs: personas[_i5].primanetaindividualbs,
               primanetaindividualusd: personas[_i5].primanetaindividualusd,
+              franquicia: personas[_i5].franquicia,
+              valorasegurado: personas[_i5].valorasegurado,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: new Date(),
@@ -860,7 +866,7 @@ function _createPolizaSalud() {
               estado: 'ACT',
               polizaid: newPoliza.id
             }, {
-              fields: ['nrocertificado', 'tipoasegurado', 'titular', 'cobertura', 'fechanacimiento', 'sexo', 'ambitogeografico', 'sistemaatencion', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
+              fields: ['nrocertificado', 'tipoasegurado', 'titular', 'cobertura', 'fechanacimiento', 'sexo', 'ambitogeografico', 'sistemaatencion', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'franquicia', 'valorasegurado', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
             }, {
               transaction: t
             });
@@ -1132,6 +1138,8 @@ function _updatePolizaSalud() {
               primaindividual: personas[_i8].primaindividual,
               primanetaindividualbs: personas[_i8].primanetaindividualbs,
               primanetaindividualusd: personas[_i8].primanetaindividualusd,
+              franquicia: personas[_i8].franquicia,
+              valorasegurado: personas[_i8].valorasegurado,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: new Date(),
@@ -1363,6 +1371,8 @@ function _createPolizaGeneral() {
 
               /*     primanetaindividualbs: generales[i].primanetaindividualbs,
                   primanetaindividualusd: generales[i].primanetaindividualusd, */
+              franquicia: generales[_i9].franquicia,
+              valorasegurado: generales[_i9].valorasegurado,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
               fecharegistro: new Date(),
@@ -1370,7 +1380,7 @@ function _createPolizaGeneral() {
               estado: 'ACT',
               polizaid: newPoliza.id
             }, {
-              fields: ['objetoasegurado', 'nrocertificado', 'tipopolizageneral', 'direccion', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
+              fields: ['objetoasegurado', 'nrocertificado', 'tipopolizageneral', 'direccion', 'primaindividual', 'primanetaindividualbs', 'primanetaindividualusd', 'franquicia', 'valorasegurado', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'polizaid']
             }, {
               transaction: t
             });
@@ -1635,6 +1645,8 @@ function _updatePolizaGeneral() {
               tipopolizageneral: generales[_i12].tipopolizageneral,
               direccion: generales[_i12].direccion,
               primaindividual: generales[_i12].primaindividual,
+              franquicia: generales[_i12].franquicia,
+              valorasegurado: generales[_i12].valorasegurado,
 
               /*  primanetaindividualbs: generales[i].primanetaindividualbs,
                primanetaindividualusd: generales[i].primanetaindividualusd, */

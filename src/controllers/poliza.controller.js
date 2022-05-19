@@ -86,7 +86,7 @@ export async function createPoliza(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
-        let ingresoegreso='I';
+        let ingresoegreso = 'I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -259,6 +259,9 @@ export async function createPoliza(req, res) {
                 primanetaindividualbs: automotores[i].primanetaindividualbs,
                 primanetaindividualusd: automotores[i].primanetaindividualusd,
 
+                franquicia: automotores[i].franquicia,
+                valorasegurado: automotores[i].valorasegurado,
+
                 usuarioregistro,
                 usuariomodificacion,
                 fecharegistro: new Date(),
@@ -278,6 +281,8 @@ export async function createPoliza(req, res) {
                     'primaindividual',
                     'primanetaindividualbs',
                     'primanetaindividualusd',
+                    'franquicia',
+                    'valorasegurado',
                     'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                     'fechamodificacion', 'estado',
                     'polizaid']
@@ -505,6 +510,8 @@ export async function updatePoliza(req, res) {
                     primanetaindividualbs: automotores[i].primanetaindividualbs,
                     primanetaindividualusd: automotores[i].primanetaindividualusd,
 
+                    franquicia: automotores[i].franquicia,
+                    valorasegurado: automotores[i].valorasegurado,
                     usuarioregistro,
                     usuariomodificacion,
                     fecharegistro: new Date(),
@@ -644,7 +651,7 @@ export async function createPolizaSalud(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
-        let ingresoegreso='I';
+        let ingresoegreso = 'I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -817,7 +824,8 @@ export async function createPolizaSalud(req, res) {
                 primaindividual: personas[i].primaindividual,
                 primanetaindividualbs: personas[i].primanetaindividualbs,
                 primanetaindividualusd: personas[i].primanetaindividualusd,
-
+                franquicia: personas[i].franquicia,
+                valorasegurado: personas[i].valorasegurado,
                 usuarioregistro,
                 usuariomodificacion,
                 fecharegistro: new Date(),
@@ -838,6 +846,8 @@ export async function createPolizaSalud(req, res) {
                     'primaindividual',
                     'primanetaindividualbs',
                     'primanetaindividualusd',
+                    'franquicia',
+                    'valorasegurado',
                     'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                     'fechamodificacion', 'estado',
                     'polizaid']
@@ -1096,6 +1106,9 @@ export async function updatePolizaSalud(req, res) {
                     primanetaindividualbs: personas[i].primanetaindividualbs,
                     primanetaindividualusd: personas[i].primanetaindividualusd,
 
+                    franquicia: personas[i].franquicia,
+                    valorasegurado: personas[i].valorasegurado,
+
                     usuarioregistro,
                     usuariomodificacion,
                     fecharegistro: new Date(),
@@ -1234,7 +1247,7 @@ export async function createPolizaGeneral(req, res) {
     try {
         t = await sequelize.transaction();
 
-        let ingresoegreso='I';
+        let ingresoegreso = 'I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
             ingresoegreso = 'E'
         } else {
@@ -1405,6 +1418,9 @@ export async function createPolizaGeneral(req, res) {
                 /*     primanetaindividualbs: generales[i].primanetaindividualbs,
                     primanetaindividualusd: generales[i].primanetaindividualusd, */
 
+                franquicia: generales[i].franquicia,
+                valorasegurado: generales[i].valorasegurado,
+
                 usuarioregistro,
                 usuariomodificacion,
                 fecharegistro: new Date(),
@@ -1421,6 +1437,8 @@ export async function createPolizaGeneral(req, res) {
                     'primaindividual',
                     'primanetaindividualbs',
                     'primanetaindividualusd',
+                    'franquicia',
+                    'valorasegurado',
                     'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
                     'fechamodificacion', 'estado',
                     'polizaid']
@@ -1618,6 +1636,9 @@ export async function updatePolizaGeneral(req, res) {
                     direccion: generales[i].direccion,
 
                     primaindividual: generales[i].primaindividual,
+
+                    franquicia: generales[i].franquicia,
+                    valorasegurado: generales[i].valorasegurado,
                     /*  primanetaindividualbs: generales[i].primanetaindividualbs,
                      primanetaindividualusd: generales[i].primanetaindividualusd, */
 
@@ -1891,7 +1912,7 @@ export async function getPolizaHijo(req, res) {
         inner join asegurado a on a.id=p.tomadorid
         inner join compania_seguro cs on cs.id=p.companiaseguroid
         inner join tipo_ramo t on t.id=p.tiporamoid
-        where p.polizaid='` + polizaid+ `'   and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+        where p.polizaid='` + polizaid + `'   and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         const polizas = await sequelize.query(query
             , {
                 type: QueryTypes.SELECT
@@ -2570,19 +2591,19 @@ export async function vencimientoPoliza(req, res) {
             });
 
 
-            let NewEnvioCorreo = await EnvioCorreo.create({
-                nombre:'poliza vencimiento',
-                descripcion:'envio de certificados de vencimiento',
-                usuarioregistro:'system',
-                usuariomodificacion:'system',
-                fecharegistro:new Date(),
-                fechamodificacion:new Date(),
-                estado:'ACT',
-                polizaid:id
-            }, {
-                fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                    'fechamodificacion', 'estado','polizaid']
-            });
+        let NewEnvioCorreo = await EnvioCorreo.create({
+            nombre: 'poliza vencimiento',
+            descripcion: 'envio de certificados de vencimiento',
+            usuarioregistro: 'system',
+            usuariomodificacion: 'system',
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
+            estado: 'ACT',
+            polizaid: id
+        }, {
+            fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                'fechamodificacion', 'estado', 'polizaid']
+        });
 
         const dir = "http://3.99.76.226:8080/broker/rest/reporte/vencimientoPoliza/" + id;
         request.get({
@@ -2593,7 +2614,7 @@ export async function vencimientoPoliza(req, res) {
 
             var mailOptions = {
                 from: 'gamsc@gmsantacruz.gob.bo',
-               // to: 'david.ticlla@gmail.com',
+                // to: 'david.ticlla@gmail.com',
                 to: personals[0].correocobranza,
                 subject: 'Vencimiento de Poliza nro.-' + personals[0].nropoliza + ' - ' + personals[0].nombreasegurado,
                 //subject: 'Vencimiento de Poliza',
@@ -2614,7 +2635,7 @@ export async function vencimientoPoliza(req, res) {
                     console.log('mensaje: ' + error);
                 } else {
 
-                 
+
 
                     res.json({
                         data: 'Email enviado: ' + info.response
@@ -2638,14 +2659,14 @@ export async function obtenerPoliza(req, res) {
     const { id } = req.params;
     try {
 
-        const personals = await sequelize.query(` select * from obtenerPoliza('`+ id + `')  `
+        const personals = await sequelize.query(` select * from obtenerPoliza('` + id + `')  `
             , {
                 type: QueryTypes.SELECT
-            });       
-      
-            res.json({
-                data: personals
             });
+
+        res.json({
+            data: personals
+        });
     } catch (e) {
         console.log(e);
         res.status(500).json({
