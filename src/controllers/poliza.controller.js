@@ -317,10 +317,32 @@ export async function createPoliza(req, res) {
 
 
         await t.commit();
+
+
+        const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
+        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        inner join personal pe on pe.id=p.ejecutivoid
+        inner join personal car on car.id=a.carteraid
+        where p.id='` + newPoliza.id + `'   `;
+
+    //console.log(QUERY);
+    const poliza = await sequelize.query(QUERY
+        , {
+            type: QueryTypes.SELECT
+        });
+
         if (newPoliza) {
             return res.json({
                 message: 'Poliza created successfully',
-                data: newPoliza
+                data: poliza[0]
             });
         }
     } catch (e) {
@@ -912,10 +934,30 @@ export async function createPolizaSalud(req, res) {
 
 
         await t.commit();
+        const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
+        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        inner join personal pe on pe.id=p.ejecutivoid
+        inner join personal car on car.id=a.carteraid
+        where p.id='` + newPoliza.id + `'   `;
+
+    //console.log(QUERY);
+    const poliza = await sequelize.query(QUERY
+        , {
+            type: QueryTypes.SELECT
+        });
+
         if (newPoliza) {
             return res.json({
                 message: 'Poliza created successfully',
-                data: newPoliza
+                data: poliza[0]
             });
         }
     } catch (e) {
@@ -1447,10 +1489,30 @@ export async function createPolizaGeneral(req, res) {
 
         }
         await t.commit();
+        const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
+        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        inner join personal pe on pe.id=p.ejecutivoid
+        inner join personal car on car.id=a.carteraid
+        where p.id='` + newPoliza.id + `'   `;
+
+    //console.log(QUERY);
+    const poliza = await sequelize.query(QUERY
+        , {
+            type: QueryTypes.SELECT
+        });
+
         if (newPoliza) {
             return res.json({
                 message: 'Poliza created successfully',
-                data: newPoliza
+                data: poliza[0]
             });
         }
     } catch (e) {
@@ -2115,14 +2177,17 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
     try {
 
         const polizas = await sequelize.query(`select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
-            ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
             from poliza p 
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
             left join ramo sr on sr.id=rc.ramopadreid 
-            inner join asegurado a on a.id=p.tomadorid 
-            inner join compania_seguro cs on cs.id=p.companiaseguroid 
+            inner join asegurado a on a.id=p.tomadorid
+            inner join tipo_ramo t on t.id=p.tiporamoid
+            inner join compania_seguro cs on cs.id=p.companiaseguroid
+            inner join personal pe on pe.id=p.ejecutivoid
+            inner join personal car on car.id=a.carteraid 
             left join memo m on m.polizaid=p.id and m.estado='ACT' 
             where m.polizaid is null and  s.empresaid= '` + empresaid + `' AND p.estado IN ('ACT','CER') order by p.fechamodificacion desc `
             , {
@@ -2142,19 +2207,20 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
 export async function getPolizasPorSucursalSinMemo(req, res) {
     const { sucursalid } = req.params;
     try {
+        
         const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
-            ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo 
-           
+            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo ,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
             from poliza p 
             inner join sucursal s on s.id=p.sucursalid  
-            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
-            
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
             inner join ramo r on r.id=rc.ramoid 
             left join ramo sr on sr.id=rc.ramopadreid 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             left join memo m on m.polizaid=p.id and m.estado='ACT' 
-             inner join tipo_ramo t on t.id=p.tiporamoid  
+            inner join tipo_ramo t on t.id=p.tiporamoid 
+            inner join personal pe on pe.id=p.ejecutivoid
+            inner join personal car on car.id=a.carteraid
             where m.polizaid is null and s.id='` + sucursalid + `'   and p.estado IN ('ACT','CON','CER') order by p.fechamodificacion desc `;
 
         //console.log(QUERY);
