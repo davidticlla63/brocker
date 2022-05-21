@@ -12,6 +12,7 @@ const Pagos = sequelize.define('Pagos', {
     montousd: Sequelize.DECIMAL,
     comisionbs: Sequelize.DECIMAL,
     comisionusd: Sequelize.DECIMAL,
+    numerofactura:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),

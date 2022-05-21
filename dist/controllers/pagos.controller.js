@@ -86,13 +86,13 @@ function createPagos(_x3, _x4) {
 
 function _createPagos() {
   _createPagos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, monto, tipo, planpagoid, sucursalid, usuarioregistro, usuariomodificacion, estado, newPagos;
+    var _req$body, monto, tipo, planpagoid, numerofactura, sucursalid, usuarioregistro, usuariomodificacion, estado, newPagos;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, monto = _req$body.monto, tipo = _req$body.tipo, planpagoid = _req$body.planpagoid, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
+            _req$body = req.body, monto = _req$body.monto, tipo = _req$body.tipo, planpagoid = _req$body.planpagoid, numerofactura = _req$body.numerofactura, sucursalid = _req$body.sucursalid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, estado = _req$body.estado;
             _context2.prev = 1;
             _context2.next = 4;
             return _Pagos["default"].create({
@@ -101,6 +101,7 @@ function _createPagos() {
               comisionbs: 0,
               comisionusd: 0,
               tipo: tipo,
+              numerofactura: numerofactura,
               planpagoid: planpagoid,
               sucursalid: sucursalid,
               usuarioregistro: usuarioregistro,
@@ -109,7 +110,7 @@ function _createPagos() {
               fechamodificacion: new Date(),
               estado: estado
             }, {
-              fields: ['montobs', 'montousd', 'comisionbs', 'comisionusd', 'tipo', 'planpagoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
+              fields: ['montobs', 'montousd', 'comisionbs', 'comisionusd', 'tipo', 'numerofactura', 'planpagoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
             });
 
           case 4:
