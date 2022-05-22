@@ -1,6 +1,7 @@
 import { sequelize } from "../database/database";
 const { QueryTypes, Promise } = require('sequelize');
 import Pagos from "../models/Pagos";
+import CobranzaMotivo from "../models/CobranzaMotivo";
 
 export async function getPagoss(req, res) {
     try {
@@ -108,6 +109,23 @@ export async function crearPagos(req, res) {
                 }, { transaction: t });
 
                 listaPagos.push(newPagos);
+            }
+
+        }
+          for (let i = 0; i < pagos.length; i++) {
+            if (pagos[i].notallamada) {
+                let newCobranzaMotivo = await CobranzaMotivo.create({
+                    nombre: pagos[i].notallamada,
+                    descripcion: pagos[i].notallamada,
+                    usuarioregistro:pagos[i].usuarioregistro,
+                    fecharegistro:new Date(),
+                    fechamodificacion:new Date(),
+                    estado:'ACT',
+                    planpagoid: pagos[i].planpagoid
+                }, {
+                    fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
+                        'fechamodificacion', 'estado','planpagoid']
+                }, { transaction: t });
             }
 
         }
