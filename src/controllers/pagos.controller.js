@@ -22,6 +22,7 @@ export async function createPagos(req, res) {
          comisionusd, */
         tipo,
         planpagoid,
+        numerofactura,
         sucursalid,
         usuarioregistro,
         usuariomodificacion,
@@ -34,6 +35,7 @@ export async function createPagos(req, res) {
             comisionbs: 0,
             comisionusd: 0,
             tipo,
+            numerofactura,
             planpagoid,
             sucursalid,
             usuarioregistro,
@@ -47,6 +49,7 @@ export async function createPagos(req, res) {
                 'comisionbs',
                 'comisionusd',
                 'tipo',
+                'numerofactura',
                 'planpagoid',
                 'sucursalid',
                 'usuarioregistro',

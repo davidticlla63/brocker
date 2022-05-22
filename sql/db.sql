@@ -2242,6 +2242,7 @@ CREATE TABLE IF NOT EXISTS pagos(
     comisionbs decimal default 0,
     comisionusd decimal default 0,
     tipo character varying not null,
+    numerofactura  character varying ,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp not null,

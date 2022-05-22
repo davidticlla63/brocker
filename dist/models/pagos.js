@@ -22,6 +22,7 @@ var Pagos = _database.sequelize.define('Pagos', {
   montousd: _sequelize["default"].DECIMAL,
   comisionbs: _sequelize["default"].DECIMAL,
   comisionusd: _sequelize["default"].DECIMAL,
+  numerofactura: _sequelize["default"].STRING,
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),
