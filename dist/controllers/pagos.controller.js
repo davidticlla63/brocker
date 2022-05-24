@@ -28,6 +28,8 @@ var _database = require("../database/database");
 
 var _Pagos = _interopRequireDefault(require("../models/Pagos"));
 
+var _CobranzaMotivo = _interopRequireDefault(require("../models/CobranzaMotivo"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -157,7 +159,8 @@ function crearPagos(_x5, _x6) {
 
 function _crearPagos() {
   _crearPagos = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var pagos, t, listaPagos, newPagos, i;
+    var pagos, t, listaPagos, newPagos, i, _i, newCobranzaMotivo;
+
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -213,12 +216,49 @@ function _crearPagos() {
             break;
 
           case 16:
-            _context3.next = 18;
+            _i = 0;
+
+          case 17:
+            if (!(_i < pagos.length)) {
+              _context3.next = 25;
+              break;
+            }
+
+            if (!pagos[_i].notallamada) {
+              _context3.next = 22;
+              break;
+            }
+
+            _context3.next = 21;
+            return _CobranzaMotivo["default"].create({
+              nombre: pagos[_i].notallamada,
+              descripcion: pagos[_i].notallamada,
+              usuarioregistro: pagos[_i].usuarioregistro,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
+              estado: 'ACT',
+              planpagoid: pagos[_i].planpagoid
+            }, {
+              fields: ['nombre', 'descripcion', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'planpagoid']
+            }, {
+              transaction: t
+            });
+
+          case 21:
+            newCobranzaMotivo = _context3.sent;
+
+          case 22:
+            _i++;
+            _context3.next = 17;
+            break;
+
+          case 25:
+            _context3.next = 27;
             return t.commit();
 
-          case 18:
+          case 27:
             if (!listaPagos) {
-              _context3.next = 20;
+              _context3.next = 29;
               break;
             }
 
@@ -227,24 +267,24 @@ function _crearPagos() {
               data: listaPagos
             }));
 
-          case 20:
-            _context3.next = 29;
+          case 29:
+            _context3.next = 38;
             break;
 
-          case 22:
-            _context3.prev = 22;
+          case 31:
+            _context3.prev = 31;
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
 
             if (!t) {
-              _context3.next = 28;
+              _context3.next = 37;
               break;
             }
 
-            _context3.next = 28;
+            _context3.next = 37;
             return t.rollback();
 
-          case 28:
+          case 37:
             res.status(500).json({
               data: {
                 estado: false,
@@ -252,12 +292,12 @@ function _crearPagos() {
               }
             });
 
-          case 29:
+          case 38:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 22]]);
+    }, _callee3, null, [[2, 31]]);
   }));
   return _crearPagos.apply(this, arguments);
 }
