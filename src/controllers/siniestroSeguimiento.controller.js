@@ -212,14 +212,13 @@ export async function getSiniestroSeguimientoPorSucursal(req, res) {
     try {
 
         const siniestros = await sequelize.query(`select ss.* ,p.nropoliza,p.valorasegurado,c.nombre contratante 
-             ,sr.nombre nombresubramo,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
+             ,case when r2.id is null then r.nombre else r2.nombre end nombreramo,case when  r2.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal 
             from siniestro ss 
             inner join poliza p on p.id = ss.polizaid 
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
-            inner join sub_ramo sr on sr.id=rc.subramoid 
-            inner join ramo r on r.id=rc.ramoid 
-            left join ramo rp on r.ramoid=rp.id 
+            inner join ramo r on r.id=rc.ramoid
+            left join ramo r2 on r.ramoid=r2.id
             inner join asegurado a on a.id=p.tomadorid 
             inner join contratante c on c.id=p.contratanteid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 

@@ -18,8 +18,8 @@ var Siniestro = _database.sequelize.define('Siniestro', {
     primaryKey: true
   },
   //nombre: Sequelize.STRING,
-  fechanotificacion: _sequelize["default"].DATE(6),
-  fechasiniestro: _sequelize["default"].DATE(6),
+  fechanotificacion: _sequelize["default"].STRING,
+  fechasiniestro: _sequelize["default"].STRING,
   comentarioinicial: _sequelize["default"].STRING,
   resumenejecutivo: _sequelize["default"].STRING,
   resumenfinalsiniestro: _sequelize["default"].STRING,
