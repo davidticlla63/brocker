@@ -54,6 +54,31 @@ router.get('/memo/:id', function (req, res, next) {
     });
   }
 });
+router.get('/siniestro/:id', function (req, res, next) {
+  var id = req.params.id;
+
+  try {
+    //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
+    var dir = urlReporte + "/siniestro/" + id;
+    request.get({
+      url: dir
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+      var data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(e);
+    res.status(500).json({
+      data: {
+        estado: false,
+        "error": error.message
+      }
+    });
+  }
+});
 router.get('/pago/:id', function (req, res, next) {
   var id = req.params.id;
 
@@ -493,6 +518,37 @@ router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
 
   try {
     var dir = urlReporte + "/produccionPrimaNetaIngreso";
+    request.post({
+      /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      url: dir,
+      body: body
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+      var data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(e);
+    res.status(500).json({
+      data: {
+        estado: false,
+        "error": error.message
+      }
+    });
+  }
+});
+/**REPORTE DE POLIZAS EN VENCIMIENTO */
+
+router.post('/polizasAutomotorVencimiento', function (req, res, next) {
+  var body = JSON.stringify(req.body);
+
+  try {
+    var dir = urlReporte + "/polizasAutomotorVencimiento";
     request.post({
       /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: {

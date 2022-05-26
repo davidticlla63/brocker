@@ -2178,11 +2178,11 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
 
         const polizas = await sequelize.query(`select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
             ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
-            from poliza p 
-            inner join sucursal s on s.id=p.sucursalid  
-            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
-            inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+            from poliza p
+            inner join sucursal s on s.id=p.sucursalid
+            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+            inner join ramo r on r.id=rc.ramoid
+            left join ramo sr on sr.id=rc.ramopadreid
             inner join asegurado a on a.id=p.tomadorid
             inner join tipo_ramo t on t.id=p.tiporamoid
             inner join compania_seguro cs on cs.id=p.companiaseguroid

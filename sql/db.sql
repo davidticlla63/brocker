@@ -1903,7 +1903,8 @@ CREATE TABLE IF NOT EXISTS poliza(
     estado character varying not null,
     sucursalid character varying REFERENCES sucursal(id),
     planid character varying REFERENCES plan(id),
-    polizaid character varying REFERENCES poliza(id)
+    polizaid character varying REFERENCES poliza(id),
+    nro serial not null
 );
 
 CREATE TABLE IF NOT EXISTS poliza_detalle(
