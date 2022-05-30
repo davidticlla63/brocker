@@ -36,7 +36,33 @@ router.get('/memo/:id', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
+    res.status(500).json({
+      data: { estado: false, "error": error.message }
+    });
+  }
+
+
+});
+
+router.get('/poliza/:id/:tipo', function (req, res, next) {
+  const { id ,tipo} = req.params;
+  try {
+    //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
+    const dir = urlReporte + "/poliza/" + id+"/"+tipo;
+    request.get({
+      url: dir,
+
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+      const data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -62,7 +88,7 @@ router.get('/siniestro/:id', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -87,7 +113,7 @@ router.get('/pago/:id', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -170,7 +196,7 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
 
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -195,7 +221,7 @@ router.get('/comisionPorCobrar/:id', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -221,7 +247,7 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -247,7 +273,7 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -273,7 +299,7 @@ router.post('/produccion', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -300,7 +326,7 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -327,7 +353,7 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -354,7 +380,7 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -381,7 +407,7 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -408,7 +434,7 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -435,7 +461,7 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -462,7 +488,7 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -489,7 +515,7 @@ router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
@@ -517,7 +543,7 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
       });
     });
   } catch (error) {
-    console.log(e);
+    console.log(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
