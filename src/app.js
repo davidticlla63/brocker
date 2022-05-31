@@ -45,6 +45,7 @@ import ramoCompaniaRoutes from './routes/ramoCompania'
 import reporteRoutes from './routes/reportes'
 import siniestroRequisitoRoutes from './routes/siniestroRequisito'
 import paramProduccionRoutes from './routes/paramProduccion'
+import atributoRoutes from './routes/atributo'
 
 
 const bodyParser = require("body-parser");
@@ -125,6 +126,7 @@ app.use('/api/tipomemos', tipomemoRoutes);
 app.use('/api/contratantes', contratanteRoutes);
 app.use('/api/vendedors', vendedorRoutes);
 //polizas
+app.use('/api/atributo', atributoRoutes);
 app.use('/api/tipoPolizas', tipoPolizaRoutes);
 app.use('/api/polizas', polizaRoutes);
 app.use('/api/polizas/automotor', polizaDetalleRoutes);
