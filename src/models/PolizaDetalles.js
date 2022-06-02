@@ -8,6 +8,7 @@ const PolizaDetalles = sequelize.define('PolizaDetalles', {
         type: Sequelize.STRING,
         primaryKey: true
     },
+    numerodetalle:Sequelize.BIGINT,
     valor: Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,

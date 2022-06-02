@@ -8,6 +8,7 @@ import PolizaDetallePersona from "../models/PolizaDetallePersona";
 import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
 import EnvioCorreo from "../models/EnvioCorreo";
 import { transporter } from '../mailers'
+import {PolizaDetalles} from '../models/PolizaDetalles'
 var request = require("request");
 
 export async function getPolizas(req, res) {
@@ -23,6 +24,472 @@ export async function getPolizas(req, res) {
         });
     }
 }
+
+export async function createPolizaGenerica(req, res) {
+    const {
+        nropoliza,
+        nrocertificado,
+        fechainicio,
+        fechafin,
+        fechaexpedicion,
+        fecharecepcion,
+        tipomoneda,
+        primatotal,
+        formapago,
+        encargadoid,
+        bancoid,
+        ciudadexpedicion,
+        //broker,
+        notas,
+        companiaseguroid,
+        subramocompaniaid,
+        tiporamoid,
+        contratanteid,
+        tomadorid,
+        ejecutivoid,
+        colocacionid,
+        ciaspvs,
+        tipopolizaid,
+        tpoliza,
+        tipocontrato,
+        menoid,
+        vendedorid,
+        tipoemision,
+        franquicia,
+        valorasegurado,
+        comisionbs,
+        comisionusd,
+        tipocambio,
+        porcentajeprima,
+        primaneta,
+        porcentajecomision,
+        archivos,
+        detalle,
+        usuarioregistro,
+        usuariomodificacion,
+        estado = 'ACT',
+        sucursalid,
+        planid,
+        polizaid } = req.body;
+    let newPoliza;
+    let t;
+    try {
+        t = await sequelize.transaction();
+        let ingresoegreso = 'I';
+        if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
+            ingresoegreso = 'E'
+        } else {
+            ingresoegreso = 'I'
+        }
+        //const transaction= sequelize.transaction;
+        newPoliza = await Poliza.create({
+            nropoliza,
+            nrocertificado,
+            fechainicio,
+            fechafin,
+            fechaexpedicion,
+            fecharecepcion,
+            tipomoneda,
+            primatotal,
+            formapago,
+            encargadoid,
+            bancoid,
+            ciudadexpedicion,
+            // broker,
+            notas,
+            companiaseguroid,
+            subramocompaniaid,
+            tiporamoid,
+            contratanteid,
+            tomadorid,
+            ejecutivoid,
+            colocacionid,
+            ciaspvs,
+            tipopolizaid,
+            tpoliza,
+            tipocontrato,
+            menoid,
+            vendedorid,
+            tipoemision,
+            franquicia,
+            valorasegurado,
+            comisionbs,
+            comisionusd,
+            tipocambio,
+            porcentajeprima,
+            primaneta,
+            porcentajecomision,
+            ingresoegreso,
+            usuarioregistro,
+            usuariomodificacion,
+            fecharegistro: new Date(),
+            fechamodificacion: new Date(),
+            estado,
+            sucursalid,
+            planid,
+            polizaid
+        }, {
+            fields: ['nropoliza',
+                'nrocertificado',
+                'fechainicio',
+                'fechafin',
+                'fechaexpedicion',
+                'fecharecepcion',
+                'tipomoneda',
+                'primatotal',
+                'formapago',
+                'encargadoid',
+                'bancoid',
+                'ciudadexpedicion',
+
+                //'broker',
+                'notas',
+                'companiaseguroid',
+                'subramocompaniaid',
+                'tiporamoid',
+                'contratanteid',
+                'tomadorid',
+                'ejecutivoid',
+                'colocacionid',
+                'ciaspvs',
+                'tipopolizaid',
+                'tpoliza',
+                'tipocontrato',
+                'menoid',
+                'vendedorid',
+                'tipoemision',
+                'franquicia',
+                'valorasegurado',
+                'comisionbs',
+                'comisionusd',
+                'tipocambio',
+                'porcentajeprima',
+                'primaneta',
+                'porcentajecomision',
+                'ingresoegreso',
+                'usuarioregistro',
+                'usuariomodificacion',
+                'fecharegistro',
+                'fechamodificacion',
+                'estado',
+                'sucursalid',
+                'planid',
+                'polizaid']
+        }, { transaction: t });
+        // step 2  archivos
+        // if( archivos!) 
+        for (let i = 0; i < archivos.length; i++) {
+            // listaPermisos.push( 
+            await Archivo.create({
+                codigo: newPoliza.id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                aseguradoid: tomadorid,
+                sucursalid: sucursalid,
+                usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+
+
+        }
+        //DETALLE GENERAL
+
+        for (let i = 0; i < detalle.length; i++) {
+            let newPolizaDetalle = await PolizaDetalles.create({
+                numerodetalle:detalle[i].atributoid,
+                valor: detalle[i].valor,
+                usuarioregistro,
+                usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT',
+                atributoid:detalle[i].atributoid,
+                polizaid: newPoliza.id,
+
+            },{
+                fields: ['numerodetalle',
+                'valor',
+                'usuarioregistro',
+                'usuariomodificacion',
+                'fecharegistro',
+                'fechamodificacion',
+                'estado',
+                'atributoid',
+                'polizaid']}, { transaction: t });
+        }
+
+        
+
+        
+
+
+
+        await t.commit();
+
+
+        const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
+        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
+        from poliza p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
+        inner join ramo r on r.id=rc.ramoid
+        left join ramo sr on sr.id=rc.ramopadreid
+        inner join asegurado a on a.id=p.tomadorid
+        inner join compania_seguro cs on cs.id=p.companiaseguroid
+        inner join tipo_ramo t on t.id=p.tiporamoid
+        inner join personal pe on pe.id=p.ejecutivoid
+        inner join personal car on car.id=a.carteraid
+        where p.id='` + newPoliza.id + `'   `;
+
+    //console.log(QUERY);
+    const poliza = await sequelize.query(QUERY
+        , {
+            type: QueryTypes.SELECT
+        });
+
+        if (newPoliza) {
+            return res.json({
+                message: 'Poliza created successfully',
+                data: poliza[0]
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        if (t) {
+            await t.rollback();
+            //await newUsuario.destroy();
+            if (newPoliza) {
+                await Poliza.destroy({ where: { id: newPoliza.id } })
+            }
+        }
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function updatePolizaGenerica(req, res) {
+    const { id } = req.params;
+    const { nropoliza,
+        nrocertificado,
+        fechainicio,
+        fechafin,
+        fechaexpedicion,
+        fecharecepcion,
+        tipomoneda,
+        primatotal,
+        formapago,
+        encargadoid,
+        bancoid,
+        ciudadexpedicion,
+        notas,
+        companiaseguroid,
+        subramocompaniaid,
+        tiporamoid,
+        contratanteid,
+        tomadorid,
+        ejecutivoid,
+        colocacionid,
+        ciaspvs,
+        tipopolizaid,
+        tpoliza,
+        tipocontrato,
+        menoid,
+        vendedorid,
+        tipoemision,
+        franquicia,
+        valorasegurado,
+        comisionbs,
+        comisionusd,
+        tipocambio,
+        porcentajeprima,
+        primaneta,
+        porcentajecomision,
+        usuarioregistro,
+        usuariomodificacion,
+        fecharegistro,
+        estado,
+        sucursalid, planid, archivos, archivoseliminados,
+        detalle, eliminadosdetalle } = req.body;
+    let t;
+    try {
+        t = await sequelize.transaction();
+        const updateRowCount = await Poliza.update({
+            nropoliza,
+            nrocertificado,
+            fechainicio,
+            fechafin,
+            fechaexpedicion,
+            fecharecepcion,
+            tipomoneda,
+            primatotal,
+            formapago,
+            encargadoid,
+            bancoid,
+            ciudadexpedicion,
+            notas,
+            companiaseguroid,
+            subramocompaniaid,
+            tiporamoid,
+            contratanteid,
+            tomadorid,
+            ejecutivoid,
+            colocacionid,
+            ciaspvs,
+            tipopolizaid,
+            tpoliza,
+            tipocontrato,
+            menoid,
+            vendedorid,
+            tipoemision,
+            franquicia,
+            valorasegurado,
+            comisionbs,
+            comisionusd,
+            tipocambio,
+            porcentajeprima,
+            primaneta,
+            porcentajecomision,
+
+            usuarioregistro,
+            usuariomodificacion,
+            fecharegistro,
+            fechamodificacion: new Date(),
+            estado,
+            sucursalid,
+            planid
+        }, {
+            where: {
+                id
+            }
+        }, { transaction: t });
+
+        //ARCHIVOS ELIMINADOS
+        for (let i = 0; i < archivoseliminados.length; i++) {
+
+            await Archivo.update({
+                estado: 'BAJ',
+                fechamodificacion: new Date()
+            }, { where: { id: archivoseliminados[i].id } }, { transaction: t });
+
+        }
+        // REGISTRO DE ARCHIVOS NUEVOS
+        for (let i = 0; i < archivos.length; i++) {
+
+            await Archivo.create({
+                codigo: id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                aseguradoid: tomadorid,
+                sucursalid: sucursalid,
+                usuarioregistro: usuariomodificacion,
+                usuariomodificacion: usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+
+        }
+        if (eliminadosdetalle) {
+            //DETALLE  ELIMINADOS
+            for (let i = 0; i < eliminadosdetalle.length; i++) {
+
+                await PolizaDetalle.update({
+                    estado: 'BAJ',
+                    fechamodificacion: new Date()
+                }, { where: { numerodetalle: eliminadosdetalle[i].numerodetalle } }, { transaction: t });
+
+            }
+        }
+        if (detalle) {
+            //DETALLE AUTOMOTORES
+            for (let i = 0; i < detalle.length; i++) {
+                let newPolizaDetalle = await PolizaDetalles.create({
+                    numerodetalle:detalle[i].atributoid,
+                    valor: detalle[i].valor,
+                    usuarioregistro,
+                    usuariomodificacion,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT',
+                    atributoid:detalle[i].atributoid,
+                    polizaid: newPoliza.id,
+    
+                },{
+                    fields: ['numerodetalle',
+                    'valor',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado',
+                    'atributoid',
+                    'polizaid']}, { transaction: t });
+            }
+        }
+
+
+        await t.commit();
+        const polizas = await Poliza.findOne({
+            where: {
+                id
+            }
+        }
+        );
+        res.json({
+            message: 'Poliza update successfully',
+            count: polizas
+        });
+
+
+
+
+    } catch (e) {
+        console.log(e);
+        if (t) {
+            await t.rollback();
+        }
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
 /** automotor */
 export async function createPoliza(req, res) {
     const {
