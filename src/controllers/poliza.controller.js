@@ -237,12 +237,6 @@ export async function createPolizaGenerica(req, res) {
                 'polizaid']}, { transaction: t });
         }
 
-        
-
-        
-
-
-
         await t.commit();
 
 

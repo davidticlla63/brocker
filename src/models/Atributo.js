@@ -12,7 +12,7 @@ const Atributo = sequelize.define('Atributo', {
     tipo:Sequelize.STRING,
     obligatorio:Sequelize.BOOLEAN,
     valordefecto:Sequelize.STRING,
-    tipopoliza:Sequelize.STRING,
+    //tipopoliza:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
     fecharegistro: Sequelize.DATE(6),
@@ -21,7 +21,7 @@ const Atributo = sequelize.define('Atributo', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    tiporamoid:Sequelize.STRING,
+    tipopolizaid:Sequelize.STRING,
     empresaid:Sequelize.STRING,
 
 

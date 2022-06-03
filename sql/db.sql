@@ -1846,25 +1846,27 @@ CREATE TABLE IF NOT EXISTS atributo(
     tipo character varying,--TEXT,INTEGER,BOOLEAN,DECIMAL,MULTIPLE,FECHA
     obligatorio boolean,
     valordefecto character varying,
-    tipopoliza character varying,--AUTOMOTOR,SALUD,GENERAL
+   -- tipopoliza --AUTOMOTOR,SALUD,GENERAL
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp not null,
     fechamodificacion timestamp not null,
     estado character varying not null,
-    tiporamoid character varying REFERENCES tipo_ramo(id) not null,
+    --tiporamoid character varying REFERENCES tiporamo(id) not null,
+        tipopolizaid character varying  not null,
     empresaid character varying REFERENCES empresa(id) not null
 );
 
-CREATE TABLE IF NOT EXISTS poliza_detalle(
+CREATE TABLE IF NOT EXISTS poliza_detalles(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),    
+    numerodetalle character varying,
     valor character varying,
     usuarioregistro character varying not null,
     usuariomodificacion character varying,
     fecharegistro timestamp not null,
     fechamodificacion timestamp not null,
     estado character varying not null,
-    polizaid character varying REFERENCES poliza(id) not null
+    polizaid character varying REFERENCES poliza(id) not null,
     atributoid character varying REFERENCES atributo(id) not null
 );
 
