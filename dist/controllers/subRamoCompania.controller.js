@@ -300,30 +300,6 @@ function _subRamoCompaniaPorEmpresa() {
 function subRamoCompaniaPorRamo(_x9, _x10) {
   return _subRamoCompaniaPorRamo.apply(this, arguments);
 }
-/* export async function subRamoCompaniaPorCompania(req, res) {
-    const {
-        companiaseguroid } = req.params;
-    try {
-        const subRamoCompania = await sequelize.query("select rc.*,s.nombre as nombresubramo,r.nombre nombreramo,r.tiporamoid,r.spvs spvsramo,s.spvs spvsubramo,t.spvs spvstiporamo from sub_ramo_compania  rc  
-            "inner join ramo r on r.id=s.ramoid 
-            "left join ramo s on s.ramoid=r.id 
-            "inner join tipo_ramo t on t.id=r.tiporamoid 
-            "where rc.companiaseguroid= '` + companiaseguroid + `' and rc.estado ='ACT' order by rc.id "
-            , {
-                type: QueryTypes.SELECT
-            });
-        res.json({
-            data: subRamoCompania
-        });
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            data: { estado: false, "error": e.message }
-        });
-    }
-}
- */
-
 
 function _subRamoCompaniaPorRamo() {
   _subRamoCompaniaPorRamo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {

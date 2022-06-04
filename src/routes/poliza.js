@@ -39,6 +39,10 @@ router.put('/salud/:id', polizas.updatePolizaSalud);
 router.post('/general/', polizas.createPolizaGeneral);
 router.put('/general/:id', polizas.updatePolizaGeneral);
 
+//polizas de generico
+router.post('/generico/', polizas.createPolizaGenerica);
+router.put('/generico/:id', polizas.updatePolizaGenerica);
+
 router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);
 router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', polizas.getPolizaPorTipoYSucursal);

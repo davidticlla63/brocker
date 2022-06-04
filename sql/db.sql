@@ -1840,6 +1840,36 @@ CREATE TABLE IF NOT EXISTS param_produccion(
     sucursalid character varying REFERENCES sucursal(id) not null
 );
 
+CREATE TABLE IF NOT EXISTS atributo(
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre character varying,
+    tipo character varying,--TEXT,INTEGER,BOOLEAN,DECIMAL,MULTIPLE,FECHA
+    obligatorio boolean,
+    valordefecto character varying,
+   -- tipopoliza --AUTOMOTOR,SALUD,GENERAL
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp not null,
+    estado character varying not null,
+    --tiporamoid character varying REFERENCES tiporamo(id) not null,
+        tipopolizaid character varying  not null,
+    empresaid character varying REFERENCES empresa(id) not null
+);
+
+CREATE TABLE IF NOT EXISTS poliza_detalles(
+    id character varying PRIMARY KEY DEFAULT gen_random_uuid(),    
+    numerodetalle character varying,
+    valor character varying,
+    usuarioregistro character varying not null,
+    usuariomodificacion character varying,
+    fecharegistro timestamp not null,
+    fechamodificacion timestamp not null,
+    estado character varying not null,
+    polizaid character varying REFERENCES poliza(id) not null,
+    atributoid character varying REFERENCES atributo(id) not null
+);
+
 CREATE TABLE IF NOT EXISTS poliza(
     id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
     nropoliza character varying,
@@ -1903,7 +1933,8 @@ CREATE TABLE IF NOT EXISTS poliza(
     estado character varying not null,
     sucursalid character varying REFERENCES sucursal(id),
     planid character varying REFERENCES plan(id),
-    polizaid character varying REFERENCES poliza(id)
+    polizaid character varying REFERENCES poliza(id),
+    nro serial not null
 );
 
 CREATE TABLE IF NOT EXISTS poliza_detalle(

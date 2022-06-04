@@ -9,8 +9,8 @@ const Siniestro = sequelize.define('Siniestro', {
     },
     //nombre: Sequelize.STRING,
 
-    fechanotificacion: Sequelize.DATE(6),
-    fechasiniestro: Sequelize.DATE(6),
+    fechanotificacion: Sequelize.STRING,
+    fechasiniestro: Sequelize.STRING,
     comentarioinicial: Sequelize.STRING,
     resumenejecutivo: Sequelize.STRING,
     resumenfinalsiniestro: Sequelize.STRING,
