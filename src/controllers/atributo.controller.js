@@ -195,14 +195,14 @@ export async function updateAtributos(req, res) {
         t = await sequelize.transaction();
 
         //ARCHIVOS ELIMINADOS
-        for (let i = 0; i < atributoseliminados.length; i++) {
+       /*  for (let i = 0; i < atributoseliminados.length; i++) {
 
             await Atributo.update({
                 estado: 'BAJ',
                 fechamodificacion: new Date()
             }, { where: { id: atributoseliminados[i].id } }, { transaction: t });
 
-        }
+        } */
         for (let i = 0; i < atributos.length; i++) {
             if (atributos[i].id == null) {
                 newAtributo = await Atributo.create({
