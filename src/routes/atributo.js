@@ -17,7 +17,7 @@ router.put('/:id', atributos.updateAtributo);
 */
 
 router.post('/', atributos.createAtributos);
-router.put('/:id', atributos.updateAtributos);
+router.put('/', atributos.updateAtributos);
 router.get('/', atributos.getAtributo);
 router.get('/:empresaid/:tipopolizaid', atributos.getAtributoPorTipoPoliza);
 

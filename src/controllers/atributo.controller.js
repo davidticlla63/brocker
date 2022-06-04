@@ -187,10 +187,11 @@ export async function createAtributos(req, res) {
 }
 
 export async function updateAtributos(req, res) {
-    const { id } = req.params;
+    //const { id } = req.params;
     const { atributos, atributoseliminados } = req.body;
     let t;
     let updateRowCount;
+    let newAtributo;
     try {
         t = await sequelize.transaction();
 
@@ -204,7 +205,7 @@ export async function updateAtributos(req, res) {
 
         } */
         for (let i = 0; i < atributos.length; i++) {
-            if (atributos[i].id == null) {
+            if (!atributos[i].id) {
                 newAtributo = await Atributo.create({
                     nombre: atributos[i].nombre,
                     tipo: atributos[i].tipo,
