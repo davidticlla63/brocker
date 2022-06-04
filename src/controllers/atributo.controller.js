@@ -352,9 +352,9 @@ export async function bajaAtributo(req, res) {
 
 export async function getAtributoPorTipoPoliza(req, res) {
     const {
-        empresaid, tipopoliza } = req.params;
+        empresaid, tipopolizaid } = req.params;
     try {
-        const atributos = await Atributo.findAll({ where: { estado: 'ACT', empresaid, tipopoliza } });
+        const atributos = await Atributo.findAll({ where: { estado: 'ACT', empresaid, tipopolizaid } });
         res.json({
             data: atributos
         });
