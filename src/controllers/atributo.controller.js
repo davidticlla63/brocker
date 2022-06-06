@@ -188,7 +188,8 @@ export async function createAtributos(req, res) {
 
 export async function updateAtributos(req, res) {
     //const { id } = req.params;
-    const { atributos, atributoseliminados } = req.body;
+    const { atributos//, atributoseliminados
+     } = req.body;
     let t;
     let updateRowCount;
     let newAtributo;
