@@ -1,6 +1,5 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../database/database";
-import Ramo from "./Ramo";
 
 const PolizaDetalles = sequelize.define('PolizaDetalles', {
     id: {
@@ -8,7 +7,7 @@ const PolizaDetalles = sequelize.define('PolizaDetalles', {
         type: Sequelize.STRING,
         primaryKey: true
     },
-    numerodetalle:Sequelize.BIGINT,
+    numerodetalle:Sequelize.STRING,
     valor: Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,
@@ -18,13 +17,12 @@ const PolizaDetalles = sequelize.define('PolizaDetalles', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    atributoid:Sequelize.STRING,
     polizaid:Sequelize.STRING,
+    atributoid:Sequelize.STRING,
 }, {
     timestamps: false,
     tableName: 'poliza_detalles'
 });
-/* TipoRamo.hasMany(Ramo, { foreignKey: 'tiporamoid', sourceKey: 'id' });
-Ramo.belongsTo(TipoRamo, { foreignKey: 'tiporamoid', sourceKey: 'id' }); */
+
 
 export default PolizaDetalles;

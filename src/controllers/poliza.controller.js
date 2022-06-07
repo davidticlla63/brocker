@@ -7,8 +7,8 @@ import PolizaDetalle from '../models/PolizaDetalle'
 import PolizaDetallePersona from "../models/PolizaDetallePersona";
 import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
 import EnvioCorreo from "../models/EnvioCorreo";
-import { transporter } from '../mailers'
-import { PolizaDetalles } from '../models/PolizaDetalles'
+import { transporter } from "../mailers";
+import PolizaDetalles from "../models/PolizaDetalles";
 var request = require("request");
 
 export async function getPolizas(req, res) {
@@ -213,30 +213,32 @@ export async function createPolizaGenerica(req, res) {
         }
         //DETALLE GENERAL
         if (detalle) {
-            let newPolizaDetalle;
             for (let i = 0; i < detalle.length; i++) {
-                newPolizaDetalle = await PolizaDetalles.create({
+              await PolizaDetalles.create({
                     numerodetalle: detalle[i].numerodetalle,
                     valor: detalle[i].valor,
-                    usuarioregistro,
-                    usuariomodificacion,
+                    usuarioregistro:newPoliza.usuarioregistro,
                     fecharegistro: new Date(),
                     fechamodificacion: new Date(),
                     estado: 'ACT',
-                    atributoid: detalle[i].atributoid,
                     polizaid: newPoliza.id,
+                    atributoid: detalle[i].atributoid,
 
-                }, {
-                    fields: ['numerodetalle',
+                },
+                {
+                    fields: [
+                        'numerodetalle',
                         'valor',
                         'usuarioregistro',
-                        'usuariomodificacion',
                         'fecharegistro',
                         'fechamodificacion',
                         'estado',
-                        'atributoid',
-                        'polizaid']
-                }, { transaction: t });
+                        'polizaid',
+                        'atributoid'
+                    ],
+                },
+
+                { transaction: t });
             }
 
         }
