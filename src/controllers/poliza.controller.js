@@ -8,7 +8,7 @@ import PolizaDetallePersona from "../models/PolizaDetallePersona";
 import PolizaDetalleGeneral from "../models/PolizaDetalleGeneral";
 import EnvioCorreo from "../models/EnvioCorreo";
 import { transporter } from '../mailers'
-import {PolizaDetalles} from '../models/PolizaDetalles'
+import { PolizaDetalles } from '../models/PolizaDetalles'
 var request = require("request");
 
 export async function getPolizas(req, res) {
@@ -212,31 +212,34 @@ export async function createPolizaGenerica(req, res) {
 
         }
         //DETALLE GENERAL
+        if (detalle) {
+            let newPolizaDetalle;
+            for (let i = 0; i < detalle.length; i++) {
+                newPolizaDetalle = await PolizaDetalles.create({
+                    numerodetalle: detalle[i].numerodetalle,
+                    valor: detalle[i].valor,
+                    usuarioregistro,
+                    usuariomodificacion,
+                    fecharegistro: new Date(),
+                    fechamodificacion: new Date(),
+                    estado: 'ACT',
+                    atributoid: detalle[i].atributoid,
+                    polizaid: newPoliza.id,
 
-        for (let i = 0; i < detalle.length; i++) {
-            let newPolizaDetalle = await PolizaDetalles.create({
-                numerodetalle:detalle[i].atributoid,
-                valor: detalle[i].valor,
-                usuarioregistro,
-                usuariomodificacion,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT',
-                atributoid:detalle[i].atributoid,
-                polizaid: newPoliza.id,
+                }, {
+                    fields: ['numerodetalle',
+                        'valor',
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado',
+                        'atributoid',
+                        'polizaid']
+                }, { transaction: t });
+            }
 
-            },{
-                fields: ['numerodetalle',
-                'valor',
-                'usuarioregistro',
-                'usuariomodificacion',
-                'fecharegistro',
-                'fechamodificacion',
-                'estado',
-                'atributoid',
-                'polizaid']}, { transaction: t });
         }
-
         await t.commit();
 
 
@@ -254,11 +257,11 @@ export async function createPolizaGenerica(req, res) {
         inner join personal car on car.id=a.carteraid
         where p.id='` + newPoliza.id + `'   `;
 
-    //console.log(QUERY);
-    const poliza = await sequelize.query(QUERY
-        , {
-            type: QueryTypes.SELECT
-        });
+        //console.log(QUERY);
+        const poliza = await sequelize.query(QUERY
+            , {
+                type: QueryTypes.SELECT
+            });
 
         if (newPoliza) {
             return res.json({
@@ -432,28 +435,30 @@ export async function updatePolizaGenerica(req, res) {
         }
         if (detalle) {
             //DETALLE AUTOMOTORES
+            let newPolizaDetalle;
             for (let i = 0; i < detalle.length; i++) {
-                let newPolizaDetalle = await PolizaDetalles.create({
-                    numerodetalle:detalle[i].atributoid,
+                newPolizaDetalle = await PolizaDetalles.create({
+                    numerodetalle: detalle[i].numerodetalle,
                     valor: detalle[i].valor,
                     usuarioregistro,
                     usuariomodificacion,
                     fecharegistro: new Date(),
                     fechamodificacion: new Date(),
                     estado: 'ACT',
-                    atributoid:detalle[i].atributoid,
+                    atributoid: detalle[i].atributoid,
                     polizaid: newPoliza.id,
-    
-                },{
+
+                }, {
                     fields: ['numerodetalle',
-                    'valor',
-                    'usuarioregistro',
-                    'usuariomodificacion',
-                    'fecharegistro',
-                    'fechamodificacion',
-                    'estado',
-                    'atributoid',
-                    'polizaid']}, { transaction: t });
+                        'valor',
+                        'usuarioregistro',
+                        'usuariomodificacion',
+                        'fecharegistro',
+                        'fechamodificacion',
+                        'estado',
+                        'atributoid',
+                        'polizaid']
+                }, { transaction: t });
             }
         }
 
@@ -794,11 +799,11 @@ export async function createPoliza(req, res) {
         inner join personal car on car.id=a.carteraid
         where p.id='` + newPoliza.id + `'   `;
 
-    //console.log(QUERY);
-    const poliza = await sequelize.query(QUERY
-        , {
-            type: QueryTypes.SELECT
-        });
+        //console.log(QUERY);
+        const poliza = await sequelize.query(QUERY
+            , {
+                type: QueryTypes.SELECT
+            });
 
         if (newPoliza) {
             return res.json({
@@ -1409,11 +1414,11 @@ export async function createPolizaSalud(req, res) {
         inner join personal car on car.id=a.carteraid
         where p.id='` + newPoliza.id + `'   `;
 
-    //console.log(QUERY);
-    const poliza = await sequelize.query(QUERY
-        , {
-            type: QueryTypes.SELECT
-        });
+        //console.log(QUERY);
+        const poliza = await sequelize.query(QUERY
+            , {
+                type: QueryTypes.SELECT
+            });
 
         if (newPoliza) {
             return res.json({
@@ -1964,11 +1969,11 @@ export async function createPolizaGeneral(req, res) {
         inner join personal car on car.id=a.carteraid
         where p.id='` + newPoliza.id + `'   `;
 
-    //console.log(QUERY);
-    const poliza = await sequelize.query(QUERY
-        , {
-            type: QueryTypes.SELECT
-        });
+        //console.log(QUERY);
+        const poliza = await sequelize.query(QUERY
+            , {
+                type: QueryTypes.SELECT
+            });
 
         if (newPoliza) {
             return res.json({
@@ -2668,7 +2673,7 @@ export async function getPolizasPorEmpresaSinMemo(req, res) {
 export async function getPolizasPorSucursalSinMemo(req, res) {
     const { sucursalid } = req.params;
     try {
-        
+
         const QUERY = `select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid 
             ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo ,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera
             from poliza p 
