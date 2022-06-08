@@ -42,6 +42,8 @@ router.put('/general/:id', polizas.updatePolizaGeneral);
 //polizas de generico
 router.post('/generico/', polizas.createPolizaGenerica);
 router.put('/generico/:id', polizas.updatePolizaGenerica);
+//obtener detalle generico
+router.get('/detalle/:id', polizas.obtenerDetallesPorPoliza);
 
 router.get('/', polizas.getPolizas);
 router.get('/polizasPorSucursal/:sucursalid', polizas.polizasPorSucursal);

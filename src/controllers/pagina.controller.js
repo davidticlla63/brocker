@@ -1,6 +1,8 @@
 
 import Pagina from "../models/Pagina";
 import PaginaAccion from "../models/PaginaAccion";
+import { sequelize } from "../database/database";
+const { QueryTypes } = require('sequelize');
 
 export async function getPaginas(req, res) {
     try {
@@ -38,6 +40,30 @@ export async function getPaginas(req, res) {
         // console.log(lista);
         res.json({
             data: lista
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+
+export async function getPaginasJson(req, res) {
+    try {
+
+
+        const paginas = await sequelize.query(`	select * from public.pa_listar_paginas() `
+            //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+            , {
+                type: QueryTypes.SELECT
+            });
+        //lista = paginas.filter(item => item.Paginas.estado = 'ACT');
+        // console.log(lista);
+        var personObject = JSON.parse(paginas[0].dato);
+        res.json({
+            data: personObject
         });
     } catch (e) {
         console.log(e);

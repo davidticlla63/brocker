@@ -428,10 +428,10 @@ export async function updatePolizaGenerica(req, res) {
             //DETALLE  ELIMINADOS
             for (let i = 0; i < eliminadosdetalle.length; i++) {
 
-                await PolizaDetalle.update({
+                await PolizaDetalles.update({
                     estado: 'BAJ',
                     fechamodificacion: new Date()
-                }, { where: { numerodetalle: eliminadosdetalle[i].numerodetalle } }, { transaction: t });
+                }, { where: { numerodetalle: eliminadosdetalle[i].numerodetalle,id:eliminadosdetalle[i].id } }, { transaction: t });
 
             }
         }
@@ -448,7 +448,7 @@ export async function updatePolizaGenerica(req, res) {
                     fechamodificacion: new Date(),
                     estado: 'ACT',
                     atributoid: detalle[i].atributoid,
-                    polizaid: newPoliza.id,
+                    polizaid: id,
 
                 }, {
                     fields: ['numerodetalle',
@@ -3168,9 +3168,6 @@ export async function vencimientoPoliza(req, res) {
                     });
                     console.log('mensaje: ' + error);
                 } else {
-
-
-
                     res.json({
                         data: 'Email enviado: ' + info.response
                     });
@@ -3200,6 +3197,26 @@ export async function obtenerPoliza(req, res) {
 
         res.json({
             data: personals
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            data: { estado: false, "error": e.message }
+        });
+    }
+}
+
+export async function obtenerDetallesPorPoliza(req, res) {
+    const { id } = req.params;
+    try {
+
+        const detalle = await sequelize.query(` select * from pa_listar_detalle('` + id + `')  `
+            , {
+                type: QueryTypes.SELECT
+            });
+
+        res.json({
+            data: detalle[0]._row
         });
     } catch (e) {
         console.log(e);
