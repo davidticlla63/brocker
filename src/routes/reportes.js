@@ -14,7 +14,6 @@ router
   .use(bodyParser.json())
   .use(compression());
 
-
 var request = require("request");
 var fs = require("fs");
 var urlReporte = 'http://3.99.76.226:8080/broker/rest/reporte'
@@ -24,6 +23,32 @@ router.get('/memo/:id', function (req, res, next) {
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     const dir = urlReporte + "/memo/" + id;
+    request.get({
+      url: dir,
+
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+      const data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: { estado: false, "error": error.message }
+    });
+  }
+
+
+});
+
+router.get('/poliza/:id', function (req, res, next) {
+  const { id } = req.params;
+  try {
+    //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
+    const dir = urlReporte + "/poliza/" + id;
     request.get({
       url: dir,
 
