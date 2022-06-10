@@ -45,7 +45,8 @@ router.use(cors()).use(bodyParser.json()).use(compression({
 })); // /api/perfils/
 
 router.post('/', pagina.createPagina);
-router.get('/', pagina.getPaginas); // /api/perfils/:perfilID
+router.get('/', pagina.getPaginas);
+router.get('/json/', pagina.getPaginasJson); // /api/perfils/:perfilID
 
 router.get('/:id', pagina.getOnePagina);
 router["delete"]('/:id', pagina.deletePagina);

@@ -95,6 +95,8 @@ var _siniestroRequisito = _interopRequireDefault(require("./routes/siniestroRequ
 
 var _paramProduccion = _interopRequireDefault(require("./routes/paramProduccion"));
 
+var _atributo = _interopRequireDefault(require("./routes/atributo"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -176,6 +178,7 @@ app.use('/api/tipomemos', _tipomemo["default"]);
 app.use('/api/contratantes', _contratante["default"]);
 app.use('/api/vendedors', _vendedor["default"]); //polizas
 
+app.use('/api/atributo', _atributo["default"]);
 app.use('/api/tipoPolizas', _tipoPoliza["default"]);
 app.use('/api/polizas', _poliza["default"]);
 app.use('/api/polizas/automotor', _polizaDetalle["default"]);
