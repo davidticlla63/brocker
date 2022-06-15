@@ -11,7 +11,7 @@ var _config = _interopRequireDefault(require("../config"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_test_db', //produccion
+var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_test_db', //produccion  'broker_test_db'
 //'broker_test_db',//testing
 'postgres', 'admin', {
   host: '3.99.76.226',
@@ -28,7 +28,10 @@ var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'produc
     max: 5,
     min: 0,
     require: 30000,
-    idle: 10000
+    idle: 60000,
+    acquire: 10000,
+    evict: 60000,
+    handleDisconnects: true
   },
   logging: false
 }
