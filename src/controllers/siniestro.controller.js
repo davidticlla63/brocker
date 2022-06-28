@@ -303,7 +303,7 @@ export async function getTotalSiniestrosPorEmpresa(req, res) {
         let query = `select count(*) cantidad from siniestro si 
             inner join sucursal s on s.id =si.sucursalid  
             inner join empresa e on e.id =s.empresaid 
-            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '` + empresaid + `'`;
+            where si.estadosiniestro  in ('Proceso','Finalizado') and si.estado ='ACT' and e.id = '` + empresaid + `'`;
 
         const pagos = await sequelize.query(query
             , {
@@ -326,7 +326,7 @@ export async function getTotalSiniestrosPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
         let query = `select count(*) cantidad from siniestro si  
-            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='` + sucursalid + `'`;
+            where si.estadosiniestro   in ('Proceso','Finalizado')  and si.estado ='ACT'  and si.sucursalid ='` + sucursalid + `'`;
 
         const pagos = await sequelize.query(query
             , {

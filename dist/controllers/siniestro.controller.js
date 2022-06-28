@@ -498,7 +498,7 @@ function _getTotalSiniestrosPorEmpresa() {
           case 0:
             empresaid = req.params.empresaid;
             _context9.prev = 1;
-            query = "select count(*) cantidad from siniestro si \n            inner join sucursal s on s.id =si.sucursalid  \n            inner join empresa e on e.id =s.empresaid \n            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT' and e.id = '" + empresaid + "'";
+            query = "select count(*) cantidad from siniestro si \n            inner join sucursal s on s.id =si.sucursalid  \n            inner join empresa e on e.id =s.empresaid \n            where si.estadosiniestro  in ('Proceso','Finalizado') and si.estado ='ACT' and e.id = '" + empresaid + "'";
             _context9.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
@@ -546,7 +546,7 @@ function _getTotalSiniestrosPorSucursal() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context10.prev = 1;
-            query = "select count(*) cantidad from siniestro si  \n            where si.estadosiniestro  in ('Proceso') and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
+            query = "select count(*) cantidad from siniestro si  \n            where si.estadosiniestro   in ('Proceso','Finalizado')  and si.estado ='ACT'  and si.sucursalid ='" + sucursalid + "'";
             _context10.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT

@@ -25,7 +25,7 @@ var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'produc
   timezone: '-04:00',
   /// -->Add this line. for writing to database 
   pool: {
-    max: 5,
+    max: 20,
     min: 0,
     require: 30000,
     idle: 60000,

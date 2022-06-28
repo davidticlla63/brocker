@@ -3239,7 +3239,7 @@ function _getPolizasPorSucursalYTipo() {
             _req$params8 = req.params, sucursalid = _req$params8.sucursalid, tipopolizaid = _req$params8.tipopolizaid, tiporamoid = _req$params8.tiporamoid;
             _context29.prev = 1;
             _context29.next = 4;
-            return _database.sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion \n            ,p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro \n             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo \n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join contratante c on c.id=p.contratanteid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n             inner join tipo_ramo t on t.id=p.tiporamoid  \n            where  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='" + tiporamoid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion \n            ,p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro \n             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo  ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) \n             from poliza_detalles pd2   \n             inner join atributo a on a.id=pd2.atributoid and a.importante =true\n             where pd2.estado='ACT' AND pd2 .polizaid =p.id \n                      group by polizaid) detalle\n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join contratante c on c.id=p.contratanteid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n             inner join tipo_ramo t on t.id=p.tiporamoid  \n            where  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='" + tiporamoid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3299,7 +3299,7 @@ function _getPolizasPorEmpresaYTipo() {
             _req$params9 = req.params, empresaid = _req$params9.empresaid, tipopolizaid = _req$params9.tipopolizaid, tiporamoid = _req$params9.tiporamoid;
             _context30.prev = 1;
             _context30.next = 4;
-            return _database.sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion \n            ,p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro \n             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo \n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join contratante c on c.id=p.contratanteid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n             inner join tipo_ramo t on t.id=p.tiporamoid  \n            where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion \n            ,p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro \n             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) \n             from poliza_detalles pd2   \n             inner join atributo a on a.id=pd2.atributoid and a.importante =true\n             where pd2.estado='ACT' AND pd2 .polizaid =p.id \n                      group by polizaid) detalle\n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join contratante c on c.id=p.contratanteid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            inner join memo m on m.polizaid=p.id and m.estado='ACT' \n             inner join tipo_ramo t on t.id=p.tiporamoid  \n            where  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') and  p.tpoliza='" + tipopolizaid + "' and p.tiporamoid='" + tiporamoid + "' order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3348,13 +3348,44 @@ function _getBuscarPolizasDetallePorSucursal() {
             dato = req.body.dato;
             _context31.prev = 2;
             _context31.next = 5;
-            return _database.sequelize.query("\tselect p.*\n        from poliza p \n        inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%') \n        and  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  \n        \n        union \n        \n        select p.*\n        from poliza p \n       inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) \n        and  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER') \n        \n        union \n        \n        select p.*\n        from poliza p \n       inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' ) \n        and  s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')\n\n        order by p.fechamodificacion desc  " //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+            return _database.sequelize.query("\tselect p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id and pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid\n        inner join sub_ramo_compania sr on sr.id=subramocompaniaid\n        inner join ramo r on r.id=sr.ramoid\n        inner join compania_seguro cs  on cs.id=p.companiaseguroid \n        where (pda2.valor  like '%" + dato + "%' )\n        and   s.id= '" + sucursalid + "'   and p.estado IN ('ACT','CER')\n        order by fechamodificacion desc  " //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
             , {
               type: QueryTypes.SELECT
             });
 
           case 5:
             polizas = _context31.sent;
+
+            /*  const polizas = await sequelize.query(`	select p.*
+             from poliza p 
+             inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  
+             inner join sucursal s on s.id=p.sucursalid  
+             where (pda2.placa like '%`+ dato + `%' or pda2.colorvehiculo like '%` + dato + `%' or pda2.marcavehiculo like '%` + dato + `%' or pda2.titular like '%` + dato + `%') 
+             and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  
+             
+             union 
+             
+             select p.*
+             from poliza p 
+            inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  
+             inner join sucursal s on s.id=p.sucursalid  
+             where (pda2.direccion like '%`+ dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
+             and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER') 
+             
+             union 
+             
+             select p.*
+             from poliza p 
+            inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  
+             inner join sucursal s on s.id=p.sucursalid  
+             where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' ) 
+             and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')
+               order by p.fechamodificacion desc  `
+                 //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+                 , {
+                     type: QueryTypes.SELECT
+                 });
+            */
             res.json({
               data: polizas
             });
@@ -3398,7 +3429,7 @@ function _getBuscarPolizasDetallePorEmpresa() {
             dato = req.body.dato;
             _context32.prev = 2;
             _context32.next = 5;
-            return _database.sequelize.query("\tselect p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro\n        from poliza p \n        inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join sub_ramo_compania sr on sr.id=subramocompaniaid\n        inner join ramo r on r.id=sr.ramoid       \n        inner join compania_seguro cs  on cs.id=p.companiaseguroid \n        where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%'\n        or pda2.nrocertificado like '%" + dato + "%') \n        and  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER')  \n        \n        union \n        \n        select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro\n        from poliza p \n       inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join sub_ramo_compania sr on sr.id=subramocompaniaid\n        inner join ramo r on r.id=sr.ramoid       \n        inner join compania_seguro cs  on cs.id=p.companiaseguroid \n        where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) \n        and  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER') \n        \n        union \n        \n        select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro\n        from poliza p \n       inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join sub_ramo_compania sr on sr.id=subramocompaniaid\n        inner join ramo r on r.id=sr.ramoid       \n        inner join compania_seguro cs  on cs.id=p.companiaseguroid \n        where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) \n        and  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER')\n\n\n        order by fechamodificacion desc  " //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+            return _database.sequelize.query("\tselect p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro\n            from poliza p \n            inner join poliza_detalles pda2 on pda2 .polizaid =p.id and pda2.estado='ACT'\n            inner join sucursal s on s.id=p.sucursalid\n            inner join sub_ramo_compania sr on sr.id=subramocompaniaid\n            inner join ramo r on r.id=sr.ramoid\n            inner join compania_seguro cs  on cs.id=p.companiaseguroid \n            where (pda2.valor  like '%" + dato + "%' )\n            and  s.empresaid= '" + empresaid + "'  and p.estado IN ('ACT','CER')\n            order by fechamodificacion desc  " //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
             , {
               type: QueryTypes.SELECT
             });
@@ -3447,7 +3478,7 @@ function _getPolizasDetalleAutomotorPorSucursalYTipo() {
             _req$params10 = req.params, dato = _req$params10.dato, sucursalid = _req$params10.sucursalid, tipopolizaid = _req$params10.tipopolizaid;
             _context33.prev = 1;
             _context33.next = 4;
-            return _database.sequelize.query("select p.*\n            from poliza p \n            inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  \n            inner join sucursal s on s.id=p.sucursalid  \n            where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%') s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.valor  like '%" + dato + "%' ) and s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3495,7 +3526,7 @@ function _getPolizasDetalleAutomotorPorEmpresaYTipo() {
             _req$params11 = req.params, dato = _req$params11.dato, empresaid = _req$params11.empresaid, tipopolizaid = _req$params11.tipopolizaid;
             _context34.prev = 1;
             _context34.next = 4;
-            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.placa like '%" + dato + "%' or pda2.colorvehiculo like '%" + dato + "%' or pda2.marcavehiculo like '%" + dato + "%' or pda2.titular like '%" + dato + "%') e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.valor  like '%" + dato + "%' ) and e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3543,7 +3574,7 @@ function _getPolizasDetalleGeneralPorSucursalYTipo() {
             _req$params12 = req.params, dato = _req$params12.dato, sucursalid = _req$params12.sucursalid, tipopolizaid = _req$params12.tipopolizaid;
             _context35.prev = 1;
             _context35.next = 4;
-            return _database.sequelize.query("select p.*\n            from poliza p \n            inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  \n            inner join sucursal s on s.id=p.sucursalid  \n            where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.valor  like '%" + dato + "%' ) and s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3591,7 +3622,7 @@ function _getPolizasDetalleGeneralPorEmpresaYTipo() {
             _req$params13 = req.params, dato = _req$params13.dato, empresaid = _req$params13.empresaid, tipopolizaid = _req$params13.tipopolizaid;
             _context36.prev = 1;
             _context36.next = 4;
-            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.direccion like '%" + dato + "%' or pda2.nrocertificado like '%" + dato + "%' ) e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.valor  like '%" + dato + "%' ) and e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3639,7 +3670,7 @@ function _getPolizasDetalleSaludPorSucursalYTipo() {
             _req$params14 = req.params, dato = _req$params14.dato, sucursalid = _req$params14.sucursalid, tipopolizaid = _req$params14.tipopolizaid;
             _context37.prev = 1;
             _context37.next = 4;
-            return _database.sequelize.query("select p.*\n            from poliza p \n            inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  \n            inner join sucursal s on s.id=p.sucursalid  \n            where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' ) s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        where (pda2.valor  like '%" + dato + "%' ) and s.id= '" + sucursalid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3687,7 +3718,7 @@ function _getPolizasDetalleSaludPorEmpresaYTipo() {
             _req$params15 = req.params, dato = _req$params15.dato, empresaid = _req$params15.empresaid, tipopolizaid = _req$params15.tipopolizaid;
             _context38.prev = 1;
             _context38.next = 4;
-            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  \n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.tipoasegurado like '%" + dato + "%' or pda2.titular like '%" + dato + "%' ) e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.*\n        from poliza p \n        inner join poliza_detalles pda2 on pda2 .polizaid =p.id  pda2.estado='ACT'\n        inner join sucursal s on s.id=p.sucursalid  \n        inner join empresa e on e.id =s.empresaid  \n        where (pda2.valor  like '%" + dato + "%' ) and e.id= '" + empresaid + "'  and p.estado IN ('ACT','CER')  and  p.tpoliza='" + tipopolizaid + "'  order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
