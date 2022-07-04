@@ -230,13 +230,16 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
 
 });
 
-router.get('/comisionPorCobrar/:id', function (req, res, next) {
-  const { id } = req.params;
+router.post('/comisionPorCobrar', function (req, res, next) {
+  //const { id } = req.params;
+  const body = JSON.stringify(req.body);
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-    const dir = urlReporte + "/comisionPorCobrar/" + id;
-    request.get({
-      url: dir
+    const dir = urlReporte + "/comisionPorCobrar" ;
+    request.post({
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      url: dir,
+      body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
