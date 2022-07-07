@@ -1,6 +1,7 @@
 import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
 import Siniestro from "../models/Siniestro";
+import Archivo from "../models/Archivo";
 
 export async function getSiniestros(req, res) {
     try {
@@ -30,7 +31,7 @@ export async function createSiniestro(req, res) {
         usuariomodificacion,
         idpolizadetalle,
         polizaid,
-        sucursalid } = req.body;
+        sucursalid,archivos } = req.body;
     try {
         //const transaction= sequelize.transaction;
         let newSiniestro = await Siniestro.create({
@@ -74,6 +75,39 @@ export async function createSiniestro(req, res) {
                 'polizaid',
                 'sucursalid']
         });
+
+
+        for (let i = 0; i < archivos.length; i++) {
+            // listaPermisos.push( 
+            await Archivo.create({
+                codigo: newSiniestro.id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,
+                sucursalid: sucursalid,
+                usuarioregistro:usuarioregistro,
+                usuariomodificacion: usuarioregistro,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            });
+
+
+        }
         if (newSiniestro) {
             return res.json({
                 message: 'Siniestro created successfully',
@@ -105,7 +139,7 @@ export async function updateSiniestro(req, res) {
         usuariomodificacion,
         idpolizadetalle,
         polizaid,
-        sucursalid } = req.body;
+        sucursalid, archivos, archivoseliminados } = req.body;
     try {
         const updateRowCount = await Siniestro.update({
             fechanotificacion,
@@ -130,6 +164,49 @@ export async function updateSiniestro(req, res) {
                 id
             }
         });
+
+
+         //ARCHIVOS ELIMINADOS
+         for (let i = 0; i < archivoseliminados.length; i++) {
+
+            await Archivo.update({
+                estado: 'BAJ',
+                fechamodificacion: new Date()
+            }, { where: { id: archivoseliminados[i].id } }, { transaction: t });
+
+        }
+        // REGISTRO DE ARCHIVOS NUEVOS
+        for (let i = 0; i < archivos.length; i++) {
+
+            await Archivo.create({
+                codigo: id,
+                nombre: archivos[i].nombre,
+                descripcion: archivos[i].nombre,
+                extension: archivos[i].extension,
+                archivo: archivos[i].archivo,   
+                sucursalid: sucursalid,
+                usuarioregistro: usuariomodificacion,
+                usuariomodificacion: usuariomodificacion,
+                fecharegistro: new Date(),
+                fechamodificacion: new Date(),
+                estado: 'ACT'
+            }, {
+                fields: [
+                    'codigo',
+                    'nombre',
+                    'descripcion',
+                    'extension',
+                    'archivo',
+                    'aseguradoid',
+                    'sucursalid',
+                    'usuarioregistro',
+                    'usuariomodificacion',
+                    'fecharegistro',
+                    'fechamodificacion',
+                    'estado']
+            }, { transaction: t });
+
+        }
 
         const siniestros = await Siniestro.findOne({
             where: {

@@ -18,6 +18,8 @@ var _database = require("../database/database");
 
 var _Siniestro = _interopRequireDefault(require("../models/Siniestro"));
 
+var _Archivo = _interopRequireDefault(require("../models/Archivo"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -75,13 +77,13 @@ function createSiniestro(_x3, _x4) {
 
 function _createSiniestro() {
   _createSiniestro = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, fechanotificacion, fechasiniestro, comentarioinicial, resumenejecutivo, resumenfinal, montoindemnizar, fecharecordatoria, notarecordatoria, tpoliza, status, encargadoid, usuarioregistro, usuariomodificacion, idpolizadetalle, polizaid, sucursalid, newSiniestro;
+    var _req$body, fechanotificacion, fechasiniestro, comentarioinicial, resumenejecutivo, resumenfinal, montoindemnizar, fecharecordatoria, notarecordatoria, tpoliza, status, encargadoid, usuarioregistro, usuariomodificacion, idpolizadetalle, polizaid, sucursalid, archivos, newSiniestro, i;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, fechanotificacion = _req$body.fechanotificacion, fechasiniestro = _req$body.fechasiniestro, comentarioinicial = _req$body.comentarioinicial, resumenejecutivo = _req$body.resumenejecutivo, resumenfinal = _req$body.resumenfinal, montoindemnizar = _req$body.montoindemnizar, fecharecordatoria = _req$body.fecharecordatoria, notarecordatoria = _req$body.notarecordatoria, tpoliza = _req$body.tpoliza, status = _req$body.status, encargadoid = _req$body.encargadoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, idpolizadetalle = _req$body.idpolizadetalle, polizaid = _req$body.polizaid, sucursalid = _req$body.sucursalid;
+            _req$body = req.body, fechanotificacion = _req$body.fechanotificacion, fechasiniestro = _req$body.fechasiniestro, comentarioinicial = _req$body.comentarioinicial, resumenejecutivo = _req$body.resumenejecutivo, resumenfinal = _req$body.resumenfinal, montoindemnizar = _req$body.montoindemnizar, fecharecordatoria = _req$body.fecharecordatoria, notarecordatoria = _req$body.notarecordatoria, tpoliza = _req$body.tpoliza, status = _req$body.status, encargadoid = _req$body.encargadoid, usuarioregistro = _req$body.usuarioregistro, usuariomodificacion = _req$body.usuariomodificacion, idpolizadetalle = _req$body.idpolizadetalle, polizaid = _req$body.polizaid, sucursalid = _req$body.sucursalid, archivos = _req$body.archivos;
             _context2.prev = 1;
             _context2.next = 4;
             return _Siniestro["default"].create({
@@ -110,9 +112,39 @@ function _createSiniestro() {
 
           case 4:
             newSiniestro = _context2.sent;
+            i = 0;
 
+          case 6:
+            if (!(i < archivos.length)) {
+              _context2.next = 12;
+              break;
+            }
+
+            _context2.next = 9;
+            return _Archivo["default"].create({
+              codigo: newSiniestro.id,
+              nombre: archivos[i].nombre,
+              descripcion: archivos[i].nombre,
+              extension: archivos[i].extension,
+              archivo: archivos[i].archivo,
+              sucursalid: sucursalid,
+              usuarioregistro: usuarioregistro,
+              usuariomodificacion: usuarioregistro,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
+              estado: 'ACT'
+            }, {
+              fields: ['codigo', 'nombre', 'descripcion', 'extension', 'archivo', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
+            });
+
+          case 9:
+            i++;
+            _context2.next = 6;
+            break;
+
+          case 12:
             if (!newSiniestro) {
-              _context2.next = 7;
+              _context2.next = 14;
               break;
             }
 
@@ -121,12 +153,12 @@ function _createSiniestro() {
               data: newSiniestro
             }));
 
-          case 7:
-            _context2.next = 13;
+          case 14:
+            _context2.next = 20;
             break;
 
-          case 9:
-            _context2.prev = 9;
+          case 16:
+            _context2.prev = 16;
             _context2.t0 = _context2["catch"](1);
             console.log(_context2.t0);
             res.status(500).json({
@@ -136,12 +168,12 @@ function _createSiniestro() {
               }
             });
 
-          case 13:
+          case 20:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 9]]);
+    }, _callee2, null, [[1, 16]]);
   }));
   return _createSiniestro.apply(this, arguments);
 }
@@ -152,14 +184,14 @@ function updateSiniestro(_x5, _x6) {
 
 function _updateSiniestro() {
   _updateSiniestro = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, _req$body2, fechanotificacion, fechasiniestro, comentarioinicial, resumenejecutivo, resumenfinal, montoindemnizar, fecharecordatoria, notarecordatoria, tpoliza, status, encargadoid, usuarioregistro, usuariomodificacion, idpolizadetalle, polizaid, sucursalid, updateRowCount, siniestros;
+    var id, _req$body2, fechanotificacion, fechasiniestro, comentarioinicial, resumenejecutivo, resumenfinal, montoindemnizar, fecharecordatoria, notarecordatoria, tpoliza, status, encargadoid, usuarioregistro, usuariomodificacion, idpolizadetalle, polizaid, sucursalid, archivos, archivoseliminados, updateRowCount, i, _i, siniestros;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             id = req.params.id;
-            _req$body2 = req.body, fechanotificacion = _req$body2.fechanotificacion, fechasiniestro = _req$body2.fechasiniestro, comentarioinicial = _req$body2.comentarioinicial, resumenejecutivo = _req$body2.resumenejecutivo, resumenfinal = _req$body2.resumenfinal, montoindemnizar = _req$body2.montoindemnizar, fecharecordatoria = _req$body2.fecharecordatoria, notarecordatoria = _req$body2.notarecordatoria, tpoliza = _req$body2.tpoliza, status = _req$body2.status, encargadoid = _req$body2.encargadoid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, idpolizadetalle = _req$body2.idpolizadetalle, polizaid = _req$body2.polizaid, sucursalid = _req$body2.sucursalid;
+            _req$body2 = req.body, fechanotificacion = _req$body2.fechanotificacion, fechasiniestro = _req$body2.fechasiniestro, comentarioinicial = _req$body2.comentarioinicial, resumenejecutivo = _req$body2.resumenejecutivo, resumenfinal = _req$body2.resumenfinal, montoindemnizar = _req$body2.montoindemnizar, fecharecordatoria = _req$body2.fecharecordatoria, notarecordatoria = _req$body2.notarecordatoria, tpoliza = _req$body2.tpoliza, status = _req$body2.status, encargadoid = _req$body2.encargadoid, usuarioregistro = _req$body2.usuarioregistro, usuariomodificacion = _req$body2.usuariomodificacion, idpolizadetalle = _req$body2.idpolizadetalle, polizaid = _req$body2.polizaid, sucursalid = _req$body2.sucursalid, archivos = _req$body2.archivos, archivoseliminados = _req$body2.archivoseliminados;
             _context3.prev = 2;
             _context3.next = 5;
             return _Siniestro["default"].update({
@@ -188,24 +220,83 @@ function _updateSiniestro() {
 
           case 5:
             updateRowCount = _context3.sent;
-            _context3.next = 8;
+            i = 0;
+
+          case 7:
+            if (!(i < archivoseliminados.length)) {
+              _context3.next = 13;
+              break;
+            }
+
+            _context3.next = 10;
+            return _Archivo["default"].update({
+              estado: 'BAJ',
+              fechamodificacion: new Date()
+            }, {
+              where: {
+                id: archivoseliminados[i].id
+              }
+            }, {
+              transaction: t
+            });
+
+          case 10:
+            i++;
+            _context3.next = 7;
+            break;
+
+          case 13:
+            _i = 0;
+
+          case 14:
+            if (!(_i < archivos.length)) {
+              _context3.next = 20;
+              break;
+            }
+
+            _context3.next = 17;
+            return _Archivo["default"].create({
+              codigo: id,
+              nombre: archivos[_i].nombre,
+              descripcion: archivos[_i].nombre,
+              extension: archivos[_i].extension,
+              archivo: archivos[_i].archivo,
+              sucursalid: sucursalid,
+              usuarioregistro: usuariomodificacion,
+              usuariomodificacion: usuariomodificacion,
+              fecharegistro: new Date(),
+              fechamodificacion: new Date(),
+              estado: 'ACT'
+            }, {
+              fields: ['codigo', 'nombre', 'descripcion', 'extension', 'archivo', 'aseguradoid', 'sucursalid', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado']
+            }, {
+              transaction: t
+            });
+
+          case 17:
+            _i++;
+            _context3.next = 14;
+            break;
+
+          case 20:
+            _context3.next = 22;
             return _Siniestro["default"].findOne({
               where: {
                 id: id
               }
             });
 
-          case 8:
+          case 22:
             siniestros = _context3.sent;
             res.json({
               message: 'Siniestro update successfully',
               count: siniestros
             });
-            _context3.next = 16;
+            _context3.next = 30;
             break;
 
-          case 12:
-            _context3.prev = 12;
+          case 26:
+            _context3.prev = 26;
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
             res.status(500).json({
@@ -215,12 +306,12 @@ function _updateSiniestro() {
               }
             });
 
-          case 16:
+          case 30:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 12]]);
+    }, _callee3, null, [[2, 26]]);
   }));
   return _updateSiniestro.apply(this, arguments);
 }
