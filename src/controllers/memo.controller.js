@@ -666,7 +666,7 @@ export async function getTotalProduccionMemoPorEmpresa(req, res) {
         inner join sucursal s on s.id =p.sucursalid
         inner join empresa e on e.id =s.empresaid
         where m.estado  in ('ACT') and 
-        extract(year from  m.fechamemo)=  extract(year from  now()) and extract(month  from   m.fechamemo)=  extract(month from  now())
+        extract(year from  m.fechamemo)=  extract(year from  now()) and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
          and  e.id  ='` + empresaid + `' group by p.ingresoegreso)
         
         select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
@@ -701,7 +701,7 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
             from memo m  
             inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  
             where m.estado  in ('ACT') and 
-            extract(year from  m.fechamemo)=  extract(year from  now()) and extract(month  from   m.fechamemo)=  extract(month from  now())
+            extract(year from  m.fechamemo)=  extract(year from  now()) and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
              and m.sucursalid ='` + sucursalid + `'
             group by p.ingresoegreso 
             )
