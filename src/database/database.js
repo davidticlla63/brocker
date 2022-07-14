@@ -18,7 +18,10 @@ export const sequelize = new Sequelize(
             max: 5,
             min: 0,
             require: 30000,
-            idle: 10000
+            idle: 10000,
+            acquire: 10000,
+            evict: 60000,
+            handleDisconnects: true
         },
         logging: false
     }
