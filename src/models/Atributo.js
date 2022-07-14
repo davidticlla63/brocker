@@ -12,6 +12,7 @@ const Atributo = sequelize.define('Atributo', {
     tipo:Sequelize.STRING,
     obligatorio:Sequelize.BOOLEAN,
     valordefecto:Sequelize.STRING,
+    importante:Sequelize.BOOLEAN,
     //tipopoliza:Sequelize.STRING,
     usuarioregistro:Sequelize.STRING,
     usuariomodificacion:Sequelize.STRING,

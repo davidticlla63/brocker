@@ -230,13 +230,16 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
 
 });
 
-router.get('/comisionPorCobrar/:id', function (req, res, next) {
-  const { id } = req.params;
+router.post('/comisionPorCobrar', function (req, res, next) {
+  //const { id } = req.params;
+  const body = JSON.stringify(req.body);
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-    const dir = urlReporte + "/comisionPorCobrar/" + id;
-    request.get({
-      url: dir
+    const dir = urlReporte + "/comisionPorCobrar" ;
+    request.post({
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      url: dir,
+      body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
@@ -554,6 +557,63 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/polizasAutomotorVencimiento";
+    request.post({
+      /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      url: dir,
+      body
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+      const data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: { estado: false, "error": error.message }
+    });
+  }
+
+});
+
+
+/**REPORTE DE PAGOS REALIZADOS */
+router.post('/pagosRealizados/:tipo', function (req, res, next) {
+  const body = JSON.stringify(req.body);
+  const { tipo } = req.params;
+  try {
+    const dir = urlReporte + "/pagosRealizados/"+tipo;
+    request.post({
+      /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      url: dir,
+      body
+    }, function (err, response, body) {
+      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
+      const data = response.body;
+      res.json({
+        data: data
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: { estado: false, "error": error.message }
+    });
+  }
+
+});
+
+/**REPORTE DE SINIESTROS REALIZADOS */
+router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
+  const body = JSON.stringify(req.body);
+  const { tipo } = req.params;
+  try {
+    const dir = urlReporte + "/siniestrosRealizados/"+tipo;
     request.post({
       /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: { 'Content-Type': 'application/json;charset=utf-8' },

@@ -15,10 +15,10 @@ export const sequelize = new Sequelize(
         },
         timezone: '-04:00',  /// -->Add this line. for writing to database 
         pool: {
-            max: 5,
+            max: 20,
             min: 0,
             require: 30000,
-            idle: 10000,
+            idle: 60000,
             acquire: 10000,
             evict: 60000,
             handleDisconnects: true

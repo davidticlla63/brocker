@@ -662,10 +662,13 @@ export async function getTotalProduccionMemoPorEmpresa(req, res) {
 
         let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
         from memo m
-        inner join poliza p on p.id=m.polizaid
+        inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')
         inner join sucursal s on s.id =p.sucursalid
         inner join empresa e on e.id =s.empresaid
-        where m.estado  in ('ACT') and  e.id  ='` + empresaid + `' group by p.ingresoegreso)
+        where m.estado  in ('ACT') and 
+        extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
+        and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
+         and  e.id  ='` + empresaid + `' group by p.ingresoegreso)
         
         select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
 
@@ -697,8 +700,11 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
 
             let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
             from memo m  
-            inner join poliza p on p.id=m.polizaid  
-            where m.estado  in ('ACT') and m.sucursalid ='` + sucursalid + `'
+            inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  
+            where m.estado  in ('ACT') and 
+            extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
+            and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
+             and m.sucursalid ='` + sucursalid + `'
             group by p.ingresoegreso 
             )
             
