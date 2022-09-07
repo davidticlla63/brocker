@@ -2788,7 +2788,7 @@ export async function getPolizasPorSucursalYTipo(req, res) {
     try {
 
         const polizas = await sequelize.query(`select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
-            ,p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro 
+            ,p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro ,p.sucursalid,p.companiaseguroid
              ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo  ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
              from poliza_detalles pd2   
              inner join atributo a on a.id=pd2.atributoid and a.importante =true
@@ -2834,7 +2834,7 @@ export async function getPolizasPorEmpresaYTipo(req, res) {
     try {
 
         const polizas = await sequelize.query(`select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
-            ,p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro 
+            ,p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro ,p.sucursalid,p.companiaseguroid
              ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
              from poliza_detalles pd2   
              inner join atributo a on a.id=pd2.atributoid and a.importante =true
