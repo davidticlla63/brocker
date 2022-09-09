@@ -1935,7 +1935,10 @@ CREATE TABLE IF NOT EXISTS poliza(
     sucursalid character varying REFERENCES sucursal(id),
     planid character varying REFERENCES plan(id),
     polizaid character varying REFERENCES poliza(id),
-    nro serial not null
+    nro serial not null,
+    primatotalsus decimal default 0, 
+    primanetasus decimal default 0, 
+    valoraseguradosus decimal default 0
 );
 
 CREATE TABLE IF NOT EXISTS poliza_detalle(

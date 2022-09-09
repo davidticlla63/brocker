@@ -660,7 +660,7 @@ export async function getTotalProduccionMemoPorEmpresa(req, res) {
         inner join sucursal s on s.id =p.sucursalid  
         inner join empresa e on e.id =s.empresaid where m.estado  in ('ACT') and e.id = '` + empresaid + `'`; */
 
-        let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
+        let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primanetasus) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primanetasus) else 0 end)  totalvalorasegurado 
         from memo m
         inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')
         inner join sucursal s on s.id =p.sucursalid

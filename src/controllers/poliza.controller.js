@@ -81,6 +81,12 @@ export async function createPolizaGenerica(req, res) {
         } else {
             ingresoegreso = 'I'
         }
+        let primatotalsus = 0, primanetasus = 0, valoraseguradosus = 0
+        if (tipomoneda == 'BOL') {
+            primatotalsus = primatotal / tipocambio, primanetasus = primaneta / tipocambio, valoraseguradosus = valorasegurado / tipocambio
+        } else {
+            primatotalsus = primatotal, primanetasus = primaneta, valoraseguradosus = valorasegurado
+        }
         //const transaction= sequelize.transaction;
         newPoliza = await Poliza.create({
             nropoliza,
@@ -127,7 +133,8 @@ export async function createPolizaGenerica(req, res) {
             estado,
             sucursalid,
             planid,
-            polizaid
+            polizaid,
+            primatotalsus, primanetasus, valoraseguradosus
         }, {
             fields: ['nropoliza',
                 'nrocertificado',
@@ -174,7 +181,8 @@ export async function createPolizaGenerica(req, res) {
                 'estado',
                 'sucursalid',
                 'planid',
-                'polizaid']
+                'polizaid',
+                'primatotalsus', 'primanetasus', 'valoraseguradosus']
         }, { transaction: t });
         // step 2  archivos
         // if( archivos!) 
@@ -214,10 +222,10 @@ export async function createPolizaGenerica(req, res) {
         //DETALLE GENERAL
         if (detalle) {
             for (let i = 0; i < detalle.length; i++) {
-              await PolizaDetalles.create({
+                await PolizaDetalles.create({
                     numerodetalle: detalle[i].numerodetalle,
                     valor: detalle[i].valor,
-                    usuarioregistro:newPoliza.usuarioregistro,
+                    usuarioregistro: newPoliza.usuarioregistro,
                     fecharegistro: new Date(),
                     fechamodificacion: new Date(),
                     estado: 'ACT',
@@ -225,20 +233,20 @@ export async function createPolizaGenerica(req, res) {
                     atributoid: detalle[i].atributoid,
 
                 },
-                {
-                    fields: [
-                        'numerodetalle',
-                        'valor',
-                        'usuarioregistro',
-                        'fecharegistro',
-                        'fechamodificacion',
-                        'estado',
-                        'polizaid',
-                        'atributoid'
-                    ],
-                },
+                    {
+                        fields: [
+                            'numerodetalle',
+                            'valor',
+                            'usuarioregistro',
+                            'fecharegistro',
+                            'fechamodificacion',
+                            'estado',
+                            'polizaid',
+                            'atributoid'
+                        ],
+                    },
 
-                { transaction: t });
+                    { transaction: t });
             }
 
         }
@@ -332,6 +340,12 @@ export async function updatePolizaGenerica(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
+        let primatotalsus = 0, primanetasus = 0, valoraseguradosus = 0
+        if (tipomoneda == 'BOL') {
+            primatotalsus = primatotal / tipocambio, primanetasus = primaneta / tipocambio, valoraseguradosus = valorasegurado / tipocambio
+        } else {
+            primatotalsus = primatotal, primanetasus = primaneta, valoraseguradosus = valorasegurado
+        }
         const updateRowCount = await Poliza.update({
             nropoliza,
             nrocertificado,
@@ -375,7 +389,8 @@ export async function updatePolizaGenerica(req, res) {
             fechamodificacion: new Date(),
             estado,
             sucursalid,
-            planid
+            planid,
+            primatotalsus, primanetasus, valoraseguradosus
         }, {
             where: {
                 id
@@ -431,7 +446,7 @@ export async function updatePolizaGenerica(req, res) {
                 await PolizaDetalles.update({
                     estado: 'BAJ',
                     fechamodificacion: new Date()
-                }, { where: { numerodetalle: eliminadosdetalle[i].numerodetalle,id:eliminadosdetalle[i].id } }, { transaction: t });
+                }, { where: { numerodetalle: eliminadosdetalle[i].numerodetalle, id: eliminadosdetalle[i].id } }, { transaction: t });
 
             }
         }
@@ -2889,37 +2904,37 @@ export async function getBuscarPolizasDetallePorSucursal(req, res) {
             });
 
 
-       /*  const polizas = await sequelize.query(`	select p.*
-        from poliza p 
-        inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        where (pda2.placa like '%`+ dato + `%' or pda2.colorvehiculo like '%` + dato + `%' or pda2.marcavehiculo like '%` + dato + `%' or pda2.titular like '%` + dato + `%') 
-        and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  
-        
-        union 
-        
-        select p.*
-        from poliza p 
-       inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        where (pda2.direccion like '%`+ dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
-        and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER') 
-        
-        union 
-        
-        select p.*
-        from poliza p 
-       inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' ) 
-        and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')
-
-        order by p.fechamodificacion desc  `
-            //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-            , {
-                type: QueryTypes.SELECT
-            });
- */
+        /*  const polizas = await sequelize.query(`	select p.*
+         from poliza p 
+         inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  
+         inner join sucursal s on s.id=p.sucursalid  
+         where (pda2.placa like '%`+ dato + `%' or pda2.colorvehiculo like '%` + dato + `%' or pda2.marcavehiculo like '%` + dato + `%' or pda2.titular like '%` + dato + `%') 
+         and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  
+         
+         union 
+         
+         select p.*
+         from poliza p 
+        inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  
+         inner join sucursal s on s.id=p.sucursalid  
+         where (pda2.direccion like '%`+ dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
+         and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER') 
+         
+         union 
+         
+         select p.*
+         from poliza p 
+        inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  
+         inner join sucursal s on s.id=p.sucursalid  
+         where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' ) 
+         and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')
+ 
+         order by p.fechamodificacion desc  `
+             //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+             , {
+                 type: QueryTypes.SELECT
+             });
+  */
 
         res.json({ data: polizas });
     } catch (e) {
@@ -2936,49 +2951,49 @@ export async function getBuscarPolizasDetallePorEmpresa(req, res) {
     const { dato } = req.body;
     try {
 
-      /*   const polizas = await sequelize.query(`	select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
-        from poliza p 
-        inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        inner join sub_ramo_compania sr on sr.id=subramocompaniaid
-        inner join ramo r on r.id=sr.ramoid       
-        inner join compania_seguro cs  on cs.id=p.companiaseguroid 
-        where (pda2.placa like '%`+ dato + `%' or pda2.colorvehiculo like '%` + dato + `%' or pda2.marcavehiculo like '%` + dato + `%' or pda2.titular like '%` + dato + `%'
-        or pda2.nrocertificado like '%`+ dato + `%') 
-        and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER')  
-        
-        union 
-        
-        select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
-        from poliza p 
-       inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        inner join sub_ramo_compania sr on sr.id=subramocompaniaid
-        inner join ramo r on r.id=sr.ramoid       
-        inner join compania_seguro cs  on cs.id=p.companiaseguroid 
-        where (pda2.direccion like '%`+ dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
-        and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER') 
-        
-        union 
-        
-        select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
-        from poliza p 
-       inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  
-        inner join sucursal s on s.id=p.sucursalid  
-        inner join sub_ramo_compania sr on sr.id=subramocompaniaid
-        inner join ramo r on r.id=sr.ramoid       
-        inner join compania_seguro cs  on cs.id=p.companiaseguroid 
-        where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
-        and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER')
+        /*   const polizas = await sequelize.query(`	select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
+          from poliza p 
+          inner join poliza_detalle_automotor pda2 on pda2 .polizaid =p.id  
+          inner join sucursal s on s.id=p.sucursalid  
+          inner join sub_ramo_compania sr on sr.id=subramocompaniaid
+          inner join ramo r on r.id=sr.ramoid       
+          inner join compania_seguro cs  on cs.id=p.companiaseguroid 
+          where (pda2.placa like '%`+ dato + `%' or pda2.colorvehiculo like '%` + dato + `%' or pda2.marcavehiculo like '%` + dato + `%' or pda2.titular like '%` + dato + `%'
+          or pda2.nrocertificado like '%`+ dato + `%') 
+          and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER')  
+          
+          union 
+          
+          select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
+          from poliza p 
+         inner join poliza_detalle_general pda2 on pda2 .polizaid =p.id  
+          inner join sucursal s on s.id=p.sucursalid  
+          inner join sub_ramo_compania sr on sr.id=subramocompaniaid
+          inner join ramo r on r.id=sr.ramoid       
+          inner join compania_seguro cs  on cs.id=p.companiaseguroid 
+          where (pda2.direccion like '%`+ dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
+          and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER') 
+          
+          union 
+          
+          select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
+          from poliza p 
+         inner join poliza_detalle_persona pda2 on pda2 .polizaid =p.id  
+          inner join sucursal s on s.id=p.sucursalid  
+          inner join sub_ramo_compania sr on sr.id=subramocompaniaid
+          inner join ramo r on r.id=sr.ramoid       
+          inner join compania_seguro cs  on cs.id=p.companiaseguroid 
+          where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' or pda2.nrocertificado like '%` + dato + `%' ) 
+          and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER')
+  
+  
+          order by fechamodificacion desc  `
+              //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+              , {
+                  type: QueryTypes.SELECT
+              }); */
 
-
-        order by fechamodificacion desc  `
-            //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-            , {
-                type: QueryTypes.SELECT
-            }); */
-
-            const polizas = await sequelize.query(`	select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
+        const polizas = await sequelize.query(`	select p.*,s.nombre sucursal,r.nombre ramo,cs.nombre companiaseguro
             from poliza p 
             inner join poliza_detalles pda2 on pda2 .polizaid =p.id and pda2.estado='ACT'
             inner join sucursal s on s.id=p.sucursalid
@@ -2988,10 +3003,10 @@ export async function getBuscarPolizasDetallePorEmpresa(req, res) {
             where (pda2.valor  like '%`+ dato + `%' )
             and  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER')
             order by fechamodificacion desc  `
-                //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-                , {
-                    type: QueryTypes.SELECT
-                });
+            //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
+            , {
+                type: QueryTypes.SELECT
+            });
 
 
         res.json({ data: polizas });
@@ -3012,9 +3027,9 @@ export async function getPolizasDetalleAutomotorPorSucursalYTipo(req, res) {
         inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'
         inner join sucursal s on s.id=p.sucursalid  
         where (pda2.valor  like '%`+ dato + `%' ) and s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-        , {
-            type: QueryTypes.SELECT
-        });
+            , {
+                type: QueryTypes.SELECT
+            });
 
 
         res.json({ data: polizas });
@@ -3058,9 +3073,9 @@ export async function getPolizasDetalleGeneralPorSucursalYTipo(req, res) {
         inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'
         inner join sucursal s on s.id=p.sucursalid  
         where (pda2.valor  like '%`+ dato + `%' ) and s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-        , {
-            type: QueryTypes.SELECT
-        });
+            , {
+                type: QueryTypes.SELECT
+            });
 
 
 
@@ -3106,9 +3121,9 @@ export async function getPolizasDetalleSaludPorSucursalYTipo(req, res) {
         inner join poliza_detalles pda2 on pda2 .polizaid =p.id  and pda2.estado='ACT'
         inner join sucursal s on s.id=p.sucursalid  
         where (pda2.valor  like '%`+ dato + `%' ) and s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
-        , {
-            type: QueryTypes.SELECT
-        });
+            , {
+                type: QueryTypes.SELECT
+            });
 
 
         res.json({ data: polizas });

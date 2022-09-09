@@ -53,6 +53,9 @@ var Poliza = _database.sequelize.define('Poliza', {
   tipoemision: _sequelize["default"].STRING,
   franquicia: _sequelize["default"].DECIMAL,
   //agregar
+  primatotalsus: _sequelize["default"].DECIMAL,
+  primanetasus: _sequelize["default"].DECIMAL,
+  valoraseguradosus: _sequelize["default"].DECIMAL,
   comisionbs: _sequelize["default"].DECIMAL,
   comisionusd: _sequelize["default"].DECIMAL,
   tipocambio: _sequelize["default"].DECIMAL,

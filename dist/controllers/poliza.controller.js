@@ -131,7 +131,7 @@ function createPolizaGenerica(_x3, _x4) {
 
 function _createPolizaGenerica() {
   _createPolizaGenerica = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, archivos, detalle, usuarioregistro, usuariomodificacion, _req$body$estado, estado, sucursalid, planid, polizaid, newPoliza, t, ingresoegreso, i, _i, QUERY, poliza;
+    var _req$body, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, archivos, detalle, usuarioregistro, usuariomodificacion, _req$body$estado, estado, sucursalid, planid, polizaid, newPoliza, t, ingresoegreso, primatotalsus, primanetasus, valoraseguradosus, i, _i, QUERY, poliza;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -150,10 +150,18 @@ function _createPolizaGenerica() {
               ingresoegreso = 'E';
             } else {
               ingresoegreso = 'I';
+            }
+
+            primatotalsus = 0, primanetasus = 0, valoraseguradosus = 0;
+
+            if (tipomoneda == 'BOL') {
+              primatotalsus = primatotal / tipocambio, primanetasus = primaneta / tipocambio, valoraseguradosus = valorasegurado / tipocambio;
+            } else {
+              primatotalsus = primatotal, primanetasus = primaneta, valoraseguradosus = valorasegurado;
             } //const transaction= sequelize.transaction;
 
 
-            _context2.next = 9;
+            _context2.next = 11;
             return _Poliza["default"].create({
               nropoliza: nropoliza,
               nrocertificado: nrocertificado,
@@ -199,25 +207,28 @@ function _createPolizaGenerica() {
               estado: estado,
               sucursalid: sucursalid,
               planid: planid,
-              polizaid: polizaid
+              polizaid: polizaid,
+              primatotalsus: primatotalsus,
+              primanetasus: primanetasus,
+              valoraseguradosus: valoraseguradosus
             }, {
               fields: ['nropoliza', 'nrocertificado', 'fechainicio', 'fechafin', 'fechaexpedicion', 'fecharecepcion', 'tipomoneda', 'primatotal', 'formapago', 'encargadoid', 'bancoid', 'ciudadexpedicion', //'broker',
-              'notas', 'companiaseguroid', 'subramocompaniaid', 'tiporamoid', 'contratanteid', 'tomadorid', 'ejecutivoid', 'colocacionid', 'ciaspvs', 'tipopolizaid', 'tpoliza', 'tipocontrato', 'menoid', 'vendedorid', 'tipoemision', 'franquicia', 'valorasegurado', 'comisionbs', 'comisionusd', 'tipocambio', 'porcentajeprima', 'primaneta', 'porcentajecomision', 'ingresoegreso', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'sucursalid', 'planid', 'polizaid']
+              'notas', 'companiaseguroid', 'subramocompaniaid', 'tiporamoid', 'contratanteid', 'tomadorid', 'ejecutivoid', 'colocacionid', 'ciaspvs', 'tipopolizaid', 'tpoliza', 'tipocontrato', 'menoid', 'vendedorid', 'tipoemision', 'franquicia', 'valorasegurado', 'comisionbs', 'comisionusd', 'tipocambio', 'porcentajeprima', 'primaneta', 'porcentajecomision', 'ingresoegreso', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro', 'fechamodificacion', 'estado', 'sucursalid', 'planid', 'polizaid', 'primatotalsus', 'primanetasus', 'valoraseguradosus']
             }, {
               transaction: t
             });
 
-          case 9:
+          case 11:
             newPoliza = _context2.sent;
             i = 0;
 
-          case 11:
+          case 13:
             if (!(i < archivos.length)) {
-              _context2.next = 17;
+              _context2.next = 19;
               break;
             }
 
-            _context2.next = 14;
+            _context2.next = 16;
             return _Archivo["default"].create({
               codigo: newPoliza.id,
               nombre: archivos[i].nombre,
@@ -237,26 +248,26 @@ function _createPolizaGenerica() {
               transaction: t
             });
 
-          case 14:
+          case 16:
             i++;
-            _context2.next = 11;
+            _context2.next = 13;
             break;
 
-          case 17:
+          case 19:
             if (!detalle) {
-              _context2.next = 25;
+              _context2.next = 27;
               break;
             }
 
             _i = 0;
 
-          case 19:
+          case 21:
             if (!(_i < detalle.length)) {
-              _context2.next = 25;
+              _context2.next = 27;
               break;
             }
 
-            _context2.next = 22;
+            _context2.next = 24;
             return _PolizaDetalles["default"].create({
               numerodetalle: detalle[_i].numerodetalle,
               valor: detalle[_i].valor,
@@ -272,28 +283,28 @@ function _createPolizaGenerica() {
               transaction: t
             });
 
-          case 22:
+          case 24:
             _i++;
-            _context2.next = 19;
+            _context2.next = 21;
             break;
 
-          case 25:
-            _context2.next = 27;
+          case 27:
+            _context2.next = 29;
             return t.commit();
 
-          case 27:
+          case 29:
             QUERY = "select p.id,p.nro, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n        from poliza p\n        inner join sucursal s on s.id=p.sucursalid\n        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n        inner join ramo r on r.id=rc.ramoid\n        left join ramo sr on sr.id=rc.ramopadreid\n        inner join asegurado a on a.id=p.tomadorid\n        inner join compania_seguro cs on cs.id=p.companiaseguroid\n        inner join tipo_ramo t on t.id=p.tiporamoid\n        inner join personal pe on pe.id=p.ejecutivoid\n        inner join personal car on car.id=a.carteraid\n        where p.id='" + newPoliza.id + "'   "; //console.log(QUERY);
 
-            _context2.next = 30;
+            _context2.next = 32;
             return _database.sequelize.query(QUERY, {
               type: QueryTypes.SELECT
             });
 
-          case 30:
+          case 32:
             poliza = _context2.sent;
 
             if (!newPoliza) {
-              _context2.next = 33;
+              _context2.next = 35;
               break;
             }
 
@@ -302,37 +313,37 @@ function _createPolizaGenerica() {
               data: poliza[0]
             }));
 
-          case 33:
-            _context2.next = 45;
+          case 35:
+            _context2.next = 47;
             break;
 
-          case 35:
-            _context2.prev = 35;
+          case 37:
+            _context2.prev = 37;
             _context2.t0 = _context2["catch"](1);
             console.log(_context2.t0);
 
             if (!t) {
-              _context2.next = 44;
+              _context2.next = 46;
               break;
             }
 
-            _context2.next = 41;
+            _context2.next = 43;
             return t.rollback();
 
-          case 41:
+          case 43:
             if (!newPoliza) {
-              _context2.next = 44;
+              _context2.next = 46;
               break;
             }
 
-            _context2.next = 44;
+            _context2.next = 46;
             return _Poliza["default"].destroy({
               where: {
                 id: newPoliza.id
               }
             });
 
-          case 44:
+          case 46:
             res.status(500).json({
               data: {
                 estado: false,
@@ -340,12 +351,12 @@ function _createPolizaGenerica() {
               }
             });
 
-          case 45:
+          case 47:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 35]]);
+    }, _callee2, null, [[1, 37]]);
   }));
   return _createPolizaGenerica.apply(this, arguments);
 }
@@ -358,7 +369,7 @@ function updatePolizaGenerica(_x5, _x6) {
 
 function _updatePolizaGenerica() {
   _updatePolizaGenerica = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, _req$body2, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, usuarioregistro, usuariomodificacion, fecharegistro, estado, sucursalid, planid, archivos, archivoseliminados, detalle, eliminadosdetalle, t, updateRowCount, i, _i2, _i3, newPolizaDetalle, _i4, polizas;
+    var id, _req$body2, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, usuarioregistro, usuariomodificacion, fecharegistro, estado, sucursalid, planid, archivos, archivoseliminados, detalle, eliminadosdetalle, t, primatotalsus, primanetasus, valoraseguradosus, updateRowCount, i, _i2, _i3, newPolizaDetalle, _i4, polizas;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -372,7 +383,15 @@ function _updatePolizaGenerica() {
 
           case 5:
             t = _context3.sent;
-            _context3.next = 8;
+            primatotalsus = 0, primanetasus = 0, valoraseguradosus = 0;
+
+            if (tipomoneda == 'BOL') {
+              primatotalsus = primatotal / tipocambio, primanetasus = primaneta / tipocambio, valoraseguradosus = valorasegurado / tipocambio;
+            } else {
+              primatotalsus = primatotal, primanetasus = primaneta, valoraseguradosus = valorasegurado;
+            }
+
+            _context3.next = 10;
             return _Poliza["default"].update({
               nropoliza: nropoliza,
               nrocertificado: nrocertificado,
@@ -415,7 +434,10 @@ function _updatePolizaGenerica() {
               fechamodificacion: new Date(),
               estado: estado,
               sucursalid: sucursalid,
-              planid: planid
+              planid: planid,
+              primatotalsus: primatotalsus,
+              primanetasus: primanetasus,
+              valoraseguradosus: valoraseguradosus
             }, {
               where: {
                 id: id
@@ -424,17 +446,17 @@ function _updatePolizaGenerica() {
               transaction: t
             });
 
-          case 8:
+          case 10:
             updateRowCount = _context3.sent;
             i = 0;
 
-          case 10:
+          case 12:
             if (!(i < archivoseliminados.length)) {
-              _context3.next = 16;
+              _context3.next = 18;
               break;
             }
 
-            _context3.next = 13;
+            _context3.next = 15;
             return _Archivo["default"].update({
               estado: 'BAJ',
               fechamodificacion: new Date()
@@ -446,21 +468,21 @@ function _updatePolizaGenerica() {
               transaction: t
             });
 
-          case 13:
+          case 15:
             i++;
-            _context3.next = 10;
+            _context3.next = 12;
             break;
 
-          case 16:
+          case 18:
             _i2 = 0;
 
-          case 17:
+          case 19:
             if (!(_i2 < archivos.length)) {
-              _context3.next = 23;
+              _context3.next = 25;
               break;
             }
 
-            _context3.next = 20;
+            _context3.next = 22;
             return _Archivo["default"].create({
               codigo: id,
               nombre: archivos[_i2].nombre,
@@ -480,26 +502,26 @@ function _updatePolizaGenerica() {
               transaction: t
             });
 
-          case 20:
+          case 22:
             _i2++;
-            _context3.next = 17;
+            _context3.next = 19;
             break;
 
-          case 23:
+          case 25:
             if (!eliminadosdetalle) {
-              _context3.next = 31;
+              _context3.next = 33;
               break;
             }
 
             _i3 = 0;
 
-          case 25:
+          case 27:
             if (!(_i3 < eliminadosdetalle.length)) {
-              _context3.next = 31;
+              _context3.next = 33;
               break;
             }
 
-            _context3.next = 28;
+            _context3.next = 30;
             return _PolizaDetalles["default"].update({
               estado: 'BAJ',
               fechamodificacion: new Date()
@@ -512,26 +534,26 @@ function _updatePolizaGenerica() {
               transaction: t
             });
 
-          case 28:
+          case 30:
             _i3++;
-            _context3.next = 25;
+            _context3.next = 27;
             break;
 
-          case 31:
+          case 33:
             if (!detalle) {
-              _context3.next = 40;
+              _context3.next = 42;
               break;
             }
 
             _i4 = 0;
 
-          case 33:
+          case 35:
             if (!(_i4 < detalle.length)) {
-              _context3.next = 40;
+              _context3.next = 42;
               break;
             }
 
-            _context3.next = 36;
+            _context3.next = 38;
             return _PolizaDetalles["default"].create({
               numerodetalle: detalle[_i4].numerodetalle,
               valor: detalle[_i4].valor,
@@ -548,49 +570,49 @@ function _updatePolizaGenerica() {
               transaction: t
             });
 
-          case 36:
+          case 38:
             newPolizaDetalle = _context3.sent;
 
-          case 37:
+          case 39:
             _i4++;
-            _context3.next = 33;
+            _context3.next = 35;
             break;
-
-          case 40:
-            _context3.next = 42;
-            return t.commit();
 
           case 42:
             _context3.next = 44;
+            return t.commit();
+
+          case 44:
+            _context3.next = 46;
             return _Poliza["default"].findOne({
               where: {
                 id: id
               }
             });
 
-          case 44:
+          case 46:
             polizas = _context3.sent;
             res.json({
               message: 'Poliza update successfully',
               count: polizas
             });
-            _context3.next = 55;
+            _context3.next = 57;
             break;
 
-          case 48:
-            _context3.prev = 48;
+          case 50:
+            _context3.prev = 50;
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
 
             if (!t) {
-              _context3.next = 54;
+              _context3.next = 56;
               break;
             }
 
-            _context3.next = 54;
+            _context3.next = 56;
             return t.rollback();
 
-          case 54:
+          case 56:
             res.status(500).json({
               data: {
                 estado: false,
@@ -598,12 +620,12 @@ function _updatePolizaGenerica() {
               }
             });
 
-          case 55:
+          case 57:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 48]]);
+    }, _callee3, null, [[2, 50]]);
   }));
   return _updatePolizaGenerica.apply(this, arguments);
 }
@@ -3380,7 +3402,7 @@ function _getBuscarPolizasDetallePorSucursal() {
              inner join sucursal s on s.id=p.sucursalid  
              where (pda2.tipoasegurado like '%`+ dato + `%' or pda2.titular like '%` + dato + `%' ) 
              and  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')
-               order by p.fechamodificacion desc  `
+                order by p.fechamodificacion desc  `
                  //where (pda2.placa like '%`+dato+`%' or pda2.colorvehiculo like '%`+dato+`%' or pda2.marcavehiculo like '%`+dato+`%' or pda2.titular like '%`+dato+`%') s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `'  order by p.fechamodificacion desc `
                  , {
                      type: QueryTypes.SELECT

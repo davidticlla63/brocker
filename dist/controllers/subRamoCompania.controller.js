@@ -359,7 +359,7 @@ function _subRamoCompaniaPorCompania() {
             companiaseguroid = req.params.companiaseguroid;
             _context6.prev = 1;
             _context6.next = 4;
-            return _database.sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else p.spvs end spvsramopadre, t.spvs spvstiporamo , s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id =rc.companiaseguroid   \n            inner join sucursal s on s.id=rc.sucursalid \n            where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by c.nombre,r.nombre ", {
+            return _database.sequelize.query("select  r.id,c.cia_spvs, c.nombre compania, rc.*,r.nombre nombreramo,p.nombre nombreramopadre,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.id is null then '00' else p.spvs end spvsramopadre, t.spvs spvstiporamo , s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on r.ramoid=p.id\n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id =rc.companiaseguroid   \n            inner join sucursal s on s.id=rc.sucursalid \n            where rc.companiaseguroid= '" + companiaseguroid + "' and rc.estado ='ACT' order by c.nombre,r.nombre ", {
               type: QueryTypes.SELECT
             });
 

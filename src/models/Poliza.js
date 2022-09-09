@@ -41,6 +41,9 @@ const Poliza = sequelize.define('Poliza', {
     franquicia: Sequelize.DECIMAL,//agregar
 
   
+    primatotalsus: Sequelize.DECIMAL,
+    primanetasus: Sequelize.DECIMAL,
+    valoraseguradosus: Sequelize.DECIMAL,
 
     comisionbs: Sequelize.DECIMAL,
     comisionusd: Sequelize.DECIMAL,
