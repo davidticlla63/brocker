@@ -4,10 +4,10 @@ import config from '../config'
 export const sequelize = new Sequelize(
     config.NODE_ENV=='production'?'broker_db':'broker_test_db', //produccion  'broker_test_db'
     //'broker_test_db',//testing
-    'postgres',   
-    'admin',
+    config.NODE_ENV=='production'?'broker':'postgres',   
+    config.NODE_ENV=='production'?'broker':'admin',
     {
-        host: '3.99.76.226',//nueva ruta
+        host: 'localhost',//nueva ruta
         dialect: 'postgres',
         port: 5432,
         dialectOptions: {
