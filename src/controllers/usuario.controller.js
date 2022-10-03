@@ -13,6 +13,7 @@ import config from '../config'
 export async function login(req, res) {
     try {
         // console.log(req.params);
+        
         const { nick, password } = req.body;
         /*   if(nick ==null || password ==null){
                 throw new error("usuario y contraseña no pueden estar en blanco");
@@ -24,27 +25,27 @@ export async function login(req, res) {
         if (typeof password === "undefined") {
             throw new Error("ingrese el contraseña!!!");
         }
-      /*   const { Op } = require("sequelize");
-        const usuario = await Usuario.findOne({
-            where: {
-                nick,estado:{[Op.notIn]:['BAJ']} ,//,estado:'ACT'
-            }
-        }); */
+        /*   const { Op } = require("sequelize");
+          const usuario = await Usuario.findOne({
+              where: {
+                  nick,estado:{[Op.notIn]:['BAJ']} ,//,estado:'ACT'
+              }
+          }); */
 
         const usuarios = await sequelize.query(`select up.* 
                  from  usuario up 
                 where   up.estado !='BAJ' and up.nick= '` + nick + `' `
-                , {
-                    type: QueryTypes.SELECT
-                });
+            , {
+                type: QueryTypes.SELECT
+            });
 
         if (!usuarios) {
             throw new Error("no se encontró el usuario");
         }
-        if (usuarios.length===0) {
+        if (usuarios.length === 0) {
             throw new Error("no se encontró el usuario");
         }
-        let usuario=usuarios[0];
+        let usuario = usuarios[0];
         // check account found and verify password
         if (!usuario.password || !bcrypt.compareSync(password, usuario.password)) {
             // authentication failed
@@ -120,8 +121,8 @@ export async function createUsuario(req, res) {
         usuarioregistro,
         usuariomodificacion,
         estado } = req.body;
-//let guid= uuidv4();
-//console.log(guid);
+    //let guid= uuidv4();
+    //console.log(guid);
     let t = await sequelize.transaction();
     let newUsuario;
     try {
@@ -181,7 +182,7 @@ export async function createUsuario(req, res) {
             });
         }
     } catch (err) {
-      
+
         // Rollback transaction only if the transaction object is defined
         if (t) {
             await t.rollback();

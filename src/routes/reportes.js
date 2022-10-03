@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const compression = require("compression");
 const router = Router();
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 //import * as accions from "../controllers/accion.controller";
 
@@ -16,8 +17,8 @@ router
 
 var request = require("request");
 var fs = require("fs");
-var urlReporte = 'http://3.99.76.226:8080/broker/rest/reporte'
-
+var urlReporte = 'http://localhost:8084/broker/rest/reporte'
+//,tokenVerificacion.ensureToken   aumentar para revisar el token
 router.get('/memo/:id', function (req, res, next) {
   const { id } = req.params;
   try {
