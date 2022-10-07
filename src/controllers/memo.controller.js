@@ -45,6 +45,13 @@ export async function createMemo(req, res) {
         console.log(new Date(fechapago))
         var normalizedfechapago = new Date(new Date(fechapago)).toISOString();
         console.log(normalizedfechapago) */
+
+        if (fecharegistro) {
+            fecharegistro=new Date()
+            fechamodificacion= new Date()
+        }else{
+            fechamodificacion= fecharegistro
+        }
         newMemo = await Memo.create({
           
          /*    fechamemo:new Date(fechamemo),
@@ -63,8 +70,8 @@ export async function createMemo(req, res) {
 
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro:new Date(),
-            fechamodificacion:new Date(),
+            fecharegistro,
+            fechamodificacion,
             estado,
             sucursalid,
             polizaid

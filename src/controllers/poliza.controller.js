@@ -1771,6 +1771,12 @@ export async function createPolizaGeneral(req, res) {
     let t;
     try {
         t = await sequelize.transaction();
+        if (fecharegistro) {
+            fecharegistro=new Date()
+            fechamodificacion= new Date()
+        }else{
+            fechamodificacion= fecharegistro
+        }
 
         let ingresoegreso = 'I';
         if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
@@ -1829,8 +1835,8 @@ export async function createPolizaGeneral(req, res) {
             ingresoegreso,
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro: new Date(),
-            fechamodificacion: new Date(),
+            fecharegistro,
+            fechamodificacion,
             estado,
             sucursalid,
             planid,
