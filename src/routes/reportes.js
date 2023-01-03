@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const compression = require("compression");
 const router = Router();
-import * as tokenVerificacion  from '../jwt/jwtVerificacion'
+//import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 //import * as accions from "../controllers/accion.controller";
 

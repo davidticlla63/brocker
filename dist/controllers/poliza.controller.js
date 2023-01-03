@@ -1759,6 +1759,14 @@ function _createPolizaGeneral() {
 
           case 4:
             t = _context8.sent;
+
+            if (fecharegistro) {
+              fecharegistro = new Date();
+              fechamodificacion = new Date();
+            } else {
+              fechamodificacion = fecharegistro;
+            }
+
             ingresoegreso = 'I';
 
             if (tipoemision == 'Anexo Exclusion' || tipoemision == 'Anexo Anulacion') {
@@ -1768,7 +1776,7 @@ function _createPolizaGeneral() {
             } //const transaction= sequelize.transaction;
 
 
-            _context8.next = 9;
+            _context8.next = 10;
             return _Poliza["default"].create({
               nropoliza: nropoliza,
               nrocertificado: nrocertificado,
@@ -1820,8 +1828,8 @@ function _createPolizaGeneral() {
               ingresoegreso: ingresoegreso,
               usuarioregistro: usuarioregistro,
               usuariomodificacion: usuariomodificacion,
-              fecharegistro: new Date(),
-              fechamodificacion: new Date(),
+              fecharegistro: fecharegistro,
+              fechamodificacion: fechamodificacion,
               estado: estado,
               sucursalid: sucursalid,
               planid: planid,
@@ -1844,17 +1852,17 @@ function _createPolizaGeneral() {
               transaction: t
             });
 
-          case 9:
+          case 10:
             newPoliza = _context8.sent;
             i = 0;
 
-          case 11:
+          case 12:
             if (!(i < archivos.length)) {
-              _context8.next = 17;
+              _context8.next = 18;
               break;
             }
 
-            _context8.next = 14;
+            _context8.next = 15;
             return _Archivo["default"].create({
               codigo: newPoliza.id,
               nombre: archivos[i].nombre,
@@ -1874,21 +1882,21 @@ function _createPolizaGeneral() {
               transaction: t
             });
 
-          case 14:
+          case 15:
             i++;
-            _context8.next = 11;
+            _context8.next = 12;
             break;
 
-          case 17:
+          case 18:
             _i13 = 0;
 
-          case 18:
+          case 19:
             if (!(_i13 < generales.length)) {
-              _context8.next = 25;
+              _context8.next = 26;
               break;
             }
 
-            _context8.next = 21;
+            _context8.next = 22;
             return _PolizaDetalleGeneral["default"].create({
               //titular: generales[i].titular,
               objetoasegurado: generales[_i13].objetoasegurado,
@@ -1913,31 +1921,31 @@ function _createPolizaGeneral() {
               transaction: t
             });
 
-          case 21:
+          case 22:
             newPolizaDetalle = _context8.sent;
 
-          case 22:
+          case 23:
             _i13++;
-            _context8.next = 18;
+            _context8.next = 19;
             break;
 
-          case 25:
-            _context8.next = 27;
+          case 26:
+            _context8.next = 28;
             return t.commit();
 
-          case 27:
+          case 28:
             QUERY = "select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n        from poliza p\n        inner join sucursal s on s.id=p.sucursalid\n        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n        inner join ramo r on r.id=rc.ramoid\n        left join ramo sr on sr.id=rc.ramopadreid\n        inner join asegurado a on a.id=p.tomadorid\n        inner join compania_seguro cs on cs.id=p.companiaseguroid\n        inner join tipo_ramo t on t.id=p.tiporamoid\n        inner join personal pe on pe.id=p.ejecutivoid\n        inner join personal car on car.id=a.carteraid\n        where p.id='" + newPoliza.id + "'   "; //console.log(QUERY);
 
-            _context8.next = 30;
+            _context8.next = 31;
             return _database.sequelize.query(QUERY, {
               type: QueryTypes.SELECT
             });
 
-          case 30:
+          case 31:
             poliza = _context8.sent;
 
             if (!newPoliza) {
-              _context8.next = 33;
+              _context8.next = 34;
               break;
             }
 
@@ -1946,37 +1954,37 @@ function _createPolizaGeneral() {
               data: poliza[0]
             }));
 
-          case 33:
-            _context8.next = 45;
+          case 34:
+            _context8.next = 46;
             break;
 
-          case 35:
-            _context8.prev = 35;
+          case 36:
+            _context8.prev = 36;
             _context8.t0 = _context8["catch"](1);
             console.log(_context8.t0);
 
             if (!t) {
-              _context8.next = 44;
+              _context8.next = 45;
               break;
             }
 
-            _context8.next = 41;
+            _context8.next = 42;
             return t.rollback();
 
-          case 41:
+          case 42:
             if (!newPoliza) {
-              _context8.next = 44;
+              _context8.next = 45;
               break;
             }
 
-            _context8.next = 44;
+            _context8.next = 45;
             return _Poliza["default"].destroy({
               where: {
                 id: newPoliza.id
               }
             });
 
-          case 44:
+          case 45:
             res.status(500).json({
               data: {
                 estado: false,
@@ -1984,12 +1992,12 @@ function _createPolizaGeneral() {
               }
             });
 
-          case 45:
+          case 46:
           case "end":
             return _context8.stop();
         }
       }
-    }, _callee8, null, [[1, 35]]);
+    }, _callee8, null, [[1, 36]]);
   }));
   return _createPolizaGeneral.apply(this, arguments);
 }

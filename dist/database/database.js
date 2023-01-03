@@ -11,10 +11,10 @@ var _config = _interopRequireDefault(require("../config"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_test_db', //produccion  'broker_test_db'
+var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_db', //produccion  'broker_test_db'
 //'broker_test_db',//testing
-'postgres', 'admin', {
-  host: '3.99.76.226',
+_config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["default"].NODE_ENV == 'production' ? 'broker' : 'admin', {
+  host: 'localhost',
   //nueva ruta
   dialect: 'postgres',
   port: 5432,

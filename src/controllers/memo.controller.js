@@ -30,7 +30,7 @@ export async function createMemo(req, res) {
         fechaproduccion,
         mesproduccion,
         anioproduccion,
-
+       
         usuarioregistro,
         usuariomodificacion,
         estado = 'ACT',
@@ -41,17 +41,14 @@ export async function createMemo(req, res) {
     let t = await sequelize.transaction();
     let newMemo;
     try {
-     /*    console.log(new Date(fechamemo))
-        console.log(new Date(fechapago))
-        var normalizedfechapago = new Date(new Date(fechapago)).toISOString();
-        console.log(normalizedfechapago) */
+     
 
-        if (fecharegistro) {
+    /*     if (fecharegistro) {
             fecharegistro=new Date()
             fechamodificacion= new Date()
         }else{
             fechamodificacion= fecharegistro
-        }
+        } */
         newMemo = await Memo.create({
           
          /*    fechamemo:new Date(fechamemo),
@@ -70,8 +67,8 @@ export async function createMemo(req, res) {
 
             usuarioregistro,
             usuariomodificacion,
-            fecharegistro,
-            fechamodificacion,
+            fecharegistro:new Date(),
+            fechamodificacion:new Date(),
             estado,
             sucursalid,
             polizaid
@@ -672,9 +669,13 @@ export async function getTotalProduccionMemoPorEmpresa(req, res) {
         inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')
         inner join sucursal s on s.id =p.sucursalid
         inner join empresa e on e.id =s.empresaid
-        where m.estado  in ('ACT') and 
-        extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
-        and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
+        where m.estado  in ('ACT')
+        and m.mesproduccion =(select max(me.mesproduccion) from memo me where  me.sucursalid=s.id 
+        and me.anioproduccion= (select max(me1.anioproduccion) from memo me1
+        where me1.sucursalid=s.id ))
+        --and 
+        ---extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
+        ---and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
          and  e.id  ='` + empresaid + `' group by p.ingresoegreso)
         
         select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
@@ -709,9 +710,14 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
             from memo m  
             inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  
             inner join sucursal s on s.id =p.sucursalid
-            where m.estado  in ('ACT') and 
-            extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
-            and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
+            where m.estado  in ('ACT') 
+            
+                and m.mesproduccion =(select max(me.mesproduccion) from memo me where  me.sucursalid=s.id 
+                and me.anioproduccion= (select max(me1.anioproduccion) from memo me1
+                where me1.sucursalid=s.id ))
+            --and 
+            --extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
+            --and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
              and s.id ='` + sucursalid + `'
             group by p.ingresoegreso 
             )
