@@ -17,7 +17,7 @@ router
 
 var request = require("request");
 var fs = require("fs");
-var urlReporte = 'http://localhost:8084/broker/rest/reporte'
+var urlReporte = 'http://localhost:8080/broker/rest/reporte'
 //,tokenVerificacion.ensureToken   aumentar para revisar el token
 router.get('/memo/:id', function (req, res, next) {
   const { id } = req.params;
