@@ -29,11 +29,15 @@ router.get('/memo/:id', function (req, res, next) {
 
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      const data = response.body;
-      res.json({
-        data: data
-      });
+        try {
+          const data = response.body;
+              res.json({
+                data: data
+              });
+        } catch (error) {
+          throw new Error(error)
+        }
+      
     });
   } catch (error) {
     console.log(error);
@@ -56,10 +60,14 @@ router.get('/poliza/:id', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -82,10 +90,14 @@ router.get('/poliza/:id/:tipo', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -107,11 +119,14 @@ router.get('/siniestro/:id', function (req, res, next) {
 
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -132,11 +147,14 @@ router.get('/pago/:id', function (req, res, next) {
       url: dir
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -244,10 +262,14 @@ router.post('/comisionPorCobrar', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -270,10 +292,14 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -296,10 +322,14 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -322,10 +352,14 @@ router.post('/produccion', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -349,10 +383,14 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -376,10 +414,14 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -403,10 +445,14 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -430,10 +476,14 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -457,10 +507,14 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -484,10 +538,14 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -511,10 +569,14 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -538,10 +600,14 @@ router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -566,10 +632,14 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -595,10 +665,14 @@ router.post('/pagosRealizados/:tipo', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
@@ -623,10 +697,14 @@ router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
 
-      const data = response.body;
-      res.json({
-        data: data
-      });
+      try {
+        const data = response.body;
+            res.json({
+              data: data
+            });
+      } catch (error) {
+        throw new Error(error)
+      }
     });
   } catch (error) {
     console.log(error);
