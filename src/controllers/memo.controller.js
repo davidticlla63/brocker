@@ -701,12 +701,8 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
     const { sucursalid } = req.params;
     try {
 
-        /* let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
-            from memo m  
-            inner join poliza p on p.id=m.polizaid  
-            where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
 
-            let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
+          /*   let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
             from memo m  
             inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  
             inner join sucursal s on s.id =p.sucursalid
@@ -722,7 +718,23 @@ export async function getTotalProduccionMemoPorSucursal(req, res) {
             group by p.ingresoegreso 
             )
             
-            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `;
+            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `; */
+
+            let query = ` with consulta as(
+                select case when extract(DAY from  now())> pp.diaproduccion   then now() else (now()::date-'1 month'::interval ) end fecha,*
+                from param_produccion pp where pp.sucursalid ='` + sucursalid + `'
+            ),consulta1 as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado
+            from memo m
+            inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')
+            inner join sucursal s on s.id =p.sucursalid
+            inner join consulta c on c.sucursalid=s.id
+            where m.estado  in ('ACT')
+            and extract(month  from   c.fecha)=m.mesproduccion
+            and extract(year  from   c.fecha)=m.anioproduccion
+            and s.id ='` + sucursalid + `'
+            group by p.ingresoegreso
+            )
+            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta1`;
 
         const pagos = await sequelize.query(query
             , {

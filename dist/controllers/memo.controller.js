@@ -1044,11 +1044,24 @@ function _getTotalProduccionMemoPorSucursal() {
             sucursalid = req.params.sucursalid;
             _context14.prev = 1;
 
-            /* let query = `select count(*) cantidad,SUM(p.primatotal) totalvalorasegurado 
-                from memo m  
-                inner join poliza p on p.id=m.polizaid  
-                where m.estado  in ('ACT') and m.sucursalid = '` + sucursalid + `'`; */
-            query = " with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado \n            from memo m  \n            inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  \n            inner join sucursal s on s.id =p.sucursalid\n            where m.estado  in ('ACT') \n            \n                and m.mesproduccion =(select max(me.mesproduccion) from memo me where  me.sucursalid=s.id \n                and me.anioproduccion= (select max(me1.anioproduccion) from memo me1\n                where me1.sucursalid=s.id ))\n            --and \n            --extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) \n            --and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end\n             and s.id ='" + sucursalid + "'\n            group by p.ingresoegreso \n            )\n            \n            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  ";
+            /*   let query = ` with consulta as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado 
+              from memo m  
+              inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')  
+              inner join sucursal s on s.id =p.sucursalid
+              where m.estado  in ('ACT') 
+              
+                  and m.mesproduccion =(select max(me.mesproduccion) from memo me where  me.sucursalid=s.id 
+                  and me.anioproduccion= (select max(me1.anioproduccion) from memo me1
+                  where me1.sucursalid=s.id ))
+              --and 
+              --extract(year from  m.fechamemo)=  extract(year from  now())-- and extract(month  from   m.fechamemo)=  (select MAX(m2 .mesproduccion) from memo m2 where m2.sucursalid=m.sucursalid) 
+              --and m.mesproduccion = case when extract(DAY from  now())>(select pp.diaproduccion from param_produccion pp where pp.sucursalid=s.id) then extract(month from  now()) else extract(month from  now())-1 end
+               and s.id ='` + sucursalid + `'
+              group by p.ingresoegreso 
+              )
+              
+              select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta  `; */
+            query = " with consulta as(\n                select case when extract(DAY from  now())> pp.diaproduccion   then now() else (now()::date-'1 month'::interval ) end fecha,*\n                from param_produccion pp where pp.sucursalid ='" + sucursalid + "'\n            ),consulta1 as(select count(*) cantidad,( case when p.ingresoegreso ='I' then SUM(p.primaneta) else 0 end -case when p.ingresoegreso ='E' then SUM(p.primaneta) else 0 end)  totalvalorasegurado\n            from memo m\n            inner join poliza p on p.id=m.polizaid and p.estado in ('ACT','CER')\n            inner join sucursal s on s.id =p.sucursalid\n            inner join consulta c on c.sucursalid=s.id\n            where m.estado  in ('ACT')\n            and extract(month  from   c.fecha)=m.mesproduccion\n            and extract(year  from   c.fecha)=m.anioproduccion\n            and s.id ='" + sucursalid + "'\n            group by p.ingresoegreso\n            )\n            select coalesce(sum(cantidad),0) cantidad,coalesce(sum(totalvalorasegurado),0) totalvalorasegurado from consulta1";
             _context14.next = 5;
             return _database.sequelize.query(query, {
               type: QueryTypes.SELECT
