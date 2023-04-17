@@ -2553,8 +2553,8 @@ export async function getPolizasPorEmpresaFechaVencimiento(req, res) {
             left join ramo sr on sr.id=rc.ramopadreid
             inner join asegurado a on a.id=p.tomadorid
             inner join compania_seguro cs on cs.id=p.companiaseguroid
-             inner join tipo_ramo t on t.id=p.tiporamoid 
-            where s.empresaid= '` + empresaid + `'   and to_char(p.fechafin, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fechafin, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
+             inner join tipo_ramo t on t.id=p.tiporamoid
+             where s.empresaid= '` + empresaid + `'   and to_char(p.fechafin, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fechafin, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         //console.log(query);
         const polizas = await sequelize.query(query
             , {
@@ -2583,8 +2583,8 @@ export async function getPolizasPorSucursalVencimiento(req, res) {
             inner join ramo r on r.id=rc.ramoid 
             left join ramo sr on sr.id=rc.ramopadreid 
             inner join asegurado a on a.id=p.tomadorid 
-            inner join compania_seguro cs on cs.id=p.companiaseguroid 
-            inner join tipo_ramo t on t.id=p.tiporamoid  "
+            inner join compania_seguro cs on cs.id=p.companiaseguroid
+            inner join tipo_ramo t on t.id=p.tiporamoid
             where s.id='` + sucursalid + `'    and to_char(p.fechafin, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fechafin, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado NOT IN ('BAJ') order by p.fechamodificacion desc `;
         const polizas = await sequelize.query(query
             , {
