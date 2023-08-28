@@ -2,10 +2,10 @@ import Sequelize from 'sequelize';
 import config from '../config'
 
 export const sequelize = new Sequelize(
-    config.NODE_ENV=='production'?'broker_db':'broker_db', //produccion  'broker_test_db'
+    config.NODE_ENV == 'production' ? 'broker_db' : 'broker_db', //produccion  'broker_test_db'
     //'broker_test_db',//testing
-    config.NODE_ENV=='production'?'broker':'postgres',   
-    config.NODE_ENV=='production'?'broker':'admin',
+    config.NODE_ENV == 'production' ? 'broker' : 'postgres',
+    config.NODE_ENV == 'production' ? 'broker' : 'admin',
     {
         host: 'localhost',//nueva ruta
         dialect: 'postgres',
@@ -23,9 +23,13 @@ export const sequelize = new Sequelize(
             evict: 60000,
             handleDisconnects: true
         },
-        logging: false
+         logging: false
+        /* logging: (message) => {
+            // Personaliza cómo manejar los mensajes de registro aquí
+            console.log(message);
+        } */
     }
-   /*  ,{
-        isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE
-      } */
+    /*  ,{
+         isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE
+       } */
 );

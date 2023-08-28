@@ -34,6 +34,11 @@ _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["de
     handleDisconnects: true
   },
   logging: false
+  /* logging: (message) => {
+      // Personaliza cómo manejar los mensajes de registro aquí
+      console.log(message);
+  } */
+
 }
 /*  ,{
      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE

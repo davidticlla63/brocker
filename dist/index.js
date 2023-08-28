@@ -14,38 +14,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 //import {transporter} from './mailers'
 //const db=require("./models")
+var Sequelize = require('sequelize');
 
-/* const Sequelize = require('sequelize');
-const db = new Sequelize('broker_db', 'postgres', 'admin', {
-    host: 'localhost',
-    dialect: 'postgres',
-
-    port: 5432,
-    //operatorsAliases: false,
-
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    },
-    logging: false
+var db = new Sequelize('broker_db', 'postgres', 'admin', {
+  host: 'localhost',
+  dialect: 'postgres',
+  port: 5432,
+  //operatorsAliases: false,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
+  logging: true
 });
 
-async function conectar() {
-    try {
-        db
-            .authenticate()
-            .then(() => {
+function conectar() {
+  return _conectar.apply(this, arguments);
+}
+
+function _conectar() {
+  _conectar = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            console.log('conectar');
+
+            try {
+              db.authenticate().then(function () {
                 console.log('Connection has been established successfully.');
-            })
-            .catch(err => {
+              }, function (error) {
+                console.error('Unable to connect to the database:', error);
+              })["catch"](function (err) {
                 console.error('Unable to connect to the database:', err);
-            });
-    } catch (error) {
-        console.error('error:', error);
-    }
-} */
+              });
+            } catch (error) {
+              console.error('error:', error);
+            }
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _conectar.apply(this, arguments);
+}
+
 var mensaje = "Hola desde nodejs...";
 var mailOptions = {
   from: 'gamsc@gmsantacruz.gob.bo',
@@ -75,36 +93,28 @@ function main() {
 }
 
 function _main() {
-  _main = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+  _main = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     var PORT;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             //conectar();
             console.log("NODE_ENV=".concat(_config["default"].NODE_ENV));
             console.log("PORT=".concat(_config["default"].PORT));
             PORT = _config["default"].PORT;
-            _context.next = 5;
+            _context2.next = 5;
             return _app["default"].listen(PORT);
 
           case 5:
-            /*     let fecha='2022-05-05 13:17'; */
-
-            /* let fecha='2022/05/05 13:17';
-                console.log(fecha);
-                let fechadateConvert=  new Date(fecha); 
-                console.log(fechadateConvert);
-                let fechadate=  new Date(); 
-                console.log(fechadate); */
             console.log('Server on port : ' + PORT);
 
           case 6:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee);
+    }, _callee2);
   }));
   return _main.apply(this, arguments);
 }

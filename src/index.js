@@ -7,7 +7,7 @@ import config from './config'
 //const db=require("./models")
 
 
-/* const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 const db = new Sequelize('broker_db', 'postgres', 'admin', {
     host: 'localhost',
     dialect: 'postgres',
@@ -21,15 +21,18 @@ const db = new Sequelize('broker_db', 'postgres', 'admin', {
         acquire: 30000,
         idle: 10000
     },
-    logging: false
+    logging: true
 });
 
 async function conectar() {
+    console.log('conectar');
     try {
         db
             .authenticate()
             .then(() => {
                 console.log('Connection has been established successfully.');
+            },(error)=>{
+                console.error('Unable to connect to the database:', error);
             })
             .catch(err => {
                 console.error('Unable to connect to the database:', err);
@@ -37,7 +40,7 @@ async function conectar() {
     } catch (error) {
         console.error('error:', error);
     }
-} */
+}
 
 
 
@@ -73,16 +76,11 @@ async function main() {
     console.log(`NODE_ENV=${config.NODE_ENV}`);
     console.log(`PORT=${config.PORT}`);
 
+    
+
     const PORT = config.PORT;
     await app.listen(PORT);
 
-/*     let fecha='2022-05-05 13:17'; */
-/* let fecha='2022/05/05 13:17';
-    console.log(fecha);
-    let fechadateConvert=  new Date(fecha); 
-    console.log(fechadateConvert);
-    let fechadate=  new Date(); 
-    console.log(fechadate); */
     console.log('Server on port : ' + PORT);
 }
 

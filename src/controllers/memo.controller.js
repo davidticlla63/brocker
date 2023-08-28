@@ -417,8 +417,10 @@ export async function memosPorSucursal(req, res) {
             }
         }); */
 
-        const memos = await sequelize.query(`select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,
-             d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago
+        const memos = await sequelize.query(`select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  
+        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.porcentajecomision ,po.formapago
+		,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision
+		,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd
              from memo p
             inner join sucursal s on s.id=p.sucursalid
             inner join poliza po on po.id=p.polizaid
@@ -453,7 +455,9 @@ export async function memosPorEmpresa(req, res) {
         const { empresaid } = req.params;
         const { fechainicio, fechafin } = req.body;
         const query = `select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  
-        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.primaneta,po.porcentajecomision ,po.formapago 
+        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.porcentajecomision ,po.formapago
+		,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision
+		,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd
              from memo p 
             inner join sucursal s on s.id=p.sucursalid
             inner join poliza po on po.id=p.polizaid

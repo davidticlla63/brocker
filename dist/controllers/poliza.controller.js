@@ -131,7 +131,7 @@ function createPolizaGenerica(_x3, _x4) {
 
 function _createPolizaGenerica() {
   _createPolizaGenerica = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var _req$body, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, archivos, detalle, usuarioregistro, usuariomodificacion, _req$body$estado, estado, sucursalid, planid, polizaid, newPoliza, t, ingresoegreso, primatotalsus, primanetasus, valoraseguradosus, i, _i, QUERY, poliza;
+    var _req$body, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, archivos, detalle, usuarioregistro, usuariomodificacion, _req$body$estado, estado, sucursalid, planid, polizaid, newPoliza, t, ingresoegreso, primatotalsus, primanetasus, valoraseguradosus, i, _i, query1, pagos, QUERY, poliza;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -293,18 +293,26 @@ function _createPolizaGenerica() {
             return t.commit();
 
           case 29:
-            QUERY = "select p.id,p.nro, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n        from poliza p\n        inner join sucursal s on s.id=p.sucursalid\n        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n        inner join ramo r on r.id=rc.ramoid\n        left join ramo sr on sr.id=rc.ramopadreid\n        inner join asegurado a on a.id=p.tomadorid\n        inner join compania_seguro cs on cs.id=p.companiaseguroid\n        inner join tipo_ramo t on t.id=p.tiporamoid\n        inner join personal pe on pe.id=p.ejecutivoid\n        inner join personal car on car.id=a.carteraid\n        where p.id='" + newPoliza.id + "'   "; //console.log(QUERY);
-
+            query1 = " select * from  pa_corregir_poliza('" + newPoliza.id + "');";
             _context2.next = 32;
-            return _database.sequelize.query(QUERY, {
+            return _database.sequelize.query(query1, {
               type: QueryTypes.SELECT
             });
 
           case 32:
+            pagos = _context2.sent;
+            QUERY = "select p.id,p.nro, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n        ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n        from poliza p\n        inner join sucursal s on s.id=p.sucursalid\n        inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n        inner join ramo r on r.id=rc.ramoid\n        left join ramo sr on sr.id=rc.ramopadreid\n        inner join asegurado a on a.id=p.tomadorid\n        inner join compania_seguro cs on cs.id=p.companiaseguroid\n        inner join tipo_ramo t on t.id=p.tiporamoid\n        inner join personal pe on pe.id=p.ejecutivoid\n        inner join personal car on car.id=a.carteraid\n        where p.id='" + newPoliza.id + "'   "; //console.log(QUERY);
+
+            _context2.next = 36;
+            return _database.sequelize.query(QUERY, {
+              type: QueryTypes.SELECT
+            });
+
+          case 36:
             poliza = _context2.sent;
 
             if (!newPoliza) {
-              _context2.next = 35;
+              _context2.next = 39;
               break;
             }
 
@@ -313,37 +321,37 @@ function _createPolizaGenerica() {
               data: poliza[0]
             }));
 
-          case 35:
-            _context2.next = 47;
+          case 39:
+            _context2.next = 51;
             break;
 
-          case 37:
-            _context2.prev = 37;
+          case 41:
+            _context2.prev = 41;
             _context2.t0 = _context2["catch"](1);
             console.log(_context2.t0);
 
             if (!t) {
-              _context2.next = 46;
+              _context2.next = 50;
               break;
             }
 
-            _context2.next = 43;
+            _context2.next = 47;
             return t.rollback();
 
-          case 43:
+          case 47:
             if (!newPoliza) {
-              _context2.next = 46;
+              _context2.next = 50;
               break;
             }
 
-            _context2.next = 46;
+            _context2.next = 50;
             return _Poliza["default"].destroy({
               where: {
                 id: newPoliza.id
               }
             });
 
-          case 46:
+          case 50:
             res.status(500).json({
               data: {
                 estado: false,
@@ -351,12 +359,12 @@ function _createPolizaGenerica() {
               }
             });
 
-          case 47:
+          case 51:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 37]]);
+    }, _callee2, null, [[1, 41]]);
   }));
   return _createPolizaGenerica.apply(this, arguments);
 }
@@ -369,7 +377,7 @@ function updatePolizaGenerica(_x5, _x6) {
 
 function _updatePolizaGenerica() {
   _updatePolizaGenerica = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var id, _req$body2, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, usuarioregistro, usuariomodificacion, fecharegistro, estado, sucursalid, planid, archivos, archivoseliminados, detalle, eliminadosdetalle, t, primatotalsus, primanetasus, valoraseguradosus, updateRowCount, i, _i2, _i3, newPolizaDetalle, _i4, polizas;
+    var id, _req$body2, nropoliza, nrocertificado, fechainicio, fechafin, fechaexpedicion, fecharecepcion, tipomoneda, primatotal, formapago, encargadoid, bancoid, ciudadexpedicion, notas, companiaseguroid, subramocompaniaid, tiporamoid, contratanteid, tomadorid, ejecutivoid, colocacionid, ciaspvs, tipopolizaid, tpoliza, tipocontrato, menoid, vendedorid, tipoemision, franquicia, valorasegurado, comisionbs, comisionusd, tipocambio, porcentajeprima, primaneta, porcentajecomision, usuarioregistro, usuariomodificacion, fecharegistro, estado, sucursalid, planid, archivos, archivoseliminados, detalle, eliminadosdetalle, t, primatotalsus, primanetasus, valoraseguradosus, updateRowCount, i, _i2, _i3, newPolizaDetalle, _i4, query1, pagos, polizas;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -583,36 +591,44 @@ function _updatePolizaGenerica() {
             return t.commit();
 
           case 44:
-            _context3.next = 46;
+            query1 = " select * from  pa_corregir_poliza('" + id + "');";
+            _context3.next = 47;
+            return _database.sequelize.query(query1, {
+              type: QueryTypes.SELECT
+            });
+
+          case 47:
+            pagos = _context3.sent;
+            _context3.next = 50;
             return _Poliza["default"].findOne({
               where: {
                 id: id
               }
             });
 
-          case 46:
+          case 50:
             polizas = _context3.sent;
             res.json({
               message: 'Poliza update successfully',
               count: polizas
             });
-            _context3.next = 57;
+            _context3.next = 61;
             break;
 
-          case 50:
-            _context3.prev = 50;
+          case 54:
+            _context3.prev = 54;
             _context3.t0 = _context3["catch"](2);
             console.log(_context3.t0);
 
             if (!t) {
-              _context3.next = 56;
+              _context3.next = 60;
               break;
             }
 
-            _context3.next = 56;
+            _context3.next = 60;
             return t.rollback();
 
-          case 56:
+          case 60:
             res.status(500).json({
               data: {
                 estado: false,
@@ -620,12 +636,12 @@ function _updatePolizaGenerica() {
               }
             });
 
-          case 57:
+          case 61:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 50]]);
+    }, _callee3, null, [[2, 54]]);
   }));
   return _updatePolizaGenerica.apply(this, arguments);
 }
@@ -3063,7 +3079,7 @@ function _getPolizasPorEmpresaSinMemo() {
             empresaid = req.params.empresaid;
             _context25.prev = 1;
             _context25.next = 4;
-            return _database.sequelize.query("select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n            from poliza p\n            inner join sucursal s on s.id=p.sucursalid\n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n            inner join ramo r on r.id=rc.ramoid\n            left join ramo sr on sr.id=rc.ramopadreid\n            inner join asegurado a on a.id=p.tomadorid\n            inner join tipo_ramo t on t.id=p.tiporamoid\n            inner join compania_seguro cs on cs.id=p.companiaseguroid\n            inner join personal pe on pe.id=p.ejecutivoid\n            inner join personal car on car.id=a.carteraid \n            left join memo m on m.polizaid=p.id and m.estado='ACT' \n            where m.polizaid is null and  s.empresaid= '" + empresaid + "' AND p.estado IN ('ACT','CER') order by p.fechamodificacion desc ", {
+            return _database.sequelize.query("select p.nro,  p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n            from poliza p\n            inner join sucursal s on s.id=p.sucursalid\n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n            inner join ramo r on r.id=rc.ramoid\n            left join ramo sr on sr.id=rc.ramopadreid\n            inner join asegurado a on a.id=p.tomadorid\n            inner join tipo_ramo t on t.id=p.tiporamoid\n            inner join compania_seguro cs on cs.id=p.companiaseguroid\n            inner join personal pe on pe.id=p.ejecutivoid\n            inner join personal car on car.id=a.carteraid \n            left join memo m on m.polizaid=p.id and m.estado='ACT' \n            where m.polizaid is null and  s.empresaid= '" + empresaid + "' AND p.estado IN ('ACT','CER') order by p.fechamodificacion desc ", {
               type: QueryTypes.SELECT
             });
 
@@ -3112,7 +3128,7 @@ function _getPolizasPorSucursalSinMemo() {
           case 0:
             sucursalid = req.params.sucursalid;
             _context26.prev = 1;
-            QUERY = "select p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo ,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            left join memo m on m.polizaid=p.id and m.estado='ACT' \n            inner join tipo_ramo t on t.id=p.tiporamoid \n            inner join personal pe on pe.id=p.ejecutivoid\n            inner join personal car on car.id=a.carteraid\n            where m.polizaid is null and s.id='" + sucursalid + "'   and p.estado IN ('ACT','CON','CER') order by p.fechamodificacion desc "; //console.log(QUERY);
+            QUERY = "select p.nro, p.id, p.nropoliza, p.nrocertificado, p.fechainicio, p.fechafin, p.fechaexpedicion, p.fecharecepcion, p.tipomoneda, p.primatotal, p.formapago, p.encargadoid, p.bancoid, p.ciudadexpedicion, p.notas, p.companiaseguroid, p.subramocompaniaid, p.tiporamoid, p.contratanteid, p.tomadorid, p.ejecutivoid, p.colocacionid, p.ciaspvs, p.tipopolizaid, p.tpoliza, p.tipocontrato, p.memoid, p.vendedorid, null tipoemision, p.franquicia, p.valorasegurado, p.comisionbs, p.comisionusd, p.tipocambio, p.porcentajeprima, p.primaneta, p.porcentajecomision, p.usuarioregistro, p.usuariomodificacion, p.fecharegistro, p.fechamodificacion, p.estado, p.sucursalid, p.planid, p.polizaid \n            ,sr.nombre nombreramopadre,case when sr.id is null then r.nombre else sr.nombre end nombreramo,case when  sr.id is null then null else r.nombre end nombresubramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania ,s.nombre as sucursal,t.nombre tiporamo ,pe.nombrecompleto ejecutivo,car.nombrecompleto cartera\n            from poliza p \n            inner join sucursal s on s.id=p.sucursalid  \n            inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid\n            inner join ramo r on r.id=rc.ramoid \n            left join ramo sr on sr.id=rc.ramopadreid \n            inner join asegurado a on a.id=p.tomadorid \n            inner join compania_seguro cs on cs.id=p.companiaseguroid \n            left join memo m on m.polizaid=p.id and m.estado='ACT' \n            inner join tipo_ramo t on t.id=p.tiporamoid \n            inner join personal pe on pe.id=p.ejecutivoid\n            inner join personal car on car.id=a.carteraid\n            where m.polizaid is null and s.id='" + sucursalid + "'   and p.estado IN ('ACT','CON','CER') order by p.fechamodificacion desc "; //console.log(QUERY);
 
             _context26.next = 5;
             return _database.sequelize.query(QUERY, {
