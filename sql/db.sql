@@ -422,7 +422,9 @@ select
 from
     accion
 where
-    estado = 'ACT' CREATE TABLE IF NOT EXISTS permiso(
+    estado = 'ACT'
+    
+     CREATE TABLE IF NOT EXISTS permiso(
         id character varying PRIMARY KEY DEFAULT gen_random_uuid(),
         --accionid character varying REFERENCES accion(id) ,
         --paginaid character varying REFERENCES pagina(id),

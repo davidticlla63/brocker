@@ -269,25 +269,6 @@ export async function createPerfilPermisos(req, res) {
         // throw new Error(err);
     }
 }
-
-/* export async function getPermisosPorPerfil(req, res) {
-    const { perfilid } = req.params;
-    console.log(req.params)
-    try {
-
-        const paginas = await Permiso.findAll({
-            where: { estado: 'ACT', perfilid }
-            , include: { model: Pagina, require: true, estado: 'ACT', 
-            include: { model: Accion, estado: 'ACT', require: true } }
-        });
-        res.json({
-            data: paginas
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
- */
 export async function getPermisosPorPerfil(req, res) {
     const { perfilid } = req.params;
     try {
