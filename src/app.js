@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import morgan from "morgan";
-
+//const helmet = require('helmet');
 
 // importing routes
 import empresaRoutes from "./routes/empresas";
@@ -46,6 +46,8 @@ import reporteRoutes from './routes/reportes'
 import siniestroRequisitoRoutes from './routes/siniestroRequisito'
 import paramProduccionRoutes from './routes/paramProduccion'
 import atributoRoutes from './routes/atributo'
+import periodoRoutes from './routes/periodo'
+
 
 
 const bodyParser = require("body-parser");
@@ -77,6 +79,10 @@ app.use(compression({
 })); */
 
 // middlewares
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests');
+  next();
+});
 
 app.use(jsonParser);
 app.use(urlencodedParser);
@@ -96,7 +102,10 @@ rdlc ({ report: 'test.rdl' }, function (err, result) {
 })
  */
 
-
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  next();
+});
 
 
 app.use('/api/empresas', empresaRoutes);
@@ -156,4 +165,7 @@ app.use('/api/seguimiento',siniestroSeguimientoRoutes);
 
 //reportes
 app.use('/api/reporte',reporteRoutes);
+
+//parametrizacion
+app.use('/api/periodo', periodoRoutes);
 export default app;

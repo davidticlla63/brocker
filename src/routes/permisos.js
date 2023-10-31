@@ -4,7 +4,9 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createPermiso, getPermisos, getOnePermiso, deletePermiso, updatePermiso } from "../controllers/permiso.controller";
+import * as control from "../controllers/permiso.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
+
 const shouldCompress = (req, res) => {
     if (req.headers['x-no-compression']) {
       // No comprimira las respuestas, si este encabezado 
@@ -28,13 +30,13 @@ router
         threshold: 0
       }));
 // /api/perfils/
-router.post('/', createPermiso);
-router.get('/', getPermisos);
+router.post('/',tokenVerificacion.ensureToken,control. createPermiso);
+router.get('/',tokenVerificacion.ensureToken,control. getPermisos);
 
 // /api/perfils/:perfilID
-router.get('/:id', getOnePermiso);
-router.delete('/:id', deletePermiso);
-router.put('/:id', updatePermiso);
+router.get('/:id',tokenVerificacion.ensureToken,control. getOnePermiso);
+router.delete('/:id', tokenVerificacion.ensureToken,control.deletePermiso);
+router.put('/:id', tokenVerificacion.ensureToken,control.updatePermiso);
 //router.post('/createPermiso/:perfilid', createPermiso);
 
 export default router;

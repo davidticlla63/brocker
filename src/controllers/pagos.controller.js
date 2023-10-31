@@ -553,7 +553,7 @@ export async function getPagosPorEmpresayCi(req, res) {
         where e.id='` + empresaid + `' AND  P.estado in ('ACT','CER')  and m.estado='ACT'
          and  case when a.tipoasegurado='corporativo' then a.nit ='` + cinit + `' else a.ci ='` + cinit + `' end 
         and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) 
-         order by pp.fechapago asc`;
+         order by pp.fechapago  asc,p.nropoliza asc`;
 
         const pagos = await sequelize.query(query
             , {

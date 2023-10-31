@@ -1,39 +1,34 @@
 "use strict";
 
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _express = require("express");
-
 var _mailers = require("../mailers");
-
 var _database = require("../database/database");
-
+var _console = require("console");
+var tokenVerificacion = _interopRequireWildcard(require("../jwt/jwtVerificacion"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var _require = require('sequelize'),
-    QueryTypes = _require.QueryTypes;
-
+  QueryTypes = _require.QueryTypes;
 var bodyParser = require("body-parser");
-
 var cors = require("cors");
-
 var compression = require("compression");
+var router = (0, _express.Router)();
+//import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
-var router = (0, _express.Router)(); //import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 //import * as accions from "../controllers/accion.controller";
 
 router.use(cors()).use(bodyParser.json()).use(compression());
-
 var request = require("request");
-
 var fs = require("fs");
-
-var urlReporte = 'http://localhost:8080/broker/rest/reporte'; //,tokenVerificacion.ensureToken   aumentar para revisar el token
-
-router.get('/memo/:id', function (req, res, next) {
+var urlReporte = 'http://localhost:8080/broker/rest/reporte';
+//,tokenVerificacion.ensureToken   aumentar para revisar el token
+router.get('/memo/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/memo/" + id;
@@ -60,9 +55,8 @@ router.get('/memo/:id', function (req, res, next) {
     });
   }
 });
-router.get('/poliza/:id', function (req, res, next) {
+router.get('/poliza/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/poliza/" + id;
@@ -70,6 +64,7 @@ router.get('/poliza/:id', function (req, res, next) {
       url: dir
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -89,11 +84,10 @@ router.get('/poliza/:id', function (req, res, next) {
     });
   }
 });
-router.get('/poliza/:id/:tipo', function (req, res, next) {
+router.get('/poliza/:id/:tipo', tokenVerificacion.ensureToken, function (req, res, next) {
   var _req$params = req.params,
-      id = _req$params.id,
-      tipo = _req$params.tipo;
-
+    id = _req$params.id,
+    tipo = _req$params.tipo;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/poliza/" + id + "/" + tipo;
@@ -101,6 +95,7 @@ router.get('/poliza/:id/:tipo', function (req, res, next) {
       url: dir
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -120,9 +115,8 @@ router.get('/poliza/:id/:tipo', function (req, res, next) {
     });
   }
 });
-router.get('/siniestro/:id', function (req, res, next) {
+router.get('/siniestro/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/siniestro/" + id;
@@ -149,9 +143,8 @@ router.get('/siniestro/:id', function (req, res, next) {
     });
   }
 });
-router.get('/pago/:id', function (req, res, next) {
+router.get('/pago/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/pago/" + id;
@@ -178,9 +171,8 @@ router.get('/pago/:id', function (req, res, next) {
     });
   }
 });
-router.get('/vencimientoPoliza/:id', function (req, res, next) {
+router.get('/vencimientoPoliza/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/vencimientoPoliza/" + id;
@@ -188,7 +180,9 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
       url: dir
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       var data = response.body;
+
       /* const personals =  sequelize.query(`  select cs.nombre nombrecompania,a.correocobranza,a.direccionasegurado,a.nombrecompleto as nombreasegurado,a.telefonoasegurado,a.telefonodomicilio,r.nombre nombreramo,s.nombre as sucursal,p.nropoliza ,p.valorasegurado ,p.fechafin 
       from poliza p 
       inner join sucursal s on s.id=p.sucursalid 
@@ -227,9 +221,8 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
          <h4>Esta es una etiqueta H4. No se usan muy a menudo.</h4>
          <h5>Esta es una etiqueta H5.</h5>
          <h6>Esta es una etiqueta H6.</h6>` */
-
-      }; //envio de correos
-
+      };
+      //envio de correos
       _mailers.transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           res.json({
@@ -242,7 +235,6 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
           });
           console.log('Email enviado: ' + info.response);
         }
-
         _mailers.transporter.close();
       });
     });
@@ -256,10 +248,9 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
     });
   }
 });
-router.post('/comisionPorCobrar', function (req, res, next) {
+router.post('/comisionPorCobrar', tokenVerificacion.ensureToken, function (req, res, next) {
   //const { id } = req.params;
   var body = JSON.stringify(req.body);
-
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/comisionPorCobrar";
@@ -271,6 +262,7 @@ router.post('/comisionPorCobrar', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -290,9 +282,8 @@ router.post('/comisionPorCobrar', function (req, res, next) {
     });
   }
 });
-router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
+router.post('/vencimientoPolizasPorCompania', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/vencimientoPolizaPorCompania";
     request.post({
@@ -304,6 +295,7 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -323,9 +315,8 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
     });
   }
 });
-router.post('/produccionPorSucursalCompania', function (req, res, next) {
+router.post('/produccionPorSucursalCompania', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionPorSucursalCompania";
     request.post({
@@ -337,6 +328,7 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -356,9 +348,8 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
     });
   }
 });
-router.post('/produccion', function (req, res, next) {
+router.post('/produccion', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccion";
     request.post({
@@ -370,6 +361,7 @@ router.post('/produccion', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -389,11 +381,10 @@ router.post('/produccion', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE SINIESTRO */
-
-router.post('/siniestroPorEmpresa', function (req, res, next) {
+router.post('/siniestroPorEmpresa', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/siniestroPorEmpresa";
     request.post({
@@ -405,6 +396,7 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -424,11 +416,10 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE SINIESTRO */
-
-router.post('/siniestroPorSucursal', function (req, res, next) {
+router.post('/siniestroPorSucursal', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/siniestroPorSucursal";
     request.post({
@@ -440,6 +431,7 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -459,11 +451,10 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION COMISIONES */
-
-router.post('/produccionComisionGeneral', function (req, res, next) {
+router.post('/produccionComisionGeneral', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionComisionGeneral";
     request.post({
@@ -475,6 +466,7 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -494,11 +486,10 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION COMISIONES EGRESO */
-
-router.post('/produccionComisionEgreso', function (req, res, next) {
+router.post('/produccionComisionEgreso', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionComisionEgreso";
     request.post({
@@ -510,6 +501,7 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -529,11 +521,10 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION COMISIONES INGRESO */
-
-router.post('/produccionComisionIngreso', function (req, res, next) {
+router.post('/produccionComisionIngreso', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionComisionIngreso";
     request.post({
@@ -545,6 +536,7 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -564,11 +556,10 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION PRIMA NETA GENERAL */
-
-router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
+router.post('/produccionPrimaNetaGeneral', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionPrimaNetaGeneral";
     request.post({
@@ -580,6 +571,7 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -599,11 +591,10 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION PRIMA NETA EGRESO */
-
-router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
+router.post('/produccionPrimaNetaEgreso', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionPrimaNetaEgreso";
     request.post({
@@ -615,6 +606,7 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -634,33 +626,53 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE PRODUCCION PRIMA NETA INGRESO */
-
-router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
+router.post('/produccionPrimaNetaIngreso', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/produccionPrimaNetaIngreso";
     request.post({
-      /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          data: {
+            estado: false,
+            "error": err.message
+          }
         });
+        return;
+      }
+      console.log("Response:", response);
+      try {
+        if (response && response.body) {
+          var data = response.body;
+          res.json({
+            data: data
+          });
+        } else {
+          res.json({
+            data: "No se recibieron datos válidos."
+          });
+        }
       } catch (error) {
-        throw new Error(error);
+        console.error(error);
+        res.status(500).json({
+          data: {
+            estado: false,
+            "error": error.message
+          }
+        });
       }
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       data: {
         estado: false,
@@ -669,11 +681,10 @@ router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
     });
   }
 });
+
 /**REPORTE DE POLIZAS EN VENCIMIENTO */
-
-router.post('/polizasAutomotorVencimiento', function (req, res, next) {
+router.post('/polizasAutomotorVencimiento', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
-
   try {
     var dir = urlReporte + "/polizasAutomotorVencimiento";
     request.post({
@@ -685,6 +696,7 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -704,12 +716,11 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
     });
   }
 });
-/**REPORTE DE PAGOS REALIZADOS */
 
-router.post('/pagosRealizados/:tipo', function (req, res, next) {
+/**REPORTE DE PAGOS REALIZADOS */
+router.post('/pagosRealizados/:tipo', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
   var tipo = req.params.tipo;
-
   try {
     var dir = urlReporte + "/pagosRealizados/" + tipo;
     request.post({
@@ -721,6 +732,7 @@ router.post('/pagosRealizados/:tipo', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({
@@ -740,12 +752,11 @@ router.post('/pagosRealizados/:tipo', function (req, res, next) {
     });
   }
 });
-/**REPORTE DE SINIESTROS REALIZADOS */
 
-router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
+/**REPORTE DE SINIESTROS REALIZADOS */
+router.post('/siniestrosRealizados/:tipo', tokenVerificacion.ensureToken, function (req, res, next) {
   var body = JSON.stringify(req.body);
   var tipo = req.params.tipo;
-
   try {
     var dir = urlReporte + "/siniestrosRealizados/" + tipo;
     request.post({
@@ -757,6 +768,7 @@ router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
       body: body
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+
       try {
         var data = response.body;
         res.json({

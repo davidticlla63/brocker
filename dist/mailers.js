@@ -4,11 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.transporter = void 0;
-
 //Requerimos el paquete
-var nodemailer = require('nodemailer'); //Creamos el objeto de transporte
+var nodemailer = require('nodemailer');
 
-
+//Creamos el objeto de transporte
 var transporter = nodemailer.createTransport({
   service: 'gmsantacruz.gob.bo',
   //dominio
@@ -24,6 +23,7 @@ var transporter = nodemailer.createTransport({
     pass: 'D3s4rrOll0'
   }
 });
+
 /* export const transporter = nodemailer.createTransport({
     //service: 'patria-sa.com',//dominio
      //   host: 'smtp-mail.outlook.com',//servicio
@@ -55,7 +55,6 @@ var transporter = nodemailer.createTransport({
     }
 });
  */
-
 exports.transporter = transporter;
 transporter.verify().then(function () {
   console.log('Ready for send emails.');

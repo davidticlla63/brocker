@@ -4,21 +4,22 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as cobranzaMotivos from "../controllers/cobranzaMotivo.controller";
+import * as control from "../controllers/cobranzaMotivo.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', cobranzaMotivos.createCobranzaMotivo);
-router.get('/', cobranzaMotivos.getCobranzaMotivos);
+router.post('/',tokenVerificacion.ensureToken, control.createCobranzaMotivo);
+router.get('/',tokenVerificacion.ensureToken, control.getCobranzaMotivos);
 
 // /api/empresas/:empresaID
-router.get('/:id', cobranzaMotivos.getOneCobranzaMotivo);
-router.delete('/:id', cobranzaMotivos.deleteCobranzaMotivo);
-router.put('/:id', cobranzaMotivos.updateCobranzaMotivo);
-router.put('/baja/:id', cobranzaMotivos.bajaCobranzaMotivo);
-router.put('/cobranzaMotivoPorPlanPago/:planpagoid', cobranzaMotivos.getCobranzaMotivosPorPlanPago);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneCobranzaMotivo);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteCobranzaMotivo);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateCobranzaMotivo);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaCobranzaMotivo);
+router.put('/cobranzaMotivoPorPlanPago/:planpagoid',tokenVerificacion.ensureToken, control.getCobranzaMotivosPorPlanPago);
 
 export default router;

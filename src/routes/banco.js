@@ -4,21 +4,22 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as bancos from "../controllers/banco.controller";
+import * as control from "../controllers/banco.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', bancos.createBanco);
-router.get('/', bancos.getBancos);
+router.post('/',tokenVerificacion.ensureToken, control.createBanco);
+router.get('/',tokenVerificacion.ensureToken, control.getBancos);
 
 // /api/empresas/:empresaID
-router.get('/:id', bancos.getOneBanco);
-router.delete('/:id', bancos.deleteBanco);
-router.put('/:id', bancos.updateBanco);
-router.put('/baja/:id', bancos.bajaBanco);
-router.get('/bancosPorEmpresa/:empresaid', bancos.bancosPorEmpresa);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneBanco);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteBanco);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateBanco);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaBanco);
+router.get('/bancosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.bancosPorEmpresa);
 
 export default router;

@@ -5,6 +5,7 @@ const compression = require("compression");
 const router = Router();
 
 import * as pagina from "../controllers/pagina.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 const shouldCompress = (req, res) => {
     if (req.headers['x-no-compression']) {

@@ -4,16 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var _require = require('uuid'),
-    uuidv4 = _require.v4;
-
+  uuidv4 = _require.v4;
 var UsuarioPerfil = _database.sequelize.define('UsuarioPerfil', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -40,7 +35,6 @@ var UsuarioPerfil = _database.sequelize.define('UsuarioPerfil', {
   timestamps: false,
   tableName: 'usuario_perfil'
 });
-
 UsuarioPerfil.beforeCreate(function (usuarioPerfil) {
   return usuarioPerfil.id = uuidv4();
 });

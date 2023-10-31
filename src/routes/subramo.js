@@ -4,21 +4,21 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as subRamos from "../controllers/subRamo.controller";
-
+import * as control from "../controllers/subRamo.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', subRamos.createSubRamo);
-router.get('/', subRamos.getSubRamos);
+router.post('/', tokenVerificacion.ensureToken,control.createSubRamo);
+router.get('/',tokenVerificacion.ensureToken, control.getSubRamos);
 
 // /api/empresas/:empresaID
-router.get('/:id', subRamos.getOneSubRamo);
-router.delete('/:id', subRamos.deleteSubRamo);
-router.put('/:id', subRamos.updateSubRamo);
-router.put('/baja/:id', subRamos.bajaSubRamo);
-router.get('/subRamosPorRamo/:ramoid', subRamos.subRamosPorRamo);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneSubRamo);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSubRamo);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateSubRamo);
+router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaSubRamo);
+router.get('/subRamosPorRamo/:ramoid',tokenVerificacion.ensureToken, control.subRamosPorRamo);
 
 export default router;

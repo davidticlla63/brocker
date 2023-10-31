@@ -4,16 +4,17 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as polizaDetallePersonaTitulars from "../controllers/polizaDetallePersonaTitular.controller";
+import * as control from "../controllers/polizaDetallePersonaTitular.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', polizaDetallePersonaTitulars.createPolizaDetallePersonaTitular);
-router.get('/', polizaDetallePersonaTitulars.getPolizaDetallePersonaTitulars);
+router.post('/',tokenVerificacion.ensureToken, control.createPolizaDetallePersonaTitular);
+router.get('/', tokenVerificacion.ensureToken,control.getPolizaDetallePersonaTitulars);
 
-router.get('/dependedientePorDetallePersona/:polizadetallepersonaid', polizaDetallePersonaTitulars.polizaDetallePersonaTitularsPorPoliza);
+router.get('/dependedientePorDetallePersona/:polizadetallepersonaid', tokenVerificacion.ensureToken,control.polizaDetallePersonaTitularsPorPoliza);
 
 export default router;

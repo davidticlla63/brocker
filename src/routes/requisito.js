@@ -4,21 +4,21 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as requisitos from "../controllers/requisito.controller";
-
+import * as control from "../controllers/requisito.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', requisitos.createRequisito);
-router.get('/', requisitos.getRequisitos);
-router.get('/requisitosPorEmpresa/:empresaid', requisitos.getRequisitosPorEmpresa);
-router.get('/requisitosPorSiniestro/:siniestroid', requisitos.getRequisitoPorSiniestro);
+router.post('/',tokenVerificacion.ensureToken, control.createRequisito);
+router.get('/',tokenVerificacion.ensureToken, control.getRequisitos);
+router.get('/requisitosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getRequisitosPorEmpresa);
+router.get('/requisitosPorSiniestro/:siniestroid',tokenVerificacion.ensureToken, control.getRequisitoPorSiniestro);
 // /api/empresas/:empresaID
-router.get('/:id', requisitos.getOneRequisito);
-router.delete('/:id', requisitos.deleteRequisito);
-router.put('/:id', requisitos.updateRequisito);
-router.put('/baja/:id', requisitos.bajaRequisito);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneRequisito);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteRequisito);
+router.put('/:id', tokenVerificacion.ensureToken,control.updateRequisito);
+router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaRequisito);
 
 export default router;

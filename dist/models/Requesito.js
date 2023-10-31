@@ -4,13 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Requesito = _database.sequelize.define('Requesito', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -34,7 +30,5 @@ var Requesito = _database.sequelize.define('Requesito', {
 });
 /* Requesito.hasMany(PaginaRequesito, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaRequesito.belongsTo(Requesito, { foreignKey: 'accionid', sourceKey: 'id' }); */
-
-
 var _default = Requesito;
 exports["default"] = _default;

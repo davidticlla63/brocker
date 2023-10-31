@@ -4,13 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Pagos = _database.sequelize.define('Pagos', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -37,6 +33,5 @@ var Pagos = _database.sequelize.define('Pagos', {
   timestamps: false,
   tableName: 'pagos'
 });
-
 var _default = Pagos;
 exports["default"] = _default;

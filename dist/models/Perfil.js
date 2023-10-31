@@ -4,17 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _Permiso = _interopRequireDefault(require("./Permiso"));
-
 var _UsuarioPerfil = _interopRequireDefault(require("./UsuarioPerfil"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Perfil = _database.sequelize.define('Perfil', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -37,26 +31,21 @@ var Perfil = _database.sequelize.define('Perfil', {
   timestamps: false,
   tableName: 'perfil'
 });
-
 Perfil.hasMany(_Permiso["default"], {
   foreignKey: 'perfilid',
   sourceKey: 'id'
 });
-
 _Permiso["default"].belongsTo(Perfil, {
   foreignKey: 'perfilid',
   sourceKey: 'id'
 });
-
 Perfil.hasMany(_UsuarioPerfil["default"], {
   foreignKey: 'perfilid',
   sourceKey: 'id'
 });
-
 _UsuarioPerfil["default"].belongsTo(Perfil, {
   foreignKey: 'perfilid',
   sourceKey: 'id'
 });
-
 var _default = Perfil;
 exports["default"] = _default;

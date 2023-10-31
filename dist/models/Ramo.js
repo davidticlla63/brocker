@@ -4,15 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _SubRamo = _interopRequireDefault(require("./SubRamo"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Ramo = _database.sequelize.define('Ramo', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -24,8 +19,8 @@ var Ramo = _database.sequelize.define('Ramo', {
   spvs: {
     type: _sequelize["default"].STRING //,
     //field:'ramo_spvs'
-
   },
+
   tiporamoid: _sequelize["default"].STRING,
   //tipo de riesgo
   //companiaseguroid:Sequelize.STRING,//compañia
@@ -43,16 +38,13 @@ var Ramo = _database.sequelize.define('Ramo', {
   timestamps: false,
   tableName: 'ramo'
 });
-
 Ramo.hasMany(_SubRamo["default"], {
   foreignKey: 'ramoid',
   sourceKey: 'id'
 });
-
 _SubRamo["default"].belongsTo(Ramo, {
   foreignKey: 'ramoid',
   sourceKey: 'id'
 });
-
 var _default = Ramo;
 exports["default"] = _default;

@@ -4,17 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _SucursalUsuario = _interopRequireDefault(require("./SucursalUsuario"));
-
 var _UsuarioPerfil = _interopRequireDefault(require("./UsuarioPerfil"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Usuario = _database.sequelize.define('Usuario', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -35,26 +29,23 @@ var Usuario = _database.sequelize.define('Usuario', {
   timestamps: false,
   tableName: 'usuario'
 });
-
 Usuario.hasMany(_SucursalUsuario["default"], {
   foreignKey: 'usuarioid',
   sourceKey: 'id'
 });
-
 _SucursalUsuario["default"].belongsTo(Usuario, {
   foreignKey: 'usuarioid',
   sourceKey: 'id'
 });
-
 Usuario.hasMany(_UsuarioPerfil["default"], {
   foreignKey: 'usuarioid',
   sourceKey: 'id'
 });
-
 _UsuarioPerfil["default"].belongsTo(Usuario, {
   foreignKey: 'usuarioid',
   sourceKey: 'id'
 });
+
 /* 
 Usuario.prototype.generatePasswordHash = async function() {
     const saltRounds = 10;
@@ -66,7 +57,5 @@ Usuario.prototype.generatePasswordHash = async function() {
     return await bcrypt.compare(password, this.password);
   };
  */
-
-
 var _default = Usuario;
 exports["default"] = _default;

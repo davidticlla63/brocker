@@ -4,13 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var PolizaDetallePersona = _database.sequelize.define('PolizaDetallePersona', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -48,7 +44,5 @@ var PolizaDetallePersona = _database.sequelize.define('PolizaDetallePersona', {
 });
 /* PolizaDetallePersona.hasMany(PaginaPolizaDetallePersona, { foreignKey: 'accionid', sourceKey: 'id' });
 PaginaPolizaDetallePersona.belongsTo(PolizaDetallePersona, { foreignKey: 'accionid', sourceKey: 'id' }); */
-
-
 var _default = PolizaDetallePersona;
 exports["default"] = _default;

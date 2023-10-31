@@ -4,15 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _Personal = _interopRequireDefault(require("./Personal"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var AreaTrabajo = _database.sequelize.define('AreaTrabajo', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -34,12 +29,10 @@ var AreaTrabajo = _database.sequelize.define('AreaTrabajo', {
   timestamps: false,
   tableName: 'area_trabajo'
 });
-
 AreaTrabajo.hasMany(_Personal["default"], {
   foreignKey: 'areatrabajoid',
   sourceKey: 'id'
 });
-
 _Personal["default"].belongsTo(AreaTrabajo, {
   foreignKey: 'areatrabajoid',
   sourceKey: 'id'
@@ -47,7 +40,5 @@ _Personal["default"].belongsTo(AreaTrabajo, {
 /* 
 Accion.hasMany(PaginaAccion, { foreignKey: 'paginaid', sourceKey: 'id' });
 PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
-
-
 var _default = AreaTrabajo;
 exports["default"] = _default;

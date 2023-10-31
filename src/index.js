@@ -7,22 +7,22 @@ import config from './config'
 //const db=require("./models")
 
 
-const Sequelize = require('sequelize');
-const db = new Sequelize('broker_db', 'postgres', 'admin', {
+
+
+/* const Sequelize = require('sequelize');
+
+import { Client } from 'pg'
+
+const client = new Client({
     host: 'localhost',
-    dialect: 'postgres',
-
     port: 5432,
-    //operatorsAliases: false,
+    database: 'postgres',
+    user: 'postgres',
+    password: 'admin',
+}) */
+import { sequelize } from "./database/database";
+const db = sequelize
 
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    },
-    logging: true
-});
 
 async function conectar() {
     console.log('conectar');
@@ -70,9 +70,10 @@ var mailOptions = {
 }); */
 
 
-
 async function main() {
-    //conectar();
+
+ 
+    conectar();
     console.log(`NODE_ENV=${config.NODE_ENV}`);
     console.log(`PORT=${config.PORT}`);
 
@@ -82,7 +83,7 @@ async function main() {
     await app.listen(PORT);
 
     console.log('Server on port : ' + PORT);
-}
+} 
 
 
 main();

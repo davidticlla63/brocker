@@ -5,7 +5,9 @@ const compression = require("compression");
 const router = Router();
 
 /* import { createPerfil, getPerfils, getOnePerfil, deletePerfil, updatePerfil ,getPerfilByEmpresa,createPerfilPermisos} from "../controllers/perfil.controller"; */
-import * as perfil from "../controllers/perfil.controller";
+import * as control from "../controllers/perfil.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
+
 const shouldCompress = (req, res) => {
     if (req.headers['x-no-compression']) {
       // No comprimira las respuestas, si este encabezado 
@@ -29,17 +31,17 @@ router
         threshold: 0
       }));
 // /api/perfils/
-router.post('/',perfil. createPerfil);
-router.get('/', perfil.getPerfils);
+router.post('/',control. createPerfil);
+router.get('/', control.getPerfils);
 
 // /api/perfils/:perfilID
-router.get('/:id', perfil.getOnePerfil);
-router.delete('/:id', perfil.deletePerfil);
-router.put('/:id', perfil.updatePerfil);
-router.get('/perfilPorEmpresa/:empresaid', perfil.getPerfilByEmpresa);
-router.get('/perfilPorSucursal/:sucursalid', perfil.getPerfilBySucursal);
-router.post('/createPermisos/:perfilid', perfil.createPerfilPermisos);
-router.get('/obtenerPermisosXPerfil/:perfilid', perfil.getPermisosPorPerfil);
-router.put('/baja/:id', perfil.bajaPerfil);
+router.get('/:id', control.getOnePerfil);
+router.delete('/:id', control.deletePerfil);
+router.put('/:id', control.updatePerfil);
+router.get('/perfilPorEmpresa/:empresaid', control.getPerfilByEmpresa);
+router.get('/perfilPorSucursal/:sucursalid', control.getPerfilBySucursal);
+router.post('/createPermisos/:perfilid', control.createPerfilPermisos);
+router.get('/obtenerPermisosXPerfil/:perfilid', control.getPermisosPorPerfil);
+router.put('/baja/:id', control.bajaPerfil);
 
 export default router;

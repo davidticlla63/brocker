@@ -4,7 +4,8 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as ramoCompanias from "../controllers/ramoCompania.controller";
+import * as control from "../controllers/ramoCompania.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 const shouldCompress = (req, res) => {
     if (req.headers['x-no-compression']) {
@@ -29,16 +30,16 @@ router
         threshold: 0
       }));
 // /api/empresas/
-router.post('/', ramoCompanias.createRamoCompania);
-//router.get('/', ramoCompanias.getRamoCompanias);
+router.post('/', tokenVerificacion.ensureToken,control.createRamoCompania);
+//router.get('/', control.getRamoCompanias);
 
 // /api/empresas/:empresaID
-router.get('/:id', ramoCompanias.getOneRamoCompania);
-router.delete('/:id', ramoCompanias.deleteRamoCompania);
-router.put('/:id', ramoCompanias.updateRamoCompania);
-router.put('/baja/:id', ramoCompanias.bajaRamoCompania);
-router.get('/ramoCompaniasPorRamo/:ramoid', ramoCompanias.ramoCompaniaPorRamo);
-router.get('/ramoCompaniasPorCompania/:companiaseguroid', ramoCompanias.ramoCompaniaPorCompania);
-router.get('/ramoCompaniaPorEmpresa/:empresaid', ramoCompanias.ramoCompaniaPorEmpresa);
+router.get('/:id', tokenVerificacion.ensureToken,control.getOneRamoCompania);
+router.delete('/:id', tokenVerificacion.ensureToken,control.deleteRamoCompania);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateRamoCompania);
+router.put('/baja/:id', control.bajaRamoCompania);
+router.get('/ramoCompaniasPorRamo/:ramoid',tokenVerificacion.ensureToken, control.ramoCompaniaPorRamo);
+router.get('/ramoCompaniasPorCompania/:companiaseguroid',tokenVerificacion.ensureToken, control.ramoCompaniaPorCompania);
+router.get('/ramoCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.ramoCompaniaPorEmpresa);
 
 export default router;

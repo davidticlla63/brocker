@@ -4,15 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _Poliza = _interopRequireDefault(require("./Poliza"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Asegurado = _database.sequelize.define('Asegurado', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -77,12 +72,10 @@ var Asegurado = _database.sequelize.define('Asegurado', {
   timestamps: false,
   tableName: 'asegurado'
 });
-
 Asegurado.hasMany(_Poliza["default"], {
   foreignKey: 'tomadorid',
   sourceKey: 'id'
 });
-
 _Poliza["default"].belongsTo(Asegurado, {
   foreignKey: 'tomadorid',
   sourceKey: 'id'
@@ -93,7 +86,5 @@ PaginaAccion.belongsTo(Accion, { foreignKey: 'paginaid', sourceKey: 'id' }); */
 
 /* Asegurado.hasMany(Personal, { foreignKey: 'personalid', sourceKey: 'id' });
 Personal.belongsTo(Asegurado, { foreignKey: 'personalid', sourceKey: 'id' }); */
-
-
 var _default = Asegurado;
 exports["default"] = _default;

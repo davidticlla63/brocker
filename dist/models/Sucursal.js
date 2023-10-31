@@ -4,19 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _Personal = _interopRequireDefault(require("./Personal"));
-
 var _SucursalUsuario = _interopRequireDefault(require("./SucursalUsuario"));
-
 var _Perfil = _interopRequireDefault(require("./Perfil"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Sucursal = _database.sequelize.define('sucursal', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -47,36 +40,29 @@ var Sucursal = _database.sequelize.define('sucursal', {
   timestamps: false,
   tableName: 'sucursal'
 });
-
 Sucursal.hasMany(_SucursalUsuario["default"], {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 _SucursalUsuario["default"].belongsTo(Sucursal, {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 Sucursal.hasMany(_Personal["default"], {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 _Personal["default"].belongsTo(Sucursal, {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 Sucursal.hasMany(_Perfil["default"], {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 _Perfil["default"].belongsTo(Sucursal, {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-
 var _default = Sucursal;
 exports["default"] = _default;

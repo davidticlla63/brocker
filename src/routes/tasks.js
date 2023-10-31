@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import { createTask, getTasks, getOneTask, deleteTask, updateTask, getTasksByProject } from "../controllers/task.controller";
-
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 // /api/tasks/
 router.post('/', createTask);
 router.get('/', getTasks);

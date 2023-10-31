@@ -6,8 +6,8 @@ const router = Router();
 
 /* import { createPersonal, getPersonals, getOnePersonal, deletePersonal, updatePersonal,bajaPersonal,personalByAreaTrabajo ,personalBySucursal,
 personalByEmpresa} from "../controllers/personal.controller"; */
-import * as personal from "../controllers/personal.controller";
-
+import * as control from "../controllers/personal.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 const shouldCompress = (req, res) => {
   if (req.headers['x-no-compression']) {
     // No comprimira las respuestas, si este encabezado 
@@ -31,22 +31,22 @@ router
       threshold: 0
     }));
 // /api/empresas/
-router.post('/', personal.createPersonal);
-router.get('/',personal. getPersonals);
+router.post('/',tokenVerificacion.ensureToken, control.createPersonal);
+router.get('/',tokenVerificacion.ensureToken,control. getPersonals);
 
 // /api/empresas/:empresaID
-router.get('/:id', personal.getOnePersonal);
-router.delete('/:id', personal.deletePersonal);
-router.put('/:id', personal.updatePersonal);
-router.put('/baja/:id', personal.bajaPersonal);
-router.get('/personalBySucursal/:sucursalid', personal.personalBySucursal);
-router.get('/personalByAreaTrabajo/:areatrabajoid', personal.personalByAreaTrabajo);
-router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOnePersonal);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deletePersonal);
+router.put('/:id',tokenVerificacion.ensureToken, control.updatePersonal);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaPersonal);
+router.get('/personalBySucursal/:sucursalid',tokenVerificacion.ensureToken, control.personalBySucursal);
+router.get('/personalByAreaTrabajo/:areatrabajoid',tokenVerificacion.ensureToken, control.personalByAreaTrabajo);
+router.get('/personalByEmpresa/:empresaid',tokenVerificacion.ensureToken, control.personalByEmpresa);
 //router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
-router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid', personal.personalByAreaTrabajoYSucursal);
-router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid', personal.personalByAreaTrabajoYEmpresa);
+router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid',tokenVerificacion.ensureToken, control.personalByAreaTrabajoYSucursal);
+router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid',tokenVerificacion.ensureToken, control.personalByAreaTrabajoYEmpresa);
 
-router.get('/personalByTipoCarteraYSucursal/:tipocartera/:sucursalid', personal.personalByTipoCarteraYSucursal);
-router.get('/personalByTipoCarteraYEmpresa/:tipocartera/:empresaid', personal.personalByTipoCarteraYEmpresa);
+router.get('/personalByTipoCarteraYSucursal/:tipocartera/:sucursalid',tokenVerificacion.ensureToken, control.personalByTipoCarteraYSucursal);
+router.get('/personalByTipoCarteraYEmpresa/:tipocartera/:empresaid',tokenVerificacion.ensureToken, control.personalByTipoCarteraYEmpresa);
 
 export default router;

@@ -7,7 +7,8 @@ const router = Router();
 const swaggerUI = require('swagger-ui-express')
 const swaggerJSDoc = require('swagger-jsdoc')
 
-import * as empresa from "../controllers/empresa.controller";
+import * as control from "../controllers/empresa.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
   .use(cors())
@@ -89,7 +90,7 @@ var corsOptions = {
   *    500:
   *     description: failure in creating empresa
  */
-router.post('/', empresa.createEmpresa);
+router.post('/', control.createEmpresa);
 
 // /api/empresas/
 /**
@@ -108,11 +109,11 @@ router.post('/', empresa.createEmpresa);
   *        schema:
   *             $ref: '#/definitions/empresa' 
   */
-router.get('/', empresa.getEmpresas);
+router.get('/', control.getEmpresas);
 
 // /api/empresas/:empresaID
-router.get('/:id', empresa.getOneEmpresa);
-router.delete('/:id', empresa.deleteEmpresa);
-router.put('/:id', empresa.updateEmpresa);
-router.put('/baja/:id', empresa.bajaEmpresa);
+router.get('/:id', control.getOneEmpresa);
+router.delete('/:id', control.deleteEmpresa);
+router.put('/:id', control.updateEmpresa);
+router.put('/baja/:id', control.bajaEmpresa);
 export default router;

@@ -4,7 +4,8 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as pagos from "../controllers/pagos.controller";
+import * as control from "../controllers/pagos.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 const shouldCompress = (req, res) => {
     if (req.headers['x-no-compression']) {
@@ -29,34 +30,34 @@ router
         threshold: 0
       }));
     
-router.post('/', pagos.createPagos);
-router.post('/crear/', pagos.crearPagos);
-router.get('/', pagos.getPagoss);
+router.post('/',tokenVerificacion.ensureToken, control.createPagos);
+router.post('/crear/',tokenVerificacion.ensureToken, control.crearPagos);
+router.get('/',tokenVerificacion.ensureToken, control.getPagoss);
 
 // /api/empresas/:empresaID
-router.get('/:id', pagos.getOnePagos);
-router.delete('/:id', pagos.deletePagos);
-router.put('/:id', pagos.updatePagos);
-router.put('/baja/:id', pagos.bajaPagos);
-router.get('/generalPorSucursal/:sucursalid', pagos.getPagosGeneralesPorSucursal);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOnePagos);
+router.delete('/:id', tokenVerificacion.ensureToken,control.deletePagos);
+router.put('/:id',tokenVerificacion.ensureToken, control.updatePagos);
+router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaPagos);
+router.get('/generalPorSucursal/:sucursalid', tokenVerificacion.ensureToken,control.getPagosGeneralesPorSucursal);
 
-router.get('/actualesPorSucursal/:sucursalid', pagos.getPagosActualesPorSucursal);
-router.get('/pendientesPorSucursal/:sucursalid', pagos.getPagosPendientesPorSucursal);
-router.get('/moraPorSucursal/:sucursalid', pagos.getPagosMoraPorSucursal);
+router.get('/actualesPorSucursal/:sucursalid', tokenVerificacion.ensureToken,control.getPagosActualesPorSucursal);
+router.get('/pendientesPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getPagosPendientesPorSucursal);
+router.get('/moraPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getPagosMoraPorSucursal);
 
-router.get('/actualesPorEmpresa/:empresaid', pagos.getPagosActualesPorEmpresa);
-router.get('/pendientesPorEmpresa/:empresaid', pagos.getPagosPendientesPorEmpresa);
-router.get('/moraPorEmpresa/:empresaid', pagos.getPagosMoraPorEmpresa);
+router.get('/actualesPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getPagosActualesPorEmpresa);
+router.get('/pendientesPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getPagosPendientesPorEmpresa);
+router.get('/moraPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getPagosMoraPorEmpresa);
 
-router.get('/pagosPorSucursalYCI/:sucursalid/:cinit', pagos.getPagosPorSucursalyCi);
-router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', pagos.getPagosPorEmpresayCi);
+router.get('/pagosPorSucursalYCI/:sucursalid/:cinit',tokenVerificacion.ensureToken, control.getPagosPorSucursalyCi);
+router.get('/pagosPorEmpresaYCI/:empresaid/:cinit',tokenVerificacion.ensureToken, control.getPagosPorEmpresayCi);
 
-router.post('/pagoPorSucursal/:sucursalid', pagos.getPagosPorSucursal);
-router.post('/pagoPorEmpresa/:empresaid', pagos.getPagosPorEmpresa);
+router.post('/pagoPorSucursal/:sucursalid', tokenVerificacion.ensureToken,control.getPagosPorSucursal);
+router.post('/pagoPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getPagosPorEmpresa);
 
 
 
 /**dashoboard */
-router.get('/totalPagosPorEmpresa/:empresaid', pagos.getTotalPagosPorEmpresa);
-router.get('/totalPagosPorSucursal/:sucursalid', pagos.getTotalPagosPorSucursal);
+router.get('/totalPagosPorEmpresa/:empresaid', tokenVerificacion.ensureToken,control.getTotalPagosPorEmpresa);
+router.get('/totalPagosPorSucursal/:sucursalid', tokenVerificacion.ensureToken,control.getTotalPagosPorSucursal);
 export default router;

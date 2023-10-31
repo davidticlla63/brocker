@@ -4,27 +4,27 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as subRamoCompanias from "../controllers/subRamoCompania.controller";
-
+import * as control from "../controllers/subRamoCompania.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', subRamoCompanias.createSubRamoCompania);
-//router.get('/', subRamoCompanias.getRamoCompanias);
+router.post('/',tokenVerificacion.ensureToken, control.createSubRamoCompania);
+//router.get('/', control.getRamoCompanias);
 
 // /api/empresas/:empresaID
-router.get('/:id', subRamoCompanias.getOneSubRamoCompania);
-router.delete('/:id', subRamoCompanias.deleteSubRamoCompania);
-router.put('/:id', subRamoCompanias.updateSubRamoCompania);
-router.put('/baja/:id', subRamoCompanias.bajaSubRamoCompania);
-router.get('/subRamoCompaniasPorRamo/:ramoid', subRamoCompanias.subRamoCompaniaPorRamo);
-router.get('/subRamoCompaniasPorCompania/:companiaseguroid', subRamoCompanias.subRamoCompaniaPorCompania);
-router.get('/subRamoCompaniaPorCompaniaYSucursal/:companiaseguroid/:sucursalid', subRamoCompanias.subRamoCompaniaPorCompaniaYSucursal);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneSubRamoCompania);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSubRamoCompania);
+router.put('/:id', tokenVerificacion.ensureToken,control.updateSubRamoCompania);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaSubRamoCompania);
+router.get('/subRamoCompaniasPorRamo/:ramoid', tokenVerificacion.ensureToken,control.subRamoCompaniaPorRamo);
+router.get('/subRamoCompaniasPorCompania/:companiaseguroid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorCompania);
+router.get('/subRamoCompaniaPorCompaniaYSucursal/:companiaseguroid/:sucursalid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorCompaniaYSucursal);
 //nueva metodo que se aumento
-router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaYCompaniaPorEmpresa);
-router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid', subRamoCompanias.subRamoCompaniaYCompaniaPorSucursal);
-router.get('/subRamoCompaniaPorEmpresa/:empresaid', subRamoCompanias.subRamoCompaniaPorEmpresa);
+router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.subRamoCompaniaYCompaniaPorEmpresa);
+router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.subRamoCompaniaYCompaniaPorSucursal);
+router.get('/subRamoCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorEmpresa);
 
 export default router;

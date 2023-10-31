@@ -4,20 +4,21 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as carpetas from "../controllers/carpeta.controller";
+import * as control from "../controllers/carpeta.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', carpetas.createCarpeta);
-router.get('/', carpetas.getCarpetas);
+router.post('/',tokenVerificacion.ensureToken, control.createCarpeta);
+router.get('/', tokenVerificacion.ensureToken,control.getCarpetas);
 
 // /api/empresas/:empresaID
-router.get('/:id', carpetas.getOneCarpeta);
-router.delete('/:id', carpetas.deleteCarpeta);
-router.put('/:id', carpetas.updateCarpeta);
-router.put('/baja/:id', carpetas.bajaCarpeta);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneCarpeta);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteCarpeta);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateCarpeta);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaCarpeta);
 
 export default router;

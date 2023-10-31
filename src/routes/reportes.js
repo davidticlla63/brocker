@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { transporter } from '../mailers'
 import { sequelize } from "../database/database";
+import { error } from "console";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 const { QueryTypes } = require('sequelize');
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -19,7 +21,7 @@ var request = require("request");
 var fs = require("fs");
 var urlReporte = 'http://localhost:8080/broker/rest/reporte'
 //,tokenVerificacion.ensureToken   aumentar para revisar el token
-router.get('/memo/:id', function (req, res, next) {
+router.get('/memo/:id',tokenVerificacion.ensureToken, function (req, res, next) {
   const { id } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
@@ -29,15 +31,15 @@ router.get('/memo/:id', function (req, res, next) {
 
     }, function (err, response, body) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-        try {
-          const data = response.body;
-              res.json({
-                data: data
-              });
-        } catch (error) {
-          throw new Error(error)
-        }
-      
+      try {
+        const data = response.body;
+        res.json({
+          data: data
+        });
+      } catch (error) {
+        throw new Error(error)
+      }
+
     });
   } catch (error) {
     console.log(error);
@@ -49,7 +51,7 @@ router.get('/memo/:id', function (req, res, next) {
 
 });
 
-router.get('/poliza/:id', function (req, res, next) {
+router.get('/poliza/:id',tokenVerificacion.ensureToken, function (req, res, next) {
   const { id } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
@@ -62,9 +64,9 @@ router.get('/poliza/:id', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -79,11 +81,11 @@ router.get('/poliza/:id', function (req, res, next) {
 
 });
 
-router.get('/poliza/:id/:tipo', function (req, res, next) {
-  const { id ,tipo} = req.params;
+router.get('/poliza/:id/:tipo',tokenVerificacion.ensureToken, function (req, res, next) {
+  const { id, tipo } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-    const dir = urlReporte + "/poliza/" + id+"/"+tipo;
+    const dir = urlReporte + "/poliza/" + id + "/" + tipo;
     request.get({
       url: dir,
 
@@ -92,9 +94,9 @@ router.get('/poliza/:id/:tipo', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -109,7 +111,7 @@ router.get('/poliza/:id/:tipo', function (req, res, next) {
 
 });
 
-router.get('/siniestro/:id', function (req, res, next) {
+router.get('/siniestro/:id',tokenVerificacion.ensureToken, function (req, res, next) {
   const { id } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
@@ -121,9 +123,9 @@ router.get('/siniestro/:id', function (req, res, next) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -138,7 +140,7 @@ router.get('/siniestro/:id', function (req, res, next) {
 
 });
 
-router.get('/pago/:id', function (req, res, next) {
+router.get('/pago/:id',tokenVerificacion.ensureToken, function (req, res, next) {
   const { id } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
@@ -149,9 +151,9 @@ router.get('/pago/:id', function (req, res, next) {
       //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -166,7 +168,7 @@ router.get('/pago/:id', function (req, res, next) {
 
 });
 
-router.get('/vencimientoPoliza/:id', function (req, res, next) {
+router.get('/vencimientoPoliza/:id',tokenVerificacion.ensureToken, function (req, res, next) {
   const { id } = req.params;
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
@@ -249,12 +251,12 @@ router.get('/vencimientoPoliza/:id', function (req, res, next) {
 
 });
 
-router.post('/comisionPorCobrar', function (req, res, next) {
+router.post('/comisionPorCobrar',tokenVerificacion.ensureToken, function (req, res, next) {
   //const { id } = req.params;
   const body = JSON.stringify(req.body);
   try {
     //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
-    const dir = urlReporte + "/comisionPorCobrar" ;
+    const dir = urlReporte + "/comisionPorCobrar";
     request.post({
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       url: dir,
@@ -264,9 +266,9 @@ router.post('/comisionPorCobrar', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -280,7 +282,7 @@ router.post('/comisionPorCobrar', function (req, res, next) {
 
 });
 
-router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
+router.post('/vencimientoPolizasPorCompania', tokenVerificacion.ensureToken,function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/vencimientoPolizaPorCompania";
@@ -294,9 +296,9 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -310,7 +312,7 @@ router.post('/vencimientoPolizasPorCompania', function (req, res, next) {
 
 });
 
-router.post('/produccionPorSucursalCompania', function (req, res, next) {
+router.post('/produccionPorSucursalCompania',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionPorSucursalCompania";
@@ -324,9 +326,9 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -340,7 +342,7 @@ router.post('/produccionPorSucursalCompania', function (req, res, next) {
 
 });
 
-router.post('/produccion', function (req, res, next) {
+router.post('/produccion',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccion";
@@ -354,9 +356,9 @@ router.post('/produccion', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -371,7 +373,7 @@ router.post('/produccion', function (req, res, next) {
 });
 
 /**REPORTE DE SINIESTRO */
-router.post('/siniestroPorEmpresa', function (req, res, next) {
+router.post('/siniestroPorEmpresa',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/siniestroPorEmpresa";
@@ -385,9 +387,9 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -402,7 +404,7 @@ router.post('/siniestroPorEmpresa', function (req, res, next) {
 });
 
 /**REPORTE DE SINIESTRO */
-router.post('/siniestroPorSucursal', function (req, res, next) {
+router.post('/siniestroPorSucursal',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/siniestroPorSucursal";
@@ -416,9 +418,9 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -433,7 +435,7 @@ router.post('/siniestroPorSucursal', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION COMISIONES */
-router.post('/produccionComisionGeneral', function (req, res, next) {
+router.post('/produccionComisionGeneral',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionComisionGeneral";
@@ -447,9 +449,9 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -464,7 +466,7 @@ router.post('/produccionComisionGeneral', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION COMISIONES EGRESO */
-router.post('/produccionComisionEgreso', function (req, res, next) {
+router.post('/produccionComisionEgreso',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionComisionEgreso";
@@ -478,9 +480,9 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -495,7 +497,7 @@ router.post('/produccionComisionEgreso', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION COMISIONES INGRESO */
-router.post('/produccionComisionIngreso', function (req, res, next) {
+router.post('/produccionComisionIngreso',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionComisionIngreso";
@@ -509,9 +511,9 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -526,7 +528,7 @@ router.post('/produccionComisionIngreso', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION PRIMA NETA GENERAL */
-router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
+router.post('/produccionPrimaNetaGeneral',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionPrimaNetaGeneral";
@@ -540,9 +542,9 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -557,7 +559,7 @@ router.post('/produccionPrimaNetaGeneral', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION PRIMA NETA EGRESO */
-router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
+router.post('/produccionPrimaNetaEgreso', tokenVerificacion.ensureToken,function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionPrimaNetaEgreso";
@@ -571,9 +573,9 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -588,39 +590,55 @@ router.post('/produccionPrimaNetaEgreso', function (req, res, next) {
 });
 
 /**REPORTE DE PRODUCCION PRIMA NETA INGRESO */
-router.post('/produccionPrimaNetaIngreso', function (req, res, next) {
+router.post('/produccionPrimaNetaIngreso',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/produccionPrimaNetaIngreso";
     request.post({
-      /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       url: dir,
       body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
+      if (err) {
+        console.error(err);
+        res.status(500).json({
+          data: { estado: false, "error": err.message }
+        });
+        return;
+      }
+
+      console.log("Response:", response);
 
       try {
-        const data = response.body;
-            res.json({
-              data: data
-            });
+        if (response && response.body) {
+          const data = response.body;
+          res.json({
+            data: data
+          });
+        } else {
+          res.json({
+            data: "No se recibieron datos válidos."
+          });
+        }
+       
       } catch (error) {
-        throw new Error(error)
+        console.error(error);
+        res.status(500).json({
+          data: { estado: false, "error": error.message }
+        });
       }
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       data: { estado: false, "error": error.message }
     });
   }
-
 });
 
 
 /**REPORTE DE POLIZAS EN VENCIMIENTO */
-router.post('/polizasAutomotorVencimiento', function (req, res, next) {
+router.post('/polizasAutomotorVencimiento', tokenVerificacion.ensureToken,function (req, res, next) {
   const body = JSON.stringify(req.body);
   try {
     const dir = urlReporte + "/polizasAutomotorVencimiento";
@@ -634,9 +652,9 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -652,11 +670,11 @@ router.post('/polizasAutomotorVencimiento', function (req, res, next) {
 
 
 /**REPORTE DE PAGOS REALIZADOS */
-router.post('/pagosRealizados/:tipo', function (req, res, next) {
+router.post('/pagosRealizados/:tipo', tokenVerificacion.ensureToken,function (req, res, next) {
   const body = JSON.stringify(req.body);
   const { tipo } = req.params;
   try {
-    const dir = urlReporte + "/pagosRealizados/"+tipo;
+    const dir = urlReporte + "/pagosRealizados/" + tipo;
     request.post({
       /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -667,9 +685,9 @@ router.post('/pagosRealizados/:tipo', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }
@@ -684,11 +702,11 @@ router.post('/pagosRealizados/:tipo', function (req, res, next) {
 });
 
 /**REPORTE DE SINIESTROS REALIZADOS */
-router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
+router.post('/siniestrosRealizados/:tipo',tokenVerificacion.ensureToken, function (req, res, next) {
   const body = JSON.stringify(req.body);
   const { tipo } = req.params;
   try {
-    const dir = urlReporte + "/siniestrosRealizados/"+tipo;
+    const dir = urlReporte + "/siniestrosRealizados/" + tipo;
     request.post({
       /*     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, */
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -699,9 +717,9 @@ router.post('/siniestrosRealizados/:tipo', function (req, res, next) {
 
       try {
         const data = response.body;
-            res.json({
-              data: data
-            });
+        res.json({
+          data: data
+        });
       } catch (error) {
         throw new Error(error)
       }

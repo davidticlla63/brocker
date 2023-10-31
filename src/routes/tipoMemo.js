@@ -4,20 +4,20 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as tipoMemos from "../controllers/tipoMemo.controller";
-
+import * as control from "../controllers/tipoMemo.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', tipoMemos.createTipoMemo);
-router.get('/', tipoMemos.getTipoMemos);
+router.post('/',tokenVerificacion.ensureToken, control.createTipoMemo);
+router.get('/', tokenVerificacion.ensureToken,control.getTipoMemos);
 
 // /api/empresas/:empresaID
-router.get('/:id', tipoMemos.getOneTipoMemo);
-router.delete('/:id', tipoMemos.deleteTipoMemo);
-router.put('/:id', tipoMemos.updateTipoMemo);
-router.put('/baja/:id', tipoMemos.bajaTipoMemo);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneTipoMemo);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteTipoMemo);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateTipoMemo);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaTipoMemo);
 
 export default router;

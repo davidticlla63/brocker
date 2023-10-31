@@ -4,20 +4,20 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as tipoPolizas from "../controllers/tipoPoliza.controller";
-
+import * as control from "../controllers/tipoPoliza.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', tipoPolizas.createTipoPoliza);
-router.get('/', tipoPolizas.getTipoPolizas);
+router.post('/', tokenVerificacion.ensureToken,control.createTipoPoliza);
+router.get('/',tokenVerificacion.ensureToken, control.getTipoPolizas);
 
 // /api/empresas/:empresaID
-router.get('/:id', tipoPolizas.getOneTipoPoliza);
-router.delete('/:id', tipoPolizas.deleteTipoPoliza);
-router.put('/:id', tipoPolizas.updateTipoPoliza);
-router.put('/baja/:id', tipoPolizas.bajaTipoPoliza);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneTipoPoliza);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteTipoPoliza);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateTipoPoliza);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaTipoPoliza);
 
 export default router;

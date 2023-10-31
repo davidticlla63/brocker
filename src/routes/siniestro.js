@@ -4,27 +4,27 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as siniestros from "../controllers/siniestro.controller";
-
+import * as control from "../controllers/siniestro.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', siniestros.createSiniestro);
-router.get('/', siniestros.getSiniestros);
+router.post('/',tokenVerificacion.ensureToken, control.createSiniestro);
+router.get('/',tokenVerificacion.ensureToken, control.getSiniestros);
 
 // /api/empresas/:empresaID
-router.get('/:id', siniestros.getOneSiniestro);
-router.delete('/:id', siniestros.deleteSiniestro);
-router.put('/:id', siniestros.updateSiniestro);
-router.put('/baja/:id', siniestros.bajaSiniestro);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneSiniestro);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSiniestro);
+router.put('/:id',tokenVerificacion.ensureToken, control.updateSiniestro);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaSiniestro);
 
-router.get('/siniestroPorSucursal/:sucursalid', siniestros.getSiniestroPorSucursal);
-router.get('/siniestroPorEmpresa/:empresaid', siniestros.getSiniestroPorEmpresa);
+router.get('/siniestroPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getSiniestroPorSucursal);
+router.get('/siniestroPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getSiniestroPorEmpresa);
 
 /**dashoboard */
-router.get('/totalSiniestrosPorEmpresa/:empresaid', siniestros.getTotalSiniestrosPorEmpresa);
-router.get('/totalSiniestrosPorSucursal/:sucursalid', siniestros.getTotalSiniestrosPorSucursal);
+router.get('/totalSiniestrosPorEmpresa/:empresaid', tokenVerificacion.ensureToken,control.getTotalSiniestrosPorEmpresa);
+router.get('/totalSiniestrosPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getTotalSiniestrosPorSucursal);
 
 export default router;

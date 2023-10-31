@@ -1,5 +1,5 @@
 {
-  "name": "nodejspostgresqlapi",
+  "name": "ApiBroker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,37 +8,34 @@
     "build": "babel src --out-dir dist",
     "start": "set NODE_ENV=production&& node dist/index.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "install": "^0.13.0",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "node-pre-gyp": "^0.17.0",
-    "node-rdlc": "0.0.1",
-    "nodemailer": "^6.7.3",
-    "pg": "^7.18.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.4",
+    "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "request": "^2.88.2",
     "sequelize": "^6.32.1",
-    "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4",
-    "uuid": "^8.3.2"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.3",
-    "@babel/core": "^7.17.5",
-    "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.11",
-    "nodemon": "^2.0.15"
+    "@babel/cli": "^7.22.10",
+    "@babel/core": "^7.22.11",
+    "@babel/node": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
+    "nodemon": "^3.0.1"
   }
 }

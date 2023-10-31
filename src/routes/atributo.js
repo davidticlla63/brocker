@@ -4,7 +4,8 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import * as atributos from "../controllers/atributo.controller";
+import * as control from "../controllers/atributo.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 
 router
     .use(cors())
@@ -12,19 +13,19 @@ router
     .use(compression());
 // /api/empresas/
 /* 
-router.post('/', atributos.createAtributo);
-router.put('/:id', atributos.updateAtributo); 
+router.post('/', control.createAtributo);
+router.put('/:id', control.updateAtributo); 
 */
 
-router.post('/', atributos.createAtributos);
-router.put('/', atributos.updateAtributos);
-router.get('/', atributos.getAtributo);
-router.get('/:empresaid/:tipopolizaid', atributos.getAtributoPorTipoPoliza);
+router.post('/',tokenVerificacion.ensureToken, control.createAtributos);
+router.put('/',tokenVerificacion.ensureToken, control.updateAtributos);
+router.get('/', tokenVerificacion.ensureToken,control.getAtributo);
+router.get('/:empresaid/:tipopolizaid',tokenVerificacion.ensureToken, control.getAtributoPorTipoPoliza);
 
 // /api/empresas/:empresaID
-router.get('/:id', atributos.getOneAtributo);
-router.delete('/:id', atributos.deleteAtributo);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneAtributo);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteAtributo);
 
-router.put('/baja/:id', atributos.bajaAtributo);
-router.get('/atributosPorEmpresa/:empresaid', atributos.getAtributoPorEmpresa);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaAtributo);
+router.get('/atributosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getAtributoPorEmpresa);
 export default router;

@@ -4,15 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _sequelize = _interopRequireDefault(require("sequelize"));
-
 var _database = require("../database/database");
-
 var _Archivo = _interopRequireDefault(require("./Archivo"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Carpeta = _database.sequelize.define('Carpeta', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -35,16 +30,13 @@ var Carpeta = _database.sequelize.define('Carpeta', {
   timestamps: false,
   tableName: 'carpeta'
 });
-
 Carpeta.hasMany(_Archivo["default"], {
   foreignKey: 'carpetaid',
   sourceKey: 'id'
 });
-
 _Archivo["default"].belongsTo(Carpeta, {
   foreignKey: 'carpetaid',
   sourceKey: 'id'
 });
-
 var _default = Carpeta;
 exports["default"] = _default;

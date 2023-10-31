@@ -2824,13 +2824,28 @@ export async function getPolizasPorSucursalYTipo(req, res) {
     const { sucursalid, tipopolizaid, tiporamoid } = req.params;
     try {
 
-        const polizas = await sequelize.query(`select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
+        const polizas = await sequelize.query(`WITH DetallePoliza AS (
+            SELECT
+                pd.polizaid,
+                STRING_AGG(a.nombre || ' : ' || pd.valor, ', ' ORDER BY a.nombre) AS detalle
+            FROM
+                poliza_detalles pd
+                INNER JOIN atributo a ON a.id = pd.atributoid AND a.importante = true
+            WHERE
+                pd.estado = 'ACT'
+            GROUP BY
+                pd.polizaid
+        )
+        
+        select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
             ,p.primatotal,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro ,p.sucursalid,p.companiaseguroid
-             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo  ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
-             from poliza_detalles pd2   
-             inner join atributo a on a.id=pd2.atributoid and a.importante =true
-             where pd2.estado='ACT' AND pd2 .polizaid =p.id 
-                      group by polizaid) detalle
+             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo  ,
+             dp.detalle
+             --( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
+             --from poliza_detalles pd2   
+             --inner join atributo a on a.id=pd2.atributoid and a.importante =true
+             --where pd2.estado='ACT' AND pd2 .polizaid =p.id 
+             --         group by polizaid) detalle
             from poliza p 
             inner join sucursal s on s.id=p.sucursalid  
             inner join contratante c on c.id=p.contratanteid  
@@ -2840,7 +2855,8 @@ export async function getPolizasPorSucursalYTipo(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
-             inner join tipo_ramo t on t.id=p.tiporamoid  
+             inner join tipo_ramo t on t.id=p.tiporamoid
+             left JOIN DetallePoliza dp ON dp.polizaid = p.id  
             where  s.id= '` + sucursalid + `'  and p.estado IN ('ACT','CER')  and  p.tpoliza='` + tipopolizaid + `' and p.tiporamoid='` + tiporamoid + `'  order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT
@@ -2870,13 +2886,27 @@ export async function getPolizasPorEmpresaYTipo(req, res) {
     const { empresaid, tipopolizaid, tiporamoid } = req.params;
     try {
 
-        const polizas = await sequelize.query(`select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
+        const polizas = await sequelize.query(`WITH DetallePoliza AS (
+            SELECT
+                pd.polizaid,
+                STRING_AGG(a.nombre || ' : ' || pd.valor, ', ' ORDER BY a.nombre) AS detalle
+            FROM
+                poliza_detalles pd
+                INNER JOIN atributo a ON a.id = pd.atributoid AND a.importante = true
+            WHERE
+                pd.estado = 'ACT'
+            GROUP BY
+                pd.polizaid
+        )
+        select p.id,p.nropoliza,p.nrocertificado,p.fechainicio,p.fechafin,p.fechaexpedicion 
             ,p.primatotal ,p.valorasegurado,p.tpoliza,c.nombre as nombrecontratante,p.fecharegistro ,p.sucursalid,p.companiaseguroid
-             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo ,( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
-             from poliza_detalles pd2   
-             inner join atributo a on a.id=pd2.atributoid and a.importante =true
-             where pd2.estado='ACT' AND pd2 .polizaid =p.id 
-                      group by polizaid) detalle
+             ,sr.nombre nombreramopadre,r.nombre nombreramo,a.nombrecompleto as nombreasegurado,cs.nombre nombrecompania,s.nombre as sucursal ,t.nombre tiporamo ,
+             dp.detalle
+             --( select   string_agg(a.nombre || ' : ' || pd2 .valor , ', ' order by a.nombre) 
+             --from poliza_detalles pd2   
+             --inner join atributo a on a.id=pd2.atributoid and a.importante =true
+             --where pd2.estado='ACT' AND pd2 .polizaid =p.id 
+             --         group by polizaid) detalle
             from poliza p 
             inner join sucursal s on s.id=p.sucursalid  
             inner join contratante c on c.id=p.contratanteid  
@@ -2886,7 +2916,8 @@ export async function getPolizasPorEmpresaYTipo(req, res) {
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
-             inner join tipo_ramo t on t.id=p.tiporamoid  
+             inner join tipo_ramo t on t.id=p.tiporamoid
+             left JOIN DetallePoliza dp ON dp.polizaid = p.id  
             where  s.empresaid= '` + empresaid + `'  and p.estado IN ('ACT','CER') and  p.tpoliza='` + tipopolizaid + `' and p.tiporamoid='` + tiporamoid + `' order by p.fechamodificacion desc `
             , {
                 type: QueryTypes.SELECT

@@ -4,21 +4,21 @@ const cors = require("cors");
 const compression = require("compression");
 const router = Router();
 
-import { createTipoCambio, getTipoCambios, getOneTipoCambio, deleteTipoCambio, updateTipoCambio,bajaTipoCambio,tipoCambioByEmpresa } from "../controllers/tipoCambio.controller";
-
+import * as control from "../controllers/tipoCambio.controller";
+import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
     .use(compression());
 // /api/empresas/
-router.post('/', createTipoCambio);
-router.get('/', getTipoCambios);
+router.post('/',tokenVerificacion.ensureToken, control.createTipoCambio);
+router.get('/',tokenVerificacion.ensureToken, control.getTipoCambios);
 
 // /api/empresas/:empresaID
-router.get('/:id', getOneTipoCambio);
-router.delete('/:id', deleteTipoCambio);
-router.put('/:id', updateTipoCambio);
-router.get('/tipoCambioPorEmpresa/:empresaid', tipoCambioByEmpresa);
-router.put('/baja/:id', bajaTipoCambio);
+router.get('/:id',tokenVerificacion.ensureToken, control.getOneTipoCambio);
+router.delete('/:id',tokenVerificacion.ensureToken, control.deleteTipoCambio);
+router.put('/:id',tokenVerificacion.ensureToken,control. updateTipoCambio);
+router.get('/tipoCambioPorEmpresa/:empresaid', tokenVerificacion.ensureToken,control.tipoCambioByEmpresa);
+router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaTipoCambio);
 
 export default router;
