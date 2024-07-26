@@ -380,24 +380,6 @@ function _getPerfilBySucursal() {
 function createPerfilPermisos(_x15, _x16) {
   return _createPerfilPermisos.apply(this, arguments);
 }
-/* export async function getPermisosPorPerfil(req, res) {
-    const { perfilid } = req.params;
-    console.log(req.params)
-    try {
-
-        const paginas = await Permiso.findAll({
-            where: { estado: 'ACT', perfilid }
-            , include: { model: Pagina, require: true, estado: 'ACT', 
-            include: { model: Accion, estado: 'ACT', require: true } }
-        });
-        res.json({
-            data: paginas
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
- */
 function _createPerfilPermisos() {
   _createPerfilPermisos = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
     var perfilid, _req$body3, permisos, usuarioregistro, t, i;

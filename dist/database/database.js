@@ -19,8 +19,7 @@ _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["de
     useUTC: true // -->Add this line. for reading from database
   },
 
-  timezone: '-04:00',
-  /// -->Add this line. for writing to database 
+  //timezone: '-04:00',  /// -->Add this line. for writing to database 
   pool: {
     max: 20,
     min: 0,
