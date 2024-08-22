@@ -538,7 +538,7 @@ function _memosPorEmpresa() {
           _context6.prev = 0;
           empresaid = req.params.empresaid;
           _req$body4 = req.body, fechainicio = _req$body4.fechainicio, fechafin = _req$body4.fechafin;
-          query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  \n        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.porcentajecomision ,po.formapago\n\t\t,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision\n\t\t,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd\n             from memo p \n            inner join sucursal s on s.id=p.sucursalid\n            inner join poliza po on po.id=p.polizaid\n            inner join asegurado a on a.id=po.tomadorid\n            inner join sub_ramo_compania src on src.id=po.subramocompaniaid\n            inner join ramo r on r.id=src.ramoid\n            left join ramo sr on sr.id=src.ramopadreid\n            inner join departamento d on d.id=po.ciudadexpedicion\n            inner join contratante co on co.id=po.contratanteid\n            left  join plan pl on pl.id=po.planid\n            inner join banco b on b.id=po.bancoid\n            inner join personal e on e.id=po.encargadoid\n            inner join personal ej on ej.id=po.ejecutivoid\n            inner join compania_seguro c on c.id=po.companiaseguroid\n            where s.empresaid= '" + empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(query);
+          query = "select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,\n        d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.porcentajecomision ,po.formapago\n        ,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision\n        ,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd\n        from memo p\n        inner join sucursal s on s.id=p.sucursalid\n        inner join poliza po on po.id=p.polizaid\n        inner join asegurado a on a.id=po.tomadorid\n        inner join sub_ramo_compania src on src.id=po.subramocompaniaid\n        inner join ramo r on r.id=src.ramoid\n        left join ramo sr on sr.id=src.ramopadreid\n        inner join departamento d on d.id=po.ciudadexpedicion\n        inner join contratante co on co.id=po.contratanteid\n        left  join plan pl on pl.id=po.planid\n        inner join banco b on b.id=po.bancoid\n        inner join personal e on e.id=po.encargadoid\n        inner join personal ej on ej.id=po.ejecutivoid\n        inner join compania_seguro c on c.id=po.companiaseguroid\n        where s.empresaid= '" + empresaid + "' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= " + fechainicio + " and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= " + fechafin + " and p.estado='ACT' order by p.fechamodificacion desc "; //console.log(query);
           _context6.next = 6;
           return _database.sequelize.query(query, {
             type: QueryTypes.SELECT
@@ -953,7 +953,9 @@ function _listarProduccionMesualTXT() {
       while (1) switch (_context15.prev = _context15.next) {
         case 0:
           _context15.prev = 0;
-          body = JSON.stringify(req.body); //console.log(body);
+          body = JSON.stringify(req.body);
+          console.log(body);
+
           /*  let query = ` select * from  pa_listar_produccion_mensual_txt(
                '{
                "sucursalid" : "deaec8c4-8bba-49a5-9b1c-4e5ec120a28f",
@@ -962,19 +964,20 @@ function _listarProduccionMesualTXT() {
                }'
                );`; */
           query = " select * from  pa_listar_produccion_mensual_txt('" + body + "');";
-          _context15.next = 5;
+          console.log(query);
+          _context15.next = 7;
           return _database.sequelize.query(query, {
             type: QueryTypes.SELECT
           });
-        case 5:
+        case 7:
           pagos = _context15.sent;
           res.json({
             data: pagos
           });
-          _context15.next = 13;
+          _context15.next = 15;
           break;
-        case 9:
-          _context15.prev = 9;
+        case 11:
+          _context15.prev = 11;
           _context15.t0 = _context15["catch"](0);
           console.log(_context15.t0);
           res.status(500).json({
@@ -983,11 +986,11 @@ function _listarProduccionMesualTXT() {
               "error": _context15.t0.message
             }
           });
-        case 13:
+        case 15:
         case "end":
           return _context15.stop();
       }
-    }, _callee15, null, [[0, 9]]);
+    }, _callee15, null, [[0, 11]]);
   }));
   return _listarProduccionMesualTXT.apply(this, arguments);
 }

@@ -49,6 +49,7 @@ router.get('/totalProduccionPorEmpresa/:empresaid', tokenVerificacion.ensureToke
 router.get('/totalProduccionPorSucursal/:sucursalid', tokenVerificacion.ensureToken, control.getTotalProduccionMemoPorSucursal);
 
 /**dashoboard */
-router.post('/produccionMensualTxt/', tokenVerificacion.ensureToken, control.listarProduccionMesualTXT);
+//router.post('/produccionMensualTxt/',tokenVerificacion.ensureToken, control.listarProduccionMesualTXT);
+router.post('/produccionMensualTxt/', control.listarProduccionMesualTXT);
 var _default = router;
 exports["default"] = _default;

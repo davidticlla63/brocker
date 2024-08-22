@@ -454,25 +454,25 @@ export async function memosPorEmpresa(req, res) {
     try {
         const { empresaid } = req.params;
         const { fechainicio, fechafin } = req.body;
-        const query = `select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,  
+        const query = `select po.ciaspvs,p.*,s.nombre as sucursal,a.nombrecompleto asegurado,c.nombre compania,r.nombre ramo,sr.nombre ramopadre,po.fechainicio,po.fechafin,po.valorasegurado,po.tipomoneda,po.nropoliza,po.nrocertificado,po.fechaexpedicion,po.franquicia,po.primatotal,po.formapago,po.notas observacion,po.fecharecepcion,
         d.nombre ciudad,co.nombre contratante,pl.nombre plan,b.nombre subrogado,e.nombrecompleto encargado,ej.nombrecompleto ejecutivo,po.tpoliza,po.comisionbs,po.comisionusd,po.porcentajeprima,po.porcentajecomision ,po.formapago
-		,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision
-		,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd
-             from memo p 
-            inner join sucursal s on s.id=p.sucursalid
-            inner join poliza po on po.id=p.polizaid
-            inner join asegurado a on a.id=po.tomadorid
-            inner join sub_ramo_compania src on src.id=po.subramocompaniaid
-            inner join ramo r on r.id=src.ramoid
-            left join ramo sr on sr.id=src.ramopadreid
-            inner join departamento d on d.id=po.ciudadexpedicion
-            inner join contratante co on co.id=po.contratanteid
-            left  join plan pl on pl.id=po.planid
-            inner join banco b on b.id=po.bancoid
-            inner join personal e on e.id=po.encargadoid
-            inner join personal ej on ej.id=po.ejecutivoid
-            inner join compania_seguro c on c.id=po.companiaseguroid
-            where s.empresaid= '` + empresaid + `' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado='ACT' order by p.fechamodificacion desc `;
+        ,po.comisionusd,po.comisionbs,po.primanetasus ,po.tipomoneda,case when po.tipomoneda='USD' THEN po.primanetasus* po.tipocambio else po.primaneta end primanetabs,po.primaneta,po.tipoemision
+        ,case when po.tipomoneda='USD' THEN po.primatotal* po.tipocambio else po.primatotal end primatotalbs,case when po.tipomoneda='BOL' THEN po.primatotal/ po.tipocambio else po.primatotal end primatotalusd
+        from memo p
+        inner join sucursal s on s.id=p.sucursalid
+        inner join poliza po on po.id=p.polizaid
+        inner join asegurado a on a.id=po.tomadorid
+        inner join sub_ramo_compania src on src.id=po.subramocompaniaid
+        inner join ramo r on r.id=src.ramoid
+        left join ramo sr on sr.id=src.ramopadreid
+        inner join departamento d on d.id=po.ciudadexpedicion
+        inner join contratante co on co.id=po.contratanteid
+        left  join plan pl on pl.id=po.planid
+        inner join banco b on b.id=po.bancoid
+        inner join personal e on e.id=po.encargadoid
+        inner join personal ej on ej.id=po.ejecutivoid
+        inner join compania_seguro c on c.id=po.companiaseguroid
+        where s.empresaid= '` + empresaid + `' and to_char(p.fecharegistro, 'YYYYMMDD')::integer>= ` + fechainicio + ` and to_char(p.fecharegistro, 'YYYYMMDD')::integer<= ` + fechafin + ` and p.estado='ACT' order by p.fechamodificacion desc `;
         //console.log(query);
         const memos = await sequelize.query(query
             , {
@@ -771,6 +771,7 @@ export async function listarProduccionMesualTXT(req, res) {
                 );`; */
 
                 let query = ` select * from  pa_listar_produccion_mensual_txt('`+body+`');`;
+               // console.log(query);
 
         const pagos = await sequelize.query(query
             , {

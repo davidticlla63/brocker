@@ -47,5 +47,6 @@ router.get('/totalProduccionPorSucursal/:sucursalid',tokenVerificacion.ensureTok
 
 /**dashoboard */
 router.post('/produccionMensualTxt/',tokenVerificacion.ensureToken, control.listarProduccionMesualTXT);
+//router.post('/produccionMensualTxt/', control.listarProduccionMesualTXT);
 
 export default router;
