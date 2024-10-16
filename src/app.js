@@ -47,8 +47,7 @@ import siniestroRequisitoRoutes from './routes/siniestroRequisito'
 import paramProduccionRoutes from './routes/paramProduccion'
 import atributoRoutes from './routes/atributo'
 import periodoRoutes from './routes/periodo'
-
-
+import documentoRoutes from './routes/documento'
 
 const bodyParser = require("body-parser");
 var jsonParser = bodyParser.json({ limit: 1024 * 1024 * 50, type: 'application/json' });
@@ -168,4 +167,7 @@ app.use('/api/reporte',reporteRoutes);
 
 //parametrizacion
 app.use('/api/periodo', periodoRoutes);
+
+//documento Word
+app.use('/api/documento', documentoRoutes);
 export default app;

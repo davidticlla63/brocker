@@ -17,3 +17,5 @@ npm i body-parser
 npm i bcryptjs
  npm install nodemailer
  npm i dotenv --save
+//manejo de word
+ npm install docxtemplater pizzip fs
