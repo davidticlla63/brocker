@@ -2416,7 +2416,7 @@ export async function getPolizasPorTipoRamoYEmpresa(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
@@ -2504,7 +2504,7 @@ export async function polizasPorEmpresaGeneral(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
@@ -2597,7 +2597,7 @@ export async function getPolizasPorSucursalVencimiento(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid
             inner join tipo_ramo t on t.id=p.tiporamoid
@@ -2627,7 +2627,7 @@ export async function getPolizasPorTomadorYEmpresa(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
@@ -2658,7 +2658,7 @@ export async function getPolizasPorTomadorYSucursal(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join tipo_ramo t on t.id=p.tiporamoid  
@@ -2719,7 +2719,7 @@ export async function getPolizasPorSucursalSinMemo(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+            left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             left join memo m on m.polizaid=p.id and m.estado='ACT' 
@@ -2758,7 +2758,7 @@ export async function getPolizasPorSucursal(req, res) {
             inner join contratante c on c.id=p.contratanteid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
@@ -2800,7 +2800,7 @@ export async function getPolizasPorEmpresa(req, res) {
             inner join contratante c on c.id=p.contratanteid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+            left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
@@ -2851,7 +2851,7 @@ export async function getPolizasPorSucursalYTipo(req, res) {
             inner join contratante c on c.id=p.contratanteid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+                left join ramo sr on r.ramoid=sr.id 
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
@@ -2911,8 +2911,8 @@ export async function getPolizasPorEmpresaYTipo(req, res) {
             inner join sucursal s on s.id=p.sucursalid  
             inner join contratante c on c.id=p.contratanteid  
             inner join sub_ramo_compania rc on rc.id=p.subramocompaniaid 
-            inner join ramo r on r.id=rc.ramoid 
-            left join ramo sr on sr.id=rc.ramopadreid 
+            inner join ramo r on r.id=rc.ramoid
+            left join ramo p on r.ramoid=p.id
             inner join asegurado a on a.id=p.tomadorid 
             inner join compania_seguro cs on cs.id=p.companiaseguroid 
             inner join memo m on m.polizaid=p.id and m.estado='ACT' 
