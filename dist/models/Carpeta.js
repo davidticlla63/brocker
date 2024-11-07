@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _Archivo = _interopRequireDefault(require("./Archivo"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Carpeta = _database.sequelize.define('Carpeta', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -38,5 +38,4 @@ _Archivo["default"].belongsTo(Carpeta, {
   foreignKey: 'carpetaid',
   sourceKey: 'id'
 });
-var _default = Carpeta;
-exports["default"] = _default;
+var _default = exports["default"] = Carpeta;

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var _require = require('uuid'),
   uuidv4 = _require.v4;
 var SucursalUsuario = _database.sequelize.define('SucursalUsuario', {
@@ -38,5 +38,4 @@ var SucursalUsuario = _database.sequelize.define('SucursalUsuario', {
 SucursalUsuario.beforeCreate(function (sucursalUsuario) {
   return sucursalUsuario.id = uuidv4();
 });
-var _default = SucursalUsuario;
-exports["default"] = _default;
+var _default = exports["default"] = SucursalUsuario;

@@ -8,7 +8,7 @@ exports.transporter = void 0;
 var nodemailer = require('nodemailer');
 
 //Creamos el objeto de transporte
-var transporter = nodemailer.createTransport({
+var transporter = exports.transporter = nodemailer.createTransport({
   service: 'gmsantacruz.gob.bo',
   //dominio
   host: 'smtp-mail.outlook.com',
@@ -55,7 +55,7 @@ var transporter = nodemailer.createTransport({
     }
 });
  */
-exports.transporter = transporter;
+
 transporter.verify().then(function () {
   console.log('Ready for send emails.');
 });

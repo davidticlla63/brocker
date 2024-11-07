@@ -9,7 +9,7 @@ var _database = require("../database/database");
 var _Accion = _interopRequireDefault(require("./Accion"));
 var _PaginaAccion = _interopRequireDefault(require("./PaginaAccion"));
 var _Permiso = _interopRequireDefault(require("./Permiso"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 //  import PaginaAccion from "./PaginaAccion";
 
 var Pagina = _database.sequelize.define('Pagina', {
@@ -62,5 +62,4 @@ _PaginaAccion["default"].belongsTo(Pagina, {
   foreignKey: 'paginaid',
   sourceKey: 'id'
 });
-var _default = Pagina;
-exports["default"] = _default;
+var _default = exports["default"] = Pagina;

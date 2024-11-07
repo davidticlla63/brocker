@@ -15,7 +15,7 @@ var _CompaniaSeguro = _interopRequireDefault(require("./CompaniaSeguro"));
 var _Ramo = _interopRequireDefault(require("./Ramo"));
 var _TipoRamo = _interopRequireDefault(require("./TipoRamo"));
 var _Banco = _interopRequireDefault(require("./Banco"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Empresa = _database.sequelize.define('Empresa', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -45,7 +45,6 @@ var Empresa = _database.sequelize.define('Empresa', {
          return null;
        },  */
   },
-
   usuarioregistro: _sequelize["default"].STRING,
   usuariomodificacion: _sequelize["default"].STRING,
   fecharegistro: _sequelize["default"].DATE(6),
@@ -127,5 +126,4 @@ _Banco["default"].belongsTo(Empresa, {
   foreignKey: 'empresaid',
   sourceKey: 'id'
 });
-var _default = Empresa;
-exports["default"] = _default;
+var _default = exports["default"] = Empresa;

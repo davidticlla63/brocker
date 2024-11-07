@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.sequelize = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _config = _interopRequireDefault(require("../config"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-var sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_db',
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+var sequelize = exports.sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_db',
 //produccion  'broker_test_db'
 //'broker_test_db',//testing
 _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["default"].NODE_ENV == 'production' ? 'broker' : 'admin', {
@@ -15,10 +15,9 @@ _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["de
   //nueva ruta
   dialect: 'postgres',
   port: 5432,
-  dialectOptions: {
-    useUTC: true // -->Add this line. for reading from database
-  },
-
+  /*   dialectOptions: {
+        useUTC: true, // -->Add this line. for reading from database
+    }, */
   //timezone: '-04:00',  /// -->Add this line. for writing to database 
   pool: {
     max: 20,
@@ -47,4 +46,3 @@ _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["de
         console.error('Unable to connect to the database:', error);
     }
 } */
-exports.sequelize = sequelize;

@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _Ramo = _interopRequireDefault(require("./Ramo"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var TipoRamo = _database.sequelize.define('TipoRamo', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -37,5 +37,4 @@ _Ramo["default"].belongsTo(TipoRamo, {
   foreignKey: 'tiporamoid',
   sourceKey: 'id'
 });
-var _default = TipoRamo;
-exports["default"] = _default;
+var _default = exports["default"] = TipoRamo;

@@ -8,7 +8,7 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _SucursalUsuario = _interopRequireDefault(require("./SucursalUsuario"));
 var _UsuarioPerfil = _interopRequireDefault(require("./UsuarioPerfil"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Usuario = _database.sequelize.define('Usuario', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -57,5 +57,4 @@ Usuario.prototype.generatePasswordHash = async function() {
     return await bcrypt.compare(password, this.password);
   };
  */
-var _default = Usuario;
-exports["default"] = _default;
+var _default = exports["default"] = Usuario;

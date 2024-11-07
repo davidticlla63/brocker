@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _Poliza = _interopRequireDefault(require("./Poliza"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Banco = _database.sequelize.define('Banco', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -37,5 +37,4 @@ _Poliza["default"].belongsTo(Banco, {
   foreignKey: 'bancoid',
   sourceKey: 'id'
 });
-var _default = Banco;
-exports["default"] = _default;
+var _default = exports["default"] = Banco;

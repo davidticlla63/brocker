@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _Sucursal = _interopRequireDefault(require("./Sucursal"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Departamento = _database.sequelize.define('Departamento', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -37,5 +37,4 @@ _Sucursal["default"].belongsTo(Departamento, {
   foreignKey: 'departamentoid',
   sourceKey: 'id'
 });
-var _default = Departamento;
-exports["default"] = _default;
+var _default = exports["default"] = Departamento;

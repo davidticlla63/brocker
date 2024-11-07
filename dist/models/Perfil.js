@@ -8,7 +8,7 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 var _database = require("../database/database");
 var _Permiso = _interopRequireDefault(require("./Permiso"));
 var _UsuarioPerfil = _interopRequireDefault(require("./UsuarioPerfil"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Perfil = _database.sequelize.define('Perfil', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -47,5 +47,4 @@ _UsuarioPerfil["default"].belongsTo(Perfil, {
   foreignKey: 'perfilid',
   sourceKey: 'id'
 });
-var _default = Perfil;
-exports["default"] = _default;
+var _default = exports["default"] = Perfil;

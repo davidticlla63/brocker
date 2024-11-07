@@ -10,8 +10,8 @@ var _mailers = require("../mailers");
 var _database = require("../database/database");
 var _console = require("console");
 var tokenVerificacion = _interopRequireWildcard(require("../jwt/jwtVerificacion"));
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var _require = require('sequelize'),
   QueryTypes = _require.QueryTypes;
 var bodyParser = require("body-parser");
@@ -25,24 +25,37 @@ var router = (0, _express.Router)();
 router.use(cors()).use(bodyParser.json()).use(compression());
 var request = require("request");
 var fs = require("fs");
+//var urlReporte = 'http://localhost:8084/broker/rest/reporte'
 var urlReporte = 'http://localhost:8080/broker/rest/reporte';
 //,tokenVerificacion.ensureToken   aumentar para revisar el token
 router.get('/memo/:id', tokenVerificacion.ensureToken, function (req, res, next) {
   var id = req.params.id;
   try {
-    //31857e92-dd2c-4c00-8db7-1d25ee4bfa93
     var dir = urlReporte + "/memo/" + id;
     request.get({
       url: dir
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -50,7 +63,7 @@ router.get('/memo/:id', tokenVerificacion.ensureToken, function (req, res, next)
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -63,15 +76,27 @@ router.get('/poliza/:id', tokenVerificacion.ensureToken, function (req, res, nex
     request.get({
       url: dir
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -79,7 +104,7 @@ router.get('/poliza/:id', tokenVerificacion.ensureToken, function (req, res, nex
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -94,15 +119,27 @@ router.get('/poliza/:id/:tipo', tokenVerificacion.ensureToken, function (req, re
     request.get({
       url: dir
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -110,7 +147,7 @@ router.get('/poliza/:id/:tipo', tokenVerificacion.ensureToken, function (req, re
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -123,14 +160,27 @@ router.get('/siniestro/:id', tokenVerificacion.ensureToken, function (req, res, 
     request.get({
       url: dir
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -138,7 +188,7 @@ router.get('/siniestro/:id', tokenVerificacion.ensureToken, function (req, res, 
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -151,14 +201,27 @@ router.get('/pago/:id', tokenVerificacion.ensureToken, function (req, res, next)
     request.get({
       url: dir
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -166,7 +229,7 @@ router.get('/pago/:id', tokenVerificacion.ensureToken, function (req, res, next)
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -261,15 +324,27 @@ router.post('/comisionPorCobrar', tokenVerificacion.ensureToken, function (req, 
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -277,7 +352,7 @@ router.post('/comisionPorCobrar', tokenVerificacion.ensureToken, function (req, 
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -294,15 +369,27 @@ router.post('/vencimientoPolizasPorCompania', tokenVerificacion.ensureToken, fun
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -310,7 +397,7 @@ router.post('/vencimientoPolizasPorCompania', tokenVerificacion.ensureToken, fun
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -327,15 +414,27 @@ router.post('/produccionPorSucursalCompania', tokenVerificacion.ensureToken, fun
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -343,7 +442,7 @@ router.post('/produccionPorSucursalCompania', tokenVerificacion.ensureToken, fun
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -360,15 +459,27 @@ router.post('/produccion', tokenVerificacion.ensureToken, function (req, res, ne
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -376,7 +487,7 @@ router.post('/produccion', tokenVerificacion.ensureToken, function (req, res, ne
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -395,15 +506,27 @@ router.post('/siniestroPorEmpresa', tokenVerificacion.ensureToken, function (req
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -411,7 +534,7 @@ router.post('/siniestroPorEmpresa', tokenVerificacion.ensureToken, function (req
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -430,15 +553,27 @@ router.post('/siniestroPorSucursal', tokenVerificacion.ensureToken, function (re
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -446,7 +581,7 @@ router.post('/siniestroPorSucursal', tokenVerificacion.ensureToken, function (re
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -465,15 +600,27 @@ router.post('/produccionComisionGeneral', tokenVerificacion.ensureToken, functio
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -481,7 +628,7 @@ router.post('/produccionComisionGeneral', tokenVerificacion.ensureToken, functio
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -500,15 +647,27 @@ router.post('/produccionComisionEgreso', tokenVerificacion.ensureToken, function
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -516,7 +675,7 @@ router.post('/produccionComisionEgreso', tokenVerificacion.ensureToken, function
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -535,15 +694,27 @@ router.post('/produccionComisionIngreso', tokenVerificacion.ensureToken, functio
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -551,7 +722,7 @@ router.post('/produccionComisionIngreso', tokenVerificacion.ensureToken, functio
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -570,15 +741,27 @@ router.post('/produccionPrimaNetaGeneral', tokenVerificacion.ensureToken, functi
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -586,7 +769,7 @@ router.post('/produccionPrimaNetaGeneral', tokenVerificacion.ensureToken, functi
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -605,15 +788,27 @@ router.post('/produccionPrimaNetaEgreso', tokenVerificacion.ensureToken, functio
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -621,7 +816,7 @@ router.post('/produccionPrimaNetaEgreso', tokenVerificacion.ensureToken, functio
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -695,15 +890,27 @@ router.post('/polizasAutomotorVencimiento', tokenVerificacion.ensureToken, funct
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -711,7 +918,7 @@ router.post('/polizasAutomotorVencimiento', tokenVerificacion.ensureToken, funct
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -731,15 +938,27 @@ router.post('/pagosRealizados/:tipo', tokenVerificacion.ensureToken, function (r
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -747,7 +966,7 @@ router.post('/pagosRealizados/:tipo', tokenVerificacion.ensureToken, function (r
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
@@ -767,15 +986,27 @@ router.post('/siniestrosRealizados/:tipo', tokenVerificacion.ensureToken, functi
       url: dir,
       body: body
     }, function (err, response, body) {
-      //console.log("status: " + response.statusCode + "; message: " + response.statusMessage+"; data:"+response.body);
-
-      try {
-        var data = response.body;
-        res.json({
-          data: data
+      if (err) {
+        console.error("Error en la conexión con el servidor de reportes:", err);
+        return res.status(500).json({
+          data: {
+            estado: false,
+            error: "No se pudo conectar al servidor de reportes."
+          }
         });
-      } catch (error) {
-        throw new Error(error);
+      }
+      if (response && response.statusCode === 200) {
+        res.json({
+          data: body
+        });
+      } else {
+        console.error("Error en la respuesta del servidor de reportes:", response ? response.statusMessage : "Sin respuesta");
+        res.status(500).json({
+          data: {
+            estado: false,
+            error: "Error en la respuesta del servidor de reportes."
+          }
+        });
       }
     });
   } catch (error) {
@@ -783,10 +1014,9 @@ router.post('/siniestrosRealizados/:tipo', tokenVerificacion.ensureToken, functi
     res.status(500).json({
       data: {
         estado: false,
-        "error": error.message
+        error: error.message
       }
     });
   }
 });
-var _default = router;
-exports["default"] = _default;
+var _default = exports["default"] = router;

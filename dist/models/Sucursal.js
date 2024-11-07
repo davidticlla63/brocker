@@ -9,7 +9,7 @@ var _database = require("../database/database");
 var _Personal = _interopRequireDefault(require("./Personal"));
 var _SucursalUsuario = _interopRequireDefault(require("./SucursalUsuario"));
 var _Perfil = _interopRequireDefault(require("./Perfil"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Sucursal = _database.sequelize.define('sucursal', {
   id: {
     //defaultValue: Sequelize.literal('uuid_generate_v4()'),
@@ -64,5 +64,4 @@ _Perfil["default"].belongsTo(Sucursal, {
   foreignKey: 'sucursalid',
   sourceKey: 'id'
 });
-var _default = Sucursal;
-exports["default"] = _default;
+var _default = exports["default"] = Sucursal;
