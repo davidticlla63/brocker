@@ -410,7 +410,7 @@ export async function getPagosActualesPorEmpresa(req, res) {
     const { empresaid } = req.params;
     try {
 
-        const pagos = await sequelize.query(`select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto 
+        /* const pagos = await sequelize.query(`select pp.*,p.nropoliza, case when a.tipoasegurado='individual' then a.ci else a.nit end cinit,a.nombrecompleto 
             ,pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo
             ,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' 
              when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' 
@@ -427,6 +427,50 @@ export async function getPagosActualesPorEmpresa(req, res) {
              where  e.id='` + empresaid + `'  AND  P.estado in ('ACT','CER')  and m.estado='ACT'
              and to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER 
              and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) order by pp.fechapago asc`
+            , {
+                type: QueryTypes.SELECT
+            }); */
+        const pagos = await sequelize.query(`SELECT pp.*,
+       p.nropoliza,
+       CASE WHEN a.tipoasegurado = 'individual' THEN a.ci ELSE a.nit END AS cinit,
+       a.nombrecompleto,
+       pp.montocuota - COALESCE(pagos.saldo, 0) AS saldo,
+       CASE 
+           WHEN DATE_TRUNC('month', pp.fechapago) = DATE_TRUNC('month', CURRENT_DATE) THEN 'Actuales'
+           WHEN pp.fechapago > CURRENT_DATE THEN 'Pendientes'
+           ELSE 'Mora'
+       END AS Estado,
+       motivos.motivos,
+       CASE 
+           WHEN p.tipoemision IN ('Anexo Conclusión', 'Anexo Exclusión') THEN 'E' 
+           ELSE 'I' 
+       END AS tipo,
+       p.tipoemision,
+       s.nombre AS sucursal
+FROM poliza p
+INNER JOIN memo m ON m.polizaid = p.id
+INNER JOIN plan_pago pp ON pp.memoid = m.id
+INNER JOIN sucursal s ON s.id = p.sucursalid
+INNER JOIN empresa e ON e.id = s.empresaid
+INNER JOIN asegurado a ON a.id = p.tomadorid
+LEFT JOIN (
+    SELECT pa.planpagoid, COALESCE(SUM(pa.montousd), 0) AS saldo
+    FROM pagos pa
+    WHERE pa.estado = 'ACT'
+    GROUP BY pa.planpagoid
+) pagos ON pagos.planpagoid = pp.id
+LEFT JOIN LATERAL (
+    SELECT string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' ORDER BY descripcion) AS motivos
+    FROM cobranza_motivo
+    WHERE estado = 'ACT' AND planpagoid = pp.id
+) motivos ON true
+WHERE e.id = '` + empresaid + `'
+  AND p.estado IN ('ACT', 'CER')
+  AND m.estado = 'ACT'
+  AND DATE_TRUNC('month', pp.fechapago) = DATE_TRUNC('month', CURRENT_DATE)
+  AND pp.montocuota > COALESCE(pagos.saldo, 0)
+ORDER BY pp.fechapago ASC;
+`
             , {
                 type: QueryTypes.SELECT
             });
@@ -538,7 +582,7 @@ export async function getPagosPorSucursalyCi(req, res) {
 export async function getPagosPorEmpresayCi(req, res) {
     const { empresaid, cinit } = req.params;
     try {
-        let query = `select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion,
+    /*     let query = `select  pp.id,pp.nro,pp.fechapago fechacuota,pp.montocuota,pp.primaneta,pp.comision,pp.memoid,pp.usuarioregistro,pp.usuariomodificacion,
          p.nropoliza,a.nombrecompleto,p.tipomoneda,pp.montocuota-(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id) as saldo,case when to_char(pp.fechapago, 'YYYYMM')::INTEGER=to_char(NOW(), 'YYYYMM')::INTEGER then 'Actuales' 
         when to_char(pp.fechapago, 'YYYYMM')::INTEGER>to_char(NOW(), 'YYYYMM')::INTEGER then 'Pendientes' 
         when to_char(pp.fechapago, 'YYYYMM')::INTEGER<to_char(NOW(), 'YYYYMM')::INTEGER then 'Mora' end Estado,(select  string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' order by descripcion) 
@@ -553,7 +597,71 @@ export async function getPagosPorEmpresayCi(req, res) {
         where e.id='` + empresaid + `' AND  P.estado in ('ACT','CER')  and m.estado='ACT'
          and  case when a.tipoasegurado='corporativo' then a.nit ='` + cinit + `' else a.ci ='` + cinit + `' end 
         and (pp.montocuota >(select  COALESCE (sum(pa.montousd),0) from pagos pa where pa.estado='ACT' and pa.planpagoid=pp.id)) 
-         order by pp.fechapago  asc,p.nropoliza asc`;
+         order by pp.fechapago  asc,p.nropoliza asc`; */
+
+         let query = `WITH saldo_cte AS (
+    SELECT 
+        pa.planpagoid, 
+        COALESCE(SUM(pa.montousd), 0) AS saldo_pagado
+    FROM pagos pa
+    WHERE pa.estado = 'ACT'
+    GROUP BY pa.planpagoid
+),
+motivos_cte AS (
+    SELECT 
+        planpagoid, 
+        string_agg(to_char(fecharegistro, 'DD/MM/YYYY') || ' ' || descripcion, ', ' ORDER BY descripcion) AS Motivos
+    FROM cobranza_motivo
+    WHERE estado = 'ACT'
+    GROUP BY planpagoid
+)
+SELECT  
+    pp.id,
+    pp.nro,
+    pp.fechapago AS fechacuota,
+    pp.montocuota,
+    pp.primaneta,
+    pp.comision,
+    pp.memoid,
+    pp.usuarioregistro,
+    pp.usuariomodificacion,
+    p.nropoliza,
+    a.nombrecompleto,
+    p.tipomoneda,
+    pp.montocuota - COALESCE(saldo_cte.saldo_pagado, 0) AS saldo,
+    CASE 
+        WHEN EXTRACT(YEAR FROM pp.fechapago) = EXTRACT(YEAR FROM NOW()) 
+             AND EXTRACT(MONTH FROM pp.fechapago) = EXTRACT(MONTH FROM NOW()) THEN 'Actuales'
+        WHEN pp.fechapago > NOW() THEN 'Pendientes'
+        ELSE 'Mora'
+    END AS Estado,
+    motivos_cte.Motivos,
+    CASE 
+        WHEN p.tipoemision IN ('Anexo Conclusion', 'Anexo Exclusion') THEN 'E' 
+        ELSE 'I' 
+    END AS tipo,
+    p.tipoemision,
+    s.nombre AS sucursal
+FROM poliza p
+INNER JOIN memo m ON m.polizaid = p.id
+INNER JOIN plan_pago pp ON pp.memoid = m.id
+INNER JOIN asegurado a ON a.id = p.tomadorid
+INNER JOIN sucursal s ON s.id = p.sucursalid
+INNER JOIN empresa e ON e.id = s.empresaid
+LEFT JOIN saldo_cte ON saldo_cte.planpagoid = pp.id
+LEFT JOIN motivos_cte ON motivos_cte.planpagoid = pp.id
+WHERE 
+    e.id = '` + empresaid + `'
+    AND p.estado IN ('ACT', 'CER')
+    AND m.estado = 'ACT'
+    AND (
+        (a.tipoasegurado = 'corporativo' AND a.nit = '` + cinit + `') 
+        OR (a.tipoasegurado <> 'corporativo' AND a.ci = '` + cinit + `')
+    )
+    AND pp.montocuota > COALESCE(saldo_cte.saldo_pagado, 0)
+ORDER BY 
+    pp.fechapago ASC,
+    p.nropoliza ASC;`;
 
         const pagos = await sequelize.query(query
             , {

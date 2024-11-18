@@ -523,7 +523,7 @@ export async function updatePolizaGenerica(req, res) {
 }
 
 /** automotor */
-export async function createPoliza(req, res) {
+/* export async function createPoliza(req, res) {
     const {
         nropoliza,
         nrocertificado,
@@ -557,14 +557,7 @@ export async function createPoliza(req, res) {
         tipoemision,
         franquicia,
         valorasegurado,
-        /*   fechainiciovigencia,
-          fechafinvigencia,
-          fechainclusion,
-          prima,
-          porcentajeprima,
-          primaneta,
-          porcentajecomision,
-          detalle, */
+       
         comisionbs,
         comisionusd,
         tipocambio,
@@ -625,14 +618,7 @@ export async function createPoliza(req, res) {
             tipoemision,
             franquicia,
             valorasegurado,
-            /*     fechainiciovigencia,
-                fechafinvigencia,
-                fechainclusion,
-                prima,
-                porcentajeprima,
-                primaneta,
-                porcentajecomision,
-                detalle, */
+           
             comisionbs,
             comisionusd,
             tipocambio,
@@ -683,14 +669,7 @@ export async function createPoliza(req, res) {
                 'franquicia',
                 'valorasegurado',
 
-                /*     'fechainiciovigencia',
-                    'fechafinvigencia',
-                    'fechainclusion',
-                    'prima',
-                    'porcentajeprima',
-                    'primaneta',
-                    'porcentajecomision',
-                    'detalle', */
+               
 
                 'comisionbs',
                 'comisionusd',
@@ -857,9 +836,9 @@ export async function createPoliza(req, res) {
             data: { estado: false, "error": e.message }
         });
     }
-}
+} */
 
-export async function updatePoliza(req, res) {
+/* export async function updatePoliza(req, res) {
     const { id } = req.params;
     const { nropoliza,
         nrocertificado,
@@ -1108,9 +1087,9 @@ export async function updatePoliza(req, res) {
             data: { estado: false, "error": e.message }
         });
     }
-}
+} */
 /** salud */
-export async function createPolizaSalud(req, res) {
+/* export async function createPolizaSalud(req, res) {
     const {
         nropoliza,
         nrocertificado,
@@ -1144,14 +1123,7 @@ export async function createPolizaSalud(req, res) {
         tipoemision,
         franquicia,
         valorasegurado,
-        /*   fechainiciovigencia,
-          fechafinvigencia,
-          fechainclusion,
-          prima,
-          porcentajeprima,
-          primaneta,
-          porcentajecomision,
-          detalle, */
+        
         comisionbs,
         comisionusd,
         tipocambio,
@@ -1212,14 +1184,7 @@ export async function createPolizaSalud(req, res) {
             tipoemision,
             franquicia,
             valorasegurado,
-            /*     fechainiciovigencia,
-                fechafinvigencia,
-                fechainclusion,
-                prima,
-                porcentajeprima,
-                primaneta,
-                porcentajecomision,
-                detalle, */
+           
             comisionbs,
             comisionusd,
             tipocambio,
@@ -1270,14 +1235,7 @@ export async function createPolizaSalud(req, res) {
                 'franquicia',
                 'valorasegurado',
 
-                /*     'fechainiciovigencia',
-                    'fechafinvigencia',
-                    'fechainclusion',
-                    'prima',
-                    'porcentajeprima',
-                    'primaneta',
-                    'porcentajecomision',
-                    'detalle', */
+              
 
                 'comisionbs',
                 'comisionusd',
@@ -1374,61 +1332,11 @@ export async function createPolizaSalud(req, res) {
                     'polizaid']
             }, { transaction: t });
 
-            /*   //SUB DETALLE PERSONA
-              let dependientes = personas[i].dependientes;
-              for (let j = 0; j < dependientes.length; j++) {
-                  // listaPermisos.push( 
-                  await PolizaDetallePersonaTitular.create({
-                      polizadetallepersonaid: newPolizaDetalle.id,
-                      nombre: dependientes[j].nombre,
-                      parentezco: dependientes[j].parentezco,
-                      fechanacimiento: dependientes[j].fechanacimiento,
-                      sexo: dependientes[j].sexo,
-                      usuarioregistro,
-                      usuariomodificacion: usuarioregistro,
-                      fecharegistro: new Date(),
-                      fechamodificacion: new Date(),
-                      estado: 'ACT'
-                  }, {
-                      fields: [
-                          'polizadetallepersonaid',
-                          'nombre',
-                          'parentezco',
-                          'fechanacimiento',
-                          'sexo',
-                          'usuarioregistro',
-                          'usuariomodificacion',
-                          'fecharegistro',
-                          'fechamodificacion',
-                          'estado']
-                  }, { transaction: t });
-              } */
+          
 
         }
 
-        /* for (let i = 0; i < adicionales.length; i++) {
-            // listaPermisos.push( 
-            await PolizaDetalleAdicional.create({
-                polizaid: newPoliza.id,
-                valor: adicionales[i].valor,
-                dato: adicionales[i].dato,
-                usuarioregistro,
-                usuariomodificacion: usuarioregistro,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado: 'ACT'
-            }, {
-                fields: [
-                    'polizaid',
-                    'valor',
-                    'dato',
-                    'usuarioregistro',
-                    'usuariomodificacion',
-                    'fecharegistro',
-                    'fechamodificacion',
-                    'estado']
-            }, { transaction: t });
-        } */
+       
 
 
 
@@ -1473,8 +1381,8 @@ export async function createPolizaSalud(req, res) {
         });
     }
 }
-
-export async function updatePolizaSalud(req, res) {
+ */
+/* export async function updatePolizaSalud(req, res) {
     const { id } = req.params;
     const { nropoliza,
         nrocertificado,
@@ -1675,35 +1583,7 @@ export async function updatePolizaSalud(req, res) {
                         'polizaid']
                 }, { transaction: t });
 
-                /*  //SUB DETALLE PERSONA
-                 let dependientes = personas[i].dependientes;
-                 for (let j = 0; j < dependientes.length; j++) {
-                     // listaPermisos.push( 
-                     await PolizaDetallePersonaTitular.create({
-                         polizadetallepersonaid: newPolizaDetalle.id,
-                         nombre: dependientes[j].nombre,
-                         parentezco: dependientes[j].parentezco,
-                         fechanacimiento: dependientes[j].fechanacimiento,
-                         sexo: dependientes[j].sexo,
-                         usuarioregistro,
-                         usuariomodificacion: usuarioregistro,
-                         fecharegistro: new Date(),
-                         fechamodificacion: new Date(),
-                         estado: 'ACT'
-                     }, {
-                         fields: [
-                             'polizadetallepersonaid',
-                             'nombre',
-                             'parentezco',
-                             'fechanacimiento',
-                             'sexo',
-                             'usuarioregistro',
-                             'usuariomodificacion',
-                             'fecharegistro',
-                             'fechamodificacion',
-                             'estado']
-                     }, { transaction: t });
-                 } */
+               
 
             }
         }
@@ -1731,9 +1611,9 @@ export async function updatePolizaSalud(req, res) {
             data: { estado: false, "error": e.message }
         });
     }
-}
+} */
 /** automotor */
-export async function createPolizaGeneral(req, res) {
+/* export async function createPolizaGeneral(req, res) {
     const {
         nropoliza,
         nrocertificado,
@@ -1834,14 +1714,7 @@ export async function createPolizaGeneral(req, res) {
             tipoemision,
             franquicia,
             valorasegurado,
-            /*     fechainiciovigencia,
-                fechafinvigencia,
-                fechainclusion,
-                prima,
-                porcentajeprima,
-                primaneta,
-                porcentajecomision,
-                detalle, */
+           
             comisionbs,
             comisionusd,
             tipocambio,
@@ -1892,14 +1765,7 @@ export async function createPolizaGeneral(req, res) {
                 'franquicia',
                 'valorasegurado',
 
-                /*     'fechainiciovigencia',
-                    'fechafinvigencia',
-                    'fechainclusion',
-                    'prima',
-                    'porcentajeprima',
-                    'primaneta',
-                    'porcentajecomision',
-                    'detalle', */
+          
 
                 'comisionbs',
                 'comisionusd',
@@ -1961,9 +1827,7 @@ export async function createPolizaGeneral(req, res) {
                 tipopolizageneral: generales[i].tipopolizageneral,
                 direccion: generales[i].direccion,
 
-                primaindividual: generales[i].primaindividual,
-                /*     primanetaindividualbs: generales[i].primanetaindividualbs,
-                    primanetaindividualusd: generales[i].primanetaindividualusd, */
+                primaindividual: generales[i].primaindividual,               
 
                 franquicia: generales[i].franquicia,
                 valorasegurado: generales[i].valorasegurado,
@@ -2034,8 +1898,8 @@ export async function createPolizaGeneral(req, res) {
         });
     }
 }
-
-export async function updatePolizaGeneral(req, res) {
+ */
+/* export async function updatePolizaGeneral(req, res) {
     const { id } = req.params;
     const { nropoliza,
         nrocertificado,
@@ -2206,8 +2070,7 @@ export async function updatePolizaGeneral(req, res) {
 
                     franquicia: generales[i].franquicia,
                     valorasegurado: generales[i].valorasegurado,
-                    /*  primanetaindividualbs: generales[i].primanetaindividualbs,
-                     primanetaindividualusd: generales[i].primanetaindividualusd, */
+                  
 
                     usuarioregistro,
                     usuariomodificacion,
@@ -2258,7 +2121,7 @@ export async function updatePolizaGeneral(req, res) {
             data: { estado: false, "error": e.message }
         });
     }
-}
+} */
 
 export async function getOnePoliza(req, res) {
     try {

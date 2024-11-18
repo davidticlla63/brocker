@@ -49,7 +49,7 @@ router.get('/actualesPorEmpresa/:empresaid', tokenVerificacion.ensureToken, cont
 router.get('/pendientesPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosPendientesPorEmpresa);
 router.get('/moraPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosMoraPorEmpresa);
 router.get('/pagosPorSucursalYCI/:sucursalid/:cinit', tokenVerificacion.ensureToken, control.getPagosPorSucursalyCi);
-router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', tokenVerificacion.ensureToken, control.getPagosPorEmpresayCi);
+router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', /* tokenVerificacion.ensureToken, */control.getPagosPorEmpresayCi);
 router.post('/pagoPorSucursal/:sucursalid', tokenVerificacion.ensureToken, control.getPagosPorSucursal);
 router.post('/pagoPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosPorEmpresa);
 

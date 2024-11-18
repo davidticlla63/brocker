@@ -28,8 +28,12 @@ router
         // el valor predeterminado es 1 kB
         threshold: 0
       }));
+
+    //  router.use(tokenVerificacion.ensureToken)
+
+
 // /api/empresas/
-//control de automotor
+/* //control de automotor
 router.post('/', tokenVerificacion.ensureToken,control.createPoliza);
 router.put('/:id',tokenVerificacion.ensureToken, control.updatePoliza);
 //control de salud
@@ -37,7 +41,7 @@ router.post('/salud/',tokenVerificacion.ensureToken, control.createPolizaSalud);
 router.put('/salud/:id',tokenVerificacion.ensureToken, control.updatePolizaSalud);
 //control de proposito general
 router.post('/general/',tokenVerificacion.ensureToken, control.createPolizaGeneral);
-router.put('/general/:id',tokenVerificacion.ensureToken, control.updatePolizaGeneral);
+router.put('/general/:id',tokenVerificacion.ensureToken, control.updatePolizaGeneral); */
 
 //control de generico
 router.post('/generico/', tokenVerificacion.ensureToken,control.createPolizaGenerica);
