@@ -32,6 +32,10 @@ router.use(cors()).use(bodyParser.json()).use(compression({
   // el valor predeterminado es 1 kB
   threshold: 0
 }));
+
+/*   // Aplica el middleware globalmente para todas las rutas del router
+  .use(tokenVerificacion.ensureToken); */
+
 router.post('/', tokenVerificacion.ensureToken, control.createPagos);
 router.post('/crear/', tokenVerificacion.ensureToken, control.crearPagos);
 router.get('/', tokenVerificacion.ensureToken, control.getPagoss);
@@ -49,7 +53,7 @@ router.get('/actualesPorEmpresa/:empresaid', tokenVerificacion.ensureToken, cont
 router.get('/pendientesPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosPendientesPorEmpresa);
 router.get('/moraPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosMoraPorEmpresa);
 router.get('/pagosPorSucursalYCI/:sucursalid/:cinit', tokenVerificacion.ensureToken, control.getPagosPorSucursalyCi);
-router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', /* tokenVerificacion.ensureToken, */control.getPagosPorEmpresayCi);
+router.get('/pagosPorEmpresaYCI/:empresaid/:cinit', tokenVerificacion.ensureToken, control.getPagosPorEmpresayCi);
 router.post('/pagoPorSucursal/:sucursalid', tokenVerificacion.ensureToken, control.getPagosPorSucursal);
 router.post('/pagoPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getPagosPorEmpresa);
 

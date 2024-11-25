@@ -193,7 +193,8 @@ export async function subRamoCompaniaPorRamo(req, res) {
 
         const subRamoCompania = await sequelize.query(`select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc 
             inner join ramo r on r.id=rc.ramoid 
-            left join ramo p on rc.ramopadreid=r.id 
+            --left join ramo p on rc.ramopadreid=r.id 
+            left join ramo p on r.ramoid=p.id
             where r.id= '` + ramoid + `' and rc.estado ='ACT' order by r.nombre `
             , {
                 type: QueryTypes.SELECT
@@ -293,7 +294,8 @@ export async function subRamoCompaniaYCompaniaPorEmpresa(req, res) {
         const subRamoCompania = await sequelize.query(`select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal 
             from sub_ramo_compania  rc  
             inner join ramo r on r.id=rc.ramoid  
-            left join ramo p on rc.ramopadreid=r.id 
+            --left join ramo p on rc.ramopadreid=r.id 
+            left join ramo p on r.ramoid=p.id
             inner join tipo_ramo t on t.id=r.tiporamoid  
             inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'
             inner join sucursal s on s.id=rc.sucursalid 
@@ -320,7 +322,8 @@ export async function subRamoCompaniaYCompaniaPorSucursal(req, res) {
         const subRamoCompania = await sequelize.query(`select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal 
             from sub_ramo_compania  rc  
             inner join ramo r on r.id=rc.ramoid  
-            left join ramo p on rc.ramopadreid=r.id 
+            --left join ramo p on rc.ramopadreid=r.id 
+            left join ramo p on r.ramoid=p.id
             inner join tipo_ramo t on t.id=r.tiporamoid  
             inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'
             inner join sucursal s on s.id=rc.sucursalid 

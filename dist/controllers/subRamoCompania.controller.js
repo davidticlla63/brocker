@@ -267,7 +267,7 @@ function _subRamoCompaniaPorRamo() {
           _context5.prev = 1;
           console.log(req.params);
           _context5.next = 5;
-          return _database.sequelize.query("select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc \n            inner join ramo r on r.id=rc.ramoid \n            left join ramo p on rc.ramopadreid=r.id \n            where r.id= '" + ramoid + "' and rc.estado ='ACT' order by r.nombre ", {
+          return _database.sequelize.query("select rc.*,r.nombre nombreramo,p.nombre nombreramopadre from sub_ramo_compania  rc \n            inner join ramo r on r.id=rc.ramoid \n            --left join ramo p on rc.ramopadreid=r.id \n            left join ramo p on r.ramoid=p.id\n            where r.id= '" + ramoid + "' and rc.estado ='ACT' order by r.nombre ", {
             type: QueryTypes.SELECT
           });
         case 5:
@@ -387,7 +387,7 @@ function _subRamoCompaniaYCompaniaPorEmpresa() {
           empresaid = req.params.empresaid;
           _context8.prev = 1;
           _context8.next = 4;
-          return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.empresaid= '" + empresaid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+          return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            --left join ramo p on rc.ramopadreid=r.id \n            left join ramo p on r.ramoid=p.id\n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.empresaid= '" + empresaid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
             type: QueryTypes.SELECT
           });
         case 4:
@@ -427,7 +427,7 @@ function _subRamoCompaniaYCompaniaPorSucursal() {
           sucursalid = req.params.sucursalid;
           _context9.prev = 1;
           _context9.next = 4;
-          return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            left join ramo p on rc.ramopadreid=r.id \n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.sucursalid= '" + sucursalid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
+          return _database.sequelize.query("select  c.cia_spvs, c.nombre compania, rc.*,p.nombre as nombreramopadre,r.nombre nombreramo,r.tiporamoid,t.nombre tiporamo,r.spvs spvsramo,case when p.spvs is null then '00' else  p.spvs end  spvramopadre,t.spvs spvstiporamo ,s.nombre sucursal \n            from sub_ramo_compania  rc  \n            inner join ramo r on r.id=rc.ramoid  \n            --left join ramo p on rc.ramopadreid=r.id \n            left join ramo p on r.ramoid=p.id\n            inner join tipo_ramo t on t.id=r.tiporamoid  \n            inner join compania_seguro c on c.id=rc.companiaseguroid  and c.estado='ACT'\n            inner join sucursal s on s.id=rc.sucursalid \n            where c.sucursalid= '" + sucursalid + "'  and rc.estado ='ACT' order by c.nombre, rc.fechamodificacion desc ", {
             type: QueryTypes.SELECT
           });
         case 4:

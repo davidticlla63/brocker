@@ -200,85 +200,7 @@ export async function createUsuario(req, res) {
 }
 
 
-/* export async function createUsuario(req, res) {
-    const {
-        // id=
-        //nombrecompleto,
-        sucursal,
-        perfiles,
-        nick,
-        password,
-        empresaid,
-        personalid,
-        usuarioregistro,
-        usuariomodificacion,
-        estado } = req.body;
 
-    try {
-
-
-        //const transaction= sequelize.transaction;
-        const result = await sequelize.transaction(async (t) => {
-
-            let newUsuario = await Usuario.create({
-                //nombrecompleto,
-                nick,
-                password,
-                empresaid,
-                personalid,
-                usuarioregistro,
-                usuariomodificacion,
-                fecharegistro: new Date(),
-                fechamodificacion: new Date(),
-                estado
-            }, {
-                fields: ['nick', 'empresaid',
-                    'personalid', 'password', 'usuarioregistro', 'usuariomodificacion', 'fecharegistro',
-                    'fechamodificacion', 'estado']
-            }, { transaction: t });
-
-            let sucursal_usuario = await SucursalUsuario.create({
-                sucursalid: sucursal.sucursalid,
-                usuarioid: newUsuario.id,
-                usuarioregistro: usuarioregistro,
-                fechamodificacion: new Date(),
-                fecharegistro: new Date(),
-                estado: 'ACT'
-            }, { transaction: t });
-
-
-
-
-            // step 3
-            for (let i = 0; i < perfiles.length; i++) {
-                await UsuarioPerfil.create({
-                    perfilid:' perfiles[i].id',
-                    usuarioid: newUsuario.id,
-                    usuarioregistro: usuarioregistro,
-                    fechamodificacion: new Date(),
-                    fecharegistro: new Date(),
-                    estado: 'ACT'
-                }, { transaction: t });
-            }
-            if (newUsuario) {
-                return res.json({
-                    message: 'Usuario created successfully',
-                    data: newUsuario
-                });
-            }
-
-        });
-
-    } catch (e) {
-
-        console.log(e);
-        res.status(500).json({
-            message: 'Something goes wrong',
-            data: {}
-        });
-
-    }
-} */
 export async function getOneUsuario(req, res) {
     try {
         const { id } = req.params;
@@ -429,43 +351,7 @@ export async function updateUsuario(req, res) {
         });
         // throw new Error(err);
     }
-
-    /*  try {
- 
-         const usuarios = await Usuario.update({
-             nick,
-                 password,
-                 empresaid,
-                 personalid,
-                 usuarioregistro,
-                 usuariomodificacion,
-                 fechamodificacion:new Date(),
-                 estado},
-             {where: {
-                 id
-             }}
-         );
- 
-         const usuarios = await Usuario.findOne({
-             where: {
-                 id
-             }
-         });
- 
-       
- 
-         return res.json({
-             message: 'Usuario updated successfully',
-             data: usuarios
-         });
- 
-     } catch (e) {
-         console.log(e);
-         res.status(500).json({
-             message: 'Something goes wrong',
-             data: {}
-         });
-     } */
+   
 }
 
 export async function usuarioBySucursal(req, res) {
