@@ -10,16 +10,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createPeriodo);
-router.get('/', tokenVerificacion.ensureToken,control.getPeriodos);
+router.post('/', control.createPeriodo);
+router.get('/', control.getPeriodos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken,control. getOnePeriodo);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deletePeriodo);
-router.put('/:id', tokenVerificacion.ensureToken,control.updatePeriodo);
-router.get('/periodoPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.PeriodoByEmpresa);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaPeriodo);
+router.get('/:id',control. getOnePeriodo);
+router.delete('/:id', control.deletePeriodo);
+router.put('/:id', control.updatePeriodo);
+router.get('/periodoPorEmpresa/:empresaid', control.PeriodoByEmpresa);
+router.put('/baja/:id', control.bajaPeriodo);
 
 export default router;

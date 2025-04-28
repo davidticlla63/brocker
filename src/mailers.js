@@ -10,7 +10,7 @@ export const transporter = nodemailer.createTransport({
     //timeaut:10000,
     auth: {
         user: 'gamsc@gmsantacruz.gob.bo',
-        pass: 'D3s4rrOll0'
+        pass: 'mt9Nh28yN2_tBTC'
     }
 });
 

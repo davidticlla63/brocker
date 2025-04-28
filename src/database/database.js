@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import config from '../config'
 
 export const sequelize = new Sequelize(
-    config.NODE_ENV == 'production' ? 'broker_db' : 'broker_db', //produccion  'broker_test_db'
+    config.NODE_ENV == 'production' ? 'broker_db' : 'broker_test', //produccion  'broker_test_db'
     //'broker_test_db',//testing
     config.NODE_ENV == 'production' ? 'broker' : 'postgres',
     config.NODE_ENV == 'production' ? 'broker' : 'admin',

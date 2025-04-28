@@ -10,15 +10,16 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createTipoRamo);
-router.get('/', tokenVerificacion.ensureToken,control.getTipoRamos);
+router.post('/', control.createTipoRamo);
+router.get('/', control.getTipoRamos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneTipoRamo);
-router.delete('/:id', tokenVerificacion.ensureToken,control.deleteTipoRamo);
-router.put('/:id', tokenVerificacion.ensureToken,control.updateTipoRamo);
-router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaTipoRamo);
-router.get('/tipoRamosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getTipoRamosPorEmpresa);
+router.get('/:id', control.getOneTipoRamo);
+router.delete('/:id', control.deleteTipoRamo);
+router.put('/:id', control.updateTipoRamo);
+router.put('/baja/:id', control.bajaTipoRamo);
+router.get('/tipoRamosPorEmpresa/:empresaid', control.getTipoRamosPorEmpresa);
 export default router;

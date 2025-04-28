@@ -9,22 +9,23 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createSiniestro);
-router.get('/',tokenVerificacion.ensureToken, control.getSiniestros);
+router.post('/', control.createSiniestro);
+router.get('/', control.getSiniestros);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneSiniestro);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSiniestro);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateSiniestro);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaSiniestro);
+router.get('/:id', control.getOneSiniestro);
+router.delete('/:id', control.deleteSiniestro);
+router.put('/:id', control.updateSiniestro);
+router.put('/baja/:id', control.bajaSiniestro);
 
-router.get('/siniestroPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getSiniestroPorSucursal);
-router.get('/siniestroPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getSiniestroPorEmpresa);
+router.get('/siniestroPorSucursal/:sucursalid', control.getSiniestroPorSucursal);
+router.get('/siniestroPorEmpresa/:empresaid', control.getSiniestroPorEmpresa);
 
 /**dashoboard */
-router.get('/totalSiniestrosPorEmpresa/:empresaid', tokenVerificacion.ensureToken,control.getTotalSiniestrosPorEmpresa);
-router.get('/totalSiniestrosPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getTotalSiniestrosPorSucursal);
+router.get('/totalSiniestrosPorEmpresa/:empresaid', control.getTotalSiniestrosPorEmpresa);
+router.get('/totalSiniestrosPorSucursal/:sucursalid', control.getTotalSiniestrosPorSucursal);
 
 export default router;

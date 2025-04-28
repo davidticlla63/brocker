@@ -28,25 +28,26 @@ router
         // de la respuesta antes de considerar la compresión,
         // el valor predeterminado es 1 kB
         threshold: 0
-      }));
+      }))
+       .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createMemo);
-router.get('/',tokenVerificacion.ensureToken, control.getMemos);
+router.post('/', control.createMemo);
+router.get('/', control.getMemos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneMemo);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteMemo);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateMemo);
-router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaMemo);
-router.post('/memosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.memosPorEmpresa);
-router.post('/memosPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.memosPorSucursal);
+router.get('/:id', control.getOneMemo);
+router.delete('/:id', control.deleteMemo);
+router.put('/:id', control.updateMemo);
+router.put('/baja/:id', control.bajaMemo);
+router.post('/memosPorEmpresa/:empresaid', control.memosPorEmpresa);
+router.post('/memosPorSucursal/:sucursalid', control.memosPorSucursal);
 
 /**dashoboard */
-router.get('/totalProduccionPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getTotalProduccionMemoPorEmpresa);
-router.get('/totalProduccionPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getTotalProduccionMemoPorSucursal);
+router.get('/totalProduccionPorEmpresa/:empresaid', control.getTotalProduccionMemoPorEmpresa);
+router.get('/totalProduccionPorSucursal/:sucursalid', control.getTotalProduccionMemoPorSucursal);
 
 /**dashoboard */
-router.post('/produccionMensualTxt/',tokenVerificacion.ensureToken, control.listarProduccionMesualTXT);
+router.post('/produccionMensualTxt/', control.listarProduccionMesualTXT);
 //router.post('/produccionMensualTxt/', control.listarProduccionMesualTXT);
 
 export default router;

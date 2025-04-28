@@ -29,24 +29,25 @@ router
       // de la respuesta antes de considerar la compresión,
       // el valor predeterminado es 1 kB
       threshold: 0
-    }));
+    }))
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createPersonal);
-router.get('/',tokenVerificacion.ensureToken,control. getPersonals);
+router.post('/', control.createPersonal);
+router.get('/',control. getPersonals);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOnePersonal);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deletePersonal);
-router.put('/:id',tokenVerificacion.ensureToken, control.updatePersonal);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaPersonal);
-router.get('/personalBySucursal/:sucursalid',tokenVerificacion.ensureToken, control.personalBySucursal);
-router.get('/personalByAreaTrabajo/:areatrabajoid',tokenVerificacion.ensureToken, control.personalByAreaTrabajo);
-router.get('/personalByEmpresa/:empresaid',tokenVerificacion.ensureToken, control.personalByEmpresa);
+router.get('/:id', control.getOnePersonal);
+router.delete('/:id', control.deletePersonal);
+router.put('/:id', control.updatePersonal);
+router.put('/baja/:id', control.bajaPersonal);
+router.get('/personalBySucursal/:sucursalid', control.personalBySucursal);
+router.get('/personalByAreaTrabajo/:areatrabajoid', control.personalByAreaTrabajo);
+router.get('/personalByEmpresa/:empresaid', control.personalByEmpresa);
 //router.get('/personalByEmpresa/:empresaid', personal.personalByEmpresa);
-router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid',tokenVerificacion.ensureToken, control.personalByAreaTrabajoYSucursal);
-router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid',tokenVerificacion.ensureToken, control.personalByAreaTrabajoYEmpresa);
+router.get('/personalByAreaTrabajoYSucursal/:areatrabajoid/:sucursalid', control.personalByAreaTrabajoYSucursal);
+router.get('/personalByAreaTrabajoYEmpresa/:areatrabajoid/:empresaid', control.personalByAreaTrabajoYEmpresa);
 
-router.get('/personalByTipoCarteraYSucursal/:tipocartera/:sucursalid',tokenVerificacion.ensureToken, control.personalByTipoCarteraYSucursal);
-router.get('/personalByTipoCarteraYEmpresa/:tipocartera/:empresaid',tokenVerificacion.ensureToken, control.personalByTipoCarteraYEmpresa);
+router.get('/personalByTipoCarteraYSucursal/:tipocartera/:sucursalid', control.personalByTipoCarteraYSucursal);
+router.get('/personalByTipoCarteraYEmpresa/:tipocartera/:empresaid', control.personalByTipoCarteraYEmpresa);
 
 export default router;

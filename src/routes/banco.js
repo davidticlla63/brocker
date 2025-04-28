@@ -10,16 +10,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createBanco);
-router.get('/',tokenVerificacion.ensureToken, control.getBancos);
+router.post('/', control.createBanco);
+router.get('/', control.getBancos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneBanco);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteBanco);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateBanco);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaBanco);
-router.get('/bancosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.bancosPorEmpresa);
+router.get('/:id', control.getOneBanco);
+router.delete('/:id', control.deleteBanco);
+router.put('/:id', control.updateBanco);
+router.put('/baja/:id', control.bajaBanco);
+router.get('/bancosPorEmpresa/:empresaid', control.bancosPorEmpresa);
 
 export default router;

@@ -9,16 +9,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken,control.createSiniestroSeguimiento);
-router.get('/:siniestroid',tokenVerificacion.ensureToken, control.getSiniestroSeguimientos);
+router.post('/', control.createSiniestroSeguimiento);
+router.get('/:siniestroid', control.getSiniestroSeguimientos);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken,control.getOneSiniestroSeguimiento);
-router.delete('/:id', tokenVerificacion.ensureToken,control.deleteSiniestroSeguimiento);
-router.put('/:id', tokenVerificacion.ensureToken,control.updateSiniestroSeguimiento);
-router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaSiniestroSeguimiento);
+router.get('/:id', control.getOneSiniestroSeguimiento);
+router.delete('/:id', control.deleteSiniestroSeguimiento);
+router.put('/:id', control.updateSiniestroSeguimiento);
+router.put('/baja/:id', control.bajaSiniestroSeguimiento);
 
 
 export default router;

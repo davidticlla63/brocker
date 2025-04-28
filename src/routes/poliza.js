@@ -27,77 +27,78 @@ router
         // de la respuesta antes de considerar la compresión,
         // el valor predeterminado es 1 kB
         threshold: 0
-      }));
+      }))
+       .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 
     //  router.use(tokenVerificacion.ensureToken)
 
 
 // /api/empresas/
 /* //control de automotor
-router.post('/', tokenVerificacion.ensureToken,control.createPoliza);
-router.put('/:id',tokenVerificacion.ensureToken, control.updatePoliza);
+router.post('/', control.createPoliza);
+router.put('/:id', control.updatePoliza);
 //control de salud
-router.post('/salud/',tokenVerificacion.ensureToken, control.createPolizaSalud);
-router.put('/salud/:id',tokenVerificacion.ensureToken, control.updatePolizaSalud);
+router.post('/salud/', control.createPolizaSalud);
+router.put('/salud/:id', control.updatePolizaSalud);
 //control de proposito general
-router.post('/general/',tokenVerificacion.ensureToken, control.createPolizaGeneral);
-router.put('/general/:id',tokenVerificacion.ensureToken, control.updatePolizaGeneral); */
+router.post('/general/', control.createPolizaGeneral);
+router.put('/general/:id', control.updatePolizaGeneral); */
 
 //control de generico
-router.post('/generico/', tokenVerificacion.ensureToken,control.createPolizaGenerica);
-router.put('/generico/:id',tokenVerificacion.ensureToken, control.updatePolizaGenerica);
+router.post('/generico/', control.createPolizaGenerica);
+router.put('/generico/:id', control.updatePolizaGenerica);
 //obtener detalle generico
-router.get('/detalle/:id',tokenVerificacion.ensureToken, control.obtenerDetallesPorPoliza);
+router.get('/detalle/:id', control.obtenerDetallesPorPoliza);
 
-router.get('/',tokenVerificacion.ensureToken, control.getPolizas);
-router.get('/polizasPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.polizasPorSucursal);
-router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid',tokenVerificacion.ensureToken, control.getPolizaPorTipoYSucursal);
-router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorTipoYEmpresa);
-router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorTipoRamoYEmpresa);
-router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid',tokenVerificacion.ensureToken, control.getPolizasPorTipoRamoYSucursal);
+router.get('/', control.getPolizas);
+router.get('/polizasPorSucursal/:sucursalid', control.polizasPorSucursal);
+router.get('/polizasPorTipoYSucursal/:tipopolizaid/:sucursalid', control.getPolizaPorTipoYSucursal);
+router.get('/polizasPorTipoYEmpresa/:tipopolizaid/:empresaid', control.getPolizasPorTipoYEmpresa);
+router.post('/polizasPorTipoRamoYEmpresa/:tipopoliza/:tiporamoid/:empresaid', control.getPolizasPorTipoRamoYEmpresa);
+router.post('/polizasPorTipoRamoYSucursal/:tipopoliza/:tiporamoid/:sucursalid', control.getPolizasPorTipoRamoYSucursal);
 
-router.get('/polizasHijo/:polizaid',tokenVerificacion.ensureToken, control.getPolizaHijo);
+router.get('/polizasHijo/:polizaid', control.getPolizaHijo);
 
-router.post('/polizasPorEmpresaGeneral/:empresaid',tokenVerificacion.ensureToken, control.polizasPorEmpresaGeneral);
-router.post('/polizasPorSucursalGeneral/:sucursalid',tokenVerificacion.ensureToken, control.polizasPorSucursalGeneral);
+router.post('/polizasPorEmpresaGeneral/:empresaid', control.polizasPorEmpresaGeneral);
+router.post('/polizasPorSucursalGeneral/:sucursalid', control.polizasPorSucursalGeneral);
 
-router.post('/polizasPorEmpresaYVencimiento/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorEmpresaFechaVencimiento);
-router.post('/polizasPorSucursalYVencimiento/:sucursalid',tokenVerificacion.ensureToken, control.getPolizasPorSucursalVencimiento);
+router.post('/polizasPorEmpresaYVencimiento/:empresaid', control.getPolizasPorEmpresaFechaVencimiento);
+router.post('/polizasPorSucursalYVencimiento/:sucursalid', control.getPolizasPorSucursalVencimiento);
 
-router.get('/polizasPorTomadorYEmpresa/:tomadorid/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorTomadorYEmpresa);
-router.get('/polizasPorTomadorYSucursal/:tomadorid/:sucursalid',tokenVerificacion.ensureToken, control.getPolizasPorTomadorYSucursal);
+router.get('/polizasPorTomadorYEmpresa/:tomadorid/:empresaid', control.getPolizasPorTomadorYEmpresa);
+router.get('/polizasPorTomadorYSucursal/:tomadorid/:sucursalid', control.getPolizasPorTomadorYSucursal);
 
-router.get('/polizasPorEmpresaSinMemo/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorEmpresaSinMemo);
-router.get('/polizasPorSucursalSinMemo/:sucursalid',tokenVerificacion.ensureToken, control.getPolizasPorSucursalSinMemo);
+router.get('/polizasPorEmpresaSinMemo/:empresaid', control.getPolizasPorEmpresaSinMemo);
+router.get('/polizasPorSucursalSinMemo/:sucursalid', control.getPolizasPorSucursalSinMemo);
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOnePoliza);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deletePoliza);
+router.get('/:id', control.getOnePoliza);
+router.delete('/:id', control.deletePoliza);
 
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaPoliza);
+router.put('/baja/:id', control.bajaPoliza);
 
 //siniestro  tipopolizaid
-router.get('/polizasPorSucursals/:sucursalid',tokenVerificacion.ensureToken, control.getPolizasPorSucursal);
-router.get('/polizasPorEmpresas/:empresaid',tokenVerificacion.ensureToken, control.getPolizasPorEmpresa);
+router.get('/polizasPorSucursals/:sucursalid', control.getPolizasPorSucursal);
+router.get('/polizasPorEmpresas/:empresaid', control.getPolizasPorEmpresa);
 
-router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid/:tiporamoid',tokenVerificacion.ensureToken, control.getPolizasPorSucursalYTipo);
-router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid/:tiporamoid',tokenVerificacion.ensureToken, control.getPolizasPorEmpresaYTipo);
+router.get('/polizasPorSucursalsYTipo/:sucursalid/:tipopolizaid/:tiporamoid', control.getPolizasPorSucursalYTipo);
+router.get('/polizasPorEmpresasYTipo/:empresaid/:tipopolizaid/:tiporamoid', control.getPolizasPorEmpresaYTipo);
 /**busquedas por detalle  */
-router.post('/buscarPolizasDetallePorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.getBuscarPolizasDetallePorSucursal); //GENRAL SOLO UNA CONSULTA
-router.post('/buscarPolizasDetallePorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getBuscarPolizasDetallePorEmpresa); //GENRAL SOLO UNA CONSULTA
+router.post('/buscarPolizasDetallePorSucursal/:sucursalid', control.getBuscarPolizasDetallePorSucursal); //GENRAL SOLO UNA CONSULTA
+router.post('/buscarPolizasDetallePorEmpresa/:empresaid', control.getBuscarPolizasDetallePorEmpresa); //GENRAL SOLO UNA CONSULTA
 /**busquedas por detalle   no sera usado*/
-router.get('/polizasDetalleAutomotorPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleAutomotorPorEmpresaYTipo);
-router.get('/polizasDetalleAutomotorPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleAutomotorPorSucursalYTipo);
+router.get('/polizasDetalleAutomotorPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', control.getPolizasDetalleAutomotorPorEmpresaYTipo);
+router.get('/polizasDetalleAutomotorPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', control.getPolizasDetalleAutomotorPorSucursalYTipo);
 
-router.get('/polizasDetalleGeneralPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleGeneralPorEmpresaYTipo);
-router.get('/polizasDetalleGeneralPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleGeneralPorSucursalYTipo);
+router.get('/polizasDetalleGeneralPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', control.getPolizasDetalleGeneralPorEmpresaYTipo);
+router.get('/polizasDetalleGeneralPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', control.getPolizasDetalleGeneralPorSucursalYTipo);
 
-router.get('/polizasDetalleSaludPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleSaludPorEmpresaYTipo);
-router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid',tokenVerificacion.ensureToken, control.getPolizasDetalleSaludPorSucursalYTipo);
+router.get('/polizasDetalleSaludPorEmpresaYTipo/:dato/:empresaid/:tipopolizaid', control.getPolizasDetalleSaludPorEmpresaYTipo);
+router.get('/polizasDetalleSaludPorSucursalYTipo/:dato/:sucursalid/:tipopolizaid', control.getPolizasDetalleSaludPorSucursalYTipo);
 
 
 /** envio de correo */
-router.get('/vencimientoPoliza/:id',tokenVerificacion.ensureToken, control.vencimientoPoliza);
+router.get('/vencimientoPoliza/:id', control.vencimientoPoliza);
 
 
-router.get('/obtenerPoliza/:id',tokenVerificacion.ensureToken, control.obtenerPoliza);
+router.get('/obtenerPoliza/:id', control.obtenerPoliza);
 export default router;

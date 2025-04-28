@@ -9,16 +9,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createTipoCambio);
-router.get('/',tokenVerificacion.ensureToken, control.getTipoCambios);
+router.post('/', control.createTipoCambio);
+router.get('/', control.getTipoCambios);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneTipoCambio);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteTipoCambio);
-router.put('/:id',tokenVerificacion.ensureToken,control. updateTipoCambio);
-router.get('/tipoCambioPorEmpresa/:empresaid', tokenVerificacion.ensureToken,control.tipoCambioByEmpresa);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaTipoCambio);
+router.get('/:id', control.getOneTipoCambio);
+router.delete('/:id', control.deleteTipoCambio);
+router.put('/:id',control. updateTipoCambio);
+router.get('/tipoCambioPorEmpresa/:empresaid', control.tipoCambioByEmpresa);
+router.put('/baja/:id', control.bajaTipoCambio);
 
 export default router;

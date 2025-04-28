@@ -9,22 +9,23 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createSubRamoCompania);
+router.post('/', control.createSubRamoCompania);
 //router.get('/', control.getRamoCompanias);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneSubRamoCompania);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSubRamoCompania);
-router.put('/:id', tokenVerificacion.ensureToken,control.updateSubRamoCompania);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaSubRamoCompania);
-router.get('/subRamoCompaniasPorRamo/:ramoid', tokenVerificacion.ensureToken,control.subRamoCompaniaPorRamo);
-router.get('/subRamoCompaniasPorCompania/:companiaseguroid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorCompania);
-router.get('/subRamoCompaniaPorCompaniaYSucursal/:companiaseguroid/:sucursalid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorCompaniaYSucursal);
+router.get('/:id', control.getOneSubRamoCompania);
+router.delete('/:id', control.deleteSubRamoCompania);
+router.put('/:id', control.updateSubRamoCompania);
+router.put('/baja/:id', control.bajaSubRamoCompania);
+router.get('/subRamoCompaniasPorRamo/:ramoid', control.subRamoCompaniaPorRamo);
+router.get('/subRamoCompaniasPorCompania/:companiaseguroid', control.subRamoCompaniaPorCompania);
+router.get('/subRamoCompaniaPorCompaniaYSucursal/:companiaseguroid/:sucursalid', control.subRamoCompaniaPorCompaniaYSucursal);
 //nueva metodo que se aumento
-router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.subRamoCompaniaYCompaniaPorEmpresa);
-router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.subRamoCompaniaYCompaniaPorSucursal);
-router.get('/subRamoCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.subRamoCompaniaPorEmpresa);
+router.get('/subRamoCompaniaYCompaniaPorEmpresa/:empresaid', control.subRamoCompaniaYCompaniaPorEmpresa);
+router.get('/subRamoCompaniaYCompaniaPorSucursal/:sucursalid', control.subRamoCompaniaYCompaniaPorSucursal);
+router.get('/subRamoCompaniaPorEmpresa/:empresaid', control.subRamoCompaniaPorEmpresa);
 
 export default router;

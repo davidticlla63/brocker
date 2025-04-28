@@ -10,16 +10,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createCompaniaSeguro);
-router.get('/',tokenVerificacion.ensureToken, control.getCompaniaSeguros);
+router.post('/', control.createCompaniaSeguro);
+router.get('/', control.getCompaniaSeguros);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneCompaniaSeguro);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteCompaniaSeguro);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateCompaniaSeguro);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaCompaniaSeguro);
-router.get('/companiaSegurosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getCompaniaSegurosPorEmpresa);
+router.get('/:id', control.getOneCompaniaSeguro);
+router.delete('/:id', control.deleteCompaniaSeguro);
+router.put('/:id', control.updateCompaniaSeguro);
+router.put('/baja/:id', control.bajaCompaniaSeguro);
+router.get('/companiaSegurosPorEmpresa/:empresaid', control.getCompaniaSegurosPorEmpresa);
 
 export default router;

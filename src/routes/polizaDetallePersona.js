@@ -9,11 +9,12 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createPolizaDetallePersona);
-router.get('/',tokenVerificacion.ensureToken, control.getPolizaDetallePersonas);
+router.post('/', control.createPolizaDetallePersona);
+router.get('/', control.getPolizaDetallePersonas);
 
-router.get('/polizaDetallesPorPoliza/:polizaid',tokenVerificacion.ensureToken, control.polizaDetallePersonasPorPoliza);
+router.get('/polizaDetallesPorPoliza/:polizaid', control.polizaDetallePersonasPorPoliza);
 
 export default router;

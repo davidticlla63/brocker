@@ -10,16 +10,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createCobranzaMotivo);
-router.get('/',tokenVerificacion.ensureToken, control.getCobranzaMotivos);
+router.post('/', control.createCobranzaMotivo);
+router.get('/', control.getCobranzaMotivos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneCobranzaMotivo);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteCobranzaMotivo);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateCobranzaMotivo);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaCobranzaMotivo);
-router.put('/cobranzaMotivoPorPlanPago/:planpagoid',tokenVerificacion.ensureToken, control.getCobranzaMotivosPorPlanPago);
+router.get('/:id', control.getOneCobranzaMotivo);
+router.delete('/:id', control.deleteCobranzaMotivo);
+router.put('/:id', control.updateCobranzaMotivo);
+router.put('/baja/:id', control.bajaCobranzaMotivo);
+router.put('/cobranzaMotivoPorPlanPago/:planpagoid', control.getCobranzaMotivosPorPlanPago);
 
 export default router;

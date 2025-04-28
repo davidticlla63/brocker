@@ -28,20 +28,21 @@ router
         // de la respuesta antes de considerar la compresión,
         // el valor predeterminado es 1 kB
         threshold: 0
-      }));
+      }))
+       .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createRamo);
-router.get('/',tokenVerificacion.ensureToken, control.getRamos);
+router.post('/', control.createRamo);
+router.get('/', control.getRamos);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneRamo);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteRamo);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateRamo);
-router.put('/baja/:id',tokenVerificacion.ensureToken, control.bajaRamo);
-router.get('/ramosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getRamosPorEmpresa);
-router.get('/ramosPorEmpresas/:empresaid',tokenVerificacion.ensureToken, control.getRamosPorEmpresas);
-router.get('/obtenerRamosPorEmpresas/:empresaid',tokenVerificacion.ensureToken, control.obtenerRamosPorEmpresa);
-router.get('/subRamos/:ramoid', tokenVerificacion.ensureToken,control.getSubRamos);
+router.get('/:id', control.getOneRamo);
+router.delete('/:id', control.deleteRamo);
+router.put('/:id', control.updateRamo);
+router.put('/baja/:id', control.bajaRamo);
+router.get('/ramosPorEmpresa/:empresaid', control.getRamosPorEmpresa);
+router.get('/ramosPorEmpresas/:empresaid', control.getRamosPorEmpresas);
+router.get('/obtenerRamosPorEmpresas/:empresaid', control.obtenerRamosPorEmpresa);
+router.get('/subRamos/:ramoid', control.getSubRamos);
 
-router.get('/ramoPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.ramoPorEmpresa);
+router.get('/ramoPorEmpresa/:empresaid', control.ramoPorEmpresa);
 export default router;

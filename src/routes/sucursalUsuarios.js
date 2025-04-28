@@ -9,14 +9,15 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/sucursalUsuarios/
-router.post('/', tokenVerificacion.ensureToken,control.createSucursalUsuario);
-router.get('/',tokenVerificacion.ensureToken, control.getSucursalUsuarios);
+router.post('/', control.createSucursalUsuario);
+router.get('/', control.getSucursalUsuarios);
 
 // /api/sucursalUsuarios/:sucursalUsuarioID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneSucursalUsuario);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteSucursalUsuario);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateSucursalUsuario);
+router.get('/:id', control.getOneSucursalUsuario);
+router.delete('/:id', control.deleteSucursalUsuario);
+router.put('/:id', control.updateSucursalUsuario);
 
 export default router;

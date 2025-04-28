@@ -9,16 +9,17 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createRequisito);
-router.get('/',tokenVerificacion.ensureToken, control.getRequisitos);
-router.get('/requisitosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.getRequisitosPorEmpresa);
-router.get('/requisitosPorSiniestro/:siniestroid',tokenVerificacion.ensureToken, control.getRequisitoPorSiniestro);
+router.post('/', control.createRequisito);
+router.get('/', control.getRequisitos);
+router.get('/requisitosPorEmpresa/:empresaid', control.getRequisitosPorEmpresa);
+router.get('/requisitosPorSiniestro/:siniestroid', control.getRequisitoPorSiniestro);
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneRequisito);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteRequisito);
-router.put('/:id', tokenVerificacion.ensureToken,control.updateRequisito);
-router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaRequisito);
+router.get('/:id', control.getOneRequisito);
+router.delete('/:id', control.deleteRequisito);
+router.put('/:id', control.updateRequisito);
+router.put('/baja/:id', control.bajaRequisito);
 
 export default router;

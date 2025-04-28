@@ -28,23 +28,24 @@ router
         // de la respuesta antes de considerar la compresión,
         // el valor predeterminado es 1 kB
         threshold: 0
-      }));
+      }))
+       .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/',tokenVerificacion.ensureToken, control.createAsegurado);
-router.get('/',tokenVerificacion.ensureToken, control.getAsegurados);
+router.post('/', control.createAsegurado);
+router.get('/', control.getAsegurados);
 
 // /api/empresas/:empresaID
-router.get('/:id',tokenVerificacion.ensureToken, control.getOneAsegurado);
-router.delete('/:id',tokenVerificacion.ensureToken, control.deleteAsegurado);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateAsegurado);
-router.put('/baja/:id', tokenVerificacion.ensureToken,control.bajaAsegurado);
-router.get('/aseguradosPorSucursal/:sucuesalid',tokenVerificacion.ensureToken, control.aseguradosPorSucursal);
-router.get('/aseguradosPorSucursalYTipo/:sucursalid/:tipoasegurado',tokenVerificacion.ensureToken, control.aseguradosPorSucursalYTipo);
-router.get('/aseguradosPorEmpresaYTipo/:empresaid/:tipoasegurado',tokenVerificacion.ensureToken, control.aseguradosPorEmpresaYTipo);
+router.get('/:id', control.getOneAsegurado);
+router.delete('/:id', control.deleteAsegurado);
+router.put('/:id', control.updateAsegurado);
+router.put('/baja/:id', control.bajaAsegurado);
+router.get('/aseguradosPorSucursal/:sucuesalid', control.aseguradosPorSucursal);
+router.get('/aseguradosPorSucursalYTipo/:sucursalid/:tipoasegurado', control.aseguradosPorSucursalYTipo);
+router.get('/aseguradosPorEmpresaYTipo/:empresaid/:tipoasegurado', control.aseguradosPorEmpresaYTipo);
 
-router.get('/todoLosAseguradosPorSucursal/:sucursalid',tokenVerificacion.ensureToken, control.todoLosAseguradosPorSucursal);
-router.get('/todoLosAseguradosPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.todoLosAseguradosPorEmpresa);
-router.get('/aseguradosPorSucursals/:sucursalid',tokenVerificacion.ensureToken, control.aseguradosPorSucursals);
-router.get('/aseguradosPorEmpresas/:empresaid',tokenVerificacion.ensureToken, control.aseguradosPorEmpresas);
+router.get('/todoLosAseguradosPorSucursal/:sucursalid', control.todoLosAseguradosPorSucursal);
+router.get('/todoLosAseguradosPorEmpresa/:empresaid', control.todoLosAseguradosPorEmpresa);
+router.get('/aseguradosPorSucursals/:sucursalid', control.aseguradosPorSucursals);
+router.get('/aseguradosPorEmpresas/:empresaid', control.aseguradosPorEmpresas);
 
 export default router;

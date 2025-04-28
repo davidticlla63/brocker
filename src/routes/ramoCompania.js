@@ -28,18 +28,19 @@ router
         // de la respuesta antes de considerar la compresión,
         // el valor predeterminado es 1 kB
         threshold: 0
-      }));
+      }))
+       .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken,control.createRamoCompania);
+router.post('/', control.createRamoCompania);
 //router.get('/', control.getRamoCompanias);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken,control.getOneRamoCompania);
-router.delete('/:id', tokenVerificacion.ensureToken,control.deleteRamoCompania);
-router.put('/:id',tokenVerificacion.ensureToken, control.updateRamoCompania);
+router.get('/:id', control.getOneRamoCompania);
+router.delete('/:id', control.deleteRamoCompania);
+router.put('/:id', control.updateRamoCompania);
 router.put('/baja/:id', control.bajaRamoCompania);
-router.get('/ramoCompaniasPorRamo/:ramoid',tokenVerificacion.ensureToken, control.ramoCompaniaPorRamo);
-router.get('/ramoCompaniasPorCompania/:companiaseguroid',tokenVerificacion.ensureToken, control.ramoCompaniaPorCompania);
-router.get('/ramoCompaniaPorEmpresa/:empresaid',tokenVerificacion.ensureToken, control.ramoCompaniaPorEmpresa);
+router.get('/ramoCompaniasPorRamo/:ramoid', control.ramoCompaniaPorRamo);
+router.get('/ramoCompaniasPorCompania/:companiaseguroid', control.ramoCompaniaPorCompania);
+router.get('/ramoCompaniaPorEmpresa/:empresaid', control.ramoCompaniaPorEmpresa);
 
 export default router;

@@ -9,10 +9,11 @@ import * as tokenVerificacion  from '../jwt/jwtVerificacion'
 router
     .use(cors())
     .use(bodyParser.json())
-    .use(compression());
+    .use(compression())
+     .use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 
 
 
-router.get('/control/:polizadetalleid',tokenVerificacion.ensureToken, control.getPolizaDetalleAdicionalesPorDetalle);
+router.get('/control/:polizadetalleid', control.getPolizaDetalleAdicionalesPorDetalle);
 
 export default router;
