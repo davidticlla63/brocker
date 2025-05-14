@@ -563,6 +563,9 @@ export async function getPagosMoraPorEmpresa(req, res) {
 }
 
 
+
+
+
 /* export async function getPagosPorSucursalyCi(req, res) {
     const { sucursalid, cinit } = req.params;
     try {
