@@ -49,6 +49,8 @@ import atributoRoutes from './routes/atributo'
 import periodoRoutes from './routes/periodo'
 import documentoRoutes from './routes/documento'
 
+const http = require('http');
+
 const bodyParser = require("body-parser");
 var jsonParser = bodyParser.json({ limit: 1024 * 1024 * 50, type: 'application/json' });
 var urlencodedParser = bodyParser.urlencoded({ extended: true, limit: 1024 * 1024 * 50, type: 'application/x-www-form-urlencoded' })
@@ -170,4 +172,152 @@ app.use('/api/periodo', periodoRoutes);
 
 //documento Word
 app.use('/api/documento', documentoRoutes);
+
+
+
+//protocolo de biometrico ZKTECO G3
+
+/*
+ Nº	Campo	Descripción	Ejemplo
+1	PIN	ID del usuario en el reloj	10
+2	Fecha	Fecha de la marcación	2025-08-15
+3	Hora	Hora de la marcación	09:39:29
+4	Verificación	Método de verificación (0=Password, 1=Huella, 15=Tarjeta, etc.)	0
+5	Estado	Tipo de marcación (0=Entrada, 1=Salida, 2=Break, etc.)	1
+6	WorkCode	Código de trabajo asignado	0
+7	Reservado1	Usado en algunos modelos para áreas especiales	0
+8	Reservado2	Usado en algunos modelos para GPS o datos adicionales	0
+9	Reservado3	Otro dato interno	0
+10	Reservado4	Otro dato interno	0 
+*/
+
+// Middleware para capturar texto crudo
+app.use('/iclock/cdata', express.text({ type: '*/*' }));
+
+const DEVICE_SN = 'AEH2232960135';
+const DEVICE_IP = '192.168.241.157';
+
+// Cuando el dispositivo te pregunta si hay algo que hacer
+/* app.get('/iclock/getrequest', (req, res) => {
+    console.log('Solicitud GETREQUEST:', req.query);
+
+    // Aquí podrías indicar que envíe toda la tabla de usuarios
+    // usando un comando especial, pero si solo quieres recibir cuando él envíe, responde vacío.
+    res.send('');
+}); */
+
+// Cuando el dispositivo envía datos de usuarios
+/* app.post('/iclock/cdata', async (req, res) => {
+  const raw = req.body.trim();
+  console.log('ATTLOG recibido:\n', raw);
+
+  const campos = raw.split(/\s+/);
+  const pin = campos[0];
+  const fechaHora = campos[1] + ' ' + campos[2];
+  const tipoVerificacion = campos[3];
+  const estado = campos[4];
+
+  const usuarios = await obtenerUsuarios();
+  console.log('Usuarios:', usuarios);
+  const infoUsuario = usuarios[pin] || { nombre: 'Desconocido' };
+
+  console.log({
+    pin,
+    usuario: infoUsuario,
+    fechaHora,
+    tipoVerificacion,
+    estado
+  });
+
+  res.send('OK');
+}); */
+
+
+/* function obtenerUsuarios() {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: DEVICE_IP,
+      port: 80,
+      path: `/iclock/cdata?SN=${DEVICE_SN}&table=USER`,
+      method: 'POST'
+    };
+
+    const req = http.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        const lineas = data.trim().split('\n');
+        const usuarios = {};
+
+        lineas.forEach(line => {
+          const campos = line.split(/\s+/);
+          const pin = campos[0];
+          const nombre = campos[1]; // depende de cómo venga el nombre
+          usuarios[pin] = { nombre };
+        });
+
+        resolve(usuarios);
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('Error al obtener usuarios:', err.message);
+      resolve({});
+    });
+
+    req.end();
+  });
+}
+ */
+
+app.get('/iclock/getrequest', (req, res) => {
+    console.log("Solicitud GET desde el biométrico:", req.query);
+
+    // Si quieres que el biométrico te devuelva los usuarios:
+    // Le envías un "CMD=DATA QUERY USERINFO"
+    const sn = req.query.SN;
+
+    const response = `GET OPTION FROM:${sn}\n` +
+                     `Content-Length: 27\n\n` +
+                     `CMD=DATA QUERY USERINFO\tTable=USER`;
+
+    res.type('text/plain');
+    res.send(response);
+});
+
+
+
+app.post('/iclock/cdata', (req, res) => {
+    const raw = req.body.trim();
+    console.log('Evento recibido RAW:', raw);
+
+    const parts = raw.split(/\s+/);
+
+    const data = {
+        pin: parts[0] || null,
+        fecha: parts[1] || null,
+        hora: parts[2] || null,
+        verificacion: parts[3] || null,
+        estado: parts[4] || null,
+        workCode: parts[5] || null,
+        reservado1: parts[6] || null,
+        reservado2: parts[7] || null,
+        reservado3: parts[8] || null,
+        reservado4: parts[9] || null
+    };
+
+    console.log('Parseado:', data);
+
+    res.status(200).send('OK');
+});
+
+
+
+/* app.get('/iclock/getrequest', (req, res) => {
+    res.status(200).send('');
+}); */
 export default app;
