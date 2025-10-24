@@ -14,15 +14,15 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createCobranzaMotivo);
-router.get('/', tokenVerificacion.ensureToken, control.getCobranzaMotivos);
+router.post('/', control.createCobranzaMotivo);
+router.get('/', control.getCobranzaMotivos);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneCobranzaMotivo);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteCobranzaMotivo);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateCobranzaMotivo);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaCobranzaMotivo);
-router.put('/cobranzaMotivoPorPlanPago/:planpagoid', tokenVerificacion.ensureToken, control.getCobranzaMotivosPorPlanPago);
+router.get('/:id', control.getOneCobranzaMotivo);
+router["delete"]('/:id', control.deleteCobranzaMotivo);
+router.put('/:id', control.updateCobranzaMotivo);
+router.put('/baja/:id', control.bajaCobranzaMotivo);
+router.put('/cobranzaMotivoPorPlanPago/:planpagoid', control.getCobranzaMotivosPorPlanPago);
 var _default = exports["default"] = router;

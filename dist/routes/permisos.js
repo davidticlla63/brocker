@@ -31,14 +31,14 @@ router.use(cors()).use(bodyParser.json()).use(compression({
   // de la respuesta antes de considerar la compresión,
   // el valor predeterminado es 1 kB
   threshold: 0
-}));
+})).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/perfils/
-router.post('/', tokenVerificacion.ensureToken, control.createPermiso);
-router.get('/', tokenVerificacion.ensureToken, control.getPermisos);
+router.post('/', control.createPermiso);
+router.get('/', control.getPermisos);
 
 // /api/perfils/:perfilID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOnePermiso);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deletePermiso);
-router.put('/:id', tokenVerificacion.ensureToken, control.updatePermiso);
+router.get('/:id', control.getOnePermiso);
+router["delete"]('/:id', control.deletePermiso);
+router.put('/:id', control.updatePermiso);
 //router.post('/createPermiso/:perfilid', createPermiso);
 var _default = exports["default"] = router;

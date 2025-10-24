@@ -16,15 +16,15 @@ var compression = require("compression");
 var router = (0, _express.Router)();
 //{ createSucursal, getSucursals, getOneSucursal, deleteSucursal, updateSucursal,getSucursalByEmpresa,bajaSucursal }
 
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/sucursals/
-router.post('/', tokenVerificacion.ensureToken, control.createSucursal);
-router.get('/', tokenVerificacion.ensureToken, control.getSucursals);
+router.post('/', control.createSucursal);
+router.get('/', control.getSucursals);
 
 // /api/sucursals/:sucursalID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneSucursal);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteSucursal);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateSucursal);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaSucursal);
-router.get('/susursalesPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getSucursalByEmpresa);
+router.get('/:id', control.getOneSucursal);
+router["delete"]('/:id', control.deleteSucursal);
+router.put('/:id', control.updateSucursal);
+router.put('/baja/:id', control.bajaSucursal);
+router.get('/susursalesPorEmpresa/:empresaid', control.getSucursalByEmpresa);
 var _default = exports["default"] = router;

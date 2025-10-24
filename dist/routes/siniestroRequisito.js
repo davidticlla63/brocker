@@ -14,15 +14,15 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createSiniestroRequisito);
-router.post('/createSiniestroRequisitos/', tokenVerificacion.ensureToken, control.createSiniestroRequisitos);
-router.get('/', tokenVerificacion.ensureToken, control.getSiniestroRequisitos);
-router.get('/siniestroRequisitosPorSiniestro/:siniestroid', tokenVerificacion.ensureToken, control.getSiniestroRequisitosPorSiniestro);
+router.post('/', control.createSiniestroRequisito);
+router.post('/createSiniestroRequisitos/', control.createSiniestroRequisitos);
+router.get('/', control.getSiniestroRequisitos);
+router.get('/siniestroRequisitosPorSiniestro/:siniestroid', control.getSiniestroRequisitosPorSiniestro);
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneSiniestroRequisito);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteSiniestroRequisito);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateSiniestroRequisito);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaSiniestroRequisito);
+router.get('/:id', control.getOneSiniestroRequisito);
+router["delete"]('/:id', control.deleteSiniestroRequisito);
+router.put('/:id', control.updateSiniestroRequisito);
+router.put('/baja/:id', control.bajaSiniestroRequisito);
 var _default = exports["default"] = router;

@@ -20,8 +20,30 @@ var transporter = exports.transporter = nodemailer.createTransport({
   //timeaut:10000,
   auth: {
     user: 'gamsc@gmsantacruz.gob.bo',
-    pass: 'D3s4rrOll0'
+    pass: 'mt9Nh28yN2_tBTC'
   }
+});
+
+/* 
+export const transporter = nodemailer.createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false, // true for port 465, false for 587
+    auth: {
+      user: 'gamsc@gmsantacruz.gob.bo',
+      pass: 'mt9Nh28yN2_tBTC', // asegúrate de que sea válida o una contraseña de aplicación
+    },
+    tls: {
+      ciphers: 'SSLv3'
+    }
+  });
+   */
+
+transporter.verify().then(function () {
+  console.log('Ready for send emails.');
+})["catch"](function (error) {
+  console.error('Error verificando el transporte de correo:', error.message);
+  // No detenemos el servidor, solo informamos el error
 });
 
 /* export const transporter = nodemailer.createTransport({
@@ -55,7 +77,3 @@ var transporter = exports.transporter = nodemailer.createTransport({
     }
 });
  */
-
-transporter.verify().then(function () {
-  console.log('Ready for send emails.');
-});

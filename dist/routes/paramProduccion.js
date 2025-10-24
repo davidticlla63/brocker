@@ -17,15 +17,15 @@ var router = (0, _express.Router)();
 
 //import { createParamProduccions, getParamProduccionss, getOneParamProduccions, deleteParamProduccions, updateParamProduccions,bajaParamProduccions,ParamProduccionsByEmpresa } from "../controllers/ParamProduccions.controller";
 
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createParamProduccion);
-router.get('/', tokenVerificacion.ensureToken, control.getParamProduccions);
+router.post('/', control.createParamProduccion);
+router.get('/', control.getParamProduccions);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneParamProduccion);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteParamProduccion);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateParamProduccion);
-router.get('/ParamProduccionsPorSucursal/:sucursalid', tokenVerificacion.ensureToken, control.ParamProduccionBySucursal);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaParamProduccion);
+router.get('/:id', control.getOneParamProduccion);
+router["delete"]('/:id', control.deleteParamProduccion);
+router.put('/:id', control.updateParamProduccion);
+router.get('/ParamProduccionsPorSucursal/:sucursalid', control.ParamProduccionBySucursal);
+router.put('/baja/:id', control.bajaParamProduccion);
 var _default = exports["default"] = router;

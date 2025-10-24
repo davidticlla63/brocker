@@ -14,11 +14,11 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createPolizaDetalleGeneral);
-router.get('/', tokenVerificacion.ensureToken, control.getPolizaDetalleGenerals);
+router.post('/', control.createPolizaDetalleGeneral);
+router.get('/', control.getPolizaDetalleGenerals);
 
 // /api/empresas/:empresaID
-router.get('/polizaDetallesPorPoliza/:polizaid', tokenVerificacion.ensureToken, control.polizaDetalleGeneralsPorPoliza);
+router.get('/polizaDetallesPorPoliza/:polizaid', control.polizaDetalleGeneralsPorPoliza);
 var _default = exports["default"] = router;

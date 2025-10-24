@@ -14,15 +14,15 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createPolizaDetalle);
-router.get('/', tokenVerificacion.ensureToken, control.getPolizaDetalles);
+router.post('/', control.createPolizaDetalle);
+router.get('/', control.getPolizaDetalles);
 
 // /api/empresas/:empresaID
 //router.get('/:id', control.getOnePolizaDetalle);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deletePolizaDetalle);
-router.put('/:id', tokenVerificacion.ensureToken, control.updatePolizaDetalle);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaPolizaDetalle);
-router.get('/polizaDetallesPorPoliza/:polizaid', tokenVerificacion.ensureToken, control.polizaDetallesPorPoliza);
+router["delete"]('/:id', control.deletePolizaDetalle);
+router.put('/:id', control.updatePolizaDetalle);
+router.put('/baja/:id', control.bajaPolizaDetalle);
+router.get('/polizaDetallesPorPoliza/:polizaid', control.polizaDetallesPorPoliza);
 var _default = exports["default"] = router;

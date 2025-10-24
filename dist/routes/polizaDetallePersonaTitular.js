@@ -14,9 +14,9 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createPolizaDetallePersonaTitular);
-router.get('/', tokenVerificacion.ensureToken, control.getPolizaDetallePersonaTitulars);
-router.get('/dependedientePorDetallePersona/:polizadetallepersonaid', tokenVerificacion.ensureToken, control.polizaDetallePersonaTitularsPorPoliza);
+router.post('/', control.createPolizaDetallePersonaTitular);
+router.get('/', control.getPolizaDetallePersonaTitulars);
+router.get('/dependedientePorDetallePersona/:polizadetallepersonaid', control.polizaDetallePersonaTitularsPorPoliza);
 var _default = exports["default"] = router;

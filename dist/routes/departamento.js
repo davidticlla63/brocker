@@ -14,15 +14,15 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createDepartamento);
-router.get('/', tokenVerificacion.ensureToken, control.getDepartamentos);
+router.post('/', control.createDepartamento);
+router.get('/', control.getDepartamentos);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneDepartamento);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteDepartamento);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateDepartamento);
-router.get('/departamentoPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.departamentoByEmpresa);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaDepartamento);
+router.get('/:id', control.getOneDepartamento);
+router["delete"]('/:id', control.deleteDepartamento);
+router.put('/:id', control.updateDepartamento);
+router.get('/departamentoPorEmpresa/:empresaid', control.departamentoByEmpresa);
+router.put('/baja/:id', control.bajaDepartamento);
 var _default = exports["default"] = router;

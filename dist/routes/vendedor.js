@@ -14,14 +14,14 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createVendedor);
-router.get('/', tokenVerificacion.ensureToken, control.getVendedors);
+router.post('/', control.createVendedor);
+router.get('/', control.getVendedors);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneVendedor);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteVendedor);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateVendedor);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaVendedor);
+router.get('/:id', control.getOneVendedor);
+router["delete"]('/:id', control.deleteVendedor);
+router.put('/:id', control.updateVendedor);
+router.put('/baja/:id', control.bajaVendedor);
 var _default = exports["default"] = router;

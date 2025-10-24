@@ -7,7 +7,7 @@ exports.sequelize = void 0;
 var _sequelize = _interopRequireDefault(require("sequelize"));
 var _config = _interopRequireDefault(require("../config"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
-var sequelize = exports.sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_db',
+var sequelize = exports.sequelize = new _sequelize["default"](_config["default"].NODE_ENV == 'production' ? 'broker_db' : 'broker_test',
 //produccion  'broker_test_db'
 //'broker_test_db',//testing
 _config["default"].NODE_ENV == 'production' ? 'broker' : 'postgres', _config["default"].NODE_ENV == 'production' ? 'broker' : 'admin', {

@@ -14,14 +14,14 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createPlan);
-router.get('/', tokenVerificacion.ensureToken, control.getPlans);
-router.get('/planesPorCompania/:companiaseguroid', tokenVerificacion.ensureToken, control.getPlansPorCompania);
+router.post('/', control.createPlan);
+router.get('/', control.getPlans);
+router.get('/planesPorCompania/:companiaseguroid', control.getPlansPorCompania);
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOnePlan);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deletePlan);
-router.put('/:id', tokenVerificacion.ensureToken, control.updatePlan);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaPlan);
+router.get('/:id', control.getOnePlan);
+router["delete"]('/:id', control.deletePlan);
+router.put('/:id', control.updatePlan);
+router.put('/baja/:id', control.bajaPlan);
 var _default = exports["default"] = router;

@@ -14,15 +14,15 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createRequisito);
-router.get('/', tokenVerificacion.ensureToken, control.getRequisitos);
-router.get('/requisitosPorEmpresa/:empresaid', tokenVerificacion.ensureToken, control.getRequisitosPorEmpresa);
-router.get('/requisitosPorSiniestro/:siniestroid', tokenVerificacion.ensureToken, control.getRequisitoPorSiniestro);
+router.post('/', control.createRequisito);
+router.get('/', control.getRequisitos);
+router.get('/requisitosPorEmpresa/:empresaid', control.getRequisitosPorEmpresa);
+router.get('/requisitosPorSiniestro/:siniestroid', control.getRequisitoPorSiniestro);
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneRequisito);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteRequisito);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateRequisito);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaRequisito);
+router.get('/:id', control.getOneRequisito);
+router["delete"]('/:id', control.deleteRequisito);
+router.put('/:id', control.updateRequisito);
+router.put('/baja/:id', control.bajaRequisito);
 var _default = exports["default"] = router;

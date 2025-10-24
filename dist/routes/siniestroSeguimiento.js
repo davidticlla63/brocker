@@ -14,14 +14,14 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createSiniestroSeguimiento);
-router.get('/:siniestroid', tokenVerificacion.ensureToken, control.getSiniestroSeguimientos);
+router.post('/', control.createSiniestroSeguimiento);
+router.get('/:siniestroid', control.getSiniestroSeguimientos);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneSiniestroSeguimiento);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteSiniestroSeguimiento);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateSiniestroSeguimiento);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaSiniestroSeguimiento);
+router.get('/:id', control.getOneSiniestroSeguimiento);
+router["delete"]('/:id', control.deleteSiniestroSeguimiento);
+router.put('/:id', control.updateSiniestroSeguimiento);
+router.put('/baja/:id', control.bajaSiniestroSeguimiento);
 var _default = exports["default"] = router;

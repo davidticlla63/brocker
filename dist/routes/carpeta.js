@@ -14,14 +14,14 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var compression = require("compression");
 var router = (0, _express.Router)();
-router.use(cors()).use(bodyParser.json()).use(compression());
+router.use(cors()).use(bodyParser.json()).use(compression()).use(tokenVerificacion.ensureToken); // ✅ Middleware global para el router;
 // /api/empresas/
-router.post('/', tokenVerificacion.ensureToken, control.createCarpeta);
-router.get('/', tokenVerificacion.ensureToken, control.getCarpetas);
+router.post('/', control.createCarpeta);
+router.get('/', control.getCarpetas);
 
 // /api/empresas/:empresaID
-router.get('/:id', tokenVerificacion.ensureToken, control.getOneCarpeta);
-router["delete"]('/:id', tokenVerificacion.ensureToken, control.deleteCarpeta);
-router.put('/:id', tokenVerificacion.ensureToken, control.updateCarpeta);
-router.put('/baja/:id', tokenVerificacion.ensureToken, control.bajaCarpeta);
+router.get('/:id', control.getOneCarpeta);
+router["delete"]('/:id', control.deleteCarpeta);
+router.put('/:id', control.updateCarpeta);
+router.put('/baja/:id', control.bajaCarpeta);
 var _default = exports["default"] = router;
