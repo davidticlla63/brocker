@@ -1,7 +1,6 @@
 
 import Accion from "../models/Accion";
 import Pagina from "../models/Pagina";
-import Permiso from "../models/Permiso";
 import Perfil from "../models/Perfil";
 
 export async function getPermisos(req, res) {
