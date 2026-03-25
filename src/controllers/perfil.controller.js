@@ -2,7 +2,6 @@ import { sequelize } from "../database/database";
 const { QueryTypes } = require('sequelize');
 import Empresa from "../models/Empresa";
 import Perfil from "../models/Perfil";
-import Permiso from "../models/Permiso";
 import Pagina from "../models/Pagina";
 import Accion from "../models/Accion";
 import UsuarioPerfil from "../models/UsuarioPerfil";
